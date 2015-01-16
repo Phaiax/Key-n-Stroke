@@ -9,3 +9,12 @@ Nice Animation when new Shortcuts arrive
 Font Selection
 Move of Label
 Save Preferences in Registry
+Defaults
+
+# Requirements
+Windows 8
+
+# Releases
+You can find the exe in the releases folder
+
+v0.0.1 (Text positioning not implemented yet)
