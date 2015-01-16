@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PxKeystrokesUi", "PxKeystrokesUi\PxKeystrokesUi.csproj", "{1C6C11F1-8473-43CB-8F6D-1BC1187742D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PxKeystrokesTests", "PxKeystrokesTests\PxKeystrokesTests.csproj", "{5A9AF337-619E-4731-BDDB-1B18844908F1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1C6C11F1-8473-43CB-8F6D-1BC1187742D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C6C11F1-8473-43CB-8F6D-1BC1187742D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C6C11F1-8473-43CB-8F6D-1BC1187742D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C6C11F1-8473-43CB-8F6D-1BC1187742D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A9AF337-619E-4731-BDDB-1B18844908F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A9AF337-619E-4731-BDDB-1B18844908F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A9AF337-619E-4731-BDDB-1B18844908F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A9AF337-619E-4731-BDDB-1B18844908F1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
