@@ -17,7 +17,7 @@ This is Open Source. If you miss a feature, go for it and send a Pull-Request af
 
 # Download
 
-<a href="https://github.com/Phaiax/PxKeystrokesForScreencasts/blob/master/Releases/v0.1.2/PxKeystrokesUi.exe">Download PxKeystrokesUi.exe 0.1.2 (most recent, 2015-01-22)</a>
+<a href="https://github.com/Phaiax/PxKeystrokesForScreencasts/raw/master/Releases/v0.1.2/PxKeystrokesUi.exe">Download PxKeystrokesUi.exe 0.1.2</a> (most recent, 2015-01-22)
 
 ## Releases
 You can find the exe in the releases folder
