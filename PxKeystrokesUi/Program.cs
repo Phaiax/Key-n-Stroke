@@ -22,7 +22,7 @@ namespace PxKeystrokesUi
             IKeystrokeEventProvider myKeystrokeConverter = new KeystrokeParser(myKeyboardHook);
 
             SettingsStore mySettings = new SettingsStore();
-            //mySettings.ClearAll();
+            //mySettings.ClearAll(); // test defaults
             mySettings.LoadAll();
 
             KeystrokesDisplay myForm = new KeystrokesDisplay(myKeystrokeConverter, mySettings);

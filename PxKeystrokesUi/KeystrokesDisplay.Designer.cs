@@ -75,7 +75,6 @@
             this.bn_resize.Text = "⇲";
             this.bn_resize.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             this.bn_resize.UseVisualStyleBackColor = false;
-            this.bn_resize.Click += new System.EventHandler(this.bn_resize_Click);
             this.bn_resize.MouseDown += new System.Windows.Forms.MouseEventHandler(this.bn_resize_MouseDown);
             this.bn_resize.MouseMove += new System.Windows.Forms.MouseEventHandler(this.bn_resize_MouseMove);
             this.bn_resize.MouseUp += new System.Windows.Forms.MouseEventHandler(this.bn_resize_MouseUp);
