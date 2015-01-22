@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Windows.Forms;
 
 
@@ -17,12 +18,9 @@ namespace PxKeystrokesUi
 
         Settings SettingsForm;
 
-        List<string> keystroke_history = new List<string>(5);
+        List<TweenLabel> tweenLabels = new List<TweenLabel>(5);
         bool LastHistoryLineIsText = false;
         bool LastHistoryLineRequiredNewLineAfterwards = false;
-
-        int MAXLEN = 15;
-        int MAXHISTORYLEN = 5;
 
         SettingsStore settings;
 
@@ -38,30 +36,15 @@ namespace PxKeystrokesUi
             this.settings = s;
             this.settings.settingChanged += settingChanged;
 
-            Timer T = new Timer();
-            T.Interval = 10;
-            T.Tick += T_DeferredSettingsActivation;
-            T.Start();
+            this.settings.OnSettingChangedAll();
 
             this.TopMost = true;
             this.FormClosing += Form1_FormClosing;
 
-            keystroke_history.Add("");
-            keystroke_history.Add("");
-            keystroke_history.Add("");
-            keystroke_history.Add("Press Ctrl + Alt + Shift");
-            keystroke_history.Add("  to edit or close");
-
-            updateLabel();
+            addWelcomeInfo();
 
             NativeMethodsSWP.SetWindowTopMost(this.Handle);
             ActivateDisplayOnlyMode(true);
-        }
-
-        void T_DeferredSettingsActivation(object sender, EventArgs e)
-        {
-            ((Timer)sender).Stop();
-            this.settings.OnSettingChangedAll();
         }
 
         #endregion
@@ -73,26 +56,26 @@ namespace PxKeystrokesUi
             CheckForSettingsMode(e);
             if (e.ShouldBeDisplayed)
             {
-                string last = keystroke_history[keystroke_history.Count - 1];
-
-                if (e.RequiresNewLine 
-                    || last.Length >= MAXLEN
+                if (e.RequiresNewLine
+                    || !addingWouldFitInCurrentLine(e.ToString(false))
                     || !LastHistoryLineIsText
                     || LastHistoryLineRequiredNewLineAfterwards)
                 {
-                    keystroke_history.Add(e.ToString(true));
+                    addNextLine(e.ToString(false));
                 }
                 else
                 {
-                    // Replace
-                    keystroke_history.RemoveAt(keystroke_history.Count - 1);
-                    string replacedline = last + e.ToString(true);
-                    keystroke_history.Add(replacedline);
+                    addToLine(e.ToString(false));
                 }
+
                 LastHistoryLineIsText = e.StrokeType == KeystrokeType.Text;
                 LastHistoryLineRequiredNewLineAfterwards = e.RequiresNewLineAfterwards;
-                updateLabel();
             }
+        }
+
+        void addWelcomeInfo()
+        {
+            MessageBox.Show("PyKeystrokesForScreencasts:\r\n\r\nHold Ctrl + Alt + Shift to move and resize. \n\rUse the tray icon to access settings.");
         }
 
         #endregion
@@ -118,12 +101,12 @@ namespace PxKeystrokesUi
 
                 NativeMethodsGWL.ClickThrough(this.Handle);
 
-                ResizeDragging = false;
-                MoveDragging = false;
+                moveresize_MouseUp(null, null); // disable all dragging
 
                 this.bn_close.Visible = false;
                 this.bn_resize.Visible = false;
                 this.bn_settings.Visible = false;
+                this.panel_textposhelper.Visible = false;
 
                 SettingsModeActivated = false;
 
@@ -140,27 +123,35 @@ namespace PxKeystrokesUi
 
                 this.Opacity = 1;
 
-                ResizeDragging = false;
-                MoveDragging = false;
+                moveresize_MouseUp(null, null); // disable all dragging
 
                 this.bn_close.Visible = true;
                 this.bn_resize.Visible = true;
                 this.bn_settings.Visible = true;
+                this.panel_textposhelper.Visible = true;
+                BringSettingsControlsToFront();
+
+                foreach (TweenLabel T in tweenLabels)
+                {
+                    T.Visible = false;
+                }
 
                 SettingsModeActivated = true;
             }
+        }
+
+        private void BringSettingsControlsToFront()
+        {
+            this.panel_textposhelper.BringToFront();
+            this.bn_close.BringToFront();
+            this.bn_resize.BringToFront();
+            this.bn_settings.BringToFront();
         }
 
         private void settingChanged(SettingsChangedEventArgs e)
         {
             switch (e.Name)
             {
-                case "LabelFont":
-                    label_keyhistory.Font = settings.LabelFont;
-                    break;
-                case "TextColor":
-                    label_keyhistory.ForeColor = settings.TextColor;
-                    break;
                 case "BackgroundColor":
                     this.BackColor = settings.BackgroundColor;
                     break;
@@ -174,27 +165,114 @@ namespace PxKeystrokesUi
                 case "WindowSize":
                     this.Size = settings.WindowSize;
                     break;
-
+                case "PanelLocation":
+                    this.panel_textposhelper.Location = settings.PanelLocation;
+                    break;
+                case "PanelSize":
+                    this.panel_textposhelper.Size = settings.PanelSize;
+                    break;
             }
+        }
+
+        void ShowSettingsDialog()
+        {
+            if (SettingsForm != null)
+            {
+                SettingsForm.Dispose();
+            }
+            SettingsForm = new Settings(settings);
+            SettingsForm.Show(this);
         }
 
         #endregion
 
         #region display and animate Label
 
-        void cutHistory()
+
+        void addToLine(string chars)
         {
-            while (keystroke_history.Count > MAXHISTORYLEN)
+            TweenLabel T = tweenLabels[tweenLabels.Count - 1];
+            T.Text += chars;
+            T.Text = HttpUtility.UrlDecode(T.Text, Encoding.UTF8);
+            T.Refresh();
+        }
+
+        
+
+        void addNextLine(string chars)
+        {
+            TweenLabel nTL = TweenLabel.getNewLabel(this, settings);
+            nTL.Size = getLabelSize();
+            nTL.Location = getLabelStartPosition();
+
+            nTL.Text = chars;
+            this.Controls.Add(nTL);
+            nTL.BringToFront();
+            if (SettingsModeActivated)
+                BringSettingsControlsToFront();
+
+            int u = 0;
+            foreach (Control T in this.Controls)
             {
-                keystroke_history.RemoveAt(0);
+                if(T.GetType() == typeof(TweenLabel) && T != nTL){
+                    u++;
+                    ((TweenLabel)T).TweenMove(getLabelMoveDirection());
+                }
+                
+            }
+
+            nTL.tweenFadeIn();
+            tweenLabels.Add(nTL);
+
+            while (tweenLabels.Count > settings.HistoryLength)
+            {
+                System.Diagnostics.Debug.WriteLine(String.Format("Dele{0} {1} u{2}", 
+                    tweenLabels.Count, this.Controls.Count, u));
+
+                tweenLabels[0].FadeOutAndRecycle(null);
+                tweenLabels.RemoveAt(0);
+            }
+
+        }
+
+        bool addingWouldFitInCurrentLine(string s)
+        {
+            if(tweenLabels.Count == 0)
+                return false;
+
+            return tweenLabels[tweenLabels.Count - 1].AddingWouldFit(s);
+        }
+
+        Point getLabelStartPosition()
+        {
+            if (settings.LabelTextDirection == TextDirection.Down)
+            {
+                return panel_textposhelper.Location;
+            }
+            else
+            {
+                return new Point(panel_textposhelper.Location.X,
+                    panel_textposhelper.Location.Y +
+                    panel_textposhelper.Size.Height -
+                    settings.LineDistance);
             }
         }
 
-        void updateLabel()
+        Size getLabelSize()
         {
-            cutHistory();
-            string t = string.Join("\n", keystroke_history.ToArray());
-            this.label_keyhistory.Text = t;
+            return new Size(panel_textposhelper.Width, settings.LineDistance);
+        }
+
+        Point getLabelMoveDirection()
+        {
+            if (settings.LabelTextDirection == TextDirection.Down)
+            {
+                return new Point(0, settings.LineDistance);
+            }
+            else
+            {
+                return new Point(0, -settings.LineDistance);
+            }
         }
 
         #endregion
@@ -214,90 +292,146 @@ namespace PxKeystrokesUi
 
         private void bn_settings_Click(object sender, EventArgs e)
         {
-            if (SettingsForm != null)
-            {
-                SettingsForm.Dispose();
-            }
-            SettingsForm = new Settings(settings);
-            SettingsForm.Show(this);
+            ShowSettingsDialog();
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowSettingsDialog();
+        }
+
+        private void contributeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UrlOpener.OpenGithub();
+        }
+
+        private void reportErrorsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UrlOpener.OpenGithubIssues();
         }
 
         #endregion
 
+               
         #region Moving
 
-        private bool MoveDragging = false;
+        private bool MoveWindowDragging = false;
+        private bool MovePanelDragging = false;
         private Point MoveDragCursorPoint;
         private Point MoveDragFormPoint;
 
         private void bn_move_MouseDown(object sender, MouseEventArgs e)
         {
-            MoveDragging = true;
+            MoveWindowDragging = true;
+            MovePanelDragging = false;
             MoveDragCursorPoint = Cursor.Position;
             MoveDragFormPoint = this.Location;
         }
 
         private void bn_move_MouseMove(object sender, MouseEventArgs e)
         {
-            if (MoveDragging)
+            if (MoveWindowDragging)
             {
                 Point dif = Point.Subtract(Cursor.Position, new Size(MoveDragCursorPoint));
                 settings.WindowLocation = Point.Add(MoveDragFormPoint, new Size(dif));
             }
         }
 
-        private void bn_move_MouseUp(object sender, MouseEventArgs e)
+        private void moveresize_MouseUp(object sender, MouseEventArgs e)
         {
-            MoveDragging = false;
+            MoveWindowDragging = false;
+            MovePanelDragging = false;
+            ResizeWindowDragging = false;
+            ResizePanelDragging = false;
         }
 
         #endregion
 
         #region resizing
 
-        private bool ResizeDragging = false;
+        private bool ResizeWindowDragging = false;
+        private bool ResizePanelDragging = false;
         private Point ResizeDragCursorPoint;
         private Size ResizeDragFormPoint;
 
         private void bn_resize_MouseDown(object sender, MouseEventArgs e)
         {
-            ResizeDragging = true;
+            ResizeWindowDragging = true;
+            ResizePanelDragging = false;
             ResizeDragCursorPoint = Cursor.Position;
             ResizeDragFormPoint = this.Size;
         }
 
         private void bn_resize_MouseMove(object sender, MouseEventArgs e)
         {
-            if (ResizeDragging)
+            if (ResizeWindowDragging)
             {
                 Point dif = Point.Subtract(Cursor.Position, new Size(ResizeDragCursorPoint));
                 settings.WindowSize = new Size(Point.Add(new Point(ResizeDragFormPoint), new Size(dif)));
             }
         }
 
-        private void bn_resize_MouseUp(object sender, MouseEventArgs e)
-        {
-            ResizeDragging = false;
-        }
-
         #endregion
 
-        #region label highlight on mouse over
 
-        private void label_keyhistory_MouseEnter(object sender, EventArgs e)
+
+        #region moving inner panel
+
+        private void panel_textposhelper_MouseDown(object sender, MouseEventArgs e)
         {
-            if(SettingsModeActivated)
+            MoveWindowDragging = false;
+            MovePanelDragging = true;
+            MoveDragCursorPoint = Cursor.Position;
+            MoveDragFormPoint = panel_textposhelper.Location;
+        }
+
+        private void panel_textposhelper_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (MovePanelDragging)
             {
-                ((Label)sender).BackColor = Color.Gray;
+                Point dif = Point.Subtract(Cursor.Position, new Size(MoveDragCursorPoint));
+                settings.PanelLocation = Point.Add(MoveDragFormPoint, new Size(dif));
             }
         }
 
-        private void label_keyhistory_MouseLeave(object sender, EventArgs e)
-        {
-            ((Label)sender).BackColor = Color.Transparent;
-        }
 
         #endregion
+
+        #region resizing inner panel
+
+        private void bn_panel_resize_MouseDown(object sender, MouseEventArgs e)
+        {
+            ResizeWindowDragging = false;
+            ResizePanelDragging = true;
+            ResizeDragCursorPoint = Cursor.Position;
+            ResizeDragFormPoint = panel_textposhelper.Size;
+        }
+
+        private void bn_panel_resize_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (ResizePanelDragging)
+            {
+                Point dif = Point.Subtract(Cursor.Position, new Size(ResizeDragCursorPoint));
+                settings.PanelSize = new Size(Point.Add(new Point(ResizeDragFormPoint), new Size(dif)));
+            }
+
+        }
+
+
+        #endregion
+
+        private void KeystrokesDisplay_Shown(object sender, EventArgs e)
+        {
+            this.settings.OnSettingChangedAll();
+        }
+
+
+
 
     }
 }

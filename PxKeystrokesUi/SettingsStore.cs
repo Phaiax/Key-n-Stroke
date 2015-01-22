@@ -48,7 +48,7 @@ namespace PxKeystrokesUi
     public class SettingsStore
     {
         private Font labelFont;
-        public Font LabelFontDefault = new Font("Arial", 25);
+        public Font LabelFontDefault = new Font("Open Sans", 14);
         public Font LabelFont
         {
             get { return labelFont; }
@@ -72,7 +72,7 @@ namespace PxKeystrokesUi
         }
 
         private float opacity;
-        public float OpacityDefault = 0.9f;
+        public float OpacityDefault = 0.78f;
         public float Opacity
         {
             get { return opacity; }
@@ -80,7 +80,7 @@ namespace PxKeystrokesUi
         }
 
         private TextAlignent labelTextAlignment;
-        public TextAlignent LabelTextAlignmentDefault = TextAlignent.Left;
+        public TextAlignent LabelTextAlignmentDefault = TextAlignent.Center;
         public TextAlignent LabelTextAlignment
         {
             get { return labelTextAlignment; }
@@ -112,11 +112,43 @@ namespace PxKeystrokesUi
         }
 
         private Size windowSize;
-        public Size WindowSizeDefault = new Size(284, 227);
+        public Size WindowSizeDefault = new Size(316, 193);
         public Size WindowSize
         {
             get { return windowSize; }
             set { windowSize = value; OnSettingChanged("WindowSize"); }
+        }
+
+        private Point panelLocation;
+        public Point PanelLocationDefault = new Point(50, 11);
+        public Point PanelLocation
+        {
+            get { return panelLocation; }
+            set { panelLocation = value; OnSettingChanged("PanelLocation"); }
+        }
+
+        private Size panelSize;
+        public Size PanelSizeDefault = new Size(226, 135);
+        public Size PanelSize
+        {
+            get { return panelSize; }
+            set { panelSize = value; OnSettingChanged("PanelSize"); }
+        }
+
+        private int lineDistance;
+        public int LineDistanceDefault = 36;
+        public int LineDistance
+        {
+            get { return lineDistance; }
+            set { lineDistance = value; OnSettingChanged("LineDistance"); }
+        }
+
+        private int historyLength;
+        public int HistoryLengthDefault = 4;
+        public int HistoryLength
+        {
+            get { return historyLength; }
+            set { historyLength = value; OnSettingChanged("HistoryLength"); }
         }
 
         public SettingsChangedEventHandler settingChanged;
@@ -152,8 +184,13 @@ namespace PxKeystrokesUi
                 SaveInt("windowSize-width", windowSize.Width);
                 SaveInt("windowSize-height", windowSize.Height);
 
-                System.Diagnostics.Debug.WriteLine(String.Format("Save X: {0}", windowLocation.X));
+                SaveInt("panelLocation-x", panelLocation.X);
+                SaveInt("panelLocation-y", panelLocation.Y);
+                SaveInt("panelSize-width", panelSize.Width);
+                SaveInt("panelSize-height", panelSize.Height);
 
+                SaveInt("lineDistance", lineDistance);
+                SaveInt("historyLength", historyLength);
             }
             dirty = false;
         }
@@ -172,6 +209,7 @@ namespace PxKeystrokesUi
             labelTextAlignment = (TextAlignent) GetInt("labelTextAlignment", (int) LabelTextAlignmentDefault);
             labelTextDirection = (TextDirection)GetInt("labelTextDirection", (int)LabelTextDirectionDefault);
             labelAnimation = (Style)GetInt("labelAnimation", (int)LabelAnimationDefault);
+
             int x = GetInt("windowLocation-x", WindowLocationDefault.X);
             int y = GetInt("windowLocation-y", WindowLocationDefault.Y);
             windowLocation = new Point(x, y);
@@ -179,7 +217,16 @@ namespace PxKeystrokesUi
             int height = GetInt("windowSize-height", WindowSizeDefault.Height);
             windowSize = new Size(width, height);
 
-            System.Diagnostics.Debug.WriteLine(String.Format("Load X: {0}", x));
+            x = GetInt("panelLocation-x", PanelLocationDefault.X);
+            y = GetInt("panelLocation-y", PanelLocationDefault.Y);
+            panelLocation = new Point(x, y);
+            width = GetInt("panelSize-width", PanelSizeDefault.Width);
+            height = GetInt("panelSize-height", PanelSizeDefault.Height);
+            panelSize = new Size(width, height);
+
+            lineDistance = GetInt("lineDistance", LineDistanceDefault);
+            historyLength = GetInt("historyLength", HistoryLengthDefault);
+
             dirty = true;
         }
 
@@ -198,6 +245,12 @@ namespace PxKeystrokesUi
             Application.UserAppDataRegistry.DeleteValue("windowLocation-y", false);
             Application.UserAppDataRegistry.DeleteValue("windowSize-width", false);
             Application.UserAppDataRegistry.DeleteValue("windowSize-height", false);
+            Application.UserAppDataRegistry.DeleteValue("panelLocation-x", false);
+            Application.UserAppDataRegistry.DeleteValue("panelLocation-y", false);
+            Application.UserAppDataRegistry.DeleteValue("panelSize-width", false);
+            Application.UserAppDataRegistry.DeleteValue("panelSize-height", false);
+            Application.UserAppDataRegistry.DeleteValue("lineDistance", false);
+            Application.UserAppDataRegistry.DeleteValue("historyLength", false);
         }
 
         public void OnSettingChangedAll()
@@ -211,6 +264,10 @@ namespace PxKeystrokesUi
             OnSettingChanged("LabelAnimation");
             OnSettingChanged("WindowLocation");
             OnSettingChanged("WindowSize");
+            OnSettingChanged("PanelLocation");
+            OnSettingChanged("PanelSize");
+            OnSettingChanged("LineDistance");
+            OnSettingChanged("HistoryLength");
         }
 
         private void SaveColor(string name, Color value)

@@ -28,23 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label_keyhistory = new System.Windows.Forms.Label();
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(KeystrokesDisplay));
             this.bn_close = new System.Windows.Forms.Button();
             this.bn_resize = new System.Windows.Forms.Button();
             this.bn_settings = new System.Windows.Forms.Button();
+            this.panel_textposhelper = new System.Windows.Forms.Panel();
+            this.bn_panel_resize = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.notifyIcon_main = new System.Windows.Forms.NotifyIcon(this.components);
+            this.notifyIcon_contextmenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reportErrorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contributeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.panel_textposhelper.SuspendLayout();
+            this.notifyIcon_contextmenu.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // label_keyhistory
-            // 
-            this.label_keyhistory.AutoSize = true;
-            this.label_keyhistory.ForeColor = System.Drawing.Color.White;
-            this.label_keyhistory.Location = new System.Drawing.Point(12, 9);
-            this.label_keyhistory.Name = "label_keyhistory";
-            this.label_keyhistory.Size = new System.Drawing.Size(29, 13);
-            this.label_keyhistory.TabIndex = 14;
-            this.label_keyhistory.Text = "label";
-            this.label_keyhistory.MouseEnter += new System.EventHandler(this.label_keyhistory_MouseEnter);
-            this.label_keyhistory.MouseLeave += new System.EventHandler(this.label_keyhistory_MouseLeave);
             // 
             // bn_close
             // 
@@ -77,7 +78,7 @@
             this.bn_resize.UseVisualStyleBackColor = false;
             this.bn_resize.MouseDown += new System.Windows.Forms.MouseEventHandler(this.bn_resize_MouseDown);
             this.bn_resize.MouseMove += new System.Windows.Forms.MouseEventHandler(this.bn_resize_MouseMove);
-            this.bn_resize.MouseUp += new System.Windows.Forms.MouseEventHandler(this.bn_resize_MouseUp);
+            this.bn_resize.MouseUp += new System.Windows.Forms.MouseEventHandler(this.moveresize_MouseUp);
             // 
             // bn_settings
             // 
@@ -96,34 +97,148 @@
             this.bn_settings.UseVisualStyleBackColor = false;
             this.bn_settings.Click += new System.EventHandler(this.bn_settings_Click);
             // 
+            // panel_textposhelper
+            // 
+            this.panel_textposhelper.BackColor = System.Drawing.Color.Gray;
+            this.panel_textposhelper.Controls.Add(this.bn_panel_resize);
+            this.panel_textposhelper.Controls.Add(this.label2);
+            this.panel_textposhelper.Controls.Add(this.label1);
+            this.panel_textposhelper.Location = new System.Drawing.Point(26, 43);
+            this.panel_textposhelper.Name = "panel_textposhelper";
+            this.panel_textposhelper.Size = new System.Drawing.Size(200, 100);
+            this.panel_textposhelper.TabIndex = 20;
+            this.panel_textposhelper.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel_textposhelper_MouseDown);
+            this.panel_textposhelper.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel_textposhelper_MouseMove);
+            this.panel_textposhelper.MouseUp += new System.Windows.Forms.MouseEventHandler(this.moveresize_MouseUp);
+            // 
+            // bn_panel_resize
+            // 
+            this.bn_panel_resize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.bn_panel_resize.BackColor = System.Drawing.Color.DarkGray;
+            this.bn_panel_resize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bn_panel_resize.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bn_panel_resize.Location = new System.Drawing.Point(172, 69);
+            this.bn_panel_resize.Name = "bn_panel_resize";
+            this.bn_panel_resize.Size = new System.Drawing.Size(38, 37);
+            this.bn_panel_resize.TabIndex = 21;
+            this.bn_panel_resize.Text = "⇲";
+            this.bn_panel_resize.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+            this.bn_panel_resize.UseVisualStyleBackColor = false;
+            this.bn_panel_resize.MouseDown += new System.Windows.Forms.MouseEventHandler(this.bn_panel_resize_MouseDown);
+            this.bn_panel_resize.MouseMove += new System.Windows.Forms.MouseEventHandler(this.bn_panel_resize_MouseMove);
+            this.bn_panel_resize.MouseUp += new System.Windows.Forms.MouseEventHandler(this.moveresize_MouseUp);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(5, 24);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(106, 13);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "to adjust text position";
+            this.label2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel_textposhelper_MouseDown);
+            this.label2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel_textposhelper_MouseMove);
+            this.label2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.moveresize_MouseUp);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 10);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(104, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Move and resize this";
+            this.label1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel_textposhelper_MouseDown);
+            this.label1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel_textposhelper_MouseMove);
+            this.label1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.moveresize_MouseUp);
+            // 
+            // notifyIcon_main
+            // 
+            this.notifyIcon_main.BalloonTipText = "xfxfn";
+            this.notifyIcon_main.BalloonTipTitle = "xfgn";
+            this.notifyIcon_main.ContextMenuStrip = this.notifyIcon_contextmenu;
+            this.notifyIcon_main.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon_main.Icon")));
+            this.notifyIcon_main.Text = "PyKeystrokesForScreencasts";
+            this.notifyIcon_main.Visible = true;
+            // 
+            // notifyIcon_contextmenu
+            // 
+            this.notifyIcon_contextmenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.reportErrorsToolStripMenuItem,
+            this.contributeToolStripMenuItem,
+            this.settingsToolStripMenuItem,
+            this.exitToolStripMenuItem});
+            this.notifyIcon_contextmenu.Name = "notifyIcon_contextmenu";
+            this.notifyIcon_contextmenu.Size = new System.Drawing.Size(143, 92);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // reportErrorsToolStripMenuItem
+            // 
+            this.reportErrorsToolStripMenuItem.Name = "reportErrorsToolStripMenuItem";
+            this.reportErrorsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.reportErrorsToolStripMenuItem.Text = "Report Errors";
+            this.reportErrorsToolStripMenuItem.Click += new System.EventHandler(this.reportErrorsToolStripMenuItem_Click);
+            // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.settingsToolStripMenuItem.Text = "Settings";
+            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+            // 
+            // contributeToolStripMenuItem
+            // 
+            this.contributeToolStripMenuItem.Name = "contributeToolStripMenuItem";
+            this.contributeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.contributeToolStripMenuItem.Text = "Contribute";
+            this.contributeToolStripMenuItem.Click += new System.EventHandler(this.contributeToolStripMenuItem_Click);
+            // 
             // KeystrokesDisplay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(268, 188);
+            this.Controls.Add(this.panel_textposhelper);
             this.Controls.Add(this.bn_settings);
             this.Controls.Add(this.bn_resize);
             this.Controls.Add(this.bn_close);
-            this.Controls.Add(this.label_keyhistory);
             this.Location = new System.Drawing.Point(20, 0);
             this.Name = "KeystrokesDisplay";
             this.ShowInTaskbar = false;
             this.Text = "Win8KeystrokesForScreencasts";
+            this.Shown += new System.EventHandler(this.KeystrokesDisplay_Shown);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.bn_move_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.bn_move_MouseMove);
-            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.bn_move_MouseUp);
+            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.moveresize_MouseUp);
+            this.panel_textposhelper.ResumeLayout(false);
+            this.panel_textposhelper.PerformLayout();
+            this.notifyIcon_contextmenu.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Label label_keyhistory;
         private System.Windows.Forms.Button bn_close;
         private System.Windows.Forms.Button bn_resize;
         private System.Windows.Forms.Button bn_settings;
+        private System.Windows.Forms.Panel panel_textposhelper;
+        private System.Windows.Forms.Button bn_panel_resize;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.NotifyIcon notifyIcon_main;
+        private System.Windows.Forms.ContextMenuStrip notifyIcon_contextmenu;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem reportErrorsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem contributeToolStripMenuItem;
     }
 }
 

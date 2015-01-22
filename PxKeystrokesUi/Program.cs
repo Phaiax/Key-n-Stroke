@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -22,6 +23,11 @@ namespace PxKeystrokesUi
             IKeystrokeEventProvider myKeystrokeConverter = new KeystrokeParser(myKeyboardHook);
 
             SettingsStore mySettings = new SettingsStore();
+
+            Rectangle R = Screen.PrimaryScreen.WorkingArea;
+            mySettings.WindowLocationDefault = new Point(R.Right - mySettings.WindowSizeDefault.Width - 20,
+                R.Bottom - mySettings.WindowSizeDefault.Height);
+
             //mySettings.ClearAll(); // test defaults
             mySettings.LoadAll();
 

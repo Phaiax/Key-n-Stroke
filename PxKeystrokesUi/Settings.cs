@@ -18,46 +18,12 @@ namespace PxKeystrokesUi
             this.settings = s;
             InitializeComponent();
             UpdateSliderValues();
-
-            switch (settings.LabelAnimation)
-            {
-                case Style.NoAnimation:
-                    rb_style_noani.Checked = true;
-                    break;
-                case Style.Slide:
-                    rb_style_slide.Checked = true;
-                    break;
-            }
-
-            switch (settings.LabelTextAlignment)
-            {
-                case TextAlignent.Right:
-                    rb_align_right.Checked = true;
-                    break;
-                case TextAlignent.Center:
-                    rb_align_center.Checked = true;
-                    break;
-                case TextAlignent.Left:
-                    rb_align_left.Checked = true;
-                    break;
-            }
-
-            switch (settings.LabelTextDirection)
-            {
-                case TextDirection.Up:
-                    rb_td_up.Checked = true;
-                    break;
-                case TextDirection.Down:
-                    rb_td_down.Checked = true;
-                    break;
-            }
+            UpdateRadioButtons();
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            string url = "https://github.com/Phaiax/PxKeystrokesForScreencasts/";
-            ProcessStartInfo si = new ProcessStartInfo(url);
-            Process.Start(si);
+            UrlOpener.OpenGithub();
         }
 
         SettingsStore settings;
@@ -141,6 +107,16 @@ namespace PxKeystrokesUi
             settings.Opacity = (float)slider_opacity.Value / 100f;
         }
 
+        private void nud_verticalDistance_ValueChanged(object sender, EventArgs e)
+        {
+            settings.LineDistance = (int)nud_verticalDistance.Value;
+        }
+
+        private void nud_historycount_ValueChanged(object sender, EventArgs e)
+        {
+            settings.HistoryLength = (int)nud_historycount.Value;
+        }
+
         private void UpdateSliderValues()
         {
             int fontsize = (int)(settings.LabelFont.SizeInPoints * 100f);
@@ -149,6 +125,70 @@ namespace PxKeystrokesUi
             slider_fontsize.Value = fontsize;
 
             slider_opacity.Value = (int)(settings.Opacity * 100f);
+
+            nud_historycount.Value = settings.HistoryLength;
+            nud_verticalDistance.Value = settings.LineDistance;
         }
+
+        private void UpdateRadioButtons()
+        {
+            switch (settings.LabelAnimation)
+            {
+                case Style.NoAnimation:
+                    rb_style_noani.Checked = true;
+                    break;
+                case Style.Slide:
+                    rb_style_slide.Checked = true;
+                    break;
+            }
+
+            switch (settings.LabelTextAlignment)
+            {
+                case TextAlignent.Right:
+                    rb_align_right.Checked = true;
+                    break;
+                case TextAlignent.Center:
+                    rb_align_center.Checked = true;
+                    break;
+                case TextAlignent.Left:
+                    rb_align_left.Checked = true;
+                    break;
+            }
+
+            switch (settings.LabelTextDirection)
+            {
+                case TextDirection.Up:
+                    rb_td_up.Checked = true;
+                    break;
+                case TextDirection.Down:
+                    rb_td_down.Checked = true;
+                    break;
+            }
+
+        }
+
+        private void Settings_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void bn_reset_position_Click(object sender, EventArgs e)
+        {
+            settings.PanelLocation = settings.PanelLocationDefault;
+            settings.PanelSize = settings.PanelSizeDefault;
+            settings.WindowLocation = settings.WindowLocationDefault;
+            settings.WindowSize = settings.WindowSizeDefault;
+        }
+
+        private void bn_reset_all_Click(object sender, EventArgs e)
+        {
+            settings.ClearAll();
+            settings.LoadAll();
+            settings.OnSettingChangedAll();
+            UpdateSliderValues();
+            UpdateRadioButtons();
+        }
+
+
     }
 }

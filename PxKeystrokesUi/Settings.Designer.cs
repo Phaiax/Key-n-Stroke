@@ -52,6 +52,12 @@
             this.picker_textcolor = new System.Windows.Forms.ColorDialog();
             this.picker_backcolor = new System.Windows.Forms.ColorDialog();
             this.fontDialog_text = new System.Windows.Forms.FontDialog();
+            this.nud_verticalDistance = new System.Windows.Forms.NumericUpDown();
+            this.nud_historycount = new System.Windows.Forms.NumericUpDown();
+            this.label_verticalDistance = new System.Windows.Forms.Label();
+            this.label_historycount = new System.Windows.Forms.Label();
+            this.bn_reset_position = new System.Windows.Forms.Button();
+            this.bn_reset_all = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.slider_opacity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.slider_fontsize)).BeginInit();
             this.groupBox_text_alignment.SuspendLayout();
@@ -59,6 +65,8 @@
             this.gb_style.SuspendLayout();
             this.gb_text.SuspendLayout();
             this.gb_background.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_verticalDistance)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_historycount)).BeginInit();
             this.SuspendLayout();
             // 
             // button_backcolor
@@ -245,13 +253,17 @@
             // 
             // gb_text
             // 
+            this.gb_text.Controls.Add(this.label_historycount);
+            this.gb_text.Controls.Add(this.label_verticalDistance);
+            this.gb_text.Controls.Add(this.nud_historycount);
+            this.gb_text.Controls.Add(this.nud_verticalDistance);
             this.gb_text.Controls.Add(this.button_textfont);
             this.gb_text.Controls.Add(this.button_textcolor);
             this.gb_text.Controls.Add(this.slider_fontsize);
             this.gb_text.Controls.Add(this.label_fontsize);
             this.gb_text.Location = new System.Drawing.Point(168, 12);
             this.gb_text.Name = "gb_text";
-            this.gb_text.Size = new System.Drawing.Size(183, 110);
+            this.gb_text.Size = new System.Drawing.Size(183, 152);
             this.gb_text.TabIndex = 32;
             this.gb_text.TabStop = false;
             this.gb_text.Text = "Text";
@@ -271,7 +283,7 @@
             this.gb_background.Controls.Add(this.button_backcolor);
             this.gb_background.Controls.Add(this.slider_opacity);
             this.gb_background.Controls.Add(this.label_opacity);
-            this.gb_background.Location = new System.Drawing.Point(168, 128);
+            this.gb_background.Location = new System.Drawing.Point(168, 170);
             this.gb_background.Name = "gb_background";
             this.gb_background.Size = new System.Drawing.Size(183, 109);
             this.gb_background.TabIndex = 33;
@@ -281,7 +293,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(10, 252);
+            this.label1.Location = new System.Drawing.Point(9, 292);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(224, 13);
             this.label1.TabIndex = 34;
@@ -290,7 +302,7 @@
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(10, 282);
+            this.linkLabel1.Location = new System.Drawing.Point(9, 319);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(241, 13);
             this.linkLabel1.TabIndex = 35;
@@ -298,11 +310,92 @@
             this.linkLabel1.Text = "Issues? Want to have a look at the source code?";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
+            // nud_verticalDistance
+            // 
+            this.nud_verticalDistance.Location = new System.Drawing.Point(109, 96);
+            this.nud_verticalDistance.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.nud_verticalDistance.Name = "nud_verticalDistance";
+            this.nud_verticalDistance.Size = new System.Drawing.Size(63, 20);
+            this.nud_verticalDistance.TabIndex = 36;
+            this.nud_verticalDistance.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.nud_verticalDistance.ValueChanged += new System.EventHandler(this.nud_verticalDistance_ValueChanged);
+            // 
+            // nud_historycount
+            // 
+            this.nud_historycount.Location = new System.Drawing.Point(109, 122);
+            this.nud_historycount.Maximum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            this.nud_historycount.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nud_historycount.Name = "nud_historycount";
+            this.nud_historycount.Size = new System.Drawing.Size(63, 20);
+            this.nud_historycount.TabIndex = 37;
+            this.nud_historycount.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nud_historycount.ValueChanged += new System.EventHandler(this.nud_historycount_ValueChanged);
+            // 
+            // label_verticalDistance
+            // 
+            this.label_verticalDistance.AutoSize = true;
+            this.label_verticalDistance.Location = new System.Drawing.Point(16, 98);
+            this.label_verticalDistance.Name = "label_verticalDistance";
+            this.label_verticalDistance.Size = new System.Drawing.Size(87, 13);
+            this.label_verticalDistance.TabIndex = 38;
+            this.label_verticalDistance.Text = "Vertical Distance";
+            // 
+            // label_historycount
+            // 
+            this.label_historycount.AutoSize = true;
+            this.label_historycount.Location = new System.Drawing.Point(16, 124);
+            this.label_historycount.Name = "label_historycount";
+            this.label_historycount.Size = new System.Drawing.Size(70, 13);
+            this.label_historycount.TabIndex = 39;
+            this.label_historycount.Text = "History Count";
+            // 
+            // bn_reset_position
+            // 
+            this.bn_reset_position.Location = new System.Drawing.Point(12, 256);
+            this.bn_reset_position.Name = "bn_reset_position";
+            this.bn_reset_position.Size = new System.Drawing.Size(86, 23);
+            this.bn_reset_position.TabIndex = 36;
+            this.bn_reset_position.Text = "Reset Position";
+            this.bn_reset_position.UseVisualStyleBackColor = true;
+            this.bn_reset_position.Click += new System.EventHandler(this.bn_reset_position_Click);
+            // 
+            // bn_reset_all
+            // 
+            this.bn_reset_all.Location = new System.Drawing.Point(104, 256);
+            this.bn_reset_all.Name = "bn_reset_all";
+            this.bn_reset_all.Size = new System.Drawing.Size(58, 23);
+            this.bn_reset_all.TabIndex = 37;
+            this.bn_reset_all.Text = "Reset All";
+            this.bn_reset_all.UseVisualStyleBackColor = true;
+            this.bn_reset_all.Click += new System.EventHandler(this.bn_reset_all_Click);
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(448, 345);
+            this.ClientSize = new System.Drawing.Size(363, 357);
+            this.Controls.Add(this.bn_reset_all);
+            this.Controls.Add(this.bn_reset_position);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.gb_background);
@@ -313,6 +406,7 @@
             this.Name = "Settings";
             this.Text = "Settings";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Settings_FormClosing);
+            this.Load += new System.EventHandler(this.Settings_Load);
             ((System.ComponentModel.ISupportInitialize)(this.slider_opacity)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.slider_fontsize)).EndInit();
             this.groupBox_text_alignment.ResumeLayout(false);
@@ -325,6 +419,8 @@
             this.gb_text.PerformLayout();
             this.gb_background.ResumeLayout(false);
             this.gb_background.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_verticalDistance)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_historycount)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -356,5 +452,11 @@
         private System.Windows.Forms.ColorDialog picker_textcolor;
         private System.Windows.Forms.ColorDialog picker_backcolor;
         private System.Windows.Forms.FontDialog fontDialog_text;
+        private System.Windows.Forms.Label label_historycount;
+        private System.Windows.Forms.Label label_verticalDistance;
+        private System.Windows.Forms.NumericUpDown nud_historycount;
+        private System.Windows.Forms.NumericUpDown nud_verticalDistance;
+        private System.Windows.Forms.Button bn_reset_position;
+        private System.Windows.Forms.Button bn_reset_all;
     }
 }
