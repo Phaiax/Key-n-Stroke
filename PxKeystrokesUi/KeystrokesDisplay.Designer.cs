@@ -43,6 +43,7 @@
             this.reportErrorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contributeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpHoldCtrlAltShiftToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel_textposhelper.SuspendLayout();
             this.notifyIcon_contextmenu.SuspendLayout();
             this.SuspendLayout();
@@ -164,40 +165,47 @@
             // notifyIcon_contextmenu
             // 
             this.notifyIcon_contextmenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.helpHoldCtrlAltShiftToolStripMenuItem,
             this.reportErrorsToolStripMenuItem,
             this.contributeToolStripMenuItem,
             this.settingsToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.notifyIcon_contextmenu.Name = "notifyIcon_contextmenu";
-            this.notifyIcon_contextmenu.Size = new System.Drawing.Size(143, 92);
+            this.notifyIcon_contextmenu.Size = new System.Drawing.Size(221, 114);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // reportErrorsToolStripMenuItem
             // 
             this.reportErrorsToolStripMenuItem.Name = "reportErrorsToolStripMenuItem";
-            this.reportErrorsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.reportErrorsToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
             this.reportErrorsToolStripMenuItem.Text = "Report Errors";
             this.reportErrorsToolStripMenuItem.Click += new System.EventHandler(this.reportErrorsToolStripMenuItem_Click);
             // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // contributeToolStripMenuItem
             // 
             this.contributeToolStripMenuItem.Name = "contributeToolStripMenuItem";
-            this.contributeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.contributeToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
             this.contributeToolStripMenuItem.Text = "Contribute";
             this.contributeToolStripMenuItem.Click += new System.EventHandler(this.contributeToolStripMenuItem_Click);
+            // 
+            // helpHoldCtrlAltShiftToolStripMenuItem
+            // 
+            this.helpHoldCtrlAltShiftToolStripMenuItem.Name = "helpHoldCtrlAltShiftToolStripMenuItem";
+            this.helpHoldCtrlAltShiftToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.helpHoldCtrlAltShiftToolStripMenuItem.Text = "Help: Hold Ctrl + Alt + Shift";
             // 
             // KeystrokesDisplay
             // 
@@ -239,6 +247,7 @@
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reportErrorsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem contributeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem helpHoldCtrlAltShiftToolStripMenuItem;
     }
 }
 

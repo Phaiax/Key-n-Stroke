@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Settings));
             this.button_backcolor = new System.Windows.Forms.Button();
             this.button_textcolor = new System.Windows.Forms.Button();
             this.slider_opacity = new System.Windows.Forms.TrackBar();
@@ -403,6 +404,7 @@
             this.Controls.Add(this.gb_style);
             this.Controls.Add(this.gb_textdir);
             this.Controls.Add(this.groupBox_text_alignment);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Settings";
             this.Text = "Settings";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Settings_FormClosing);

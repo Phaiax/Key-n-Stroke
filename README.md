@@ -17,5 +17,5 @@ Windows 8
 # Releases
 You can find the exe in the releases folder
 
-v0.1.0 (Looks fine)
+v0.1.1 (Looks fine)
 v0.0.1 (Text positioning not implemented yet)
