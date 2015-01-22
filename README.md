@@ -6,6 +6,8 @@ Press <code>Ctrl + Shift + Alt</code> to reveal configuration options, resize, m
 
 Demo Video: https://www.youtube.com/watch?v=Ud3tqB8TMVc
 
+Screenshots: <a href="https://raw.githubusercontent.com/Phaiax/PxKeystrokesForScreencasts/master/Screenshots/bottom_center.png">One</a>, <a href="https://raw.githubusercontent.com/Phaiax/PxKeystrokesForScreencasts/master/Screenshots/bottom_right.png">Two</a> and <a href="https://raw.githubusercontent.com/Phaiax/PxKeystrokesForScreencasts/master/Screenshots/settings.png">Three (Settings)</a>
+
 This is Open Source. If you miss a feature, go for it and send a Pull-Request afterwards!
 
 # Features
@@ -38,7 +40,7 @@ Windows 8
 
 ## Known Issues
  - Centering of Text if many arrow keys (or other special keys) have been pressed
-
+ - Will not work in Front of Win 8 Apps
 
 
 # License
