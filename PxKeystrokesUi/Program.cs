@@ -20,7 +20,12 @@ namespace PxKeystrokesUi
 
             IKeyboardRawEventProvider myKeyboardHook = new KeyboardHook();
             IKeystrokeEventProvider myKeystrokeConverter = new KeystrokeParser(myKeyboardHook);
-            KeystrokesDisplay myForm = new KeystrokesDisplay(myKeystrokeConverter);
+
+            SettingsStore mySettings = new SettingsStore();
+            //mySettings.ClearAll();
+            mySettings.LoadAll();
+
+            KeystrokesDisplay myForm = new KeystrokesDisplay(myKeystrokeConverter, mySettings);
 
             Application.Run(myForm);
         }

@@ -15,23 +15,36 @@ namespace PxKeystrokesUi
     {
         IKeystrokeEventProvider k;
 
+        Settings SettingsForm;
+
         List<string> keystroke_history = new List<string>(5);
         bool LastHistoryLineIsText = false;
         bool LastHistoryLineRequiredNewLineAfterwards = false;
 
         int MAXLEN = 15;
         int MAXHISTORYLEN = 5;
-        
-        public KeystrokesDisplay(IKeystrokeEventProvider k)
+
+        SettingsStore settings;
+
+        #region init (Constructor)
+
+        public KeystrokesDisplay(IKeystrokeEventProvider k, SettingsStore s)
         {
+            InitializeComponent();
+
             this.k = k;
             this.k.KeystrokeEvent += k_KeystrokeEvent;
 
-            InitializeComponent();
+            this.settings = s;
+            this.settings.settingChanged += settingChanged;
+
+            Timer T = new Timer();
+            T.Interval = 10;
+            T.Tick += T_DeferredSettingsActivation;
+            T.Start();
+
             this.TopMost = true;
             this.FormClosing += Form1_FormClosing;
-            this.picker_textcolor.Color = label_keyhistory.ForeColor;
-            this.picker_backcolor.Color = this.BackColor;
 
             keystroke_history.Add("");
             keystroke_history.Add("");
@@ -39,12 +52,21 @@ namespace PxKeystrokesUi
             keystroke_history.Add("Press Ctrl + Alt + Shift");
             keystroke_history.Add("  to edit or close");
 
-            slider_fontsize_Scroll(null, null); // update Fontsize
             updateLabel();
 
             NativeMethodsSWP.SetWindowTopMost(this.Handle);
-            ActivateDisplayOnlyMode();
+            ActivateDisplayOnlyMode(true);
         }
+
+        void T_DeferredSettingsActivation(object sender, EventArgs e)
+        {
+            ((Timer)sender).Stop();
+            this.settings.OnSettingChangedAll();
+        }
+
+        #endregion
+
+        #region keystroke handler
 
         void k_KeystrokeEvent(KeystrokeEventArgs e)
         {
@@ -73,6 +95,8 @@ namespace PxKeystrokesUi
             }
         }
 
+        #endregion
+
         #region Settings Mode
 
         private void CheckForSettingsMode(KeystrokeEventArgs e)
@@ -80,53 +104,83 @@ namespace PxKeystrokesUi
             if (e.Ctrl && e.Shift && e.Alt)
                 ActivateSettingsMode();
             else
-                ActivateDisplayOnlyMode();
+                ActivateDisplayOnlyMode(false);
         }
 
-        void ActivateDisplayOnlyMode()
+        bool SettingsModeActivated = false;
+
+        void ActivateDisplayOnlyMode(bool force)
         {
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Opacity = slider_opacity.Value / 100.0;
+            if (SettingsModeActivated || force)
+            {
+                this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+                this.Opacity = settings.Opacity;
 
-            NativeMethodsGWL.ClickThrough(this.Handle);
+                NativeMethodsGWL.ClickThrough(this.Handle);
 
-            this.label_fontsize.Visible = false;
-            this.label_opacity.Visible = false;
-            this.slider_fontsize.Visible = false;
-            this.slider_opacity.Visible = false;
+                ResizeDragging = false;
+                MoveDragging = false;
 
-            this.label_color.Visible = false;
-            this.label_positioning.Visible = false;
-            this.btn_setcenter.Visible = false;
-            this.btn_setleft.Visible = false;
-            this.btn_setright.Visible = false;
-            this.btn_toggle_direction.Visible = false;
-            this.button_backcolor.Visible = false;
-            this.button_textcolor.Visible = false;
+                this.bn_close.Visible = false;
+                this.bn_resize.Visible = false;
+                this.bn_settings.Visible = false;
+
+                SettingsModeActivated = false;
+
+                settings.SaveAll();
+            }
         }
 
         void ActivateSettingsMode()
         {
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+            if (!SettingsModeActivated)
+            {
+                this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+                NativeMethodsGWL.CatchClicks(this.Handle);
 
-            NativeMethodsGWL.CatchClicks(this.Handle);
+                this.Opacity = 1;
 
-            this.label_fontsize.Visible = true;
-            this.label_opacity.Visible = true;
-            this.slider_fontsize.Visible = true;
-            this.slider_opacity.Visible = true;
+                ResizeDragging = false;
+                MoveDragging = false;
 
-            this.label_color.Visible = true;
-            this.label_positioning.Visible = true;
-            this.btn_setcenter.Visible = true;
-            this.btn_setleft.Visible = true;
-            this.btn_setright.Visible = true;
-            this.btn_toggle_direction.Visible = true;
-            this.button_backcolor.Visible = true;
-            this.button_textcolor.Visible = true;
+                this.bn_close.Visible = true;
+                this.bn_resize.Visible = true;
+                this.bn_settings.Visible = true;
+
+                SettingsModeActivated = true;
+            }
+        }
+
+        private void settingChanged(SettingsChangedEventArgs e)
+        {
+            switch (e.Name)
+            {
+                case "LabelFont":
+                    label_keyhistory.Font = settings.LabelFont;
+                    break;
+                case "TextColor":
+                    label_keyhistory.ForeColor = settings.TextColor;
+                    break;
+                case "BackgroundColor":
+                    this.BackColor = settings.BackgroundColor;
+                    break;
+                case "Opacity":
+                    this.Opacity = settings.Opacity;
+                    break;
+                case "WindowLocation":
+                    this.Location = settings.WindowLocation;
+                    System.Diagnostics.Debug.WriteLine(String.Format("Apply X: {0}", settings.WindowLocation.X));
+                    break;
+                case "WindowSize":
+                    this.Size = settings.WindowSize;
+                    break;
+
+            }
         }
 
         #endregion
+
+        #region display and animate Label
 
         void cutHistory()
         {
@@ -143,71 +197,104 @@ namespace PxKeystrokesUi
             this.label_keyhistory.Text = t;
         }
 
-        #region Form Events (Close, Buttons, Sliders)
+        #endregion
+
+        #region Form Events (Close, Buttons)
 
         void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             k.KeystrokeEvent -= k_KeystrokeEvent;
+            settings.SaveAll();
         }
 
-        private void slider_fontsize_Scroll(object sender, EventArgs e)
+        private void bn_close_Click(object sender, EventArgs e)
         {
-            this.label_keyhistory.Font = new Font("Arial", this.slider_fontsize.Value / 10.0f);
+            this.Close();
         }
 
-        private void slider_opacity_Scroll(object sender, EventArgs e)
+        private void bn_settings_Click(object sender, EventArgs e)
         {
-
+            if (SettingsForm != null)
+            {
+                SettingsForm.Dispose();
+            }
+            SettingsForm = new Settings(settings);
+            SettingsForm.Show(this);
         }
 
-        bool fromTop = true;
+        #endregion
 
-        private void btn_toggle_direction_Click(object sender, EventArgs e)
+        #region Moving
+
+        private bool MoveDragging = false;
+        private Point MoveDragCursorPoint;
+        private Point MoveDragFormPoint;
+
+        private void bn_move_MouseDown(object sender, MouseEventArgs e)
         {
-            fromTop = !fromTop;
-            btn_toggle_direction.Text = fromTop ? "From Top" : "From Bottom";
+            MoveDragging = true;
+            MoveDragCursorPoint = Cursor.Position;
+            MoveDragFormPoint = this.Location;
         }
 
-        enum HPos
+        private void bn_move_MouseMove(object sender, MouseEventArgs e)
         {
-            Left,
-            Right,
-            Center
+            if (MoveDragging)
+            {
+                Point dif = Point.Subtract(Cursor.Position, new Size(MoveDragCursorPoint));
+                settings.WindowLocation = Point.Add(MoveDragFormPoint, new Size(dif));
+            }
         }
 
-        HPos HorizontalPositioning = HPos.Left;
-
-        private void btn_setleft_Click(object sender, EventArgs e)
+        private void bn_move_MouseUp(object sender, MouseEventArgs e)
         {
-            HorizontalPositioning = HPos.Left;
+            MoveDragging = false;
         }
 
-        private void btn_setcenter_Click(object sender, EventArgs e)
+        #endregion
+
+        #region resizing
+
+        private bool ResizeDragging = false;
+        private Point ResizeDragCursorPoint;
+        private Size ResizeDragFormPoint;
+
+        private void bn_resize_MouseDown(object sender, MouseEventArgs e)
         {
-            HorizontalPositioning = HPos.Center;
+            ResizeDragging = true;
+            ResizeDragCursorPoint = Cursor.Position;
+            ResizeDragFormPoint = this.Size;
         }
 
-        private void btn_setright_Click(object sender, EventArgs e)
+        private void bn_resize_MouseMove(object sender, MouseEventArgs e)
         {
-            HorizontalPositioning = HPos.Right;
+            if (ResizeDragging)
+            {
+                Point dif = Point.Subtract(Cursor.Position, new Size(ResizeDragCursorPoint));
+                settings.WindowSize = new Size(Point.Add(new Point(ResizeDragFormPoint), new Size(dif)));
+            }
         }
 
-        private void button_textcolor_Click(object sender, EventArgs e)
+        private void bn_resize_MouseUp(object sender, MouseEventArgs e)
         {
-            picker_textcolor.ShowDialog(this);
-            UpdateColors();
+            ResizeDragging = false;
         }
 
-        private void button_backcolor_Click(object sender, EventArgs e)
+        #endregion
+
+        #region label highlight on mouse over
+
+        private void label_keyhistory_MouseEnter(object sender, EventArgs e)
         {
-            picker_backcolor.ShowDialog(this);
-            UpdateColors();
+            if(SettingsModeActivated)
+            {
+                ((Label)sender).BackColor = Color.Gray;
+            }
         }
 
-        private void UpdateColors()
+        private void label_keyhistory_MouseLeave(object sender, EventArgs e)
         {
-            this.BackColor = picker_backcolor.Color;
-            this.label_keyhistory.ForeColor = picker_textcolor.Color;
+            ((Label)sender).BackColor = Color.Transparent;
         }
 
         #endregion

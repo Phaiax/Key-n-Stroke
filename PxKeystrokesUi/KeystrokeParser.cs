@@ -98,9 +98,7 @@ namespace PxKeystrokesUi
                 else if (!e.NoModifiers && !e.OnlyShiftOrCaps) // Special Char with Strg + Alt
                 // or shortcut else
                 {
-                    System.Diagnostics.Debug.WriteLine(
-                                        String.Format("HERE"));
-                    
+
                     // could be something like the german @ (Ctrl + Alt + Q)
                     // Temporary disabled because ToUnicode returns more often values than it should
                     e.KeyString = "";// KeyboardLayoutParser.ParseViaToUnicode(e);
@@ -158,6 +156,7 @@ namespace PxKeystrokesUi
                 e.KeyString = SpecialkeysParser.ToString(e.Key);
                 e.ShouldBeDisplayed = true;
                 e.StrokeType = KeystrokeType.Text;
+                e.RequiresNewLineAfterwards = (Keys)e.vkCode == Keys.Return;
             }
             catch (NotImplementedException)
             {

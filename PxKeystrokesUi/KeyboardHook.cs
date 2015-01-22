@@ -102,10 +102,10 @@ namespace PxKeystrokesUi
                     OnKeyEvent(e);
                 }
 
-                System.Diagnostics.Debug.WriteLine(
+                /*System.Diagnostics.Debug.WriteLine(
                     String.Format("Key: sc {0} vk {1} ext {2} fl {3}, {4}", lParam.scanCode,
                         lParam.vkCode, lParam.dwExtraInfo, lParam.flags, e.Method));
-
+                */
             }
             //Pass key to next application
             return NativeMethodsKeyboard.CallNextHookEx(hookID, nCode, wParam, ref lParam);
