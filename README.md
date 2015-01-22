@@ -4,6 +4,15 @@ Displays Keystrokes in an overlay window. (Windows 8)
 
 Press <code>Ctrl + Shift + Alt</code> to reveal configuration options, resize, move or close the window.
 
+Demo Video: https://www.youtube.com/watch?v=Ud3tqB8TMVc
+
+# Features
+ - Displays special keys (volume up: 🔊⏫) and shortcuts
+ - Click Through
+ - Opacity
+ - Customizable: Colors, Font, Size and Position, Text Position and Orientation
+ - Displays history of pressed keys
+
 # TODO
  - Make some things a little bit more beautiful
  - Create a screencast
