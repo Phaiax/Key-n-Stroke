@@ -16,7 +16,8 @@ This is Open Source. If you miss a feature, go for it and send a Pull-Request af
  - Opacity
  - Customizable: Colors, Font, Size and Position, Text Position and Orientation
  - Displays history of pressed keys
- - Tray Icon
+ - Icon in notification area
+ - One small file, no installation required
 
 # Download
 
