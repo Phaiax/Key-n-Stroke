@@ -15,7 +15,11 @@ This is Open Source. If you miss a feature, go for it and send a Pull-Request af
  - Customizable: Colors, Font, Size and Position, Text Position and Orientation
  - Displays history of pressed keys
 
-# Releases
+# Download
+
+<a href="https://github.com/Phaiax/PxKeystrokesForScreencasts/blob/master/Releases/v0.1.2/PxKeystrokesUi.exe">Download PxKeystrokesUi.exe 0.1.2 (most recent, 2015-01-22)</a>
+
+## Releases
 You can find the exe in the releases folder
 
 - v0.0.1 (Text positioning not implemented yet)
