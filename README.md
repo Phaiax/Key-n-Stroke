@@ -21,7 +21,7 @@ This is Open Source. If you miss a feature, go for it and send a Pull-Request af
 
 # Download
 
-<a href="https://github.com/Phaiax/PxKeystrokesForScreencasts/raw/master/Releases/v0.1.2/PxKeystrokesUi.exe">Download PxKeystrokesUi.exe 0.1.2</a> (most recent, 2015-01-22)
+<a href="https://github.com/Phaiax/PxKeystrokesForScreencasts/raw/master/Releases/v0.1.3/PxKeystrokesUi.exe">Download PxKeystrokesUi.exe 0.1.3</a> (most recent, 2015-07-31, Win10 tested)
 
 ## Releases
 You can find the exe in the releases folder
@@ -29,9 +29,10 @@ You can find the exe in the releases folder
 - v0.0.1 (Text positioning not implemented yet)
 - v0.1.1 (Looks fine)
 - v0.1.2 (More Whitespace between special chars)
+- v0.1.3 (fix bug with Win+? shortcuts)
 
 ## Requirements
-Windows 8
+Windows 8 or 10
 
 
 # TODO
