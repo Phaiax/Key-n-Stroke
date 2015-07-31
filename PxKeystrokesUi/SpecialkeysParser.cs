@@ -22,6 +22,9 @@ namespace PxKeystrokesUi
                 case Keys.LControlKey:
                 case Keys.RControlKey:
                     return "Ctrl";
+                case Keys.LWin:
+                case Keys.RWin:
+                    return "Win";
                 case Keys.Menu:
                 case Keys.LMenu:
                 case Keys.RMenu:
