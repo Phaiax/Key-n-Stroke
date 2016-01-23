@@ -12,6 +12,7 @@ It initializes the classes decribed below.
  * new KeystrokeParser()
  * new SettingsStore()
  * new KeystrokeDisplay()
+
 The keypress information is intercepted in KeyboardHook, passed to KeystrokeParser and then passed to KeystrokeDisplay.
 
 
@@ -20,24 +21,26 @@ The keypress information is intercepted in KeyboardHook, passed to KeystrokePars
 In Windows, you can register a callback (also known as hook) for certain process messages like [keyboard][LowLevelKeyboardProc] and mouse events.
 
 Callbacks are registered using the function [SetWindowsHookEx(event type, callback function, ...)][SetWindowsHookEx].
-This function is not part of PxKS but part of the system library user32.dll. So in PxKS we only need to define how those system functions look, and this is done in the files NativeMethodsKeyboard.cs, NativeMethodsMouse.cs, NativeMethodsGWL.cs and NativeMethodsSWP.cs.
+This function is not part of PxKS but part of the system library user32.dll. In PxKS we only need to define how each of those system functions looks. This is done in the files NativeMethodsKeyboard.cs, NativeMethodsMouse.cs, NativeMethodsGWL.cs and NativeMethodsSWP.cs.
 
-Sometimes special data structures and constants are needed for these system functions (for example KBDLLHOOKSTRUCT).They are also defined in these files.
+Sometimes special data structures and constants are needed for these system functions (for example [KBDLLHOOKSTRUCT][KBDLLHOOKSTRUCT]).They are also defined in these files.
+
 
 ### System calls (KeyboardHook.cs KeyboardRawEvents.cs)
 
-Now back to the key events. The class that encapsulates the calls to the system functions is KeyboardHook in KeyboardHook.cs. It registers the keyboard event system callback on creation and unregisters it on disposing/deconstructing. The used functions are RegisterKeyboardHook() and UnregisterKeyboardHook().
+Now back to the key events. The class that encapsulates the calls to the system functions is KeyboardHook in KeyboardHook.cs. It registers the keyboard event system callback on creation and unregisters it on disposing/deconstructing. The related functions are RegisterKeyboardHook() and UnregisterKeyboardHook().
 
-It exposes the C# event <code>KeyEvent</code> that takes methods of delegate type <code>KeyboardRawEventHandler</code>. (via <code>interface IKeyboardRawEventProvider</code> in KeyboardRawEvent.cs).
+KeyboardHook exposes the C# event <code>KeyEvent</code> that takes methods of delegate type <code>KeyboardRawEventHandler</code>. (via <code>interface IKeyboardRawEventProvider</code> in KeyboardRawEvent.cs).
 
 The idea is, that you just do this nice pure C# thing
-<code>
-void hook_KeyEvent(KeyboardRawEventArgs raw_e)
-{
-	// process hook
-}
-IKeyboardRawEventProvider myKeyboardHook = new KeyboardHook();
-hook.KeyEvent += hook_KeyEvent;</code>
+
+```	void hook_KeyEvent(KeyboardRawEventArgs raw_e)
+	{
+		// process hook
+	}
+	IKeyboardRawEventProvider myKeyboardHook = new KeyboardHook();
+	hook.KeyEvent += hook_KeyEvent; ```
+
 ... instead of dealing with the raw system library calls.
 
 The KeyboardHook class does a little bit more. It executes multiple system calls to find out which modifier keys (shift, ...) are currently pressed and appends this information to <code>raw_e</code>.
@@ -46,7 +49,7 @@ The KeyboardHook class does a little bit more. It executes multiple system calls
 
 Next, the <code>KeyboardRawEventArgs raw_e</code> are converted into Keystrokes. This is happening in a similar interface/event pattern.
 
-The idea is, that the KeystrokeParser gets the RawEvents as input, determines what should be displayed to the user (for example a simple letter or multiple keys like CTRL + A), and forwards the result to the next program part using a C# event.
+The idea is, that the KeystrokeParser gets the RawEvents as input, determines what should be displayed to the user (for example a simple letter or a more complex information like CTRL + A), and forwards the result to the next program part using a C# event.
 
 Input: The KeystrokeParser registers itself on the <code>KeyEvent</code> of the KeyboardHook in the constructor.
 
@@ -64,7 +67,7 @@ The output of the KeystrokeParser is used by the KeystrokesDisplay.
 [SetWindowsHookEx]: https://msdn.microsoft.com/en-us/library/windows/desktop/ms644990%28v=vs.85%29.aspx "SetWindowsHookEx function"
 [LowLevelKeyboardProc]: https://msdn.microsoft.com/en-us/library/windows/desktop/ms644985%28v=vs.85%29.aspx "LowLevelKeyboardProc callback function"
 [TranslateMessage]: https://msdn.microsoft.com/en-us/library/windows/desktop/ms644955%28v=vs.85%29.aspx "TranslateMessage function"
-
+[KBDLLHOOKSTRUCT]: https://msdn.microsoft.com/en-us/library/windows/desktop/ms644967%28v=vs.85%29.aspx "KBDLLHOOKSTRUCT structure"
 
 ## Displaying Keystrokes (KeystrokesDisplay.cs code (F7))
 
