@@ -105,6 +105,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UrlOpener.cs" />
+    <EmbeddedResource Include="CursorIndicator.resx">
+      <DependentUpon>CursorIndicator.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="KeystrokesDisplay.resx">
       <DependentUpon>KeystrokesDisplay.cs</DependentUpon>
     </EmbeddedResource>

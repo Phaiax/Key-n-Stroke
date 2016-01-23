@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,13 +47,18 @@ namespace PxKeystrokesUi
     public class MouseRawEventArgs
     {
         public NativeMethodsMouse.MSLLHOOKSTRUCT Msllhookstruct;
-        MouseEventType Event;
-        MouseButton Button;
-        MouseAction Action;
+        public MouseEventType Event;
+        public MouseButton Button;
+        public MouseAction Action;
 
         public MouseRawEventArgs(NativeMethodsMouse.MSLLHOOKSTRUCT msllhookstruct)
         {
             this.Msllhookstruct = msllhookstruct;
+        }
+
+        public Point Point
+        {
+            get { return new Point(Msllhookstruct.pt.X, Msllhookstruct.pt.Y); }
         }
 
         public void ParseWparam(UIntPtr wParam)

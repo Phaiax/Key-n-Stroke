@@ -13,15 +13,11 @@ namespace PxKeystrokesUi
     class PxApplicationContext : ApplicationContext
     {
         KeystrokesDisplay myUi;
-        SettingsStore mySettings;
-        IKeyboardRawEventProvider myKeyboardHook;
-        IKeystrokeEventProvider myKeystrokeConverter;
-        IMouseRawEventProvider myMouseHook;
 
         public PxApplicationContext()
         {
             InitSettings();
-            InitKeyboardAndMouseInterception();
+            InitKeyboardInterception();
 
             mySettings.settingChanged += OnSettingChanged;
 
@@ -32,6 +28,8 @@ namespace PxKeystrokesUi
 
             OnCursorIndicatorSettingChanged();
         }
+
+        SettingsStore mySettings;
 
         private void InitSettings()
         {
@@ -45,12 +43,13 @@ namespace PxKeystrokesUi
             mySettings.LoadAll();
         }
 
-        private void InitKeyboardAndMouseInterception()
+        IKeyboardRawEventProvider myKeyboardHook;
+        IKeystrokeEventProvider myKeystrokeConverter;
+
+        private void InitKeyboardInterception()
         {
             myKeyboardHook = new KeyboardHook();
             myKeystrokeConverter = new KeystrokeParser(myKeyboardHook);
-
-            myMouseHook = new MouseHook();
         }
 
         private void OnUiClosed(object sender, EventArgs e)
@@ -79,14 +78,48 @@ namespace PxKeystrokesUi
             }
         }
 
+        CursorIndicator myCursor = null;
+
         private void EnableCursorIndicator()
         {
+            if (myCursor != null)
+                return;
             Console.WriteLine("EnableCursorIndicator");
+            EnableMouseHook();
+            myCursor = new CursorIndicator(myMouseHook, mySettings);
+            myCursor.FormClosed += myCursor_FormClosed;
+            myCursor.Show();
+        }
+
+        void myCursor_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            DisableMouseHook();
         }
 
         private void DisableCursorIndicator()
         {
+            if (myCursor == null)
+                return;
+            myCursor.Close();
+            myCursor = null;
             Console.WriteLine("DisableCursorIndicator");
+        }
+
+        IMouseRawEventProvider myMouseHook = null;
+
+        private void EnableMouseHook()
+        {
+            if (myMouseHook != null)
+                DisableMouseHook();
+            myMouseHook = new MouseHook();
+        }
+        
+        private void DisableMouseHook()
+        {
+            if (myMouseHook == null)
+                return;
+            myMouseHook.Dispose();
+            myMouseHook = null;
         }
     }
 }
