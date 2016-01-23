@@ -20,16 +20,20 @@ namespace PxKeystrokesUi
 
         public PxApplicationContext()
         {
-            LoadSettings();
+            InitSettings();
             InitKeyboardAndMouseInterception();
+
+            mySettings.settingChanged += OnSettingChanged;
 
             myUi = new KeystrokesDisplay(myKeystrokeConverter, mySettings);
             myUi.FormClosed += OnUiClosed;
             myUi.Show();
             this.MainForm = myUi;
+
+            OnCursorIndicatorSettingChanged();
         }
 
-        private void LoadSettings()
+        private void InitSettings()
         {
             mySettings = new SettingsStore();
 
@@ -51,18 +55,38 @@ namespace PxKeystrokesUi
 
         private void OnUiClosed(object sender, EventArgs e)
         {
-            DisableMouseHighlight();
+            DisableCursorIndicator();
             ExitThread();
         }
 
-        private void ActivateMouseHighlight()
+        private void OnSettingChanged(SettingsChangedEventArgs e)
         {
-
+            if (e.Name == "EnableCursorIndicator")
+            {
+                OnCursorIndicatorSettingChanged();
+            }
         }
 
-        private void DisableMouseHighlight()
+        private void OnCursorIndicatorSettingChanged()
         {
+            if (mySettings.EnableCursorIndicator)
+            {
+                EnableCursorIndicator();
+            }
+            else
+            {
+                DisableCursorIndicator();
+            }
+        }
 
+        private void EnableCursorIndicator()
+        {
+            Console.WriteLine("EnableCursorIndicator");
+        }
+
+        private void DisableCursorIndicator()
+        {
+            Console.WriteLine("DisableCursorIndicator");
         }
     }
 }

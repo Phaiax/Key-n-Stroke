@@ -46,6 +46,10 @@
             this.rb_style_slide = new System.Windows.Forms.RadioButton();
             this.rb_style_noani = new System.Windows.Forms.RadioButton();
             this.gb_text = new System.Windows.Forms.GroupBox();
+            this.label_historycount = new System.Windows.Forms.Label();
+            this.label_verticalDistance = new System.Windows.Forms.Label();
+            this.nud_historycount = new System.Windows.Forms.NumericUpDown();
+            this.nud_verticalDistance = new System.Windows.Forms.NumericUpDown();
             this.button_textfont = new System.Windows.Forms.Button();
             this.gb_background = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -53,21 +57,20 @@
             this.picker_textcolor = new System.Windows.Forms.ColorDialog();
             this.picker_backcolor = new System.Windows.Forms.ColorDialog();
             this.fontDialog_text = new System.Windows.Forms.FontDialog();
-            this.nud_verticalDistance = new System.Windows.Forms.NumericUpDown();
-            this.nud_historycount = new System.Windows.Forms.NumericUpDown();
-            this.label_verticalDistance = new System.Windows.Forms.Label();
-            this.label_historycount = new System.Windows.Forms.Label();
             this.bn_reset_position = new System.Windows.Forms.Button();
             this.bn_reset_all = new System.Windows.Forms.Button();
+            this.gb_mouse = new System.Windows.Forms.GroupBox();
+            this.cb_cursorindicator = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.slider_opacity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.slider_fontsize)).BeginInit();
             this.groupBox_text_alignment.SuspendLayout();
             this.gb_textdir.SuspendLayout();
             this.gb_style.SuspendLayout();
             this.gb_text.SuspendLayout();
-            this.gb_background.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_verticalDistance)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_historycount)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_verticalDistance)).BeginInit();
+            this.gb_background.SuspendLayout();
+            this.gb_mouse.SuspendLayout();
             this.SuspendLayout();
             // 
             // button_backcolor
@@ -269,6 +272,65 @@
             this.gb_text.TabStop = false;
             this.gb_text.Text = "Text";
             // 
+            // label_historycount
+            // 
+            this.label_historycount.AutoSize = true;
+            this.label_historycount.Location = new System.Drawing.Point(16, 124);
+            this.label_historycount.Name = "label_historycount";
+            this.label_historycount.Size = new System.Drawing.Size(70, 13);
+            this.label_historycount.TabIndex = 39;
+            this.label_historycount.Text = "History Count";
+            // 
+            // label_verticalDistance
+            // 
+            this.label_verticalDistance.AutoSize = true;
+            this.label_verticalDistance.Location = new System.Drawing.Point(16, 98);
+            this.label_verticalDistance.Name = "label_verticalDistance";
+            this.label_verticalDistance.Size = new System.Drawing.Size(87, 13);
+            this.label_verticalDistance.TabIndex = 38;
+            this.label_verticalDistance.Text = "Vertical Distance";
+            // 
+            // nud_historycount
+            // 
+            this.nud_historycount.Location = new System.Drawing.Point(109, 122);
+            this.nud_historycount.Maximum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            this.nud_historycount.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nud_historycount.Name = "nud_historycount";
+            this.nud_historycount.Size = new System.Drawing.Size(63, 20);
+            this.nud_historycount.TabIndex = 37;
+            this.nud_historycount.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nud_historycount.ValueChanged += new System.EventHandler(this.nud_historycount_ValueChanged);
+            // 
+            // nud_verticalDistance
+            // 
+            this.nud_verticalDistance.Location = new System.Drawing.Point(109, 96);
+            this.nud_verticalDistance.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.nud_verticalDistance.Name = "nud_verticalDistance";
+            this.nud_verticalDistance.Size = new System.Drawing.Size(63, 20);
+            this.nud_verticalDistance.TabIndex = 36;
+            this.nud_verticalDistance.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.nud_verticalDistance.ValueChanged += new System.EventHandler(this.nud_verticalDistance_ValueChanged);
+            // 
             // button_textfont
             // 
             this.button_textfont.Location = new System.Drawing.Point(92, 19);
@@ -311,72 +373,13 @@
             this.linkLabel1.Text = "Issues? Want to have a look at the source code?";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
-            // nud_verticalDistance
-            // 
-            this.nud_verticalDistance.Location = new System.Drawing.Point(109, 96);
-            this.nud_verticalDistance.Minimum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.nud_verticalDistance.Name = "nud_verticalDistance";
-            this.nud_verticalDistance.Size = new System.Drawing.Size(63, 20);
-            this.nud_verticalDistance.TabIndex = 36;
-            this.nud_verticalDistance.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.nud_verticalDistance.ValueChanged += new System.EventHandler(this.nud_verticalDistance_ValueChanged);
-            // 
-            // nud_historycount
-            // 
-            this.nud_historycount.Location = new System.Drawing.Point(109, 122);
-            this.nud_historycount.Maximum = new decimal(new int[] {
-            50,
-            0,
-            0,
-            0});
-            this.nud_historycount.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nud_historycount.Name = "nud_historycount";
-            this.nud_historycount.Size = new System.Drawing.Size(63, 20);
-            this.nud_historycount.TabIndex = 37;
-            this.nud_historycount.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nud_historycount.ValueChanged += new System.EventHandler(this.nud_historycount_ValueChanged);
-            // 
-            // label_verticalDistance
-            // 
-            this.label_verticalDistance.AutoSize = true;
-            this.label_verticalDistance.Location = new System.Drawing.Point(16, 98);
-            this.label_verticalDistance.Name = "label_verticalDistance";
-            this.label_verticalDistance.Size = new System.Drawing.Size(87, 13);
-            this.label_verticalDistance.TabIndex = 38;
-            this.label_verticalDistance.Text = "Vertical Distance";
-            // 
-            // label_historycount
-            // 
-            this.label_historycount.AutoSize = true;
-            this.label_historycount.Location = new System.Drawing.Point(16, 124);
-            this.label_historycount.Name = "label_historycount";
-            this.label_historycount.Size = new System.Drawing.Size(70, 13);
-            this.label_historycount.TabIndex = 39;
-            this.label_historycount.Text = "History Count";
-            // 
             // bn_reset_position
             // 
             this.bn_reset_position.Location = new System.Drawing.Point(12, 256);
             this.bn_reset_position.Name = "bn_reset_position";
             this.bn_reset_position.Size = new System.Drawing.Size(86, 23);
             this.bn_reset_position.TabIndex = 36;
-            this.bn_reset_position.Text = "Reset Position";
+            this.bn_reset_position.Text = "Reset position";
             this.bn_reset_position.UseVisualStyleBackColor = true;
             this.bn_reset_position.Click += new System.EventHandler(this.bn_reset_position_Click);
             // 
@@ -386,15 +389,37 @@
             this.bn_reset_all.Name = "bn_reset_all";
             this.bn_reset_all.Size = new System.Drawing.Size(58, 23);
             this.bn_reset_all.TabIndex = 37;
-            this.bn_reset_all.Text = "Reset All";
+            this.bn_reset_all.Text = "Reset all";
             this.bn_reset_all.UseVisualStyleBackColor = true;
             this.bn_reset_all.Click += new System.EventHandler(this.bn_reset_all_Click);
+            // 
+            // gb_mouse
+            // 
+            this.gb_mouse.Controls.Add(this.cb_cursorindicator);
+            this.gb_mouse.Location = new System.Drawing.Point(358, 13);
+            this.gb_mouse.Name = "gb_mouse";
+            this.gb_mouse.Size = new System.Drawing.Size(200, 100);
+            this.gb_mouse.TabIndex = 38;
+            this.gb_mouse.TabStop = false;
+            this.gb_mouse.Text = "Mouse";
+            // 
+            // cb_cursorindicator
+            // 
+            this.cb_cursorindicator.AutoSize = true;
+            this.cb_cursorindicator.Location = new System.Drawing.Point(7, 18);
+            this.cb_cursorindicator.Name = "cb_cursorindicator";
+            this.cb_cursorindicator.Size = new System.Drawing.Size(135, 17);
+            this.cb_cursorindicator.TabIndex = 0;
+            this.cb_cursorindicator.Text = "Indicate cursor position";
+            this.cb_cursorindicator.UseVisualStyleBackColor = true;
+            this.cb_cursorindicator.CheckedChanged += new System.EventHandler(this.cb_cursorindicator_CheckedChanged);
             // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(363, 357);
+            this.ClientSize = new System.Drawing.Size(571, 357);
+            this.Controls.Add(this.gb_mouse);
             this.Controls.Add(this.bn_reset_all);
             this.Controls.Add(this.bn_reset_position);
             this.Controls.Add(this.linkLabel1);
@@ -419,10 +444,12 @@
             this.gb_style.PerformLayout();
             this.gb_text.ResumeLayout(false);
             this.gb_text.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_historycount)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_verticalDistance)).EndInit();
             this.gb_background.ResumeLayout(false);
             this.gb_background.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_verticalDistance)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_historycount)).EndInit();
+            this.gb_mouse.ResumeLayout(false);
+            this.gb_mouse.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -460,5 +487,7 @@
         private System.Windows.Forms.NumericUpDown nud_verticalDistance;
         private System.Windows.Forms.Button bn_reset_position;
         private System.Windows.Forms.Button bn_reset_all;
+        private System.Windows.Forms.GroupBox gb_mouse;
+        private System.Windows.Forms.CheckBox cb_cursorindicator;
     }
 }

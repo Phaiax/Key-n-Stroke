@@ -151,6 +151,15 @@ namespace PxKeystrokesUi
             set { historyLength = value; OnSettingChanged("HistoryLength"); }
         }
 
+        private bool enableCursorIndicator;
+        public bool EnableCursorIndicatorDefault = true;
+        public bool EnableCursorIndicator
+        {
+            get { return enableCursorIndicator; }
+            set { enableCursorIndicator = value; OnSettingChanged("EnableCursorIndicator"); }
+        }
+
+
         public SettingsChangedEventHandler settingChanged;
         private void OnSettingChanged(string name)
         {
@@ -191,6 +200,9 @@ namespace PxKeystrokesUi
 
                 SaveInt("lineDistance", lineDistance);
                 SaveInt("historyLength", historyLength);
+
+                SaveBool("enableCursorIndicator", enableCursorIndicator);
+
             }
             dirty = false;
         }
@@ -227,6 +239,8 @@ namespace PxKeystrokesUi
             lineDistance = GetInt("lineDistance", LineDistanceDefault);
             historyLength = GetInt("historyLength", HistoryLengthDefault);
 
+            enableCursorIndicator = GetBool("enableCursorIndicator", EnableCursorIndicatorDefault);
+
             dirty = true;
         }
 
@@ -251,6 +265,7 @@ namespace PxKeystrokesUi
             Application.UserAppDataRegistry.DeleteValue("panelSize-height", false);
             Application.UserAppDataRegistry.DeleteValue("lineDistance", false);
             Application.UserAppDataRegistry.DeleteValue("historyLength", false);
+            Application.UserAppDataRegistry.DeleteValue("enableCursorIndicator", false);
         }
 
         public void OnSettingChangedAll()
@@ -268,6 +283,7 @@ namespace PxKeystrokesUi
             OnSettingChanged("PanelSize");
             OnSettingChanged("LineDistance");
             OnSettingChanged("HistoryLength");
+            OnSettingChanged("EnableCursorIndicator");
         }
 
         private void SaveColor(string name, Color value)
@@ -314,6 +330,23 @@ namespace PxKeystrokesUi
             try
             {
                 return Convert.ToInt32(GetString(name, def.ToString()));
+            }
+            catch (Exception e)
+            {
+                return def;
+            }
+        }
+
+        private void SaveBool(string name, bool value)
+        {
+            SaveString(name, value ? "1" : "0");
+        }
+
+        private bool GetBool(string name, bool def)
+        {
+            try
+            {
+                return GetString(name, def ? "1" : "0") == "0" ? false : true;
             }
             catch (Exception e)
             {

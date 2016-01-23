@@ -19,6 +19,7 @@ namespace PxKeystrokesUi
             InitializeComponent();
             UpdateSliderValues();
             UpdateRadioButtons();
+            UpdateCheckboxes();
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -66,6 +67,11 @@ namespace PxKeystrokesUi
         private void rb_style_slide_CheckedChanged(object sender, EventArgs e)
         {
             settings.LabelAnimation = Style.Slide;
+        }
+
+        private void cb_cursorindicator_CheckedChanged(object sender, EventArgs e)
+        {
+            settings.EnableCursorIndicator = cb_cursorindicator.Checked;
         }
 
         private void button_textcolor_Click(object sender, EventArgs e)
@@ -167,6 +173,11 @@ namespace PxKeystrokesUi
 
         }
 
+        private void UpdateCheckboxes()
+        {
+            cb_cursorindicator.Checked = settings.EnableCursorIndicator;
+        }
+
         private void Settings_Load(object sender, EventArgs e)
         {
 
@@ -187,6 +198,7 @@ namespace PxKeystrokesUi
             settings.OnSettingChangedAll();
             UpdateSliderValues();
             UpdateRadioButtons();
+            UpdateCheckboxes();
         }
 
 

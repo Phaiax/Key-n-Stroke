@@ -79,10 +79,6 @@ namespace PxKeystrokesUi
             {
                 MouseRawEventArgs args = new MouseRawEventArgs(lParam);
                 args.ParseWparam(wParam);
-                if(wParam == (UIntPtr) NativeMethodsMouse.WM_MOUSEMOVE)
-                {
-                    Console.WriteLine(lParam.pt.X);
-                }
                 OnMouseEvent(args);
             }
             return NativeMethodsMouse.CallNextHookEx(hookID, nCode, wParam, ref lParam);
