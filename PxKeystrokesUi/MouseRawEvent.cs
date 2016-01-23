@@ -56,7 +56,7 @@ namespace PxKeystrokesUi
             this.Msllhookstruct = msllhookstruct;
         }
 
-        public Point Point
+        public Point Position
         {
             get { return new Point(Msllhookstruct.pt.X, Msllhookstruct.pt.Y); }
         }
