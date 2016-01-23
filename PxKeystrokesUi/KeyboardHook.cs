@@ -195,7 +195,7 @@ namespace PxKeystrokesUi
 
         ~KeyboardHook()
         {
-            Console.WriteLine("~MouseHook");
+            Console.WriteLine("~KeyboardHook");
             UnregisterKeyboardHook();
         }
 

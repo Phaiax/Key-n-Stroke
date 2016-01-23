@@ -66,6 +66,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PxApplicationContext.cs" />
     <Compile Include="KeyboardLayoutParser.cs" />
     <Compile Include="MouseHook.cs" />
     <Compile Include="MouseRawEvent.cs" />
