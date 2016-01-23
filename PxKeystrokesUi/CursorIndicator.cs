@@ -28,6 +28,7 @@ namespace PxKeystrokesUi
 
             m.MouseEvent += m_MouseEvent;
             Paint += CursorIndicator_Paint;
+            s.settingChanged += settingChanged;
 
             BackColor = Color.Lavender;
             TransparencyKey = Color.Lavender;
@@ -35,11 +36,13 @@ namespace PxKeystrokesUi
 
         void CursorIndicator_Paint(object sender, PaintEventArgs e)
         {
+            this.Location = new Point(0, 0);
             Graphics g = this.CreateGraphics();
             Console.WriteLine(g.Clip.GetBounds(g).ToString());
             Console.WriteLine(g.ClipBounds.ToString());
-            Pen p = new Pen(Color.Red, 7);
+            Pen p = new Pen(s.CursorIndicatorColor, 7);
             g.FillEllipse(p.Brush, 0, 0, this.Width, this.Height);
+            UpdatePosition();
         }
 
         Point cursorPosition;
@@ -55,6 +58,7 @@ namespace PxKeystrokesUi
         void CursorIndicator_FormClosed(object sender, FormClosedEventArgs e)
         {
             m.MouseEvent -= m_MouseEvent;
+            s.settingChanged -= settingChanged;
             m = null;
             s = null;
         }
@@ -64,11 +68,15 @@ namespace PxKeystrokesUi
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Opacity = 0.8;
             NativeMethodsGWL.ClickThrough(this.Handle);
-            
-            this.Size = new Size(50, 50);
-            this.Invalidate(new Rectangle(0, 0, this.Size.Width, this.Size.Height));
 
+            UpdateSize();
             UpdatePosition();
+        }
+
+        void UpdateSize()
+        {
+            this.Size = s.CursorIndicatorSize;
+            this.Invalidate(new Rectangle(0, 0, this.Size.Width, this.Size.Height));
         }
 
         void UpdatePosition()
@@ -76,6 +84,23 @@ namespace PxKeystrokesUi
             this.Location = Point.Subtract(cursorPosition, new Size(this.Size.Width / 2, this.Size.Height / 2));
             //this.Location = cursorPosition;
         }
-        
+
+        private void settingChanged(SettingsChangedEventArgs e)
+        {
+            switch (e.Name)
+            {
+                case "EnableCursorIndicator":
+                    break;
+                case "CursorIndicatorOpacity":
+                    this.Opacity = s.CursorIndicatorOpacity;
+                    break;
+                case "CursorIndicatorSize":
+                    UpdateSize();
+                    break;
+                case "CursorIndicatorColor":
+                    UpdateSize(); // invalidates
+                    break;
+            }
+        }
     }
 }

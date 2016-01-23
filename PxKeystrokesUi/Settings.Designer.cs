@@ -61,6 +61,12 @@
             this.bn_reset_all = new System.Windows.Forms.Button();
             this.gb_mouse = new System.Windows.Forms.GroupBox();
             this.cb_cursorindicator = new System.Windows.Forms.CheckBox();
+            this.label_ci_opacity = new System.Windows.Forms.Label();
+            this.slider_ci_opacity = new System.Windows.Forms.TrackBar();
+            this.slider_ci_size = new System.Windows.Forms.TrackBar();
+            this.label_ci_size = new System.Windows.Forms.Label();
+            this.button_ci_color = new System.Windows.Forms.Button();
+            this.picker_ci_color = new System.Windows.Forms.ColorDialog();
             ((System.ComponentModel.ISupportInitialize)(this.slider_opacity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.slider_fontsize)).BeginInit();
             this.groupBox_text_alignment.SuspendLayout();
@@ -71,6 +77,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.nud_verticalDistance)).BeginInit();
             this.gb_background.SuspendLayout();
             this.gb_mouse.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.slider_ci_opacity)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.slider_ci_size)).BeginInit();
             this.SuspendLayout();
             // 
             // button_backcolor
@@ -395,10 +403,15 @@
             // 
             // gb_mouse
             // 
+            this.gb_mouse.Controls.Add(this.button_ci_color);
+            this.gb_mouse.Controls.Add(this.label_ci_size);
+            this.gb_mouse.Controls.Add(this.slider_ci_size);
+            this.gb_mouse.Controls.Add(this.slider_ci_opacity);
+            this.gb_mouse.Controls.Add(this.label_ci_opacity);
             this.gb_mouse.Controls.Add(this.cb_cursorindicator);
             this.gb_mouse.Location = new System.Drawing.Point(358, 13);
             this.gb_mouse.Name = "gb_mouse";
-            this.gb_mouse.Size = new System.Drawing.Size(200, 100);
+            this.gb_mouse.Size = new System.Drawing.Size(185, 158);
             this.gb_mouse.TabIndex = 38;
             this.gb_mouse.TabStop = false;
             this.gb_mouse.Text = "Mouse";
@@ -414,11 +427,63 @@
             this.cb_cursorindicator.UseVisualStyleBackColor = true;
             this.cb_cursorindicator.CheckedChanged += new System.EventHandler(this.cb_cursorindicator_CheckedChanged);
             // 
+            // label_ci_opacity
+            // 
+            this.label_ci_opacity.AutoSize = true;
+            this.label_ci_opacity.Location = new System.Drawing.Point(20, 52);
+            this.label_ci_opacity.Name = "label_ci_opacity";
+            this.label_ci_opacity.Size = new System.Drawing.Size(43, 13);
+            this.label_ci_opacity.TabIndex = 1;
+            this.label_ci_opacity.Text = "Opacity";
+            // 
+            // slider_ci_opacity
+            // 
+            this.slider_ci_opacity.Location = new System.Drawing.Point(68, 46);
+            this.slider_ci_opacity.Maximum = 100;
+            this.slider_ci_opacity.Minimum = 10;
+            this.slider_ci_opacity.Name = "slider_ci_opacity";
+            this.slider_ci_opacity.Size = new System.Drawing.Size(104, 45);
+            this.slider_ci_opacity.TabIndex = 40;
+            this.slider_ci_opacity.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.slider_ci_opacity.Value = 80;
+            this.slider_ci_opacity.Scroll += new System.EventHandler(this.slider_ci_opacity_Scroll);
+            // 
+            // slider_ci_size
+            // 
+            this.slider_ci_size.Location = new System.Drawing.Point(68, 85);
+            this.slider_ci_size.Maximum = 200;
+            this.slider_ci_size.Minimum = 4;
+            this.slider_ci_size.Name = "slider_ci_size";
+            this.slider_ci_size.Size = new System.Drawing.Size(104, 45);
+            this.slider_ci_size.TabIndex = 41;
+            this.slider_ci_size.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.slider_ci_size.Value = 100;
+            this.slider_ci_size.Scroll += new System.EventHandler(this.slider_ci_size_Scroll);
+            // 
+            // label_ci_size
+            // 
+            this.label_ci_size.AutoSize = true;
+            this.label_ci_size.Location = new System.Drawing.Point(20, 92);
+            this.label_ci_size.Name = "label_ci_size";
+            this.label_ci_size.Size = new System.Drawing.Size(27, 13);
+            this.label_ci_size.TabIndex = 42;
+            this.label_ci_size.Text = "Size";
+            // 
+            // button_ci_color
+            // 
+            this.button_ci_color.Location = new System.Drawing.Point(6, 118);
+            this.button_ci_color.Name = "button_ci_color";
+            this.button_ci_color.Size = new System.Drawing.Size(171, 23);
+            this.button_ci_color.TabIndex = 26;
+            this.button_ci_color.Text = "Color";
+            this.button_ci_color.UseVisualStyleBackColor = true;
+            this.button_ci_color.Click += new System.EventHandler(this.button_ci_color_Click);
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(571, 357);
+            this.ClientSize = new System.Drawing.Size(558, 357);
             this.Controls.Add(this.gb_mouse);
             this.Controls.Add(this.bn_reset_all);
             this.Controls.Add(this.bn_reset_position);
@@ -450,6 +515,8 @@
             this.gb_background.PerformLayout();
             this.gb_mouse.ResumeLayout(false);
             this.gb_mouse.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.slider_ci_opacity)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.slider_ci_size)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -489,5 +556,11 @@
         private System.Windows.Forms.Button bn_reset_all;
         private System.Windows.Forms.GroupBox gb_mouse;
         private System.Windows.Forms.CheckBox cb_cursorindicator;
+        private System.Windows.Forms.Button button_ci_color;
+        private System.Windows.Forms.Label label_ci_size;
+        private System.Windows.Forms.TrackBar slider_ci_size;
+        private System.Windows.Forms.TrackBar slider_ci_opacity;
+        private System.Windows.Forms.Label label_ci_opacity;
+        private System.Windows.Forms.ColorDialog picker_ci_color;
     }
 }

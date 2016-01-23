@@ -159,6 +159,30 @@ namespace PxKeystrokesUi
             set { enableCursorIndicator = value; OnSettingChanged("EnableCursorIndicator"); }
         }
 
+        private float cursorIndicatorOpacity;
+        public float CursorIndicatorOpacityDefault = 0.25f;
+        public float CursorIndicatorOpacity
+        {
+            get { return cursorIndicatorOpacity; }
+            set { cursorIndicatorOpacity = value; OnSettingChanged("CursorIndicatorOpacity"); }
+        }
+
+        private Size cursorIndicatorSize;
+        public Size CursorIndicatorSizeDefault = new Size(73, 73);
+        public Size CursorIndicatorSize
+        {
+            get { return cursorIndicatorSize; }
+            set { cursorIndicatorSize = value; OnSettingChanged("CursorIndicatorSize"); }
+        }
+
+        private Color cursorIndicatorColor;
+        public Color CursorIndicatorColorDefault = Color.FromArgb(255, 255, 128);
+        public Color CursorIndicatorColor
+        {
+            get { return cursorIndicatorColor; }
+            set { cursorIndicatorColor = value; OnSettingChanged("CursorIndicatorColor"); }
+        }
+
 
         public SettingsChangedEventHandler settingChanged;
         private void OnSettingChanged(string name)
@@ -181,7 +205,7 @@ namespace PxKeystrokesUi
                 SaveInt("labelFont-style", (int)labelFont.Style);
 
                 SaveColor("textColor", textColor);
-                SaveColor("backgroundColor", backgroundColor);
+                SaveDouble("cursorIndicatorOpacity", cursorIndicatorOpacity);
 
                 SaveDouble("opacity", opacity);
 
@@ -202,6 +226,10 @@ namespace PxKeystrokesUi
                 SaveInt("historyLength", historyLength);
 
                 SaveBool("enableCursorIndicator", enableCursorIndicator);
+                SaveDouble("cursorIndicatorOpacity", cursorIndicatorOpacity);
+                SaveColor("cursorIndicatorColor", cursorIndicatorColor);
+                SaveInt("cursorIndicatorSize-width", cursorIndicatorSize.Width);
+                SaveInt("cursorIndicatorSize-height", cursorIndicatorSize.Height);
 
             }
             dirty = false;
@@ -240,6 +268,11 @@ namespace PxKeystrokesUi
             historyLength = GetInt("historyLength", HistoryLengthDefault);
 
             enableCursorIndicator = GetBool("enableCursorIndicator", EnableCursorIndicatorDefault);
+            cursorIndicatorOpacity = (float) GetDouble("cursorIndicatorOpacity", CursorIndicatorOpacityDefault);
+            CursorIndicatorColor = GetColor("cursorIndicatorColor", CursorIndicatorColorDefault);
+            width = GetInt("cursorIndicatorSize-width", CursorIndicatorSizeDefault.Width);
+            height = GetInt("cursorIndicatorSize-height", CursorIndicatorSizeDefault.Height);
+            cursorIndicatorSize = new Size(width, height);
 
             dirty = true;
         }
@@ -266,6 +299,10 @@ namespace PxKeystrokesUi
             Application.UserAppDataRegistry.DeleteValue("lineDistance", false);
             Application.UserAppDataRegistry.DeleteValue("historyLength", false);
             Application.UserAppDataRegistry.DeleteValue("enableCursorIndicator", false);
+            Application.UserAppDataRegistry.DeleteValue("cursorIndicatorOpacity", false);
+            Application.UserAppDataRegistry.DeleteValue("cursorIndicatorColor", false);
+            Application.UserAppDataRegistry.DeleteValue("cursorIndicatorSize-width", false);
+            Application.UserAppDataRegistry.DeleteValue("cursorIndicatorSize-height", false);
         }
 
         public void OnSettingChangedAll()
@@ -284,6 +321,9 @@ namespace PxKeystrokesUi
             OnSettingChanged("LineDistance");
             OnSettingChanged("HistoryLength");
             OnSettingChanged("EnableCursorIndicator");
+            OnSettingChanged("CursorIndicatorOpacity");
+            OnSettingChanged("CursorIndicatorSize");
+            OnSettingChanged("CursorIndicatorColor");
         }
 
         private void SaveColor(string name, Color value)
@@ -361,6 +401,7 @@ namespace PxKeystrokesUi
 
         private string GetString(string name, string def)
         {
+            Console.WriteLine(name + " " + (string)Application.UserAppDataRegistry.GetValue(name, def));
             return (string) Application.UserAppDataRegistry.GetValue(name, def);
         }
     }

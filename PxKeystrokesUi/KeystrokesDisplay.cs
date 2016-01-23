@@ -282,6 +282,8 @@ namespace PxKeystrokesUi
         void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             k.KeystrokeEvent -= k_KeystrokeEvent;
+            settings.settingChanged -= settingChanged;
+
             settings.SaveAll();
         }
 

@@ -123,17 +123,43 @@ namespace PxKeystrokesUi
             settings.HistoryLength = (int)nud_historycount.Value;
         }
 
+        private void slider_ci_opacity_Scroll(object sender, EventArgs e)
+        {
+            settings.CursorIndicatorOpacity = (float)slider_ci_opacity.Value / 100f;
+        }
+
+        private void slider_ci_size_Scroll(object sender, EventArgs e)
+        {
+            settings.CursorIndicatorSize = new Size(slider_ci_size.Value, slider_ci_size.Value);
+        }
+
+        private void button_ci_color_Click(object sender, EventArgs e)
+        {
+            picker_ci_color.Color = settings.CursorIndicatorColor;
+            if (picker_ci_color.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
+            {
+                settings.CursorIndicatorColor = picker_ci_color.Color;
+            }
+        }
+
         private void UpdateSliderValues()
         {
-            int fontsize = (int)(settings.LabelFont.SizeInPoints * 100f);
-            slider_fontsize.Maximum = Math.Max(slider_fontsize.Maximum, fontsize);
-            slider_fontsize.Minimum = Math.Min(slider_fontsize.Minimum, fontsize);
-            slider_fontsize.Value = fontsize;
+            ExtendTrackbarRangeIfNeeded(slider_fontsize, (int)(settings.LabelFont.SizeInPoints * 100f));
 
             slider_opacity.Value = (int)(settings.Opacity * 100f);
 
+            ExtendTrackbarRangeIfNeeded(slider_ci_size, settings.CursorIndicatorSize.Height);
+            slider_ci_opacity.Value = (int)(settings.CursorIndicatorOpacity * 100f);
+
             nud_historycount.Value = settings.HistoryLength;
             nud_verticalDistance.Value = settings.LineDistance;
+        }
+
+        private void ExtendTrackbarRangeIfNeeded(TrackBar slider, int value)
+        {
+            slider.Maximum = Math.Max(slider.Maximum, value);
+            slider.Minimum = Math.Min(slider.Minimum, value);
+            slider.Value = value;
         }
 
         private void UpdateRadioButtons()
@@ -200,6 +226,8 @@ namespace PxKeystrokesUi
             UpdateRadioButtons();
             UpdateCheckboxes();
         }
+
+
 
 
     }
