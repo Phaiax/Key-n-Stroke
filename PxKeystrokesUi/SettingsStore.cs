@@ -151,6 +151,14 @@ namespace PxKeystrokesUi
             set { historyLength = value; OnSettingChanged("HistoryLength"); }
         }
 
+        private int historyTimeout;
+        public int HistoryTimeoutDefault = 20000; // ms
+        public int HistoryTimeout
+        {
+            get { return historyTimeout; }
+            set { historyTimeout = value; OnSettingChanged("HistoryTimeout"); }
+        }
+
         private bool enableCursorIndicator;
         public bool EnableCursorIndicatorDefault = true;
         public bool EnableCursorIndicator
@@ -224,6 +232,7 @@ namespace PxKeystrokesUi
 
                 SaveInt("lineDistance", lineDistance);
                 SaveInt("historyLength", historyLength);
+                SaveInt("historyTimeout", historyTimeout);
 
                 SaveBool("enableCursorIndicator", enableCursorIndicator);
                 SaveDouble("cursorIndicatorOpacity", cursorIndicatorOpacity);
@@ -266,6 +275,7 @@ namespace PxKeystrokesUi
 
             lineDistance = GetInt("lineDistance", LineDistanceDefault);
             historyLength = GetInt("historyLength", HistoryLengthDefault);
+            historyTimeout = GetInt("historyTimeout", HistoryTimeoutDefault);
 
             enableCursorIndicator = GetBool("enableCursorIndicator", EnableCursorIndicatorDefault);
             cursorIndicatorOpacity = (float) GetDouble("cursorIndicatorOpacity", CursorIndicatorOpacityDefault);
@@ -298,6 +308,7 @@ namespace PxKeystrokesUi
             Application.UserAppDataRegistry.DeleteValue("panelSize-height", false);
             Application.UserAppDataRegistry.DeleteValue("lineDistance", false);
             Application.UserAppDataRegistry.DeleteValue("historyLength", false);
+            Application.UserAppDataRegistry.DeleteValue("historyTimeout", false);
             Application.UserAppDataRegistry.DeleteValue("enableCursorIndicator", false);
             Application.UserAppDataRegistry.DeleteValue("cursorIndicatorOpacity", false);
             Application.UserAppDataRegistry.DeleteValue("cursorIndicatorColor", false);
@@ -320,6 +331,7 @@ namespace PxKeystrokesUi
             OnSettingChanged("PanelSize");
             OnSettingChanged("LineDistance");
             OnSettingChanged("HistoryLength");
+            OnSettingChanged("HistoryTimeout");
             OnSettingChanged("EnableCursorIndicator");
             OnSettingChanged("CursorIndicatorOpacity");
             OnSettingChanged("CursorIndicatorSize");
