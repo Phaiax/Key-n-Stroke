@@ -22,6 +22,8 @@ namespace PxKeystrokesUi
             IKeyboardRawEventProvider myKeyboardHook = new KeyboardHook();
             IKeystrokeEventProvider myKeystrokeConverter = new KeystrokeParser(myKeyboardHook);
 
+            IMouseRawEventProvider myMouseHook = new MouseHook();
+
             SettingsStore mySettings = new SettingsStore();
 
             Rectangle R = Screen.PrimaryScreen.WorkingArea;
