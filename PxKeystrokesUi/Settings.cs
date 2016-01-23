@@ -20,6 +20,7 @@ namespace PxKeystrokesUi
             UpdateSliderValues();
             UpdateRadioButtons();
             UpdateCheckboxes();
+            UpdateHistoryTimeoutDisplayLabel();
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -123,6 +124,17 @@ namespace PxKeystrokesUi
             settings.HistoryLength = (int)nud_historycount.Value;
         }
 
+        private void cb_enableHistoryTimeout_CheckedChanged(object sender, EventArgs e)
+        {
+            settings.EnableHistoryTimeout = cb_enableHistoryTimeout.Checked;
+        }
+
+        private void slider_history_timeout_Scroll(object sender, EventArgs e)
+        {
+            settings.HistoryTimeout = slider_history_timeout.Value;
+            UpdateHistoryTimeoutDisplayLabel();
+        }
+
         private void slider_ci_opacity_Scroll(object sender, EventArgs e)
         {
             settings.CursorIndicatorOpacity = (float)slider_ci_opacity.Value / 100f;
@@ -153,6 +165,7 @@ namespace PxKeystrokesUi
 
             nud_historycount.Value = settings.HistoryLength;
             nud_verticalDistance.Value = settings.LineDistance;
+            ExtendTrackbarRangeIfNeeded(slider_history_timeout, settings.HistoryTimeout);
         }
 
         private void ExtendTrackbarRangeIfNeeded(TrackBar slider, int value)
@@ -202,6 +215,12 @@ namespace PxKeystrokesUi
         private void UpdateCheckboxes()
         {
             cb_cursorindicator.Checked = settings.EnableCursorIndicator;
+            cb_enableHistoryTimeout.Checked = settings.EnableHistoryTimeout;
+        }
+        
+        private void UpdateHistoryTimeoutDisplayLabel()
+        {
+            label_timeout_display.Text = (slider_history_timeout.Value / 1000).ToString() + "s";
         }
 
         private void Settings_Load(object sender, EventArgs e)
@@ -225,7 +244,9 @@ namespace PxKeystrokesUi
             UpdateSliderValues();
             UpdateRadioButtons();
             UpdateCheckboxes();
+            UpdateHistoryTimeoutDisplayLabel();
         }
+
 
 
 

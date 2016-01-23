@@ -67,6 +67,10 @@
             this.label_ci_size = new System.Windows.Forms.Label();
             this.button_ci_color = new System.Windows.Forms.Button();
             this.picker_ci_color = new System.Windows.Forms.ColorDialog();
+            this.label_history_timeout = new System.Windows.Forms.Label();
+            this.slider_history_timeout = new System.Windows.Forms.TrackBar();
+            this.cb_enableHistoryTimeout = new System.Windows.Forms.CheckBox();
+            this.label_timeout_display = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.slider_opacity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.slider_fontsize)).BeginInit();
             this.groupBox_text_alignment.SuspendLayout();
@@ -79,6 +83,7 @@
             this.gb_mouse.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.slider_ci_opacity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.slider_ci_size)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.slider_history_timeout)).BeginInit();
             this.SuspendLayout();
             // 
             // button_backcolor
@@ -265,6 +270,10 @@
             // 
             // gb_text
             // 
+            this.gb_text.Controls.Add(this.label_timeout_display);
+            this.gb_text.Controls.Add(this.cb_enableHistoryTimeout);
+            this.gb_text.Controls.Add(this.slider_history_timeout);
+            this.gb_text.Controls.Add(this.label_history_timeout);
             this.gb_text.Controls.Add(this.label_historycount);
             this.gb_text.Controls.Add(this.label_verticalDistance);
             this.gb_text.Controls.Add(this.nud_historycount);
@@ -275,7 +284,7 @@
             this.gb_text.Controls.Add(this.label_fontsize);
             this.gb_text.Location = new System.Drawing.Point(168, 12);
             this.gb_text.Name = "gb_text";
-            this.gb_text.Size = new System.Drawing.Size(183, 152);
+            this.gb_text.Size = new System.Drawing.Size(183, 233);
             this.gb_text.TabIndex = 32;
             this.gb_text.TabStop = false;
             this.gb_text.Text = "Text";
@@ -354,7 +363,7 @@
             this.gb_background.Controls.Add(this.button_backcolor);
             this.gb_background.Controls.Add(this.slider_opacity);
             this.gb_background.Controls.Add(this.label_opacity);
-            this.gb_background.Location = new System.Drawing.Point(168, 170);
+            this.gb_background.Location = new System.Drawing.Point(358, 177);
             this.gb_background.Name = "gb_background";
             this.gb_background.Size = new System.Drawing.Size(183, 109);
             this.gb_background.TabIndex = 33;
@@ -411,7 +420,7 @@
             this.gb_mouse.Controls.Add(this.cb_cursorindicator);
             this.gb_mouse.Location = new System.Drawing.Point(358, 13);
             this.gb_mouse.Name = "gb_mouse";
-            this.gb_mouse.Size = new System.Drawing.Size(185, 158);
+            this.gb_mouse.Size = new System.Drawing.Size(183, 158);
             this.gb_mouse.TabIndex = 38;
             this.gb_mouse.TabStop = false;
             this.gb_mouse.Text = "Mouse";
@@ -479,6 +488,48 @@
             this.button_ci_color.UseVisualStyleBackColor = true;
             this.button_ci_color.Click += new System.EventHandler(this.button_ci_color_Click);
             // 
+            // label_history_timeout
+            // 
+            this.label_history_timeout.AutoSize = true;
+            this.label_history_timeout.Location = new System.Drawing.Point(16, 183);
+            this.label_history_timeout.Name = "label_history_timeout";
+            this.label_history_timeout.Size = new System.Drawing.Size(45, 13);
+            this.label_history_timeout.TabIndex = 40;
+            this.label_history_timeout.Text = "Timeout";
+            // 
+            // slider_history_timeout
+            // 
+            this.slider_history_timeout.Location = new System.Drawing.Point(68, 180);
+            this.slider_history_timeout.Maximum = 120000;
+            this.slider_history_timeout.Minimum = 1000;
+            this.slider_history_timeout.Name = "slider_history_timeout";
+            this.slider_history_timeout.Size = new System.Drawing.Size(104, 45);
+            this.slider_history_timeout.TabIndex = 41;
+            this.slider_history_timeout.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.slider_history_timeout.Value = 1000;
+            this.slider_history_timeout.Scroll += new System.EventHandler(this.slider_history_timeout_Scroll);
+            // 
+            // cb_enableHistoryTimeout
+            // 
+            this.cb_enableHistoryTimeout.AutoSize = true;
+            this.cb_enableHistoryTimeout.Location = new System.Drawing.Point(6, 151);
+            this.cb_enableHistoryTimeout.Name = "cb_enableHistoryTimeout";
+            this.cb_enableHistoryTimeout.Size = new System.Drawing.Size(95, 17);
+            this.cb_enableHistoryTimeout.TabIndex = 43;
+            this.cb_enableHistoryTimeout.Text = "History timeout";
+            this.cb_enableHistoryTimeout.UseVisualStyleBackColor = true;
+            this.cb_enableHistoryTimeout.CheckedChanged += new System.EventHandler(this.cb_enableHistoryTimeout_CheckedChanged);
+            // 
+            // label_timeout_display
+            // 
+            this.label_timeout_display.AutoSize = true;
+            this.label_timeout_display.Location = new System.Drawing.Point(118, 152);
+            this.label_timeout_display.Name = "label_timeout_display";
+            this.label_timeout_display.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.label_timeout_display.Size = new System.Drawing.Size(18, 13);
+            this.label_timeout_display.TabIndex = 44;
+            this.label_timeout_display.Text = "5s";
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -517,6 +568,7 @@
             this.gb_mouse.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.slider_ci_opacity)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.slider_ci_size)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.slider_history_timeout)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -562,5 +614,9 @@
         private System.Windows.Forms.TrackBar slider_ci_opacity;
         private System.Windows.Forms.Label label_ci_opacity;
         private System.Windows.Forms.ColorDialog picker_ci_color;
+        private System.Windows.Forms.Label label_timeout_display;
+        private System.Windows.Forms.CheckBox cb_enableHistoryTimeout;
+        private System.Windows.Forms.TrackBar slider_history_timeout;
+        private System.Windows.Forms.Label label_history_timeout;
     }
 }

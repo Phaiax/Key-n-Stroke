@@ -14,6 +14,14 @@ namespace PxKeystrokesUi
         #region Recycling
 
         static Stack<TweenLabel> unusedLabels = new Stack<TweenLabel>(15);
+        
+        static int debug_nextId = 1;
+        int debug_id;
+
+        void PrintDebug(String msg)
+        {
+            Console.WriteLine(debug_id.ToString() + " y:" + this.Location.Y + " '" + this.Text + "' " + msg);
+        }
 
         public static TweenLabel getNewLabel(Form form, SettingsStore s)
         {
@@ -21,15 +29,21 @@ namespace PxKeystrokesUi
             {
                 return unusedLabels.Pop().Init(form, s);
             }
-            return new TweenLabel().Init(form, s);
+            TweenLabel t = new TweenLabel().Init(form, s);
+            t.debug_id = debug_nextId;
+            debug_nextId += 1;
+            return t;
         }
 
         public void Recycle()
         {
+            PrintDebug("recyle");
             this.Parent.Controls.Remove(this);
             this.Parent = null;
             this.Visible = false;
             attachedToTimer = false;
+            TweenLabel.moveTimer.Tick -= T_Move;
+            this.historyTimeout = null;
             TweenLabel.unusedLabels.Push(this);
         }
 
@@ -39,10 +53,12 @@ namespace PxKeystrokesUi
 
         private TweenLabel Init(Form form, SettingsStore s)
         {
+            PrintDebug("revive");
             if (settings == null)
             {
                 settings = s;
                 settings.settingChanged += settingChanged;
+                this.TextChanged += TweenLabel_TextChanged;
                 this.Font = settings.LabelFont;
                 this.ForeColor = settings.TextColor;
                 this.DoubleBuffered = true;
@@ -50,6 +66,12 @@ namespace PxKeystrokesUi
 
             return this;
         }
+
+        void TweenLabel_TextChanged(object sender, EventArgs e)
+        {
+            ResetHistoryTimeoutTimer();
+        }
+
 
         private void settingChanged(SettingsChangedEventArgs e)
         {
@@ -61,17 +83,21 @@ namespace PxKeystrokesUi
                 case "TextColor":
                     this.ForeColor = settings.TextColor;
                     break;
+                case "HistoryTimeout":
+                    ResetHistoryTimeoutTimer();
+                    break;
             }
         }
 
         public void tweenFadeIn()
         {
+            PrintDebug("fade in start");
             this.Opacity = 0;
             this.Visible = true;
             Timer T = new Timer();
             T.Tick += T_FadeIn;
-            T.Start();
             T.Interval = 40; // bit more than 30 Hz
+            T.Start();
         }
 
         void T_FadeIn(object sender, EventArgs e)
@@ -82,6 +108,8 @@ namespace PxKeystrokesUi
                 Timer T = (Timer)sender;
                 T.Stop();
                 Opacity = 1;
+                PrintDebug("fade in finished");
+                ResetHistoryTimeoutTimer();
             }
             this.Refresh();
         }
@@ -91,6 +119,7 @@ namespace PxKeystrokesUi
 
         public void FadeOutAndRecycle(Func<TweenLabel, bool> onFinish)
         {
+            CancelTimeoutTimer();
             if (fadeOutTimer == null)
             {
                 fadeOutTimer = new Timer();
@@ -100,8 +129,10 @@ namespace PxKeystrokesUi
             {
                 this.Opacity = 1;
                 fadeOutOnFinish = onFinish;
-                fadeOutTimer.Start();
                 fadeOutTimer.Interval = 40; // bit more than 30 Hz
+                PrintDebug("fade out start");
+                fadeOutTimer.Start();
+                CancelTimeoutTimer();
             }
         }
 
@@ -117,10 +148,16 @@ namespace PxKeystrokesUi
                     fadeOutOnFinish(this);
                     fadeOutOnFinish = null;
                 }
+                PrintDebug("fade out finish");
                 this.Recycle();
                 return;
             }
             this.Refresh();
+        }
+
+        bool IsFadingOut()
+        {
+            return fadeOutTimer != null && fadeOutTimer.Enabled;
         }
 
         Point moveStartLocation;
@@ -259,5 +296,45 @@ namespace PxKeystrokesUi
             //base.OnPaint(e);
             DrawString(e.Graphics);
         }
+
+        Timer timeoutTimer;
+        public delegate void HistoryTimeOutEvent(TweenLabel l);
+        public event HistoryTimeOutEvent historyTimeout;
+
+        private void ResetHistoryTimeoutTimer()
+        {
+            PrintDebug("reset history timeout");
+            CancelTimeoutTimer();
+            if (!settings.EnableHistoryTimeout || IsFadingOut())
+                return;
+            if (timeoutTimer == null)
+            {
+                timeoutTimer = new Timer();
+                timeoutTimer.Tick += timeoutTimer_Tick;
+            }
+
+            timeoutTimer.Interval = settings.HistoryTimeout;
+            timeoutTimer.Start();
+        }
+
+        private void CancelTimeoutTimer()
+        {
+            if (timeoutTimer != null)
+            {
+                timeoutTimer.Stop();
+            }
+        }
+
+        void timeoutTimer_Tick(object sender, EventArgs e)
+        {
+            PrintDebug("fire history timeout");
+            CancelTimeoutTimer();
+            if (historyTimeout != null)
+            {
+                historyTimeout.Invoke(this);
+            }
+            FadeOutAndRecycle(null);
+        }
+
     }
 }

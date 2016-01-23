@@ -159,6 +159,14 @@ namespace PxKeystrokesUi
             set { historyTimeout = value; OnSettingChanged("HistoryTimeout"); }
         }
 
+        private bool enableHistoryTimeout;
+        public bool EnableHistoryTimeoutDefault = true;
+        public bool EnableHistoryTimeout
+        {
+            get { return enableHistoryTimeout; }
+            set { enableHistoryTimeout = value; OnSettingChanged("EnableHistoryTimeout"); }
+        }
+
         private bool enableCursorIndicator;
         public bool EnableCursorIndicatorDefault = true;
         public bool EnableCursorIndicator
@@ -233,6 +241,7 @@ namespace PxKeystrokesUi
                 SaveInt("lineDistance", lineDistance);
                 SaveInt("historyLength", historyLength);
                 SaveInt("historyTimeout", historyTimeout);
+                SaveBool("enableHistoryTimeout", enableHistoryTimeout);
 
                 SaveBool("enableCursorIndicator", enableCursorIndicator);
                 SaveDouble("cursorIndicatorOpacity", cursorIndicatorOpacity);
@@ -276,6 +285,7 @@ namespace PxKeystrokesUi
             lineDistance = GetInt("lineDistance", LineDistanceDefault);
             historyLength = GetInt("historyLength", HistoryLengthDefault);
             historyTimeout = GetInt("historyTimeout", HistoryTimeoutDefault);
+            enableHistoryTimeout = GetBool("enableHistoryTimeout", EnableHistoryTimeoutDefault);
 
             enableCursorIndicator = GetBool("enableCursorIndicator", EnableCursorIndicatorDefault);
             cursorIndicatorOpacity = (float) GetDouble("cursorIndicatorOpacity", CursorIndicatorOpacityDefault);
@@ -309,6 +319,7 @@ namespace PxKeystrokesUi
             Application.UserAppDataRegistry.DeleteValue("lineDistance", false);
             Application.UserAppDataRegistry.DeleteValue("historyLength", false);
             Application.UserAppDataRegistry.DeleteValue("historyTimeout", false);
+            Application.UserAppDataRegistry.DeleteValue("enableHistoryTimeout", false);
             Application.UserAppDataRegistry.DeleteValue("enableCursorIndicator", false);
             Application.UserAppDataRegistry.DeleteValue("cursorIndicatorOpacity", false);
             Application.UserAppDataRegistry.DeleteValue("cursorIndicatorColor", false);
@@ -332,6 +343,7 @@ namespace PxKeystrokesUi
             OnSettingChanged("LineDistance");
             OnSettingChanged("HistoryLength");
             OnSettingChanged("HistoryTimeout");
+            OnSettingChanged("EnableHistoryTimeout");
             OnSettingChanged("EnableCursorIndicator");
             OnSettingChanged("CursorIndicatorOpacity");
             OnSettingChanged("CursorIndicatorSize");

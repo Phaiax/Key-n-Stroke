@@ -42,7 +42,7 @@ namespace PxKeystrokesUi
             Console.WriteLine(g.ClipBounds.ToString());
             Pen p = new Pen(s.CursorIndicatorColor, 7);
             g.FillEllipse(p.Brush, 0, 0, this.Width, this.Height);
-            UpdatePosition();
+            //UpdatePosition();
         }
 
         Point cursorPosition;

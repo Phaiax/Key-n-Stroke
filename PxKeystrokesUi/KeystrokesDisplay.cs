@@ -47,6 +47,11 @@ namespace PxKeystrokesUi
             ActivateDisplayOnlyMode(true);
         }
 
+        private void KeystrokesDisplay_Shown(object sender, EventArgs e)
+        {
+            this.settings.OnSettingChangedAll();
+        }
+
         #endregion
 
         #region keystroke handler
@@ -204,6 +209,7 @@ namespace PxKeystrokesUi
             TweenLabel nTL = TweenLabel.getNewLabel(this, settings);
             nTL.Size = getLabelSize();
             nTL.Location = getLabelStartPosition();
+            nTL.historyTimeout += nTL_historyTimeout;
 
             nTL.Text = chars;
             this.Controls.Add(nTL);
@@ -233,6 +239,11 @@ namespace PxKeystrokesUi
                 tweenLabels.RemoveAt(0);
             }
 
+        }
+
+        void nTL_historyTimeout(TweenLabel l)
+        {
+            tweenLabels.Remove(l);
         }
 
         bool addingWouldFitInCurrentLine(string s)
@@ -427,10 +438,7 @@ namespace PxKeystrokesUi
 
         #endregion
 
-        private void KeystrokesDisplay_Shown(object sender, EventArgs e)
-        {
-            this.settings.OnSettingChangedAll();
-        }
+
 
 
 
