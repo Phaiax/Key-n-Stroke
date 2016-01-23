@@ -12,6 +12,7 @@ namespace PxKeystrokesUi
     public class NativeMethodsKeyboard
     {
         // Structure returned by the hook whenever a key is pressed
+        [StructLayout(LayoutKind.Sequential)]
         public struct KBDLLHOOKSTRUCT
         {
             public int vkCode;

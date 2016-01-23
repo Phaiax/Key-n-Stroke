@@ -44,6 +44,8 @@ namespace PxKeystrokesUi
         /// </summary>
         private void RegisterKeyboardHook()
         {
+            if (hookID != IntPtr.Zero)
+                return;
             proc = new NativeMethodsKeyboard.HookHandlerDelegate(HookCallback);
             using (Process curProcess = Process.GetCurrentProcess())
             {
@@ -60,7 +62,10 @@ namespace PxKeystrokesUi
         /// </summary>
         private void UnregisterKeyboardHook()
         {
+            if (hookID == IntPtr.Zero)
+                return;
             NativeMethodsKeyboard.UnhookWindowsHookEx(hookID);
+            hookID = IntPtr.Zero;
         }
 
         #endregion
@@ -186,7 +191,14 @@ namespace PxKeystrokesUi
 
         #endregion
 
-        #region IDisposable Members
+        #region Finalizing and Disposing
+
+        ~KeyboardHook()
+        {
+            Console.WriteLine("~MouseHook");
+            UnregisterKeyboardHook();
+        }
+
         /// <summary>
         /// Releases the keyboard hook.
         /// </summary>
