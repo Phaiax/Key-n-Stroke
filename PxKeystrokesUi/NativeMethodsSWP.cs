@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace PxKeystrokesUi
 {
     /// <summary>
-    /// These Method can be used to fix the window on top of everything
+    /// These Method can be used to pin the window on top of everything
     /// </summary>
     class NativeMethodsSWP
     {

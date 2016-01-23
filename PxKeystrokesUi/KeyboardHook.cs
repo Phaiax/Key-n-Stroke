@@ -155,7 +155,7 @@ namespace PxKeystrokesUi
         }
 
         /// <summary>
-        /// Uses the winapi to check weather the caps/numlock/scrolllock is activeated
+        /// Uses the winapi to check weather the caps/numlock/scrolllock is activated
         /// </summary>
         /// <param name="modifiercode"></param>
         /// <returns></returns>

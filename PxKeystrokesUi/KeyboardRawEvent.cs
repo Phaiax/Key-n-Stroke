@@ -49,7 +49,7 @@ namespace PxKeystrokesUi
         }
     }
 
-        public delegate void KeyboardRawEventHandler(KeyboardRawEventArgs e);
+    public delegate void KeyboardRawEventHandler(KeyboardRawEventArgs e);
 
     interface IKeyboardRawEventProvider : IDisposable
     {
