@@ -38,8 +38,6 @@ namespace PxKeystrokesUi
         {
             this.Location = new Point(0, 0);
             Graphics g = this.CreateGraphics();
-            Console.WriteLine(g.Clip.GetBounds(g).ToString());
-            Console.WriteLine(g.ClipBounds.ToString());
             Pen p = new Pen(s.CursorIndicatorColor, 7);
             g.FillEllipse(p.Brush, 0, 0, this.Width, this.Height);
             //UpdatePosition();

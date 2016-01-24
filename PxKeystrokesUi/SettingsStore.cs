@@ -425,7 +425,7 @@ namespace PxKeystrokesUi
 
         private string GetString(string name, string def)
         {
-            Console.WriteLine(name + " " + (string)Application.UserAppDataRegistry.GetValue(name, def));
+            Log.e("SETTINGS", name + " " + (string)Application.UserAppDataRegistry.GetValue(name, def));
             return (string) Application.UserAppDataRegistry.GetValue(name, def);
         }
     }

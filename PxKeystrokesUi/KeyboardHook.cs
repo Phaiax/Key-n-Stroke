@@ -104,6 +104,7 @@ namespace PxKeystrokesUi
                 if (e.Method != KeyUpDown.Undefined)
                 {
                     CheckModifiers(e);
+                    Log.e("KE", "EVENT " + e.Method.ToString() + " shift:" + e.Uppercase.ToString());
                     OnKeyEvent(e);
                 }
 
@@ -195,7 +196,7 @@ namespace PxKeystrokesUi
 
         ~KeyboardHook()
         {
-            Console.WriteLine("~KeyboardHook");
+            Log.e("HOOK", "~KeyboardHook");
             UnregisterKeyboardHook();
         }
 

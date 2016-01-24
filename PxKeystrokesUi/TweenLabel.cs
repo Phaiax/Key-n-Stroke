@@ -20,7 +20,7 @@ namespace PxKeystrokesUi
 
         void PrintDebug(String msg)
         {
-            Console.WriteLine(debug_id.ToString() + " y:" + this.Location.Y + " '" + this.Text + "' " + msg);
+            Log.e("TL", debug_id.ToString() + " y:" + this.Location.Y + " '" + this.Text + "' " + msg);
         }
 
         public static TweenLabel getNewLabel(Form form, SettingsStore s)
@@ -179,7 +179,7 @@ namespace PxKeystrokesUi
             {
                 TweenLabel.moveTimer.Tick += T_Move;
                 TweenLabel.moveTimerUserCount++;
-                System.Diagnostics.Debug.WriteLine(String.Format("Handler attached"));
+                Log.e("TLMove", "Handler attached");
 
                 movePercent = 0;
                 moveStartLocation = this.Location;
@@ -202,7 +202,7 @@ namespace PxKeystrokesUi
             {
                 Timer T = (Timer)sender;
                 T.Tick -= T_Move;
-                System.Diagnostics.Debug.WriteLine(String.Format("Handler removed"));
+                Log.e("TLMove", "Handler removed");
 
 
                 attachedToTimer = false;

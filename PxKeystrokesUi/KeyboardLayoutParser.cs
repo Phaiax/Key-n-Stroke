@@ -75,8 +75,8 @@ namespace PxKeystrokesUi
                         128,
                         (uint)(e.Alt ? 1 : 0));
 
-            System.Diagnostics.Debug.WriteLine(
-                    String.Format("ToUnicode: bl {0} str {1} alt {2} vk {3}", buffertype,
+            Log.e("KP",
+                    String.Format("   ToUnicode: bl {0} str {1} alt {2} vk {3}", buffertype,
                         inBuffer.ToString(), e.Alt, e.vkCode));
 
             if (buffertype < 0) // deadkey

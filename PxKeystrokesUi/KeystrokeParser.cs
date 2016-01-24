@@ -37,6 +37,8 @@ namespace PxKeystrokesUi
             e.IsFunctionKey = CheckIsFunctionKey(e);
             e.ModifierToggledEvent = CheckVkCodeIsModifier(e);
 
+            Log.e("KP", "   alpha:" + e.IsAlpha.ToString());
+
             if (e.Method == KeyUpDown.Down)
             {
                 if (e.IsAlpha && e.OnlyShiftOrCaps)
@@ -44,35 +46,42 @@ namespace PxKeystrokesUi
                     e.KeyString = ParseChar(e);
                     e.ShouldBeDisplayed = true;
                     e.StrokeType = KeystrokeType.Text;
+                    Log.e("KP", "   IsAlpha and OnlyShiftOrCaps > ParseChar");
                 }
                 else if (e.IsNumeric && e.NoModifiers)
                 {
                     e.KeyString = ParseNumeric(e);
                     e.ShouldBeDisplayed = true;
                     e.StrokeType = KeystrokeType.Text;
+                    Log.e("KP", "   e.IsNumeric && e.NoModifiers > ParseNumeric");
                 }
                 else if (e.ModifierToggledEvent) // vkcode is modifier
                 {
                     e.ShouldBeDisplayed = false;
                     AddModifier((Keys)e.vkCode, e);
                     e.StrokeType = KeystrokeType.Modifiers;
+                    Log.e("KP", "   e.ModifierToggledEvent > AddModifier " + ((Keys)e.vkCode).ToString());
                 }
                 else if (e.IsNoUnicodekey && e.NoModifiers)
                 {
                     ParseTexttViaSpecialkeysParser(e);
+                    Log.e("KP", "   e.IsNoUnicodekey && e.NoModifiers > ParseTexttViaSpecialkeysParser ");
                 }
                 else if (e.IsNoUnicodekey && !e.NoModifiers) // Shortcut
                 {
                     ParseShortcutViaSpecialkeysParser(e);
+                    Log.e("KP", "   e.IsNoUnicodekey && !e.NoModifiers > ParseShortcutViaSpecialkeysParser ");
                 }
                 else if (e.NoModifiers) // Simple Key, but not alphanumeric (first try special then unicode)
                 {
+                    Log.e("KP", "   e.NoModifiers > try SpecialkeysParser.ToString ");
                     try
                     {
                         e.KeyString = SpecialkeysParser.ToString((Keys)e.vkCode);
                     }
                     catch (NotImplementedException)
                     {
+                        Log.e("KP", "   e.NoModifiers 2> try KeyboardLayoutParser.ParseViaToUnicode ");
                         e.KeyString = KeyboardLayoutParser.ParseViaToUnicode(e);
                     }
                     e.ShouldBeDisplayed = true;
@@ -83,6 +92,8 @@ namespace PxKeystrokesUi
                 // (e.IsNoUnicodekey is always false here -> could be a unicode key combinatin)
                 {
                     e.KeyString = KeyboardLayoutParser.ParseViaToUnicode(e);
+                    
+                    Log.e("KP", "   e.OnlyShiftOrCaps > try KeyboardLayoutParser.ParseViaToUnicode ");
 
                     if (e.KeyString != "")
                     {
@@ -93,6 +104,7 @@ namespace PxKeystrokesUi
                     {
                         // Is no unicode key combination? maybe a shortcut then: Shift + F2
                         ParseShortcutViaSpecialkeysParser(e);
+                        Log.e("KP", "   e.OnlyShiftOrCaps 2> ParseShortcutViaSpecialkeysParser ");
                     }
                 }
                 else if (!e.NoModifiers && !e.OnlyShiftOrCaps) // Special Char with Strg + Alt
@@ -102,6 +114,8 @@ namespace PxKeystrokesUi
                     // could be something like the german @ (Ctrl + Alt + Q)
                     // Temporary disabled because ToUnicode returns more often values than it should
                     e.KeyString = "";// KeyboardLayoutParser.ParseViaToUnicode(e);
+                    Log.e("KP", "   !e.NoModifiers && !e.OnlyShiftOrCapss > KeyboardLayoutParser.ParseViaToUnicode = "
+                        + KeyboardLayoutParser.ParseViaToUnicode(e));
                     // all other special char keycodes do not use Shift
                     if (e.KeyString != "" && !e.Shift && !e.IsNoUnicodekey)
                     {
@@ -111,8 +125,11 @@ namespace PxKeystrokesUi
                     else // Shortcut
                     {
                         ParseShortcutViaSpecialkeysParser(e);
+                        Log.e("KP", "   !e.NoModifiers && !e.OnlyShiftOrCapss 2> ParseShortcutViaSpecialkeysParser ");
                     }
                 }
+                Log.e("KP", "   str:" + e.KeyString);
+
             }
 
             if (e.Method == KeyUpDown.Up)
@@ -123,6 +140,8 @@ namespace PxKeystrokesUi
                     RemoveModifier((Keys)e.vkCode, e);
                     e.StrokeType = KeystrokeType.Modifiers;
                 }
+                Log.e("KP", "   code:" + ((Keys)e.vkCode).ToString());
+
                 // only react to modifiers on key up, nothing else
             }
 

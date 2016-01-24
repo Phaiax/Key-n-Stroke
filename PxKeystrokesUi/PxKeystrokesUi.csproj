@@ -72,6 +72,7 @@
     <Compile Include="CursorIndicator.Designer.cs">
       <DependentUpon>CursorIndicator.cs</DependentUpon>
     </Compile>
+    <Compile Include="Log.cs" />
     <Compile Include="PxApplicationContext.cs" />
     <Compile Include="KeyboardLayoutParser.cs" />
     <Compile Include="MouseHook.cs" />

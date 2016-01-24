@@ -111,7 +111,7 @@ namespace PxKeystrokesUi
 
         ~MouseHook()
         {
-            Console.WriteLine("~MouseHook");
+            Log.e("HOOK", "~MouseHook");
             UnregisterMouseHook();
         }
 
@@ -120,7 +120,7 @@ namespace PxKeystrokesUi
         /// </summary>
         public void Dispose()
         {
-            Console.WriteLine("Dispose MouseHook");
+            Log.e("HOOK", "Dispose MouseHook");
             UnregisterMouseHook();
         }
         #endregion

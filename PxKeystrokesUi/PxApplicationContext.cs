@@ -16,6 +16,8 @@ namespace PxKeystrokesUi
 
         public PxApplicationContext()
         {
+            Log.SetTagFilter("KP,KE");
+
             InitSettings();
             InitKeyboardInterception();
 
@@ -84,7 +86,7 @@ namespace PxKeystrokesUi
         {
             if (myCursor != null)
                 return;
-            Console.WriteLine("EnableCursorIndicator");
+            Log.e("CI", "EnableCursorIndicator");
             EnableMouseHook();
             myCursor = new CursorIndicator(myMouseHook, mySettings);
             myCursor.FormClosed += myCursor_FormClosed;
@@ -102,7 +104,7 @@ namespace PxKeystrokesUi
                 return;
             myCursor.Close();
             myCursor = null;
-            Console.WriteLine("DisableCursorIndicator");
+            Log.e("CI", "DisableCursorIndicator");
         }
 
         IMouseRawEventProvider myMouseHook = null;

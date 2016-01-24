@@ -141,7 +141,7 @@ namespace PxKeystrokesUi
                 Action = MouseAction.Wheel;
                 break;
             default:
-                Console.WriteLine("Unknown Mouse Event: " + wParam.ToString());
+                Log.e("ME", "Unknown Mouse Event: " + wParam.ToString());
                 break;
             }
         }
