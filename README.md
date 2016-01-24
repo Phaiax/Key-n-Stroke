@@ -20,6 +20,7 @@ This is Open Source. If you miss a feature, go for it and send a Pull-Request af
  - One small file, no installation required
  - Visually indicate mouse cursor position
  - Visually indicate pressed buttons
+
 # Download
 
 <a href="https://github.com/Phaiax/PxKeystrokesForScreencasts/raw/master/Releases/v0.3.0/PxKeystrokesUi.exe">Download PxKeystrokesUi.exe 0.3.0</a> (most recent, 2016-01-24, Win10 tested)
