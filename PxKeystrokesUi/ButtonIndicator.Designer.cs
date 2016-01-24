@@ -1,6 +1,6 @@
 ﻿namespace PxKeystrokesUi
 {
-    partial class CursorIndicator
+    partial class ButtonIndicator
     {
         /// <summary>
         /// Required designer variable.
@@ -28,21 +28,37 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.pb_mouse = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_mouse)).BeginInit();
             this.SuspendLayout();
             // 
-            // CursorIndicator
+            // pb_mouse
+            // 
+            this.pb_mouse.BackColor = System.Drawing.Color.Transparent;
+            this.pb_mouse.Location = new System.Drawing.Point(76, 49);
+            this.pb_mouse.Name = "pb_mouse";
+            this.pb_mouse.Size = new System.Drawing.Size(62, 62);
+            this.pb_mouse.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pb_mouse.TabIndex = 0;
+            this.pb_mouse.TabStop = false;
+            // 
+            // ButtonIndicator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
-            this.Name = "CursorIndicator";
+            this.Controls.Add(this.pb_mouse);
+            this.Name = "ButtonIndicator";
             this.Text = "CursorIndicator";
+            this.Load += new System.EventHandler(this.ButtonIndicator_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.pb_mouse)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
+        private System.Windows.Forms.PictureBox pb_mouse;
 
 
 

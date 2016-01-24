@@ -16,8 +16,9 @@ namespace PxKeystrokesUi
 
         public PxApplicationContext()
         {
-            Log.SetTagFilter("KP,KE");
+            Log.SetTagFilter("BI");
 
+            ImageResources.Init();
             InitSettings();
             InitKeyboardInterception();
 
@@ -29,6 +30,7 @@ namespace PxKeystrokesUi
             this.MainForm = myUi;
 
             OnCursorIndicatorSettingChanged();
+            OnButtonIndicatorSettingChanged();
         }
 
         SettingsStore mySettings;
@@ -62,10 +64,54 @@ namespace PxKeystrokesUi
 
         private void OnSettingChanged(SettingsChangedEventArgs e)
         {
-            if (e.Name == "EnableCursorIndicator")
+            switch (e.Name)
             {
-                OnCursorIndicatorSettingChanged();
+                case "EnableCursorIndicator":
+                    OnCursorIndicatorSettingChanged();
+                    break;
+                case "ButtonIndicator":
+                    OnButtonIndicatorSettingChanged();
+                    break;
             }
+        }
+
+        private void OnButtonIndicatorSettingChanged()
+        {
+            if ( mySettings.ButtonIndicator == ButtonIndicatorType.Disabled)
+            {
+                DisableButtonIndicator();
+            }
+            else
+            {
+                EnableButtonIndicator();
+            }
+        }
+
+        ButtonIndicator myButtons = null;
+
+        private void EnableButtonIndicator()
+        {
+            if (myButtons != null)
+                return;
+            Log.e("BI", "EnableButtonIndicator");
+            EnableMouseHook();
+            myButtons = new ButtonIndicator(myMouseHook, mySettings);
+            myButtons.FormClosed += myButton_FormClosed;
+            myButtons.Show();
+        }
+
+        private void myButton_FormClosed(object sender, FormClosedEventArgs e)
+        {
+        }
+
+        private void DisableButtonIndicator()
+        {
+            if (myButtons == null)
+                return;
+            myButtons.Close();
+            myButtons = null;
+            DisableMouseHookIfNotNeeded();
+            Log.e("BI", "DisableButtonIndicator");
         }
 
         private void OnCursorIndicatorSettingChanged()
@@ -95,7 +141,6 @@ namespace PxKeystrokesUi
 
         void myCursor_FormClosed(object sender, FormClosedEventArgs e)
         {
-            DisableMouseHook();
         }
 
         private void DisableCursorIndicator()
@@ -104,6 +149,7 @@ namespace PxKeystrokesUi
                 return;
             myCursor.Close();
             myCursor = null;
+            DisableMouseHookIfNotNeeded();
             Log.e("CI", "DisableCursorIndicator");
         }
 
@@ -112,10 +158,17 @@ namespace PxKeystrokesUi
         private void EnableMouseHook()
         {
             if (myMouseHook != null)
-                DisableMouseHook();
+                return;
+                //DisableMouseHook();
             myMouseHook = new MouseHook();
         }
-        
+
+        private void DisableMouseHookIfNotNeeded()
+        {
+            if (myCursor == null && myButtons == null)
+                DisableMouseHook();
+        }
+
         private void DisableMouseHook()
         {
             if (myMouseHook == null)

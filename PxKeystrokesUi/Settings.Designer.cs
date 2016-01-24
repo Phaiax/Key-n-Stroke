@@ -71,6 +71,15 @@
             this.slider_history_timeout = new System.Windows.Forms.TrackBar();
             this.cb_enableHistoryTimeout = new System.Windows.Forms.CheckBox();
             this.label_timeout_display = new System.Windows.Forms.Label();
+            this.gb_buttonindicator = new System.Windows.Forms.GroupBox();
+            this.label_bi_angle = new System.Windows.Forms.Label();
+            this.slider_bi_angle = new System.Windows.Forms.TrackBar();
+            this.slider_bi_distance = new System.Windows.Forms.TrackBar();
+            this.label_bi_distance = new System.Windows.Forms.Label();
+            this.rb_bi_disable = new System.Windows.Forms.RadioButton();
+            this.rb_bi_icon = new System.Windows.Forms.RadioButton();
+            this.slider_bi_size = new System.Windows.Forms.TrackBar();
+            this.label_bi_size = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.slider_opacity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.slider_fontsize)).BeginInit();
             this.groupBox_text_alignment.SuspendLayout();
@@ -84,6 +93,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.slider_ci_opacity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.slider_ci_size)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.slider_history_timeout)).BeginInit();
+            this.gb_buttonindicator.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.slider_bi_angle)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.slider_bi_distance)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.slider_bi_size)).BeginInit();
             this.SuspendLayout();
             // 
             // button_backcolor
@@ -284,7 +297,7 @@
             this.gb_text.Controls.Add(this.label_fontsize);
             this.gb_text.Location = new System.Drawing.Point(168, 12);
             this.gb_text.Name = "gb_text";
-            this.gb_text.Size = new System.Drawing.Size(183, 233);
+            this.gb_text.Size = new System.Drawing.Size(183, 274);
             this.gb_text.TabIndex = 32;
             this.gb_text.TabStop = false;
             this.gb_text.Text = "Text";
@@ -530,11 +543,115 @@
             this.label_timeout_display.TabIndex = 44;
             this.label_timeout_display.Text = "5s";
             // 
+            // gb_buttonindicator
+            // 
+            this.gb_buttonindicator.Controls.Add(this.label_bi_size);
+            this.gb_buttonindicator.Controls.Add(this.rb_bi_icon);
+            this.gb_buttonindicator.Controls.Add(this.rb_bi_disable);
+            this.gb_buttonindicator.Controls.Add(this.label_bi_angle);
+            this.gb_buttonindicator.Controls.Add(this.slider_bi_angle);
+            this.gb_buttonindicator.Controls.Add(this.slider_bi_distance);
+            this.gb_buttonindicator.Controls.Add(this.label_bi_distance);
+            this.gb_buttonindicator.Controls.Add(this.slider_bi_size);
+            this.gb_buttonindicator.Location = new System.Drawing.Point(547, 13);
+            this.gb_buttonindicator.Name = "gb_buttonindicator";
+            this.gb_buttonindicator.Size = new System.Drawing.Size(183, 273);
+            this.gb_buttonindicator.TabIndex = 43;
+            this.gb_buttonindicator.TabStop = false;
+            this.gb_buttonindicator.Text = "Mouse Clicks";
+            // 
+            // label_bi_angle
+            // 
+            this.label_bi_angle.AutoSize = true;
+            this.label_bi_angle.Location = new System.Drawing.Point(20, 155);
+            this.label_bi_angle.Name = "label_bi_angle";
+            this.label_bi_angle.Size = new System.Drawing.Size(49, 13);
+            this.label_bi_angle.TabIndex = 42;
+            this.label_bi_angle.Text = "Direction";
+            // 
+            // slider_bi_angle
+            // 
+            this.slider_bi_angle.Location = new System.Drawing.Point(68, 148);
+            this.slider_bi_angle.Maximum = 65;
+            this.slider_bi_angle.Name = "slider_bi_angle";
+            this.slider_bi_angle.Size = new System.Drawing.Size(104, 45);
+            this.slider_bi_angle.TabIndex = 41;
+            this.slider_bi_angle.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.slider_bi_angle.Value = 65;
+            this.slider_bi_angle.Scroll += new System.EventHandler(this.slider_bi_angle_Scroll);
+            // 
+            // slider_bi_distance
+            // 
+            this.slider_bi_distance.Location = new System.Drawing.Point(68, 109);
+            this.slider_bi_distance.Maximum = 100;
+            this.slider_bi_distance.Minimum = 10;
+            this.slider_bi_distance.Name = "slider_bi_distance";
+            this.slider_bi_distance.Size = new System.Drawing.Size(104, 45);
+            this.slider_bi_distance.TabIndex = 40;
+            this.slider_bi_distance.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.slider_bi_distance.Value = 80;
+            this.slider_bi_distance.Scroll += new System.EventHandler(this.slider_bi_distance_Scroll);
+            // 
+            // label_bi_distance
+            // 
+            this.label_bi_distance.AutoSize = true;
+            this.label_bi_distance.Location = new System.Drawing.Point(20, 115);
+            this.label_bi_distance.Name = "label_bi_distance";
+            this.label_bi_distance.Size = new System.Drawing.Size(49, 13);
+            this.label_bi_distance.TabIndex = 1;
+            this.label_bi_distance.Text = "Distance";
+            // 
+            // rb_bi_disable
+            // 
+            this.rb_bi_disable.AutoSize = true;
+            this.rb_bi_disable.Location = new System.Drawing.Point(6, 17);
+            this.rb_bi_disable.Name = "rb_bi_disable";
+            this.rb_bi_disable.Size = new System.Drawing.Size(127, 17);
+            this.rb_bi_disable.TabIndex = 2;
+            this.rb_bi_disable.TabStop = true;
+            this.rb_bi_disable.Text = "No not indicate clicks";
+            this.rb_bi_disable.UseVisualStyleBackColor = true;
+            this.rb_bi_disable.CheckedChanged += new System.EventHandler(this.rb_bi_disable_CheckedChanged);
+            // 
+            // rb_bi_icon
+            // 
+            this.rb_bi_icon.AutoSize = true;
+            this.rb_bi_icon.Location = new System.Drawing.Point(6, 40);
+            this.rb_bi_icon.Name = "rb_bi_icon";
+            this.rb_bi_icon.Size = new System.Drawing.Size(76, 17);
+            this.rb_bi_icon.TabIndex = 43;
+            this.rb_bi_icon.TabStop = true;
+            this.rb_bi_icon.Text = "Show Icon";
+            this.rb_bi_icon.UseVisualStyleBackColor = true;
+            this.rb_bi_icon.CheckedChanged += new System.EventHandler(this.rb_bi_icon_CheckedChanged);
+            // 
+            // slider_bi_size
+            // 
+            this.slider_bi_size.Location = new System.Drawing.Point(68, 70);
+            this.slider_bi_size.Maximum = 70;
+            this.slider_bi_size.Minimum = 20;
+            this.slider_bi_size.Name = "slider_bi_size";
+            this.slider_bi_size.Size = new System.Drawing.Size(104, 45);
+            this.slider_bi_size.TabIndex = 45;
+            this.slider_bi_size.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.slider_bi_size.Value = 70;
+            this.slider_bi_size.Scroll += new System.EventHandler(this.slider_bi_size_Scroll);
+            // 
+            // label_bi_size
+            // 
+            this.label_bi_size.AutoSize = true;
+            this.label_bi_size.Location = new System.Drawing.Point(20, 76);
+            this.label_bi_size.Name = "label_bi_size";
+            this.label_bi_size.Size = new System.Drawing.Size(27, 13);
+            this.label_bi_size.TabIndex = 44;
+            this.label_bi_size.Text = "Size";
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(558, 357);
+            this.ClientSize = new System.Drawing.Size(737, 357);
+            this.Controls.Add(this.gb_buttonindicator);
             this.Controls.Add(this.gb_mouse);
             this.Controls.Add(this.bn_reset_all);
             this.Controls.Add(this.bn_reset_position);
@@ -569,6 +686,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.slider_ci_opacity)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.slider_ci_size)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.slider_history_timeout)).EndInit();
+            this.gb_buttonindicator.ResumeLayout(false);
+            this.gb_buttonindicator.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.slider_bi_angle)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.slider_bi_distance)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.slider_bi_size)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -618,5 +740,14 @@
         private System.Windows.Forms.CheckBox cb_enableHistoryTimeout;
         private System.Windows.Forms.TrackBar slider_history_timeout;
         private System.Windows.Forms.Label label_history_timeout;
+        private System.Windows.Forms.GroupBox gb_buttonindicator;
+        private System.Windows.Forms.Label label_bi_size;
+        private System.Windows.Forms.RadioButton rb_bi_icon;
+        private System.Windows.Forms.RadioButton rb_bi_disable;
+        private System.Windows.Forms.Label label_bi_angle;
+        private System.Windows.Forms.TrackBar slider_bi_angle;
+        private System.Windows.Forms.TrackBar slider_bi_distance;
+        private System.Windows.Forms.Label label_bi_distance;
+        private System.Windows.Forms.TrackBar slider_bi_size;
     }
 }

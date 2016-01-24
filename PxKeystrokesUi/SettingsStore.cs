@@ -29,6 +29,12 @@ namespace PxKeystrokesUi
         Slide
     }
 
+    public enum ButtonIndicatorType
+    {
+        Disabled,
+        PicsAroundCursor
+    }
+
     public delegate void SettingsChangedEventHandler(SettingsChangedEventArgs e);
 
     public class SettingsChangedEventArgs
@@ -199,6 +205,45 @@ namespace PxKeystrokesUi
             set { cursorIndicatorColor = value; OnSettingChanged("CursorIndicatorColor"); }
         }
 
+        private ButtonIndicatorType buttonIndicator;
+        public ButtonIndicatorType ButtonIndicatorDefault = ButtonIndicatorType.PicsAroundCursor;
+        public ButtonIndicatorType ButtonIndicator
+        {
+            get { return buttonIndicator; }
+            set { buttonIndicator = value; OnSettingChanged("ButtonIndicator"); }
+        }
+
+        private float buttonIndicatorSize;
+        public float ButtonIndicatorSizeDefault = 0.5f;
+        public float ButtonIndicatorSize
+        {
+            get { return buttonIndicatorSize; }
+            set { buttonIndicatorSize = value; OnSettingChanged("ButtonIndicatorSize"); }
+        }
+
+        private float buttonIndicatorPositionAngle;
+        public float ButtonIndicatorPositionAngleDefault = 0.25f;
+        public float ButtonIndicatorPositionAngle
+        {
+            get { return buttonIndicatorPositionAngle; }
+            set { buttonIndicatorPositionAngle = value; OnSettingChanged("ButtonIndicatorPositionAngle"); }
+        }
+
+        private int buttonIndicatorPositionDistance;
+        public int ButtonIndicatorPositionDistanceDefault = 40;
+        public int ButtonIndicatorPositionDistance
+        {
+            get { return buttonIndicatorPositionDistance; }
+            set { buttonIndicatorPositionDistance = value; OnSettingChanged("ButtonIndicatorPositionDistance"); }
+        }
+
+        private bool addButtonEventsToHistory;
+        public bool AddButtonEventsToHistoryDefault = false;
+        public bool AddButtonEventsToHistory
+        {
+            get { return addButtonEventsToHistory; }
+            set { addButtonEventsToHistory = value; OnSettingChanged("AddButtonEventsToHistory"); }
+        }
 
         public SettingsChangedEventHandler settingChanged;
         private void OnSettingChanged(string name)
@@ -209,6 +254,8 @@ namespace PxKeystrokesUi
                 this.settingChanged(new SettingsChangedEventArgs(name));
             }
         }
+
+
 
         bool dirty = true;
 
@@ -248,6 +295,11 @@ namespace PxKeystrokesUi
                 SaveColor("cursorIndicatorColor", cursorIndicatorColor);
                 SaveInt("cursorIndicatorSize-width", cursorIndicatorSize.Width);
                 SaveInt("cursorIndicatorSize-height", cursorIndicatorSize.Height);
+                SaveInt("buttonIndicator", (int) buttonIndicator);
+                SaveDouble("buttonIndicatorPositionAngle", buttonIndicatorPositionAngle);
+                SaveInt("buttonIndicatorPositionDistance", buttonIndicatorPositionDistance);
+                SaveDouble("buttonIndicatorSize", buttonIndicatorSize);
+                SaveBool("addButtonEventsToHistoryDefault", addButtonEventsToHistory);
 
             }
             dirty = false;
@@ -293,6 +345,12 @@ namespace PxKeystrokesUi
             width = GetInt("cursorIndicatorSize-width", CursorIndicatorSizeDefault.Width);
             height = GetInt("cursorIndicatorSize-height", CursorIndicatorSizeDefault.Height);
             cursorIndicatorSize = new Size(width, height);
+            
+            buttonIndicator = (ButtonIndicatorType)GetInt("buttonIndicator", (int)ButtonIndicatorDefault);
+            buttonIndicatorPositionAngle = (float)GetDouble("buttonIndicatorPositionAngle", ButtonIndicatorPositionAngleDefault);
+            buttonIndicatorPositionDistance = GetInt("buttonIndicatorPositionDistance", ButtonIndicatorPositionDistanceDefault);
+            buttonIndicatorSize = (float) GetDouble("buttonIndicatorSize", ButtonIndicatorSizeDefault);
+            addButtonEventsToHistory = GetBool("addButtonEventsToHistoryDefault", AddButtonEventsToHistoryDefault);
 
             dirty = true;
         }
@@ -325,6 +383,11 @@ namespace PxKeystrokesUi
             Application.UserAppDataRegistry.DeleteValue("cursorIndicatorColor", false);
             Application.UserAppDataRegistry.DeleteValue("cursorIndicatorSize-width", false);
             Application.UserAppDataRegistry.DeleteValue("cursorIndicatorSize-height", false);
+            Application.UserAppDataRegistry.DeleteValue("buttonIndicator", false);
+            Application.UserAppDataRegistry.DeleteValue("buttonIndicatorPositionAngle", false);
+            Application.UserAppDataRegistry.DeleteValue("buttonIndicatorPositionDistance", false);
+            Application.UserAppDataRegistry.DeleteValue("buttonIndicatorSize", false);
+            Application.UserAppDataRegistry.DeleteValue("addButtonEventsToHistoryDefault", false);
         }
 
         public void OnSettingChangedAll()
@@ -348,6 +411,11 @@ namespace PxKeystrokesUi
             OnSettingChanged("CursorIndicatorOpacity");
             OnSettingChanged("CursorIndicatorSize");
             OnSettingChanged("CursorIndicatorColor");
+            OnSettingChanged("ButtonIndicator");
+            OnSettingChanged("ButtonIndicatorPositionAngle");
+            OnSettingChanged("ButtonIndicatorPositionDistance");
+            OnSettingChanged("ButtonIndicatorSize");
+            OnSettingChanged("AddButtonEventsToHistoryDefault");
         }
 
         private void SaveColor(string name, Color value)

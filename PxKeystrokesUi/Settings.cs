@@ -154,6 +154,31 @@ namespace PxKeystrokesUi
             }
         }
 
+        private void rb_bi_disable_CheckedChanged(object sender, EventArgs e)
+        {
+            settings.ButtonIndicator = ButtonIndicatorType.Disabled;
+        }
+
+        private void rb_bi_icon_CheckedChanged(object sender, EventArgs e)
+        {
+            settings.ButtonIndicator = ButtonIndicatorType.PicsAroundCursor;
+        }
+
+        private void slider_bi_size_Scroll(object sender, EventArgs e)
+        {
+            settings.ButtonIndicatorSize = (float)slider_bi_size.Value / 100f;
+        }
+
+        private void slider_bi_distance_Scroll(object sender, EventArgs e)
+        {
+            settings.ButtonIndicatorPositionDistance = slider_bi_distance.Value;
+        }
+
+        private void slider_bi_angle_Scroll(object sender, EventArgs e)
+        {
+            settings.ButtonIndicatorPositionAngle = (float)slider_bi_angle.Value / 10f;
+        }
+
         private void UpdateSliderValues()
         {
             ExtendTrackbarRangeIfNeeded(slider_fontsize, (int)(settings.LabelFont.SizeInPoints * 100f));
@@ -166,6 +191,10 @@ namespace PxKeystrokesUi
             nud_historycount.Value = settings.HistoryLength;
             nud_verticalDistance.Value = settings.LineDistance;
             ExtendTrackbarRangeIfNeeded(slider_history_timeout, settings.HistoryTimeout);
+
+            ExtendTrackbarRangeIfNeeded(slider_bi_angle, (int)(settings.ButtonIndicatorPositionAngle * 10f));
+            ExtendTrackbarRangeIfNeeded(slider_bi_distance, settings.ButtonIndicatorPositionDistance);
+            ExtendTrackbarRangeIfNeeded(slider_bi_size, (int)(settings.ButtonIndicatorSize * 100f));
         }
 
         private void ExtendTrackbarRangeIfNeeded(TrackBar slider, int value)
@@ -210,6 +239,15 @@ namespace PxKeystrokesUi
                     break;
             }
 
+            switch(settings.ButtonIndicator)
+            {
+                case ButtonIndicatorType.Disabled:
+                    rb_bi_disable.Checked = true;
+                    break;
+                case ButtonIndicatorType.PicsAroundCursor:
+                    rb_bi_icon.Checked = true;
+                    break;
+            }
         }
 
         private void UpdateCheckboxes()
@@ -246,6 +284,8 @@ namespace PxKeystrokesUi
             UpdateCheckboxes();
             UpdateHistoryTimeoutDisplayLabel();
         }
+
+
 
 
 

@@ -10,12 +10,12 @@ using System.Windows.Forms;
 
 namespace PxKeystrokesUi
 {
-    public partial class CursorIndicator : Form
+    public partial class ButtonIndicator : Form
     {
         IMouseRawEventProvider m;
         SettingsStore s;
 
-        public CursorIndicator(IMouseRawEventProvider m, SettingsStore s)
+        public ButtonIndicator(IMouseRawEventProvider m, SettingsStore s)
         {
             InitializeComponent();
 
@@ -27,20 +27,17 @@ namespace PxKeystrokesUi
             SetFormStyles();
 
             m.MouseEvent += m_MouseEvent;
-            Paint += CursorIndicator_Paint;
             s.settingChanged += settingChanged;
 
             BackColor = Color.Lavender;
             TransparencyKey = Color.Lavender;
         }
 
-        void CursorIndicator_Paint(object sender, PaintEventArgs e)
+        private void ButtonIndicator_Load(object sender, EventArgs e)
         {
-            this.Location = new Point(0, 0);
-            Graphics g = this.CreateGraphics();
-            Pen p = new Pen(s.CursorIndicatorColor, 7);
-            g.FillEllipse(p.Brush, 0, 0, s.CursorIndicatorSize.Width, s.CursorIndicatorSize.Height);
-            //UpdatePosition();
+            pb_mouse.Image = ImageResources.mouse;
+            RecalcOffset();
+            UpdateSize();
         }
 
         Point cursorPosition;
@@ -62,7 +59,7 @@ namespace PxKeystrokesUi
         void SetFormStyles()
         {
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Opacity = s.CursorIndicatorOpacity;
+            this.Opacity = 0.8;
             NativeMethodsGWL.ClickThrough(this.Handle);
 
             UpdateSize();
@@ -73,13 +70,27 @@ namespace PxKeystrokesUi
 
         void UpdateSize()
         {
-            this.Size = s.CursorIndicatorSize;
-            this.Invalidate(new Rectangle(0, 0, this.Size.Width, this.Size.Height));
+            float sizefactor = s.ButtonIndicatorSize;
+            Size picSize = new Size( (int)(ImageResources.mouse.Width * sizefactor),
+                                     (int)(ImageResources.mouse.Height * sizefactor));
+            pb_mouse.Size = picSize;
+            pb_mouse.Location = new Point(0, 0);
+            this.Size = picSize;
+            Log.e("BI", "size change");
+        }
+
+        Size offset = new Size(0, 0);
+
+        void RecalcOffset()
+        {
+            offset.Width = (int)( s.ButtonIndicatorPositionDistance * Math.Sin(s.ButtonIndicatorPositionAngle));
+            offset.Height = (int)( s.ButtonIndicatorPositionDistance * Math.Cos(s.ButtonIndicatorPositionAngle)); 
         }
 
         void UpdatePosition()
         {
-            this.Location = Point.Subtract(cursorPosition, new Size(this.Size.Width / 2, this.Size.Height / 2));
+            Point buttonIndicatorCenter = Point.Subtract(cursorPosition, offset);
+            this.Location = Point.Subtract(buttonIndicatorCenter, new Size(this.Size.Width / 2, this.Size.Height / 2));
             //this.Location = cursorPosition;
         }
 
@@ -87,19 +98,24 @@ namespace PxKeystrokesUi
         {
             switch (e.Name)
             {
-                case "EnableCursorIndicator":
+                case "ButtonIndicator":
                     break;
-                case "CursorIndicatorOpacity":
-                    this.Opacity = s.CursorIndicatorOpacity;
+                case "ButtonIndicatorPositionAngle":
+                    RecalcOffset();
+                    UpdatePosition();
                     break;
-                case "CursorIndicatorSize":
+                case "ButtonIndicatorPositionDistance":
+                    RecalcOffset();
+                    UpdatePosition();
+                    break;
+                case "ButtonIndicatorSize":
                     UpdateSize();
-                    break;
-                case "CursorIndicatorColor":
-                    UpdateSize(); // invalidates
+                    UpdatePosition();
                     break;
             }
         }
+
+
 
 
     }
