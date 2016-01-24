@@ -245,6 +245,15 @@ namespace PxKeystrokesUi
             set { addButtonEventsToHistory = value; OnSettingChanged("AddButtonEventsToHistory"); }
         }
 
+        private bool backspaceDeletesText;
+        public bool BackspaceDeletesTextDefault = true;
+        public bool BackspaceDeletesText
+        {
+            get { return backspaceDeletesText; }
+            set { backspaceDeletesText = value; OnSettingChanged("BackspaceDeletesText"); }
+        }
+
+
         public SettingsChangedEventHandler settingChanged;
         private void OnSettingChanged(string name)
         {
@@ -301,6 +310,7 @@ namespace PxKeystrokesUi
                 SaveDouble("buttonIndicatorSize", buttonIndicatorSize);
                 SaveBool("addButtonEventsToHistoryDefault", addButtonEventsToHistory);
 
+                SaveBool("backspaceDeletesText", backspaceDeletesText);
             }
             dirty = false;
         }
@@ -352,6 +362,8 @@ namespace PxKeystrokesUi
             buttonIndicatorSize = (float) GetDouble("buttonIndicatorSize", ButtonIndicatorSizeDefault);
             addButtonEventsToHistory = GetBool("addButtonEventsToHistoryDefault", AddButtonEventsToHistoryDefault);
 
+            backspaceDeletesText = GetBool("backspaceDeletesText", BackspaceDeletesTextDefault);
+            
             dirty = true;
         }
 
@@ -387,7 +399,8 @@ namespace PxKeystrokesUi
             Application.UserAppDataRegistry.DeleteValue("buttonIndicatorPositionAngle", false);
             Application.UserAppDataRegistry.DeleteValue("buttonIndicatorPositionDistance", false);
             Application.UserAppDataRegistry.DeleteValue("buttonIndicatorSize", false);
-            Application.UserAppDataRegistry.DeleteValue("addButtonEventsToHistoryDefault", false);
+            Application.UserAppDataRegistry.DeleteValue("addButtonEventsToHistory", false);
+            Application.UserAppDataRegistry.DeleteValue("backspaceDeletesText", false);
         }
 
         public void OnSettingChangedAll()
@@ -415,7 +428,8 @@ namespace PxKeystrokesUi
             OnSettingChanged("ButtonIndicatorPositionAngle");
             OnSettingChanged("ButtonIndicatorPositionDistance");
             OnSettingChanged("ButtonIndicatorSize");
-            OnSettingChanged("AddButtonEventsToHistoryDefault");
+            OnSettingChanged("AddButtonEventsToHistory");
+            OnSettingChanged("BackspaceDeletesText");
         }
 
         private void SaveColor(string name, Color value)

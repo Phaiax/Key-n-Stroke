@@ -80,6 +80,8 @@
             this.rb_bi_icon = new System.Windows.Forms.RadioButton();
             this.slider_bi_size = new System.Windows.Forms.TrackBar();
             this.label_bi_size = new System.Windows.Forms.Label();
+            this.cb_backspace = new System.Windows.Forms.CheckBox();
+            this.cb_bi_history = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.slider_opacity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.slider_fontsize)).BeginInit();
             this.groupBox_text_alignment.SuspendLayout();
@@ -283,6 +285,7 @@
             // 
             // gb_text
             // 
+            this.gb_text.Controls.Add(this.cb_backspace);
             this.gb_text.Controls.Add(this.label_timeout_display);
             this.gb_text.Controls.Add(this.cb_enableHistoryTimeout);
             this.gb_text.Controls.Add(this.slider_history_timeout);
@@ -545,6 +548,7 @@
             // 
             // gb_buttonindicator
             // 
+            this.gb_buttonindicator.Controls.Add(this.cb_bi_history);
             this.gb_buttonindicator.Controls.Add(this.label_bi_size);
             this.gb_buttonindicator.Controls.Add(this.rb_bi_icon);
             this.gb_buttonindicator.Controls.Add(this.rb_bi_disable);
@@ -645,6 +649,28 @@
             this.label_bi_size.Size = new System.Drawing.Size(27, 13);
             this.label_bi_size.TabIndex = 44;
             this.label_bi_size.Text = "Size";
+            // 
+            // cb_backspace
+            // 
+            this.cb_backspace.AutoSize = true;
+            this.cb_backspace.Location = new System.Drawing.Point(6, 216);
+            this.cb_backspace.Name = "cb_backspace";
+            this.cb_backspace.Size = new System.Drawing.Size(153, 17);
+            this.cb_backspace.TabIndex = 45;
+            this.cb_backspace.Text = "Backspace can delete text";
+            this.cb_backspace.UseVisualStyleBackColor = true;
+            this.cb_backspace.CheckedChanged += new System.EventHandler(this.cb_backspace_CheckedChanged);
+            // 
+            // cb_bi_history
+            // 
+            this.cb_bi_history.AutoSize = true;
+            this.cb_bi_history.Location = new System.Drawing.Point(6, 183);
+            this.cb_bi_history.Name = "cb_bi_history";
+            this.cb_bi_history.Size = new System.Drawing.Size(153, 17);
+            this.cb_bi_history.TabIndex = 46;
+            this.cb_bi_history.Text = "Backspace can delete text";
+            this.cb_bi_history.UseVisualStyleBackColor = true;
+            this.cb_bi_history.CheckedChanged += new System.EventHandler(this.cb_bi_history_CheckedChanged);
             // 
             // Settings
             // 
@@ -749,5 +775,7 @@
         private System.Windows.Forms.TrackBar slider_bi_distance;
         private System.Windows.Forms.Label label_bi_distance;
         private System.Windows.Forms.TrackBar slider_bi_size;
+        private System.Windows.Forms.CheckBox cb_backspace;
+        private System.Windows.Forms.CheckBox cb_bi_history;
     }
 }

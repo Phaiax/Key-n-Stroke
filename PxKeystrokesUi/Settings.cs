@@ -179,6 +179,16 @@ namespace PxKeystrokesUi
             settings.ButtonIndicatorPositionAngle = (float)slider_bi_angle.Value / 10f;
         }
 
+        private void cb_backspace_CheckedChanged(object sender, EventArgs e)
+        {
+            settings.BackspaceDeletesText = cb_backspace.Checked;
+        }
+
+        private void cb_bi_history_CheckedChanged(object sender, EventArgs e)
+        {
+            settings.AddButtonEventsToHistory = cb_bi_history.Checked;
+        }
+
         private void UpdateSliderValues()
         {
             ExtendTrackbarRangeIfNeeded(slider_fontsize, (int)(settings.LabelFont.SizeInPoints * 100f));
@@ -254,6 +264,8 @@ namespace PxKeystrokesUi
         {
             cb_cursorindicator.Checked = settings.EnableCursorIndicator;
             cb_enableHistoryTimeout.Checked = settings.EnableHistoryTimeout;
+            cb_bi_history.Checked = settings.AddButtonEventsToHistory;
+            cb_backspace.Checked = settings.BackspaceDeletesText;
         }
         
         private void UpdateHistoryTimeoutDisplayLabel()
@@ -284,6 +296,7 @@ namespace PxKeystrokesUi
             UpdateCheckboxes();
             UpdateHistoryTimeoutDisplayLabel();
         }
+
 
 
 
