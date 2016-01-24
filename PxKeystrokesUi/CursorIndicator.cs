@@ -48,7 +48,8 @@ namespace PxKeystrokesUi
         void m_MouseEvent(MouseRawEventArgs raw_e)
         {
             cursorPosition = raw_e.Position;
-            UpdatePosition();
+            if(raw_e.Action == MouseAction.Move)
+                UpdatePosition();
         }
 
         void CursorIndicator_FormClosed(object sender, FormClosedEventArgs e)

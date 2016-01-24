@@ -13,8 +13,14 @@ namespace PxKeystrokesUi
     {
         static Assembly _assembly;
         static Stream _imageStream;
-        
-        public static Bitmap mouse;
+
+        public static Bitmap BMouse;
+        public static Bitmap BLeft;
+        public static Bitmap BRight;
+        public static Bitmap BMiddle;
+        public static Bitmap BLeftDouble;
+        public static Bitmap BRightDouble;
+        public static Bitmap BWheel;
 
         public static void Init()
         {
@@ -26,8 +32,13 @@ namespace PxKeystrokesUi
                 {
                     Log.e("RES", i);
                 }
-                _imageStream = _assembly.GetManifestResourceStream("PxKeystrokesUi.Resources.mouse.png");
-                mouse = new Bitmap(_imageStream);
+                BMouse = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesUi.Resources.mouse.png"));
+                BLeft = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesUi.Resources.mouse_left.png"));
+                BRight = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesUi.Resources.mouse_right.png"));
+                BMiddle = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesUi.Resources.mouse_middle.png"));
+                BLeftDouble = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesUi.Resources.mouse_left_double.png"));
+                BRightDouble = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesUi.Resources.mouse_right_double.png"));
+                BWheel = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesUi.Resources.mouse_wheel.png"));
             }
             catch
             {

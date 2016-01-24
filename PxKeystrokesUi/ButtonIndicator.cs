@@ -35,7 +35,14 @@ namespace PxKeystrokesUi
 
         private void ButtonIndicator_Load(object sender, EventArgs e)
         {
-            pb_mouse.Image = ImageResources.mouse;
+            panel_mouse.BackgroundImage = ImageResources.BMouse;
+            pb_left.Image = ImageResources.BLeft;
+            pb_right.Image = ImageResources.BRight;
+            pb_middle.Image = ImageResources.BMiddle;
+            pb_left_double.Image = ImageResources.BLeftDouble;
+            pb_right_double.Image = ImageResources.BRightDouble;
+            pb_wheel.Image = ImageResources.BWheel;
+
             RecalcOffset();
             UpdateSize();
         }
@@ -45,7 +52,85 @@ namespace PxKeystrokesUi
         void m_MouseEvent(MouseRawEventArgs raw_e)
         {
             cursorPosition = raw_e.Position;
-            UpdatePosition();
+            switch (raw_e.Action)
+            {
+                case MouseAction.Up:
+                    HideButton(raw_e.Button);
+                    break;
+                case MouseAction.Down:
+                    ShowButton(raw_e.Button);
+                    break;
+                case MouseAction.DblClk:
+                    break;
+                case MouseAction.Move:
+                    UpdatePosition();
+                    break;
+                case MouseAction.Wheel:
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void ShowButton(MouseButton mouseButton)
+        {
+            switch (mouseButton)
+            {
+                case MouseButton.LButton:
+                    panel_mouse.Visible = true;
+                    pb_left.Visible = true;
+                    break;
+                case MouseButton.RButton:
+                    panel_mouse.Visible = true;
+                    pb_right.Visible = true;
+                    break;
+                case MouseButton.MButton:
+                    panel_mouse.Visible = true;
+                    pb_middle.Visible = true;
+                    break;
+                case MouseButton.XButton:
+                    break;
+                case MouseButton.None:
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void HideButton(MouseButton mouseButton)
+        {
+            switch (mouseButton)
+            {
+                case MouseButton.LButton:
+                    pb_left.Visible = false;
+                    break;
+                case MouseButton.RButton:
+                    pb_right.Visible = false;
+                    break;
+                case MouseButton.MButton:
+                    pb_middle.Visible = false;
+                    break;
+                case MouseButton.XButton:
+                    break;
+                case MouseButton.None:
+                    break;
+                default:
+                    break;
+            }
+            HideMouseIfNoButtonPressed();
+        }
+
+        void HideMouseIfNoButtonPressed()
+        {
+            if( !pb_left.Visible 
+                && !pb_right.Visible 
+                && !pb_middle.Visible 
+                && !pb_left_double.Visible 
+                && !pb_right_double.Visible 
+                && !pb_wheel.Visible)
+            {
+                panel_mouse.Visible = false;
+            }
         }
 
         void CursorIndicator_FormClosed(object sender, FormClosedEventArgs e)
@@ -71,10 +156,23 @@ namespace PxKeystrokesUi
         void UpdateSize()
         {
             float sizefactor = s.ButtonIndicatorSize;
-            Size picSize = new Size( (int)(ImageResources.mouse.Width * sizefactor),
-                                     (int)(ImageResources.mouse.Height * sizefactor));
-            pb_mouse.Size = picSize;
-            pb_mouse.Location = new Point(0, 0);
+            Size picSize = new Size( (int)(ImageResources.BMouse.Width * sizefactor),
+                                     (int)(ImageResources.BMouse.Height * sizefactor));
+            panel_mouse.Size = picSize;
+            panel_mouse.Location = new Point(0, 0);
+            pb_left.Size = picSize;
+            pb_left.Location = new Point(0, 0);
+            pb_right.Size = picSize;
+            pb_right.Location = new Point(0, 0);
+            pb_middle.Size = picSize;
+            pb_middle.Location = new Point(0, 0);
+            pb_left_double.Size = picSize;
+            pb_left_double.Location = new Point(0, 0);
+            pb_right_double.Size = picSize;
+            pb_right_double.Location = new Point(0, 0);
+            pb_wheel.Size = picSize;
+            pb_wheel.Location = new Point(0, 0);
+            
             this.Size = picSize;
             Log.e("BI", "size change");
         }
