@@ -664,11 +664,12 @@
             // cb_bi_history
             // 
             this.cb_bi_history.AutoSize = true;
+            this.cb_bi_history.Enabled = false;
             this.cb_bi_history.Location = new System.Drawing.Point(6, 183);
             this.cb_bi_history.Name = "cb_bi_history";
-            this.cb_bi_history.Size = new System.Drawing.Size(153, 17);
+            this.cb_bi_history.Size = new System.Drawing.Size(96, 17);
             this.cb_bi_history.TabIndex = 46;
-            this.cb_bi_history.Text = "Backspace can delete text";
+            this.cb_bi_history.Text = "Add To History";
             this.cb_bi_history.UseVisualStyleBackColor = true;
             this.cb_bi_history.CheckedChanged += new System.EventHandler(this.cb_bi_history_CheckedChanged);
             // 

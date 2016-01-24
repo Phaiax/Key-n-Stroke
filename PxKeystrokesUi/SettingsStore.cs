@@ -86,7 +86,7 @@ namespace PxKeystrokesUi
         }
 
         private TextAlignent labelTextAlignment;
-        public TextAlignent LabelTextAlignmentDefault = TextAlignent.Center;
+        public TextAlignent LabelTextAlignmentDefault = TextAlignent.Left;
         public TextAlignent LabelTextAlignment
         {
             get { return labelTextAlignment; }
@@ -158,7 +158,7 @@ namespace PxKeystrokesUi
         }
 
         private int historyTimeout;
-        public int HistoryTimeoutDefault = 20000; // ms
+        public int HistoryTimeoutDefault = 10000; // ms
         public int HistoryTimeout
         {
             get { return historyTimeout; }
@@ -182,7 +182,7 @@ namespace PxKeystrokesUi
         }
 
         private float cursorIndicatorOpacity;
-        public float CursorIndicatorOpacityDefault = 0.25f;
+        public float CursorIndicatorOpacityDefault = 0.3f;
         public float CursorIndicatorOpacity
         {
             get { return cursorIndicatorOpacity; }
@@ -190,7 +190,7 @@ namespace PxKeystrokesUi
         }
 
         private Size cursorIndicatorSize;
-        public Size CursorIndicatorSizeDefault = new Size(73, 73);
+        public Size CursorIndicatorSizeDefault = new Size(55, 55);
         public Size CursorIndicatorSize
         {
             get { return cursorIndicatorSize; }
@@ -198,7 +198,7 @@ namespace PxKeystrokesUi
         }
 
         private Color cursorIndicatorColor;
-        public Color CursorIndicatorColorDefault = Color.FromArgb(255, 255, 128);
+        public Color CursorIndicatorColorDefault = Color.FromArgb(-32640);
         public Color CursorIndicatorColor
         {
             get { return cursorIndicatorColor; }
@@ -214,7 +214,7 @@ namespace PxKeystrokesUi
         }
 
         private float buttonIndicatorSize;
-        public float ButtonIndicatorSizeDefault = 0.5f;
+        public float ButtonIndicatorSizeDefault = 0.32f;
         public float ButtonIndicatorSize
         {
             get { return buttonIndicatorSize; }
@@ -222,7 +222,7 @@ namespace PxKeystrokesUi
         }
 
         private float buttonIndicatorPositionAngle;
-        public float ButtonIndicatorPositionAngleDefault = 0.25f;
+        public float ButtonIndicatorPositionAngleDefault = 0f;
         public float ButtonIndicatorPositionAngle
         {
             get { return buttonIndicatorPositionAngle; }
@@ -230,7 +230,7 @@ namespace PxKeystrokesUi
         }
 
         private int buttonIndicatorPositionDistance;
-        public int ButtonIndicatorPositionDistanceDefault = 40;
+        public int ButtonIndicatorPositionDistanceDefault = 56;
         public int ButtonIndicatorPositionDistance
         {
             get { return buttonIndicatorPositionDistance; }

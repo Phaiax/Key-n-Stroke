@@ -45,7 +45,6 @@ namespace PxKeystrokesUi
             addWelcomeInfo();
 
             NativeMethodsSWP.SetWindowTopMost(this.Handle);
-            NativeMethodsGWL.HideFromAltTab(this.Handle);
             ActivateDisplayOnlyMode(true);
         }
 
@@ -134,6 +133,7 @@ namespace PxKeystrokesUi
                 this.Opacity = settings.Opacity;
 
                 NativeMethodsGWL.ClickThrough(this.Handle);
+                NativeMethodsGWL.HideFromAltTab(this.Handle);
 
                 moveresize_MouseUp(null, null); // disable all dragging
 
