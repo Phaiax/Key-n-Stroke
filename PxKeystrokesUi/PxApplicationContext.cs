@@ -16,7 +16,7 @@ namespace PxKeystrokesUi
 
         public PxApplicationContext()
         {
-            Log.SetTagFilter("BI");
+            Log.SetTagFilter("ME");
 
             ImageResources.Init();
             InitSettings();

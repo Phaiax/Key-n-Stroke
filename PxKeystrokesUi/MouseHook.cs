@@ -16,11 +16,15 @@ namespace PxKeystrokesUi
 
         #region Initializion
 
+        int doubleClickTime;
+
         /// <summary>
         /// Set up the mouse hook
         /// </summary>
         public MouseHook()
         {
+            doubleClickTime = NativeMethodsMouse.GetDoubleClickTime();
+            Log.e("ME", "doubleClickTime " + doubleClickTime.ToString());
             RegisterMouseHook();
         }
 
@@ -68,6 +72,8 @@ namespace PxKeystrokesUi
 
         #region Event Handling
 
+        MouseRawEventArgs lastDownEvent;
+
         /// <summary>
         /// Processes the key event captured by the hook.
         /// </summary>
@@ -79,9 +85,32 @@ namespace PxKeystrokesUi
             {
                 MouseRawEventArgs args = new MouseRawEventArgs(lParam);
                 args.ParseWparam(wParam);
+                CheckDoubleClick(args);
+
+                Log.e("ME", String.Format("MOUSE: Button:{0} Action:{1} Orig:{2}",
+                    args.Button.ToString(), args.Action.ToString(),
+                    args.Event.ToString()));
+
                 OnMouseEvent(args);
             }
             return NativeMethodsMouse.CallNextHookEx(hookID, nCode, wParam, ref lParam);
+        }
+
+        private void CheckDoubleClick(MouseRawEventArgs args)
+        {
+            if (lastDownEvent != null && args.Action == MouseAction.Down)
+            {
+                if (args.Button == lastDownEvent.Button
+                    && args.Msllhookstruct.time <= lastDownEvent.Msllhookstruct.time + doubleClickTime
+                    && args.Msllhookstruct.pt.Equals(lastDownEvent.Msllhookstruct.pt))
+                {
+                    args.Action = MouseAction.DblClk;
+                    Log.e("ME", "DBLCLK");
+                }
+            }
+
+            if (args.Action == MouseAction.Down)
+                lastDownEvent = args;
         }
 
 

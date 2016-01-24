@@ -40,7 +40,9 @@ namespace PxKeystrokesUi
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         public static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode,
             UIntPtr wParam, ref MSLLHOOKSTRUCT lParam);
-
+        
+        [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
+        public static extern int GetDoubleClickTime();
 
         public const int WH_MOUSE_LL = 14;
         public const int HC_ACTION = 0; // The wParam and lParam parameters contain information about a mouse message.
@@ -67,6 +69,11 @@ namespace PxKeystrokesUi
             public static implicit operator POINT(System.Drawing.Point p)
             {
                 return new POINT(p.X, p.Y);
+            }
+
+            public bool Equals(POINT p2)
+            {
+                return X == p2.X && Y == p2.Y;
             }
         }
 

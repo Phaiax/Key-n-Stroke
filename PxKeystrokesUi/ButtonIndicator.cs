@@ -28,6 +28,8 @@ namespace PxKeystrokesUi
 
             m.MouseEvent += m_MouseEvent;
             s.settingChanged += settingChanged;
+            DoubleClickIconTimer.Tick += leftDoubleClickIconTimeout_Tick;
+            DoubleClickIconTimer.Interval = 750;
 
             BackColor = Color.Lavender;
             TransparencyKey = Color.Lavender;
@@ -48,6 +50,7 @@ namespace PxKeystrokesUi
         }
 
         Point cursorPosition;
+        MouseRawEventArgs lastDblClk;
 
         void m_MouseEvent(MouseRawEventArgs raw_e)
         {
@@ -55,12 +58,14 @@ namespace PxKeystrokesUi
             switch (raw_e.Action)
             {
                 case MouseAction.Up:
-                    HideButton(raw_e.Button);
+                    HideButton(raw_e);
                     break;
                 case MouseAction.Down:
                     ShowButton(raw_e.Button);
                     break;
                 case MouseAction.DblClk:
+                    lastDblClk = raw_e;
+                    IndicateDoubleClick(raw_e.Button);
                     break;
                 case MouseAction.Move:
                     UpdatePosition();
@@ -72,6 +77,30 @@ namespace PxKeystrokesUi
             }
         }
 
+
+        private void IndicateDoubleClick(MouseButton mouseButton)
+        {
+            switch (mouseButton)
+            {
+                case MouseButton.LButton:
+                    panel_mouse.Visible = true;
+                    pb_left.Visible = false;
+                    pb_left_double.Visible = true;                
+                    break;
+                case MouseButton.RButton:
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        void leftDoubleClickIconTimeout_Tick(object sender, EventArgs e)
+        {
+            ((Timer)sender).Stop();
+            pb_left_double.Visible = false;
+            HideMouseIfNoButtonPressed();
+        }
+
         private void ShowButton(MouseButton mouseButton)
         {
             switch (mouseButton)
@@ -79,14 +108,18 @@ namespace PxKeystrokesUi
                 case MouseButton.LButton:
                     panel_mouse.Visible = true;
                     pb_left.Visible = true;
+                    pb_left_double.Visible = false;
+                    UpdatePosition();
                     break;
                 case MouseButton.RButton:
                     panel_mouse.Visible = true;
                     pb_right.Visible = true;
+                    UpdatePosition();
                     break;
                 case MouseButton.MButton:
                     panel_mouse.Visible = true;
                     pb_middle.Visible = true;
+                    UpdatePosition();
                     break;
                 case MouseButton.XButton:
                     break;
@@ -97,12 +130,26 @@ namespace PxKeystrokesUi
             }
         }
 
-        private void HideButton(MouseButton mouseButton)
+        Timer DoubleClickIconTimer = new Timer();
+
+        private void HideButton(MouseRawEventArgs raw_e)
         {
-            switch (mouseButton)
+            switch (raw_e.Button)
             {
                 case MouseButton.LButton:
                     pb_left.Visible = false;
+                    if (pb_left_double.Visible)
+                    {
+                        if( raw_e.Msllhookstruct.time - lastDblClk.Msllhookstruct.time > DoubleClickIconTimer.Interval)
+                        {
+                            pb_left_double.Visible = false;
+                        }
+                        else
+                        {
+                            DoubleClickIconTimer.Stop();
+                            DoubleClickIconTimer.Start();
+                        }
+                    }
                     break;
                 case MouseButton.RButton:
                     pb_right.Visible = false;
@@ -187,9 +234,21 @@ namespace PxKeystrokesUi
 
         void UpdatePosition()
         {
+            if (OnlyDblClkIconVisible())
+                return;
             Point buttonIndicatorCenter = Point.Subtract(cursorPosition, offset);
             this.Location = Point.Subtract(buttonIndicatorCenter, new Size(this.Size.Width / 2, this.Size.Height / 2));
             //this.Location = cursorPosition;
+        }
+
+        private bool OnlyDblClkIconVisible()
+        {
+            return !pb_left.Visible 
+            && !pb_right.Visible 
+            && !pb_middle.Visible 
+            && !pb_wheel.Visible
+            && (pb_left_double.Visible 
+                || pb_right_double.Visible);
         }
 
         private void settingChanged(SettingsChangedEventArgs e)
