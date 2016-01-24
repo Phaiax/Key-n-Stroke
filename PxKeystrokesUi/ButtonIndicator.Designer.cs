@@ -29,19 +29,21 @@
         private void InitializeComponent()
         {
             this.pb_left = new System.Windows.Forms.PictureBox();
-            this.pb_wheel = new System.Windows.Forms.PictureBox();
             this.pb_right = new System.Windows.Forms.PictureBox();
             this.pb_left_double = new System.Windows.Forms.PictureBox();
             this.pb_right_double = new System.Windows.Forms.PictureBox();
             this.pb_middle = new System.Windows.Forms.PictureBox();
             this.panel_mouse = new System.Windows.Forms.Panel();
+            this.pb_wheel_up = new System.Windows.Forms.PictureBox();
+            this.pb_wheel_down = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pb_left)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_wheel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_right)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_left_double)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_right_double)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_middle)).BeginInit();
             this.panel_mouse.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_wheel_up)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_wheel_down)).BeginInit();
             this.SuspendLayout();
             // 
             // pb_left
@@ -54,17 +56,6 @@
             this.pb_left.TabIndex = 1;
             this.pb_left.TabStop = false;
             this.pb_left.Visible = false;
-            // 
-            // pb_wheel
-            // 
-            this.pb_wheel.BackColor = System.Drawing.Color.Transparent;
-            this.pb_wheel.Location = new System.Drawing.Point(71, 88);
-            this.pb_wheel.Name = "pb_wheel";
-            this.pb_wheel.Size = new System.Drawing.Size(62, 62);
-            this.pb_wheel.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pb_wheel.TabIndex = 2;
-            this.pb_wheel.TabStop = false;
-            this.pb_wheel.Visible = false;
             // 
             // pb_right
             // 
@@ -113,9 +104,10 @@
             // panel_mouse
             // 
             this.panel_mouse.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.panel_mouse.Controls.Add(this.pb_wheel_down);
+            this.panel_mouse.Controls.Add(this.pb_wheel_up);
             this.panel_mouse.Controls.Add(this.pb_left);
             this.panel_mouse.Controls.Add(this.pb_middle);
-            this.panel_mouse.Controls.Add(this.pb_wheel);
             this.panel_mouse.Controls.Add(this.pb_right_double);
             this.panel_mouse.Controls.Add(this.pb_right);
             this.panel_mouse.Controls.Add(this.pb_left_double);
@@ -123,6 +115,28 @@
             this.panel_mouse.Name = "panel_mouse";
             this.panel_mouse.Size = new System.Drawing.Size(260, 189);
             this.panel_mouse.TabIndex = 7;
+            // 
+            // pb_wheel_up
+            // 
+            this.pb_wheel_up.BackColor = System.Drawing.Color.Transparent;
+            this.pb_wheel_up.Location = new System.Drawing.Point(83, 88);
+            this.pb_wheel_up.Name = "pb_wheel_up";
+            this.pb_wheel_up.Size = new System.Drawing.Size(62, 28);
+            this.pb_wheel_up.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pb_wheel_up.TabIndex = 7;
+            this.pb_wheel_up.TabStop = false;
+            this.pb_wheel_up.Visible = false;
+            // 
+            // pb_wheel_down
+            // 
+            this.pb_wheel_down.BackColor = System.Drawing.Color.Transparent;
+            this.pb_wheel_down.Location = new System.Drawing.Point(83, 156);
+            this.pb_wheel_down.Name = "pb_wheel_down";
+            this.pb_wheel_down.Size = new System.Drawing.Size(62, 28);
+            this.pb_wheel_down.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pb_wheel_down.TabIndex = 8;
+            this.pb_wheel_down.TabStop = false;
+            this.pb_wheel_down.Visible = false;
             // 
             // ButtonIndicator
             // 
@@ -134,12 +148,13 @@
             this.Text = "CursorIndicator";
             this.Load += new System.EventHandler(this.ButtonIndicator_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pb_left)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_wheel)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_right)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_left_double)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_right_double)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_middle)).EndInit();
             this.panel_mouse.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pb_wheel_up)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_wheel_down)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -147,12 +162,13 @@
         #endregion
 
         private System.Windows.Forms.PictureBox pb_left;
-        private System.Windows.Forms.PictureBox pb_wheel;
         private System.Windows.Forms.PictureBox pb_right;
         private System.Windows.Forms.PictureBox pb_left_double;
         private System.Windows.Forms.PictureBox pb_right_double;
         private System.Windows.Forms.PictureBox pb_middle;
         private System.Windows.Forms.Panel panel_mouse;
+        private System.Windows.Forms.PictureBox pb_wheel_down;
+        private System.Windows.Forms.PictureBox pb_wheel_up;
 
 
 

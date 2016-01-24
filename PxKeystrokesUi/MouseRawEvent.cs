@@ -50,6 +50,7 @@ namespace PxKeystrokesUi
         public MouseEventType Event;
         public MouseButton Button;
         public MouseAction Action;
+        public int wheelDelta = 0;
 
         public MouseRawEventArgs(NativeMethodsMouse.MSLLHOOKSTRUCT msllhookstruct)
         {
@@ -134,11 +135,18 @@ namespace PxKeystrokesUi
                 Event = MouseEventType.MOUSEWHEEL1;
                 Button = MouseButton.None;
                 Action = MouseAction.Wheel;
+                    
+                unchecked {
+                    wheelDelta = BitConverter.ToInt16(BitConverter.GetBytes(Msllhookstruct.mouseData), 2);
+                }
                 break;
             case NativeMethodsMouse.WM_MOUSEHWHEEL2:
                 Event = MouseEventType.MOUSEHWHEEL2;
                 Button = MouseButton.None;
                 Action = MouseAction.Wheel;
+                unchecked {
+                    wheelDelta = BitConverter.ToInt16(BitConverter.GetBytes(Msllhookstruct.mouseData), 2);
+                }
                 break;
             default:
                 Log.e("ME", "Unknown Mouse Event: " + wParam.ToString());

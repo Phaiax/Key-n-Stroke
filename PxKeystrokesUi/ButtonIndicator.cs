@@ -30,10 +30,15 @@ namespace PxKeystrokesUi
             s.settingChanged += settingChanged;
             DoubleClickIconTimer.Tick += leftDoubleClickIconTimeout_Tick;
             DoubleClickIconTimer.Interval = 750;
+            
+            WheelIconTimer.Interval = 750;
+            WheelIconTimer.Tick += WheelIconTimer_Tick;
 
             BackColor = Color.Lavender;
             TransparencyKey = Color.Lavender;
         }
+
+
 
         private void ButtonIndicator_Load(object sender, EventArgs e)
         {
@@ -43,7 +48,9 @@ namespace PxKeystrokesUi
             pb_middle.Image = ImageResources.BMiddle;
             pb_left_double.Image = ImageResources.BLeftDouble;
             pb_right_double.Image = ImageResources.BRightDouble;
-            pb_wheel.Image = ImageResources.BWheel;
+            pb_wheel_up.Image = ImageResources.BWheelUp;
+            pb_wheel_down.Image = ImageResources.BWheelDown;
+            
 
             RecalcOffset();
             UpdateSize();
@@ -71,12 +78,41 @@ namespace PxKeystrokesUi
                     UpdatePosition();
                     break;
                 case MouseAction.Wheel:
+                    IndicateWheel(raw_e);
                     break;
                 default:
                     break;
             }
         }
 
+        Timer WheelIconTimer = new Timer();
+
+        private void IndicateWheel(MouseRawEventArgs raw_e)
+        {
+            panel_mouse.Visible = true;
+            Log.e("WHEEL", "Display " + raw_e.wheelDelta.ToString());
+            WheelIconTimer.Stop();
+            WheelIconTimer.Start();
+            if(raw_e.wheelDelta < 0)
+            {
+                pb_wheel_down.Visible = true;
+                pb_wheel_up.Visible = false;
+            } 
+            else if(raw_e.wheelDelta > 0)
+            {
+                pb_wheel_up.Visible = true;
+                pb_wheel_down.Visible = false;
+            }
+        }
+
+        void WheelIconTimer_Tick(object sender, EventArgs e)
+        {
+            WheelIconTimer.Stop();
+            Log.e("WHEEL", "Hide "); 
+            pb_wheel_down.Visible = false;
+            pb_wheel_up.Visible = false;
+            HideMouseIfNoButtonPressed();
+        }
 
         private void IndicateDoubleClick(MouseButton mouseButton)
         {
@@ -85,7 +121,8 @@ namespace PxKeystrokesUi
                 case MouseButton.LButton:
                     panel_mouse.Visible = true;
                     pb_left.Visible = false;
-                    pb_left_double.Visible = true;                
+                    pb_left_double.Visible = true;
+                    doubleClickReleased = false;
                     break;
                 case MouseButton.RButton:
                     break;
@@ -131,6 +168,7 @@ namespace PxKeystrokesUi
         }
 
         Timer DoubleClickIconTimer = new Timer();
+        bool doubleClickReleased = true;
 
         private void HideButton(MouseRawEventArgs raw_e)
         {
@@ -138,6 +176,7 @@ namespace PxKeystrokesUi
             {
                 case MouseButton.LButton:
                     pb_left.Visible = false;
+                    doubleClickReleased = true;
                     if (pb_left_double.Visible)
                     {
                         if( raw_e.Msllhookstruct.time - lastDblClk.Msllhookstruct.time > DoubleClickIconTimer.Interval)
@@ -172,9 +211,10 @@ namespace PxKeystrokesUi
             if( !pb_left.Visible 
                 && !pb_right.Visible 
                 && !pb_middle.Visible 
-                && !pb_left_double.Visible 
-                && !pb_right_double.Visible 
-                && !pb_wheel.Visible)
+                && !pb_left_double.Visible
+                && !pb_right_double.Visible
+                && !pb_wheel_down.Visible
+                && !pb_wheel_up.Visible)
             {
                 panel_mouse.Visible = false;
             }
@@ -217,8 +257,10 @@ namespace PxKeystrokesUi
             pb_left_double.Location = new Point(0, 0);
             pb_right_double.Size = picSize;
             pb_right_double.Location = new Point(0, 0);
-            pb_wheel.Size = picSize;
-            pb_wheel.Location = new Point(0, 0);
+            pb_wheel_up.Size = picSize;
+            pb_wheel_up.Location = new Point(0, 0);
+            pb_wheel_down.Size = picSize;
+            pb_wheel_down.Location = new Point(0, 0);
             
             this.Size = picSize;
             Log.e("BI", "size change");
@@ -234,7 +276,7 @@ namespace PxKeystrokesUi
 
         void UpdatePosition()
         {
-            if (OnlyDblClkIconVisible())
+            if (OnlyDblClkIconVisible() && doubleClickReleased)
                 return;
             Point buttonIndicatorCenter = Point.Subtract(cursorPosition, offset);
             this.Location = Point.Subtract(buttonIndicatorCenter, new Size(this.Size.Width / 2, this.Size.Height / 2));
@@ -245,8 +287,9 @@ namespace PxKeystrokesUi
         {
             return !pb_left.Visible 
             && !pb_right.Visible 
-            && !pb_middle.Visible 
-            && !pb_wheel.Visible
+            && !pb_middle.Visible
+            && !pb_wheel_up.Visible
+            && !pb_wheel_down.Visible
             && (pb_left_double.Visible 
                 || pb_right_double.Visible);
         }

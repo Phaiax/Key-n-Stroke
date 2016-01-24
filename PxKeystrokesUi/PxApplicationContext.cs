@@ -16,7 +16,7 @@ namespace PxKeystrokesUi
 
         public PxApplicationContext()
         {
-            Log.SetTagFilter("ME");
+            Log.SetTagFilter("WHEEL");
 
             ImageResources.Init();
             InitSettings();
