@@ -104,6 +104,7 @@ namespace PxKeystrokesUi
                 if (e.Method != KeyUpDown.Undefined)
                 {
                     CheckModifiers(e);
+                    FixKeyStateArray(e);
                     Log.e("KE", "EVENT " + e.Method.ToString() + " shift:" + e.Uppercase.ToString());
                     OnKeyEvent(e);
                 }
@@ -170,6 +171,29 @@ namespace PxKeystrokesUi
             return (NativeMethodsKeyboard.GetKeyState((int)modifiercode) & 0x0001) != 0;
         }
 
+
+        private void FixKeyStateArray(KeyboardRawEventArgs e)
+        {
+            if (e.Uppercase)
+            {
+                e.keyState[(int)Keys.ShiftKey] = 129;
+
+            }
+            return;
+            e.keyState[(int)Keys.LShiftKey] = (byte)(e.LShift ? 129 : 1);
+            e.keyState[(int)Keys.RShiftKey] = (byte)(e.RShift ? 129 : 1);
+            e.keyState[(int)Keys.CapsLock] = (byte)(e.Caps ? 129 : 1);
+            e.keyState[(int)Keys.ControlKey] = (byte)(e.Ctrl ? 129 : 1);
+            e.keyState[(int)Keys.Menu] = (byte)(e.Alt ? 129 : 1);
+            e.keyState[(int)Keys.LWin] = (byte)(e.LWin ? 129 : 1);
+            e.keyState[(int)Keys.RWin] = (byte)(e.RWin ? 129 : 1);
+            e.keyState[(int)Keys.NumLock] = (byte)(e.Numlock ? 129 : 1);
+            e.keyState[(int)Keys.Scroll] = (byte)(e.Scrollock ? 129 : 1);
+            e.keyState[(int)Keys.LControlKey] = (byte)(e.LCtrl ? 129 : 1);
+            e.keyState[(int)Keys.RControlKey] = (byte)(e.RCtrl ? 129 : 1);
+            e.keyState[(int)Keys.LMenu] = (byte)(e.LAlt ? 129 : 1);
+            e.keyState[(int)Keys.RMenu] = (byte)(e.RAlt ? 129 : 1);
+        }
 
         #endregion
 

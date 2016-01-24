@@ -165,7 +165,7 @@ namespace PxKeystrokesUi
                     break;
                 case "WindowLocation":
                     this.Location = settings.WindowLocation;
-                    System.Diagnostics.Debug.WriteLine(String.Format("Apply X: {0}", settings.WindowLocation.X));
+                    Log.e("KD", String.Format("Apply X: {0}", settings.WindowLocation.X));
                     break;
                 case "WindowSize":
                     this.Size = settings.WindowSize;

@@ -42,7 +42,8 @@ namespace PxKeystrokesUi
             this.Parent = null;
             this.Visible = false;
             attachedToTimer = false;
-            TweenLabel.moveTimer.Tick -= T_Move;
+            if (TweenLabel.moveTimer != null)
+                TweenLabel.moveTimer.Tick -= T_Move;
             this.historyTimeout = null;
             TweenLabel.unusedLabels.Push(this);
         }

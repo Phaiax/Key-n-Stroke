@@ -113,7 +113,7 @@ namespace PxKeystrokesUi
 
                     // could be something like the german @ (Ctrl + Alt + Q)
                     // Temporary disabled because ToUnicode returns more often values than it should
-                    e.KeyString = "";// KeyboardLayoutParser.ParseViaToUnicode(e);
+                    e.KeyString = ""; //KeyboardLayoutParser.ParseViaToUnicode(e);
                     Log.e("KP", "   !e.NoModifiers && !e.OnlyShiftOrCapss > KeyboardLayoutParser.ParseViaToUnicode = "
                         + KeyboardLayoutParser.ParseViaToUnicode(e));
                     // all other special char keycodes do not use Shift
@@ -125,6 +125,13 @@ namespace PxKeystrokesUi
                     else // Shortcut
                     {
                         ParseShortcutViaSpecialkeysParser(e);
+                        string possibleChar = KeyboardLayoutParser.ParseViaToUnicode(e);
+                        if (possibleChar != "" && !CheckIsAlpha(possibleChar) 
+                                        && !CheckIsNumeric(possibleChar)
+                                        && CheckIsASCII(possibleChar))
+                        {
+                            e.KeyString += " (" + possibleChar + ")";
+                        }
                         Log.e("KP", "   !e.NoModifiers && !e.OnlyShiftOrCapss 2> ParseShortcutViaSpecialkeysParser ");
                     }
                 }
@@ -255,17 +262,47 @@ namespace PxKeystrokesUi
 
         bool CheckIsAlpha(KeyboardRawEventArgs e)
         {
-            return ((int)Keys.A <= e.vkCode && e.vkCode <= (int)Keys.Z);
+            return CheckIsAlpha(e.vkCode);
+        }
+
+        bool CheckIsAlpha(int vkCode)
+        {
+            return ((int)Keys.A <= vkCode && vkCode <= (int)Keys.Z);
+        }
+
+        bool CheckIsAlpha(string s)
+        {
+            return (s.Length == 1 && ( (s[0] >= 'a' && s[0] <= 'z') || (s[0] >= 'A' && s[0] <= 'Z')));
+        }
+
+        bool CheckIsASCII(string s)
+        {
+            return (s.Length == 1 && ((s[0] >= 32 && s[0] <= 126) ));
         }
 
         bool CheckIsNumericFromNumpad(KeyboardRawEventArgs e)
         {
-            return ((int)Keys.NumPad0 <= e.vkCode && e.vkCode <= (int)Keys.NumPad9);
+            return CheckIsNumericFromNumpad(e.vkCode);
         }
 
+        bool CheckIsNumericFromNumpad(int vkCode)
+        {
+            return ((int)Keys.NumPad0 <= vkCode && vkCode <= (int)Keys.NumPad9);
+        }
+
+        bool CheckIsNumeric(string s)
+        {
+            return (s.Length == 1 && (s[0] >= '0' && s[0] <= '9'));
+        }
+        
         bool CheckIsNumericFromNumbers(KeyboardRawEventArgs e)
         {
-            return ((int)Keys.D0 <= e.vkCode && e.vkCode <= (int)Keys.D9);
+            return CheckIsNumericFromNumbers(e.vkCode);
+        }
+
+        bool CheckIsNumericFromNumbers(int vkCode)
+        {
+            return ((int)Keys.D0 <= vkCode && vkCode <= (int)Keys.D9);
         }
 
         bool CheckIsFunctionKey(KeyboardRawEventArgs e)

@@ -78,10 +78,21 @@ namespace PxKeystrokesUi
             Log.e("KP",
                     String.Format("   ToUnicode: bl {0} str {1} alt {2} vk {3}", buffertype,
                         inBuffer.ToString(), e.Alt, e.vkCode));
+            string keystate = "";
+            for (int i = 0; i < e.keyState.Length; i++ )
+            {
+                if(e.keyState[i] != 0)
+                {
+                    keystate += " " + ((WindowsVirtualKey) i).ToString() + ":" + e.keyState[i];
+
+                }
+            }
+
+                Log.e("KP", "             : " + keystate);
 
             if (buffertype < 0) // deadkey
             {
-                
+                return inBuffer.ToString(0, 1);
             }
             else if (buffertype >= 1) // buffertype chars in inBuffer[0..buffertype]
             {
