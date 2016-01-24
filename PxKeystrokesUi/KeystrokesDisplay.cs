@@ -21,6 +21,7 @@ namespace PxKeystrokesUi
         List<TweenLabel> tweenLabels = new List<TweenLabel>(5);
         bool LastHistoryLineIsText = false;
         bool LastHistoryLineRequiredNewLineAfterwards = false;
+        int NumberOfDeletionsAllowed = 0;
 
         SettingsStore settings;
 
@@ -62,22 +63,49 @@ namespace PxKeystrokesUi
             CheckForSettingsMode(e);
             if (e.ShouldBeDisplayed)
             {
-                if (e.RequiresNewLine
+                if(!e.RequiresNewLine
+                    && NumberOfDeletionsAllowed > 0
+                    && LastHistoryLineIsText
+                    && !LastHistoryLineRequiredNewLineAfterwards
+                    && e.NoModifiers
+                    && e.Key == Keys.Back)
+                {
+                    Log.e("BS", "delete last char");
+                    Log.e("BS", "NumberOfDeletionsAllowed " + NumberOfDeletionsAllowed.ToString());
+                    if (!removeLastChar())
+                    {
+                        // again
+                        Log.e("BS", " failed");
+                        NumberOfDeletionsAllowed = 0;
+                        k_KeystrokeEvent(e);
+                        return;
+                    }
+                }
+                else if (e.RequiresNewLine
                     || !addingWouldFitInCurrentLine(e.ToString(false))
                     || !LastHistoryLineIsText
                     || LastHistoryLineRequiredNewLineAfterwards)
                 {
                     addNextLine(e.ToString(false));
+                    NumberOfDeletionsAllowed = e.Deletable ? 1 : 0;
+                    Log.e("BS", "NumberOfDeletionsAllowed " + NumberOfDeletionsAllowed.ToString());
                 }
                 else
                 {
+                    Log.e("BS", "add to line ");
                     addToLine(e.ToString(false));
+                    if (e.Deletable)
+                        NumberOfDeletionsAllowed += 1;
+                    else
+                        NumberOfDeletionsAllowed = 0;
+                    Log.e("BS", "NumberOfDeletionsAllowed " + NumberOfDeletionsAllowed.ToString());
                 }
 
                 LastHistoryLineIsText = e.StrokeType == KeystrokeType.Text;
                 LastHistoryLineRequiredNewLineAfterwards = e.RequiresNewLineAfterwards;
             }
         }
+
 
         void addWelcomeInfo()
         {
@@ -203,7 +231,17 @@ namespace PxKeystrokesUi
             T.Refresh();
         }
 
-        
+        private bool removeLastChar()
+        {
+            TweenLabel T = tweenLabels[tweenLabels.Count - 1];
+            if (T.Text.Length == 0)
+                return false;
+            T.Text = T.Text.Substring(0, T.Text.Length - 1);
+            NumberOfDeletionsAllowed -= 1;
+            T.Text = HttpUtility.UrlDecode(T.Text, Encoding.UTF8);
+            T.Refresh();
+            return true;
+        }
 
         void addNextLine(string chars)
         {

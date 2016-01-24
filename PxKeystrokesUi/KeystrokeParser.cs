@@ -47,6 +47,7 @@ namespace PxKeystrokesUi
                     e.KeyString = ParseChar(e);
                     e.ShouldBeDisplayed = true;
                     e.StrokeType = KeystrokeType.Text;
+                    e.Deletable = true;
                     Log.e("KP", "   IsAlpha and OnlyShiftOrCaps > ParseChar");
                 }
                 else if (e.IsNumeric && e.NoModifiers)
@@ -54,6 +55,7 @@ namespace PxKeystrokesUi
                     e.KeyString = ParseNumeric(e);
                     e.ShouldBeDisplayed = true;
                     e.StrokeType = KeystrokeType.Text;
+                    e.Deletable = true;
                     Log.e("KP", "   e.IsNumeric && e.NoModifiers > ParseNumeric");
                 }
                 else if (e.ModifierToggledEvent) // vkcode is modifier
@@ -101,6 +103,7 @@ namespace PxKeystrokesUi
                     {
                         e.ShouldBeDisplayed = true;
                         e.StrokeType = KeystrokeType.Text;
+                        e.Deletable = true;
                     }
                     else
                     {
@@ -122,6 +125,7 @@ namespace PxKeystrokesUi
                     {
                         e.ShouldBeDisplayed = true;
                         e.StrokeType = KeystrokeType.Text;
+                        e.Deletable = true;
                     }
                     else // Shortcut
                     {

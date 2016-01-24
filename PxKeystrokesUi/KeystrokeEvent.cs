@@ -30,6 +30,7 @@ namespace PxKeystrokesUi
         public bool ShouldBeDisplayed;
         public bool RequiresNewLine;
         public bool RequiresNewLineAfterwards;
+        public bool Deletable = false;
 
         public bool IsNumeric { get { return IsNumericFromNumbers || IsNumericFromNumpad;  } }
 
