@@ -145,6 +145,7 @@
             this.ClientSize = new System.Drawing.Size(284, 261);
             this.Controls.Add(this.panel_mouse);
             this.Name = "ButtonIndicator";
+            this.ShowInTaskbar = false;
             this.Text = "CursorIndicator";
             this.Load += new System.EventHandler(this.ButtonIndicator_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pb_left)).EndInit();

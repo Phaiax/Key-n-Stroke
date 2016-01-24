@@ -233,6 +233,7 @@ namespace PxKeystrokesUi
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Opacity = 0.8;
             NativeMethodsGWL.ClickThrough(this.Handle);
+            NativeMethodsGWL.HideFromAltTab(this.Handle);
 
             UpdateSize();
             UpdatePosition();

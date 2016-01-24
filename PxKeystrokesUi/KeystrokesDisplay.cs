@@ -44,6 +44,7 @@ namespace PxKeystrokesUi
             addWelcomeInfo();
 
             NativeMethodsSWP.SetWindowTopMost(this.Handle);
+            NativeMethodsGWL.HideFromAltTab(this.Handle);
             ActivateDisplayOnlyMode(true);
         }
 

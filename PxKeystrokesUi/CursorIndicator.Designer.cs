@@ -36,6 +36,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
             this.Name = "CursorIndicator";
+            this.ShowInTaskbar = false;
             this.Text = "CursorIndicator";
             this.ResumeLayout(false);
 

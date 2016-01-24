@@ -36,6 +36,14 @@ namespace PxKeystrokesUi
             SetWindowLong(Handle, GWL.GWL_EXSTYLE, changed_val);
         }
 
+        public static void HideFromAltTab(IntPtr Handle)
+        {
+            int current_val = (int)GetWindowLong(Handle, GWL.GWL_EXSTYLE);
+            uint changed_val = Convert.ToUInt32(current_val | (uint)WindowStyles.WS_EX_TOOLWINDOW);
+            SetWindowLong(Handle, GWL.GWL_EXSTYLE, changed_val);
+        }
+ 
+
         /// <summary>
         /// These are the possible longs which can be get and set via GetWindowLong and ... 
         /// </summary>
@@ -66,6 +74,7 @@ namespace PxKeystrokesUi
             WS_EX_TRANSPARENT = 0x00000020,
             WS_EX_LAYERED = 0x00080000,
 
+            WS_EX_TOOLWINDOW = 0x00000080,
         }
 
         // Choose 32/64 bit variant of function
