@@ -115,7 +115,8 @@ namespace PxKeystrokesUi
                 */
             }
             //Pass key to next application
-            return NativeMethodsKeyboard.CallNextHookEx(hookID, nCode, wParam, ref lParam);
+            IntPtr ret = NativeMethodsKeyboard.CallNextHookEx(hookID, nCode, wParam, ref lParam);
+            return ret;
         }
 
         /// <summary>

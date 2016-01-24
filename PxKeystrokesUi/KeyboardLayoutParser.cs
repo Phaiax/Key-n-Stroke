@@ -74,6 +74,7 @@ namespace PxKeystrokesUi
                         inBuffer,
                         128,
                         (uint)(e.Alt ? 1 : 0));
+            Log.e("KP", "    FirstBuffertype " + buffertype.ToString());
 
             Log.e("KP",
                     String.Format("   ToUnicode: bl {0} str {1} alt {2} vk {3}", buffertype,
@@ -90,11 +91,60 @@ namespace PxKeystrokesUi
 
                 Log.e("KP", "             : " + keystate);
 
+            // call ToUnicode again, otherwise it will destoy the dead key for the rest of the system
+            int buffertype2 = NativeMethodsKeyboard.ToUnicode(e.vkCode,
+                e.Kbdllhookstruct.scanCode,
+                e.keyState,
+                inBuffer,
+                128,
+                (uint)(e.Alt ? 1 : 0));
+            Log.e("KP", "    SecondBuffertype " + buffertype2.ToString() + " & deadkey");
+
             if (buffertype < 0) // deadkey
             {
-                return inBuffer.ToString(0, 1);
+                // return DEADKEY, so the next key can try to assemble the deadkey
+                //return "DEADKEY";
+                return buffertype2 >= 1 ? inBuffer.ToString(0, 1) : "";
             }
-            else if (buffertype >= 1) // buffertype chars in inBuffer[0..buffertype]
+            else if(buffertype2 < 0) // type two dead keys in a row
+            {
+                Log.e("KP", "    TwoDeadKeysInARow " + buffertype2.ToString() + " & deadkey");
+                return buffertype >= 1 ? inBuffer.ToString(0, 1) : "";
+            }
+            else if (buffertype2 >= 1) // buffertype chars in inBuffer[0..buffertype]
+            {
+                return inBuffer.ToString(0, buffertype);
+            }
+            else if (buffertype2 == 0)
+            {
+                // no translation
+            }
+            return "";
+        }
+
+        public static string ProcessDeadkeyWithNextKey(KeyboardRawEventArgs dead, KeyboardRawEventArgs e)
+        {
+            Log.e("KP", "    ProcessDeadkeyWithNextKey ");
+            StringBuilder inBuffer = new StringBuilder(128);
+            int buffertype = NativeMethodsKeyboard.ToUnicode(dead.vkCode,
+                        dead.Kbdllhookstruct.scanCode,
+                        dead.keyState,
+                        inBuffer,
+                        128,
+                        (uint)(dead.Alt ? 1 : 0));
+            Log.e("KP", "      FirstBuffertype " + buffertype.ToString());
+            buffertype = NativeMethodsKeyboard.ToUnicode(e.vkCode,
+                e.Kbdllhookstruct.scanCode,
+                e.keyState,
+                inBuffer,
+                128,
+                (uint)(e.Alt ? 1 : 0));
+            Log.e("KP", "      SecondBuffertype " + buffertype.ToString());
+            Log.e("KP",
+                    String.Format("   ToUnicode: bl {0} str {1} alt {2} vk {3}", buffertype,
+                        inBuffer.ToString(), e.Alt, e.vkCode));
+
+            if (buffertype >= 1) // buffertype chars in inBuffer[0..buffertype]
             {
                 return inBuffer.ToString(0, buffertype);
             }

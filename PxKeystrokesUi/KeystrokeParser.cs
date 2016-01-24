@@ -41,6 +41,7 @@ namespace PxKeystrokesUi
 
             if (e.Method == KeyUpDown.Down)
             {
+                ApplyDeadKey(e);
                 if (e.IsAlpha && e.OnlyShiftOrCaps)
                 {
                     e.KeyString = ParseChar(e);
@@ -83,6 +84,7 @@ namespace PxKeystrokesUi
                     {
                         Log.e("KP", "   e.NoModifiers 2> try KeyboardLayoutParser.ParseViaToUnicode ");
                         e.KeyString = KeyboardLayoutParser.ParseViaToUnicode(e);
+                        BackupDeadKey(e);
                     }
                     e.ShouldBeDisplayed = true;
                     e.StrokeType = KeystrokeType.Text;
@@ -92,7 +94,7 @@ namespace PxKeystrokesUi
                 // (e.IsNoUnicodekey is always false here -> could be a unicode key combinatin)
                 {
                     e.KeyString = KeyboardLayoutParser.ParseViaToUnicode(e);
-                    
+                    BackupDeadKey(e);
                     Log.e("KP", "   e.OnlyShiftOrCaps > try KeyboardLayoutParser.ParseViaToUnicode ");
 
                     if (e.KeyString != "")
@@ -114,8 +116,7 @@ namespace PxKeystrokesUi
                     // could be something like the german @ (Ctrl + Alt + Q)
                     // Temporary disabled because ToUnicode returns more often values than it should
                     e.KeyString = ""; //KeyboardLayoutParser.ParseViaToUnicode(e);
-                    Log.e("KP", "   !e.NoModifiers && !e.OnlyShiftOrCapss > KeyboardLayoutParser.ParseViaToUnicode = "
-                        + KeyboardLayoutParser.ParseViaToUnicode(e));
+                    Log.e("KP", "   !e.NoModifiers && !e.OnlyShiftOrCapss > KeyboardLayoutParser.ParseViaToUnicode");
                     // all other special char keycodes do not use Shift
                     if (e.KeyString != "" && !e.Shift && !e.IsNoUnicodekey)
                     {
@@ -126,6 +127,7 @@ namespace PxKeystrokesUi
                     {
                         ParseShortcutViaSpecialkeysParser(e);
                         string possibleChar = KeyboardLayoutParser.ParseViaToUnicode(e);
+                        BackupDeadKey(e);
                         if (possibleChar != "" && !CheckIsAlpha(possibleChar) 
                                         && !CheckIsNumeric(possibleChar)
                                         && CheckIsASCII(possibleChar))
@@ -157,6 +159,34 @@ namespace PxKeystrokesUi
                 OnKeystrokeEvent(e);
             }
 
+        }
+
+        private KeystrokeEventArgs lastDeadKeyEvent;
+
+        private void BackupDeadKey(KeystrokeEventArgs e)
+        {
+            if(e.KeyString == "DEADKEY")
+            {
+                e.KeyString = "!";
+                lastDeadKeyEvent = e;
+            }
+        }
+
+        private bool ApplyDeadKey(KeystrokeEventArgs e)
+        {
+            if(lastDeadKeyEvent != null)
+            {
+                lastDeadKeyEvent.KeyString = KeyboardLayoutParser.ProcessDeadkeyWithNextKey(lastDeadKeyEvent, e);
+                if(lastDeadKeyEvent.KeyString == "")
+                {
+                    lastDeadKeyEvent = null;
+                    return false;
+                }
+                OnKeystrokeEvent(lastDeadKeyEvent);
+                lastDeadKeyEvent = null;
+                return true;
+            }
+            return false;
         }
 
         private void ParseShortcutViaSpecialkeysParser(KeystrokeEventArgs e)
