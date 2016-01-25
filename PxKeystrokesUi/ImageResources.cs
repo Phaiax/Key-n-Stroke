@@ -40,24 +40,9 @@ namespace PxKeystrokesUi
                 BMiddle = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesUi.Resources.mouse_middle.png"));
                 BLeftDouble = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesUi.Resources.mouse_left_double.png"));
                 BRightDouble = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesUi.Resources.mouse_right_double.png"));
-                BWheel = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesUi.Resources.mouse_wheel.png"));
                 BWheelUp = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesUi.Resources.mouse_wheel_up.png"));
                 BWheelDown = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesUi.Resources.mouse_wheel_down.png"));
 
-                for(int i = 0; i < BWheel.Width; i++)
-                {
-                    for(int j = 0; j < (int)(BWheel.Height * 0.5); j++)
-                    {
-                        Color p = BWheel.GetPixel(i, j);
-                        Color o = BWheelUp.GetPixel(i, j);
-                        if ( (p.B != 255 || p.R != 255 || p.G != 255))
-                        {
-                            BWheelDown.SetPixel(i, j, p);
-                            BWheelUp.SetPixel(i, j, p);
-                        }
-                    }
-                
-                }
             }
             catch
             {

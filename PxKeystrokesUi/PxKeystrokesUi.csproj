@@ -156,7 +156,6 @@
     <EmbeddedResource Include="Resources\mouse_right.png" />
     <EmbeddedResource Include="Resources\mouse_right_double.png" />
     <EmbeddedResource Include="Resources\mouse_test.svg" />
-    <EmbeddedResource Include="Resources\mouse_wheel.png" />
     <EmbeddedResource Include="Resources\mouse_wheel_down.png" />
     <EmbeddedResource Include="Resources\mouse_wheel_up.png" />
     <Content Include="Umut-Pulat-Tulliana-2-Font-true-type.ico" />
