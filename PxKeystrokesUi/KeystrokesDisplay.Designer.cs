@@ -39,11 +39,11 @@
             this.label1 = new System.Windows.Forms.Label();
             this.notifyIcon_main = new System.Windows.Forms.NotifyIcon(this.components);
             this.notifyIcon_contextmenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.reportErrorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.contributeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpHoldCtrlAltShiftToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reportErrorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contributeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel_textposhelper.SuspendLayout();
             this.notifyIcon_contextmenu.SuspendLayout();
             this.SuspendLayout();
@@ -161,6 +161,7 @@
             this.notifyIcon_main.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon_main.Icon")));
             this.notifyIcon_main.Text = "PyKeystrokesForScreencasts";
             this.notifyIcon_main.Visible = true;
+            this.notifyIcon_main.DoubleClick += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // notifyIcon_contextmenu
             // 
@@ -173,12 +174,11 @@
             this.notifyIcon_contextmenu.Name = "notifyIcon_contextmenu";
             this.notifyIcon_contextmenu.Size = new System.Drawing.Size(221, 114);
             // 
-            // exitToolStripMenuItem
+            // helpHoldCtrlAltShiftToolStripMenuItem
             // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            this.helpHoldCtrlAltShiftToolStripMenuItem.Name = "helpHoldCtrlAltShiftToolStripMenuItem";
+            this.helpHoldCtrlAltShiftToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.helpHoldCtrlAltShiftToolStripMenuItem.Text = "Help: Hold Ctrl + Alt + Shift";
             // 
             // reportErrorsToolStripMenuItem
             // 
@@ -187,13 +187,6 @@
             this.reportErrorsToolStripMenuItem.Text = "Report Errors";
             this.reportErrorsToolStripMenuItem.Click += new System.EventHandler(this.reportErrorsToolStripMenuItem_Click);
             // 
-            // settingsToolStripMenuItem
-            // 
-            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
-            this.settingsToolStripMenuItem.Text = "Settings";
-            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
-            // 
             // contributeToolStripMenuItem
             // 
             this.contributeToolStripMenuItem.Name = "contributeToolStripMenuItem";
@@ -201,11 +194,19 @@
             this.contributeToolStripMenuItem.Text = "Contribute";
             this.contributeToolStripMenuItem.Click += new System.EventHandler(this.contributeToolStripMenuItem_Click);
             // 
-            // helpHoldCtrlAltShiftToolStripMenuItem
+            // settingsToolStripMenuItem
             // 
-            this.helpHoldCtrlAltShiftToolStripMenuItem.Name = "helpHoldCtrlAltShiftToolStripMenuItem";
-            this.helpHoldCtrlAltShiftToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
-            this.helpHoldCtrlAltShiftToolStripMenuItem.Text = "Help: Hold Ctrl + Alt + Shift";
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.settingsToolStripMenuItem.Text = "Settings";
+            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // KeystrokesDisplay
             // 

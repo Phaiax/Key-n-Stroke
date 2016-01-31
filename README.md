@@ -25,8 +25,16 @@ This is Open Source. If you miss a feature, go for it and send a Pull-Request af
 
 <a href="https://github.com/Phaiax/PxKeystrokesForScreencasts/raw/master/Releases/v0.3.1/PxKeystrokesUi.exe">Download PxKeystrokesUi.exe 0.3.1</a> (most recent, 2016-01-31, Win10 tested)
 
+
+This security alert will appear. Click the <code>More Info</code> link, and then <code>Execute anyway</code>.
+
+<img src="https://raw.githubusercontent.com/Phaiax/PxKeystrokesForScreencasts/master/Screenshots/Smartscreen1.png" alt="SmartScreen filter dialog.">
+
+This dialog is ugly. To fix this, i need a validated security certificate. Certum offers a low priced <a href="http://www.certum.eu/certum/cert,offer_en_open_source_cs.xml"> 1 year certificate for open source projects </a> for € 17.22 per annum. If someone funds at least three years of certification (€ 51.66), i will use that money to buy a new certificate each year. Then I will also implement a secure autoupdater. <a href="https://github.com/Phaiax/PxKeystrokesForScreencasts/issues/15">Get in contact with me.</a> For transparency: Currently total raised money: € 0.
+
+
 ## Releases
-You can find the exe in the releases folder
+You can find the exe in the <code>Releases</code> folder
 
 - v0.0.1 (Text positioning not implemented yet)
 - v0.1.1 (Looks fine)
@@ -38,6 +46,7 @@ You can find the exe in the releases folder
 
 ## Requirements
 Windows 8 or 10
+
 Windows 7 requires you to change the default font, otherwise you will see little squares instead of symbols.
 
 

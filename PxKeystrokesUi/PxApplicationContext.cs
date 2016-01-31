@@ -18,6 +18,8 @@ namespace PxKeystrokesUi
         {
             Log.SetTagFilter("NONE");
 
+            Application.ApplicationExit += Application_ApplicationExit;
+
             ImageResources.Init();
             InitSettings();
             InitKeyboardInterception();
@@ -59,7 +61,15 @@ namespace PxKeystrokesUi
         private void OnUiClosed(object sender, EventArgs e)
         {
             DisableCursorIndicator();
+            DisableButtonIndicator();
             ExitThread();
+        }
+
+        void Application_ApplicationExit(object sender, EventArgs e)
+        {
+            DisableCursorIndicator();
+            DisableButtonIndicator();
+            myUi.Close();
         }
 
         private void OnSettingChanged(SettingsChangedEventArgs e)

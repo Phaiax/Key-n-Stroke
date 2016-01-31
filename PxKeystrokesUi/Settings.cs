@@ -297,6 +297,16 @@ namespace PxKeystrokesUi
             UpdateHistoryTimeoutDisplayLabel();
         }
 
+        private void button_exit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void button_close_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
 
 
 

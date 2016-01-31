@@ -224,11 +224,13 @@ namespace PxKeystrokesUi
                 panel_mouse.Visible = false;
             }
         }
-
+        
         void CursorIndicator_FormClosed(object sender, FormClosedEventArgs e)
         {
-            m.MouseEvent -= m_MouseEvent;
-            s.settingChanged -= settingChanged;
+            if (m != null)
+                m.MouseEvent -= m_MouseEvent;
+            if (s != null)
+                s.settingChanged -= settingChanged;
             m = null;
             s = null;
         }

@@ -46,6 +46,11 @@
             this.rb_style_slide = new System.Windows.Forms.RadioButton();
             this.rb_style_noani = new System.Windows.Forms.RadioButton();
             this.gb_text = new System.Windows.Forms.GroupBox();
+            this.cb_backspace = new System.Windows.Forms.CheckBox();
+            this.label_timeout_display = new System.Windows.Forms.Label();
+            this.cb_enableHistoryTimeout = new System.Windows.Forms.CheckBox();
+            this.slider_history_timeout = new System.Windows.Forms.TrackBar();
+            this.label_history_timeout = new System.Windows.Forms.Label();
             this.label_historycount = new System.Windows.Forms.Label();
             this.label_verticalDistance = new System.Windows.Forms.Label();
             this.nud_historycount = new System.Windows.Forms.NumericUpDown();
@@ -60,41 +65,38 @@
             this.bn_reset_position = new System.Windows.Forms.Button();
             this.bn_reset_all = new System.Windows.Forms.Button();
             this.gb_mouse = new System.Windows.Forms.GroupBox();
-            this.cb_cursorindicator = new System.Windows.Forms.CheckBox();
-            this.label_ci_opacity = new System.Windows.Forms.Label();
-            this.slider_ci_opacity = new System.Windows.Forms.TrackBar();
-            this.slider_ci_size = new System.Windows.Forms.TrackBar();
-            this.label_ci_size = new System.Windows.Forms.Label();
             this.button_ci_color = new System.Windows.Forms.Button();
+            this.label_ci_size = new System.Windows.Forms.Label();
+            this.slider_ci_size = new System.Windows.Forms.TrackBar();
+            this.slider_ci_opacity = new System.Windows.Forms.TrackBar();
+            this.label_ci_opacity = new System.Windows.Forms.Label();
+            this.cb_cursorindicator = new System.Windows.Forms.CheckBox();
             this.picker_ci_color = new System.Windows.Forms.ColorDialog();
-            this.label_history_timeout = new System.Windows.Forms.Label();
-            this.slider_history_timeout = new System.Windows.Forms.TrackBar();
-            this.cb_enableHistoryTimeout = new System.Windows.Forms.CheckBox();
-            this.label_timeout_display = new System.Windows.Forms.Label();
             this.gb_buttonindicator = new System.Windows.Forms.GroupBox();
+            this.cb_bi_history = new System.Windows.Forms.CheckBox();
+            this.label_bi_size = new System.Windows.Forms.Label();
+            this.rb_bi_icon = new System.Windows.Forms.RadioButton();
+            this.rb_bi_disable = new System.Windows.Forms.RadioButton();
             this.label_bi_angle = new System.Windows.Forms.Label();
             this.slider_bi_angle = new System.Windows.Forms.TrackBar();
             this.slider_bi_distance = new System.Windows.Forms.TrackBar();
             this.label_bi_distance = new System.Windows.Forms.Label();
-            this.rb_bi_disable = new System.Windows.Forms.RadioButton();
-            this.rb_bi_icon = new System.Windows.Forms.RadioButton();
             this.slider_bi_size = new System.Windows.Forms.TrackBar();
-            this.label_bi_size = new System.Windows.Forms.Label();
-            this.cb_backspace = new System.Windows.Forms.CheckBox();
-            this.cb_bi_history = new System.Windows.Forms.CheckBox();
+            this.button_exit = new System.Windows.Forms.Button();
+            this.button_close = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.slider_opacity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.slider_fontsize)).BeginInit();
             this.groupBox_text_alignment.SuspendLayout();
             this.gb_textdir.SuspendLayout();
             this.gb_style.SuspendLayout();
             this.gb_text.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.slider_history_timeout)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_historycount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_verticalDistance)).BeginInit();
             this.gb_background.SuspendLayout();
             this.gb_mouse.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.slider_ci_opacity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.slider_ci_size)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.slider_history_timeout)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.slider_ci_opacity)).BeginInit();
             this.gb_buttonindicator.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.slider_bi_angle)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.slider_bi_distance)).BeginInit();
@@ -305,6 +307,59 @@
             this.gb_text.TabStop = false;
             this.gb_text.Text = "Text";
             // 
+            // cb_backspace
+            // 
+            this.cb_backspace.AutoSize = true;
+            this.cb_backspace.Location = new System.Drawing.Point(6, 216);
+            this.cb_backspace.Name = "cb_backspace";
+            this.cb_backspace.Size = new System.Drawing.Size(153, 17);
+            this.cb_backspace.TabIndex = 45;
+            this.cb_backspace.Text = "Backspace can delete text";
+            this.cb_backspace.UseVisualStyleBackColor = true;
+            this.cb_backspace.CheckedChanged += new System.EventHandler(this.cb_backspace_CheckedChanged);
+            // 
+            // label_timeout_display
+            // 
+            this.label_timeout_display.AutoSize = true;
+            this.label_timeout_display.Location = new System.Drawing.Point(118, 152);
+            this.label_timeout_display.Name = "label_timeout_display";
+            this.label_timeout_display.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.label_timeout_display.Size = new System.Drawing.Size(18, 13);
+            this.label_timeout_display.TabIndex = 44;
+            this.label_timeout_display.Text = "5s";
+            // 
+            // cb_enableHistoryTimeout
+            // 
+            this.cb_enableHistoryTimeout.AutoSize = true;
+            this.cb_enableHistoryTimeout.Location = new System.Drawing.Point(6, 151);
+            this.cb_enableHistoryTimeout.Name = "cb_enableHistoryTimeout";
+            this.cb_enableHistoryTimeout.Size = new System.Drawing.Size(95, 17);
+            this.cb_enableHistoryTimeout.TabIndex = 43;
+            this.cb_enableHistoryTimeout.Text = "History timeout";
+            this.cb_enableHistoryTimeout.UseVisualStyleBackColor = true;
+            this.cb_enableHistoryTimeout.CheckedChanged += new System.EventHandler(this.cb_enableHistoryTimeout_CheckedChanged);
+            // 
+            // slider_history_timeout
+            // 
+            this.slider_history_timeout.Location = new System.Drawing.Point(68, 180);
+            this.slider_history_timeout.Maximum = 120000;
+            this.slider_history_timeout.Minimum = 1000;
+            this.slider_history_timeout.Name = "slider_history_timeout";
+            this.slider_history_timeout.Size = new System.Drawing.Size(104, 45);
+            this.slider_history_timeout.TabIndex = 41;
+            this.slider_history_timeout.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.slider_history_timeout.Value = 1000;
+            this.slider_history_timeout.Scroll += new System.EventHandler(this.slider_history_timeout_Scroll);
+            // 
+            // label_history_timeout
+            // 
+            this.label_history_timeout.AutoSize = true;
+            this.label_history_timeout.Location = new System.Drawing.Point(16, 183);
+            this.label_history_timeout.Name = "label_history_timeout";
+            this.label_history_timeout.Size = new System.Drawing.Size(45, 13);
+            this.label_history_timeout.TabIndex = 40;
+            this.label_history_timeout.Text = "Timeout";
+            // 
             // label_historycount
             // 
             this.label_historycount.AutoSize = true;
@@ -391,9 +446,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(9, 292);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(224, 13);
+            this.label1.Size = new System.Drawing.Size(268, 13);
             this.label1.TabIndex = 34;
-            this.label1.Text = "Press Ctrl + Shift + Alt to reveal setting buttons";
+            this.label1.Text = "Press and hold Ctrl + Shift + Alt to reveal setting buttons";
             // 
             // linkLabel1
             // 
@@ -441,37 +496,24 @@
             this.gb_mouse.TabStop = false;
             this.gb_mouse.Text = "Mouse";
             // 
-            // cb_cursorindicator
+            // button_ci_color
             // 
-            this.cb_cursorindicator.AutoSize = true;
-            this.cb_cursorindicator.Location = new System.Drawing.Point(7, 18);
-            this.cb_cursorindicator.Name = "cb_cursorindicator";
-            this.cb_cursorindicator.Size = new System.Drawing.Size(135, 17);
-            this.cb_cursorindicator.TabIndex = 0;
-            this.cb_cursorindicator.Text = "Indicate cursor position";
-            this.cb_cursorindicator.UseVisualStyleBackColor = true;
-            this.cb_cursorindicator.CheckedChanged += new System.EventHandler(this.cb_cursorindicator_CheckedChanged);
+            this.button_ci_color.Location = new System.Drawing.Point(6, 118);
+            this.button_ci_color.Name = "button_ci_color";
+            this.button_ci_color.Size = new System.Drawing.Size(171, 23);
+            this.button_ci_color.TabIndex = 26;
+            this.button_ci_color.Text = "Color";
+            this.button_ci_color.UseVisualStyleBackColor = true;
+            this.button_ci_color.Click += new System.EventHandler(this.button_ci_color_Click);
             // 
-            // label_ci_opacity
+            // label_ci_size
             // 
-            this.label_ci_opacity.AutoSize = true;
-            this.label_ci_opacity.Location = new System.Drawing.Point(20, 52);
-            this.label_ci_opacity.Name = "label_ci_opacity";
-            this.label_ci_opacity.Size = new System.Drawing.Size(43, 13);
-            this.label_ci_opacity.TabIndex = 1;
-            this.label_ci_opacity.Text = "Opacity";
-            // 
-            // slider_ci_opacity
-            // 
-            this.slider_ci_opacity.Location = new System.Drawing.Point(68, 46);
-            this.slider_ci_opacity.Maximum = 100;
-            this.slider_ci_opacity.Minimum = 10;
-            this.slider_ci_opacity.Name = "slider_ci_opacity";
-            this.slider_ci_opacity.Size = new System.Drawing.Size(104, 45);
-            this.slider_ci_opacity.TabIndex = 40;
-            this.slider_ci_opacity.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.slider_ci_opacity.Value = 80;
-            this.slider_ci_opacity.Scroll += new System.EventHandler(this.slider_ci_opacity_Scroll);
+            this.label_ci_size.AutoSize = true;
+            this.label_ci_size.Location = new System.Drawing.Point(20, 92);
+            this.label_ci_size.Name = "label_ci_size";
+            this.label_ci_size.Size = new System.Drawing.Size(27, 13);
+            this.label_ci_size.TabIndex = 42;
+            this.label_ci_size.Text = "Size";
             // 
             // slider_ci_size
             // 
@@ -485,66 +527,37 @@
             this.slider_ci_size.Value = 100;
             this.slider_ci_size.Scroll += new System.EventHandler(this.slider_ci_size_Scroll);
             // 
-            // label_ci_size
+            // slider_ci_opacity
             // 
-            this.label_ci_size.AutoSize = true;
-            this.label_ci_size.Location = new System.Drawing.Point(20, 92);
-            this.label_ci_size.Name = "label_ci_size";
-            this.label_ci_size.Size = new System.Drawing.Size(27, 13);
-            this.label_ci_size.TabIndex = 42;
-            this.label_ci_size.Text = "Size";
+            this.slider_ci_opacity.Location = new System.Drawing.Point(68, 46);
+            this.slider_ci_opacity.Maximum = 100;
+            this.slider_ci_opacity.Minimum = 10;
+            this.slider_ci_opacity.Name = "slider_ci_opacity";
+            this.slider_ci_opacity.Size = new System.Drawing.Size(104, 45);
+            this.slider_ci_opacity.TabIndex = 40;
+            this.slider_ci_opacity.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.slider_ci_opacity.Value = 80;
+            this.slider_ci_opacity.Scroll += new System.EventHandler(this.slider_ci_opacity_Scroll);
             // 
-            // button_ci_color
+            // label_ci_opacity
             // 
-            this.button_ci_color.Location = new System.Drawing.Point(6, 118);
-            this.button_ci_color.Name = "button_ci_color";
-            this.button_ci_color.Size = new System.Drawing.Size(171, 23);
-            this.button_ci_color.TabIndex = 26;
-            this.button_ci_color.Text = "Color";
-            this.button_ci_color.UseVisualStyleBackColor = true;
-            this.button_ci_color.Click += new System.EventHandler(this.button_ci_color_Click);
+            this.label_ci_opacity.AutoSize = true;
+            this.label_ci_opacity.Location = new System.Drawing.Point(20, 52);
+            this.label_ci_opacity.Name = "label_ci_opacity";
+            this.label_ci_opacity.Size = new System.Drawing.Size(43, 13);
+            this.label_ci_opacity.TabIndex = 1;
+            this.label_ci_opacity.Text = "Opacity";
             // 
-            // label_history_timeout
+            // cb_cursorindicator
             // 
-            this.label_history_timeout.AutoSize = true;
-            this.label_history_timeout.Location = new System.Drawing.Point(16, 183);
-            this.label_history_timeout.Name = "label_history_timeout";
-            this.label_history_timeout.Size = new System.Drawing.Size(45, 13);
-            this.label_history_timeout.TabIndex = 40;
-            this.label_history_timeout.Text = "Timeout";
-            // 
-            // slider_history_timeout
-            // 
-            this.slider_history_timeout.Location = new System.Drawing.Point(68, 180);
-            this.slider_history_timeout.Maximum = 120000;
-            this.slider_history_timeout.Minimum = 1000;
-            this.slider_history_timeout.Name = "slider_history_timeout";
-            this.slider_history_timeout.Size = new System.Drawing.Size(104, 45);
-            this.slider_history_timeout.TabIndex = 41;
-            this.slider_history_timeout.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.slider_history_timeout.Value = 1000;
-            this.slider_history_timeout.Scroll += new System.EventHandler(this.slider_history_timeout_Scroll);
-            // 
-            // cb_enableHistoryTimeout
-            // 
-            this.cb_enableHistoryTimeout.AutoSize = true;
-            this.cb_enableHistoryTimeout.Location = new System.Drawing.Point(6, 151);
-            this.cb_enableHistoryTimeout.Name = "cb_enableHistoryTimeout";
-            this.cb_enableHistoryTimeout.Size = new System.Drawing.Size(95, 17);
-            this.cb_enableHistoryTimeout.TabIndex = 43;
-            this.cb_enableHistoryTimeout.Text = "History timeout";
-            this.cb_enableHistoryTimeout.UseVisualStyleBackColor = true;
-            this.cb_enableHistoryTimeout.CheckedChanged += new System.EventHandler(this.cb_enableHistoryTimeout_CheckedChanged);
-            // 
-            // label_timeout_display
-            // 
-            this.label_timeout_display.AutoSize = true;
-            this.label_timeout_display.Location = new System.Drawing.Point(118, 152);
-            this.label_timeout_display.Name = "label_timeout_display";
-            this.label_timeout_display.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.label_timeout_display.Size = new System.Drawing.Size(18, 13);
-            this.label_timeout_display.TabIndex = 44;
-            this.label_timeout_display.Text = "5s";
+            this.cb_cursorindicator.AutoSize = true;
+            this.cb_cursorindicator.Location = new System.Drawing.Point(7, 18);
+            this.cb_cursorindicator.Name = "cb_cursorindicator";
+            this.cb_cursorindicator.Size = new System.Drawing.Size(135, 17);
+            this.cb_cursorindicator.TabIndex = 0;
+            this.cb_cursorindicator.Text = "Indicate cursor position";
+            this.cb_cursorindicator.UseVisualStyleBackColor = true;
+            this.cb_cursorindicator.CheckedChanged += new System.EventHandler(this.cb_cursorindicator_CheckedChanged);
             // 
             // gb_buttonindicator
             // 
@@ -563,6 +576,51 @@
             this.gb_buttonindicator.TabIndex = 43;
             this.gb_buttonindicator.TabStop = false;
             this.gb_buttonindicator.Text = "Mouse Clicks";
+            // 
+            // cb_bi_history
+            // 
+            this.cb_bi_history.AutoSize = true;
+            this.cb_bi_history.Enabled = false;
+            this.cb_bi_history.Location = new System.Drawing.Point(6, 183);
+            this.cb_bi_history.Name = "cb_bi_history";
+            this.cb_bi_history.Size = new System.Drawing.Size(96, 17);
+            this.cb_bi_history.TabIndex = 46;
+            this.cb_bi_history.Text = "Add To History";
+            this.cb_bi_history.UseVisualStyleBackColor = true;
+            this.cb_bi_history.CheckedChanged += new System.EventHandler(this.cb_bi_history_CheckedChanged);
+            // 
+            // label_bi_size
+            // 
+            this.label_bi_size.AutoSize = true;
+            this.label_bi_size.Location = new System.Drawing.Point(20, 76);
+            this.label_bi_size.Name = "label_bi_size";
+            this.label_bi_size.Size = new System.Drawing.Size(27, 13);
+            this.label_bi_size.TabIndex = 44;
+            this.label_bi_size.Text = "Size";
+            // 
+            // rb_bi_icon
+            // 
+            this.rb_bi_icon.AutoSize = true;
+            this.rb_bi_icon.Location = new System.Drawing.Point(6, 40);
+            this.rb_bi_icon.Name = "rb_bi_icon";
+            this.rb_bi_icon.Size = new System.Drawing.Size(76, 17);
+            this.rb_bi_icon.TabIndex = 43;
+            this.rb_bi_icon.TabStop = true;
+            this.rb_bi_icon.Text = "Show Icon";
+            this.rb_bi_icon.UseVisualStyleBackColor = true;
+            this.rb_bi_icon.CheckedChanged += new System.EventHandler(this.rb_bi_icon_CheckedChanged);
+            // 
+            // rb_bi_disable
+            // 
+            this.rb_bi_disable.AutoSize = true;
+            this.rb_bi_disable.Location = new System.Drawing.Point(6, 17);
+            this.rb_bi_disable.Name = "rb_bi_disable";
+            this.rb_bi_disable.Size = new System.Drawing.Size(127, 17);
+            this.rb_bi_disable.TabIndex = 2;
+            this.rb_bi_disable.TabStop = true;
+            this.rb_bi_disable.Text = "No not indicate clicks";
+            this.rb_bi_disable.UseVisualStyleBackColor = true;
+            this.rb_bi_disable.CheckedChanged += new System.EventHandler(this.rb_bi_disable_CheckedChanged);
             // 
             // label_bi_angle
             // 
@@ -605,30 +663,6 @@
             this.label_bi_distance.TabIndex = 1;
             this.label_bi_distance.Text = "Distance";
             // 
-            // rb_bi_disable
-            // 
-            this.rb_bi_disable.AutoSize = true;
-            this.rb_bi_disable.Location = new System.Drawing.Point(6, 17);
-            this.rb_bi_disable.Name = "rb_bi_disable";
-            this.rb_bi_disable.Size = new System.Drawing.Size(127, 17);
-            this.rb_bi_disable.TabIndex = 2;
-            this.rb_bi_disable.TabStop = true;
-            this.rb_bi_disable.Text = "No not indicate clicks";
-            this.rb_bi_disable.UseVisualStyleBackColor = true;
-            this.rb_bi_disable.CheckedChanged += new System.EventHandler(this.rb_bi_disable_CheckedChanged);
-            // 
-            // rb_bi_icon
-            // 
-            this.rb_bi_icon.AutoSize = true;
-            this.rb_bi_icon.Location = new System.Drawing.Point(6, 40);
-            this.rb_bi_icon.Name = "rb_bi_icon";
-            this.rb_bi_icon.Size = new System.Drawing.Size(76, 17);
-            this.rb_bi_icon.TabIndex = 43;
-            this.rb_bi_icon.TabStop = true;
-            this.rb_bi_icon.Text = "Show Icon";
-            this.rb_bi_icon.UseVisualStyleBackColor = true;
-            this.rb_bi_icon.CheckedChanged += new System.EventHandler(this.rb_bi_icon_CheckedChanged);
-            // 
             // slider_bi_size
             // 
             this.slider_bi_size.Location = new System.Drawing.Point(68, 70);
@@ -641,43 +675,33 @@
             this.slider_bi_size.Value = 70;
             this.slider_bi_size.Scroll += new System.EventHandler(this.slider_bi_size_Scroll);
             // 
-            // label_bi_size
+            // button_exit
             // 
-            this.label_bi_size.AutoSize = true;
-            this.label_bi_size.Location = new System.Drawing.Point(20, 76);
-            this.label_bi_size.Name = "label_bi_size";
-            this.label_bi_size.Size = new System.Drawing.Size(27, 13);
-            this.label_bi_size.TabIndex = 44;
-            this.label_bi_size.Text = "Size";
+            this.button_exit.Location = new System.Drawing.Point(358, 322);
+            this.button_exit.Name = "button_exit";
+            this.button_exit.Size = new System.Drawing.Size(183, 23);
+            this.button_exit.TabIndex = 44;
+            this.button_exit.Text = "Exit Program";
+            this.button_exit.UseVisualStyleBackColor = true;
+            this.button_exit.Click += new System.EventHandler(this.button_exit_Click);
             // 
-            // cb_backspace
+            // button_close
             // 
-            this.cb_backspace.AutoSize = true;
-            this.cb_backspace.Location = new System.Drawing.Point(6, 216);
-            this.cb_backspace.Name = "cb_backspace";
-            this.cb_backspace.Size = new System.Drawing.Size(153, 17);
-            this.cb_backspace.TabIndex = 45;
-            this.cb_backspace.Text = "Backspace can delete text";
-            this.cb_backspace.UseVisualStyleBackColor = true;
-            this.cb_backspace.CheckedChanged += new System.EventHandler(this.cb_backspace_CheckedChanged);
-            // 
-            // cb_bi_history
-            // 
-            this.cb_bi_history.AutoSize = true;
-            this.cb_bi_history.Enabled = false;
-            this.cb_bi_history.Location = new System.Drawing.Point(6, 183);
-            this.cb_bi_history.Name = "cb_bi_history";
-            this.cb_bi_history.Size = new System.Drawing.Size(96, 17);
-            this.cb_bi_history.TabIndex = 46;
-            this.cb_bi_history.Text = "Add To History";
-            this.cb_bi_history.UseVisualStyleBackColor = true;
-            this.cb_bi_history.CheckedChanged += new System.EventHandler(this.cb_bi_history_CheckedChanged);
+            this.button_close.Location = new System.Drawing.Point(547, 322);
+            this.button_close.Name = "button_close";
+            this.button_close.Size = new System.Drawing.Size(183, 23);
+            this.button_close.TabIndex = 45;
+            this.button_close.Text = "Close";
+            this.button_close.UseVisualStyleBackColor = true;
+            this.button_close.Click += new System.EventHandler(this.button_close_Click);
             // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(737, 357);
+            this.Controls.Add(this.button_close);
+            this.Controls.Add(this.button_exit);
             this.Controls.Add(this.gb_buttonindicator);
             this.Controls.Add(this.gb_mouse);
             this.Controls.Add(this.bn_reset_all);
@@ -704,15 +728,15 @@
             this.gb_style.PerformLayout();
             this.gb_text.ResumeLayout(false);
             this.gb_text.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.slider_history_timeout)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_historycount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_verticalDistance)).EndInit();
             this.gb_background.ResumeLayout(false);
             this.gb_background.PerformLayout();
             this.gb_mouse.ResumeLayout(false);
             this.gb_mouse.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.slider_ci_opacity)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.slider_ci_size)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.slider_history_timeout)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.slider_ci_opacity)).EndInit();
             this.gb_buttonindicator.ResumeLayout(false);
             this.gb_buttonindicator.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.slider_bi_angle)).EndInit();
@@ -778,5 +802,7 @@
         private System.Windows.Forms.TrackBar slider_bi_size;
         private System.Windows.Forms.CheckBox cb_backspace;
         private System.Windows.Forms.CheckBox cb_bi_history;
+        private System.Windows.Forms.Button button_exit;
+        private System.Windows.Forms.Button button_close;
     }
 }
