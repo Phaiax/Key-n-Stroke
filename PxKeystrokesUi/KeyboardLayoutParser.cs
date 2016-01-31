@@ -113,7 +113,7 @@ namespace PxKeystrokesUi
             }
             else if (buffertype2 >= 1) // buffertype chars in inBuffer[0..buffertype]
             {
-                return inBuffer.ToString(0, buffertype);
+                return inBuffer.ToString(0, buffertype2);
             }
             else if (buffertype2 == 0)
             {
