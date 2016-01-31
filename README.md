@@ -6,7 +6,7 @@ Press <code>Ctrl + Shift + Alt</code> to reveal configuration options, resize, m
 
 Demo Video: https://www.youtube.com/watch?v=Ud3tqB8TMVc
 
-Screenshots: <a href="https://raw.githubusercontent.com/Phaiax/PxKeystrokesForScreencasts/master/Screenshots/bottom_center.png">One</a>, <a href="https://raw.githubusercontent.com/Phaiax/PxKeystrokesForScreencasts/master/Screenshots/bottom_right.png">Two</a> and <a href="https://raw.githubusercontent.com/Phaiax/PxKeystrokesForScreencasts/master/Screenshots/settings.png">Three (Settings)</a>
+Screenshots below.
 
 This is Open Source. If you miss a feature, go for it and send a Pull-Request afterwards!
 
@@ -48,6 +48,21 @@ You can find the exe in the <code>Releases</code> folder
 Windows 8 or 10
 
 Windows 7 requires you to change the default font, otherwise you will see little squares instead of symbols.
+
+# Screenshots
+
+<a href="https://raw.githubusercontent.com/Phaiax/PxKeystrokesForScreencasts/master/Screenshots/mouse.png">
+	<img src="https://raw.githubusercontent.com/Phaiax/PxKeystrokesForScreencasts/master/Screenshots/mouse.png">
+</a>
+<a href="https://raw.githubusercontent.com/Phaiax/PxKeystrokesForScreencasts/master/Screenshots/bottom_right.png">
+	<img src="https://raw.githubusercontent.com/Phaiax/PxKeystrokesForScreencasts/master/Screenshots/bottom_right.png">
+</a>
+<a href="https://raw.githubusercontent.com/Phaiax/PxKeystrokesForScreencasts/master/Screenshots/bottom_center.png">
+	<img src="https://raw.githubusercontent.com/Phaiax/PxKeystrokesForScreencasts/master/Screenshots/bottom_center.png">
+</a>
+<a href="https://raw.githubusercontent.com/Phaiax/PxKeystrokesForScreencasts/master/Screenshots/settings.png">
+	<img src="https://raw.githubusercontent.com/Phaiax/PxKeystrokesForScreencasts/master/Screenshots/settings.png">
+</a>
 
 
 # TODO
