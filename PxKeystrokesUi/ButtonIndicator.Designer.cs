@@ -146,6 +146,7 @@
             this.Controls.Add(this.panel_mouse);
             this.Name = "ButtonIndicator";
             this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CursorIndicator";
             this.Load += new System.EventHandler(this.ButtonIndicator_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pb_left)).EndInit();

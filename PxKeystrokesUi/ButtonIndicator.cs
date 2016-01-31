@@ -23,6 +23,8 @@ namespace PxKeystrokesUi
             this.s = s;
             FormClosed += CursorIndicator_FormClosed;
 
+            HideMouseIfNoButtonPressed();
+
             NativeMethodsSWP.SetWindowTopMost(this.Handle);
             SetFormStyles();
 
@@ -36,12 +38,15 @@ namespace PxKeystrokesUi
 
             BackColor = Color.Lavender;
             TransparencyKey = Color.Lavender;
+
         }
 
 
 
         private void ButtonIndicator_Load(object sender, EventArgs e)
         {
+            Log.e("SOME", "ButtonIndicator => Load");
+
             panel_mouse.BackgroundImage = ImageResources.BMouse;
             pb_left.Image = ImageResources.BLeft;
             pb_right.Image = ImageResources.BRight;
@@ -281,7 +286,6 @@ namespace PxKeystrokesUi
                 return;
             Point buttonIndicatorCenter = Point.Subtract(cursorPosition, offset);
             this.Location = Point.Subtract(buttonIndicatorCenter, new Size(this.Size.Width / 2, this.Size.Height / 2));
-            //this.Location = cursorPosition;
         }
 
         private bool OnlyDblClkIconVisible()
@@ -297,6 +301,7 @@ namespace PxKeystrokesUi
 
         private void settingChanged(SettingsChangedEventArgs e)
         {
+            Log.e("SOME", "ButtonIndicator => settingChanged");
             switch (e.Name)
             {
                 case "ButtonIndicator":
@@ -315,9 +320,6 @@ namespace PxKeystrokesUi
                     break;
             }
         }
-
-
-
 
     }
 }
