@@ -68,6 +68,7 @@ namespace PxKeystrokesUi
                 else if (e.IsNoUnicodekey && e.NoModifiers)
                 {
                     ParseTexttViaSpecialkeysParser(e);
+                    e.Deletable = IsDeletableSpecialKey(e.Key);
                     Log.e("KP", "   e.IsNoUnicodekey && e.NoModifiers > ParseTexttViaSpecialkeysParser ");
                 }
                 else if (e.IsNoUnicodekey && !e.NoModifiers) // Shortcut
@@ -164,6 +165,7 @@ namespace PxKeystrokesUi
             }
 
         }
+
 
         private KeystrokeEventArgs lastDeadKeyEvent;
 
@@ -379,6 +381,15 @@ namespace PxKeystrokesUi
                    Keys.Control, Keys.Alt };
             return NoUnicodeKeys.Contains((Keys)e.vkCode);
         }
+
+        private bool IsDeletableSpecialKey(Keys keys)
+        {
+            Keys[] DeletableKeys = { 
+                   Keys.Multiply, Keys.Add, Keys.Subtract, Keys.Decimal, 
+                   Keys.Divide, Keys.Space};
+            return DeletableKeys.Contains(keys);
+        }
+
 
         bool CheckVkCodeIsModifier(KeyboardRawEventArgs e)
         {
