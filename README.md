@@ -23,7 +23,7 @@ This is Open Source. If you miss a feature, go for it and send a Pull-Request af
 
 # Download
 
-<a href="https://github.com/Phaiax/PxKeystrokesForScreencasts/raw/master/Releases/v0.3.0/PxKeystrokesUi.exe">Download PxKeystrokesUi.exe 0.3.0</a> (most recent, 2016-01-24, Win10 tested)
+<a href="https://github.com/Phaiax/PxKeystrokesForScreencasts/raw/master/Releases/v0.3.1/PxKeystrokesUi.exe">Download PxKeystrokesUi.exe 0.3.1</a> (most recent, 2016-01-31, Win10 tested)
 
 ## Releases
 You can find the exe in the releases folder
@@ -34,9 +34,11 @@ You can find the exe in the releases folder
 - v0.1.3 (fix bug with Win+? shortcuts)
 - v0.2.0 (indicator for cursor position, history timeout, bugfixes, documentation)
 - v0.3.0 (indicator for pressed buttons, deadkey fixes, backspace functionality)
+- v0.3.1 (new icons, little fixes and internal improvements)
 
 ## Requirements
 Windows 8 or 10
+Windows 7 requires you to change the default font, otherwise you will see little squares instead of symbols.
 
 
 # TODO
