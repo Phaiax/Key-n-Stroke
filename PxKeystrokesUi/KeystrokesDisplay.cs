@@ -14,6 +14,16 @@ namespace PxKeystrokesUi
 {
     public partial class KeystrokesDisplay : Form
     {
+        enum FadeStatuses
+        {
+            FadingIn,
+            FadingOut,
+            Visible,
+            Hidden
+        }
+
+        FadeStatuses FadeStatus { get; set; }
+
         IKeystrokeEventProvider k;
 
         Settings SettingsForm;
@@ -46,6 +56,30 @@ namespace PxKeystrokesUi
 
             NativeMethodsSWP.SetWindowTopMost(this.Handle);
             ActivateDisplayOnlyMode(true);
+
+            if (settings.EnableWindowFade)
+            {
+                Opacity = 0;
+                FadeStatus = FadeStatuses.Hidden;
+            }
+            else
+            {
+                Opacity = 1;
+                FadeStatus = FadeStatuses.Visible;
+            }
+
+            settings.settingChanged += (SettingsChangedEventArgs e) =>
+            {
+                if (settings.EnableWindowFade && tweenLabels.Count == 0 && Opacity > 0)
+                {
+                    FadeOut();
+                }
+                else
+                {
+                    Opacity = 1;
+                    FadeStatus = FadeStatuses.Visible;
+                }
+            };
         }
 
         private void KeystrokesDisplay_Shown(object sender, EventArgs e)
@@ -62,6 +96,11 @@ namespace PxKeystrokesUi
             CheckForSettingsMode(e);
             if (e.ShouldBeDisplayed)
             {
+                if (settings.EnableWindowFade && Opacity < 1)
+                {
+                    FadeIn();
+                }
+
                 if(!e.RequiresNewLine
                     && NumberOfDeletionsAllowed > 0
                     && LastHistoryLineIsText
@@ -233,6 +272,11 @@ namespace PxKeystrokesUi
 
         private bool removeLastChar()
         {
+            if(tweenLabels.Count == 0)
+            {
+                return false;
+            }
+
             TweenLabel T = tweenLabels[tweenLabels.Count - 1];
             if (T.Text.Length == 0)
                 return false;
@@ -283,6 +327,11 @@ namespace PxKeystrokesUi
         void nTL_historyTimeout(TweenLabel l)
         {
             tweenLabels.Remove(l);
+
+            if(settings.EnableWindowFade && tweenLabels.Count == 0)
+            {
+                FadeOut();
+            }
         }
 
         bool addingWouldFitInCurrentLine(string s)
@@ -480,6 +529,76 @@ namespace PxKeystrokesUi
 
 
 
+
+
+
+        public void FadeIn()
+        {
+            if (FadeStatus == FadeStatuses.Hidden || FadeStatus == FadeStatuses.FadingOut)
+            {
+                FadeStatus = FadeStatuses.FadingIn;
+                this.Visible = true;
+                Timer T = new Timer();
+                T.Tick += FadeInHandler;
+                T.Interval = 40; // bit more than 30 Hz
+                T.Start();
+            }
+        }
+
+        void FadeInHandler(object sender, EventArgs e)
+        {
+            if (FadeStatus == FadeStatuses.Visible || FadeStatus == FadeStatuses.FadingOut)
+            {
+                ((Timer)sender).Tick -= FadeInHandler;
+                ((Timer)sender).Stop();
+                return;
+            }
+
+            this.Opacity += 0.12f;
+            if (Opacity >= 1)
+            {
+                Timer T = (Timer)sender;
+                ((Timer)sender).Tick -= FadeInHandler;
+                T.Stop();
+                Opacity = 1;
+                FadeStatus = FadeStatuses.Visible;
+            }
+            this.Refresh();
+        }
+
+        public void FadeOut()
+        {
+            if (FadeStatus == FadeStatuses.Visible || FadeStatus == FadeStatuses.FadingIn)
+            {
+                FadeStatus = FadeStatuses.FadingOut;
+                this.Visible = true;
+                Timer T = new Timer();
+                T.Tick += FadeOutHandler;
+                T.Interval = 40; // bit more than 30 Hz
+                T.Start();
+            }
+        }
+
+        void FadeOutHandler(object sender, EventArgs e)
+        {
+            if (FadeStatus == FadeStatuses.Hidden || FadeStatus == FadeStatuses.FadingIn)
+            {
+                ((Timer)sender).Tick -= FadeOutHandler;
+                ((Timer)sender).Stop();
+                return;
+            }
+
+            this.Opacity -= 0.12f;
+            if (Opacity <= 0)
+            {
+                Timer T = (Timer)sender;
+                ((Timer)sender).Tick -= FadeOutHandler;
+                T.Stop();
+                Opacity = 0;
+                FadeStatus = FadeStatuses.Hidden;
+            }
+            this.Refresh();
+        }
 
 
 

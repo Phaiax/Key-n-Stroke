@@ -84,6 +84,7 @@
             this.slider_bi_size = new System.Windows.Forms.TrackBar();
             this.button_exit = new System.Windows.Forms.Button();
             this.button_close = new System.Windows.Forms.Button();
+            this.cb_hideWindow = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.slider_opacity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.slider_fontsize)).BeginInit();
             this.groupBox_text_alignment.SuspendLayout();
@@ -287,6 +288,7 @@
             // 
             // gb_text
             // 
+            this.gb_text.Controls.Add(this.cb_hideWindow);
             this.gb_text.Controls.Add(this.cb_backspace);
             this.gb_text.Controls.Add(this.label_timeout_display);
             this.gb_text.Controls.Add(this.cb_enableHistoryTimeout);
@@ -310,7 +312,7 @@
             // cb_backspace
             // 
             this.cb_backspace.AutoSize = true;
-            this.cb_backspace.Location = new System.Drawing.Point(6, 216);
+            this.cb_backspace.Location = new System.Drawing.Point(6, 232);
             this.cb_backspace.Name = "cb_backspace";
             this.cb_backspace.Size = new System.Drawing.Size(153, 17);
             this.cb_backspace.TabIndex = 45;
@@ -695,6 +697,17 @@
             this.button_close.UseVisualStyleBackColor = true;
             this.button_close.Click += new System.EventHandler(this.button_close_Click);
             // 
+            // cb_hideWindow
+            // 
+            this.cb_hideWindow.AutoSize = true;
+            this.cb_hideWindow.Location = new System.Drawing.Point(6, 209);
+            this.cb_hideWindow.Name = "cb_hideWindow";
+            this.cb_hideWindow.Size = new System.Drawing.Size(147, 17);
+            this.cb_hideWindow.TabIndex = 46;
+            this.cb_hideWindow.Text = "Hide window when empty";
+            this.cb_hideWindow.UseVisualStyleBackColor = true;
+            this.cb_hideWindow.CheckedChanged += new System.EventHandler(this.cb_hideWindow_CheckedChanged);
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -804,5 +817,6 @@
         private System.Windows.Forms.CheckBox cb_bi_history;
         private System.Windows.Forms.Button button_exit;
         private System.Windows.Forms.Button button_close;
+        private System.Windows.Forms.CheckBox cb_hideWindow;
     }
 }

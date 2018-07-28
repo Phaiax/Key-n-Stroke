@@ -264,6 +264,7 @@ namespace PxKeystrokesUi
         {
             cb_cursorindicator.Checked = settings.EnableCursorIndicator;
             cb_enableHistoryTimeout.Checked = settings.EnableHistoryTimeout;
+            cb_hideWindow.Checked = settings.EnableWindowFade;
             cb_bi_history.Checked = settings.AddButtonEventsToHistory;
             cb_backspace.Checked = settings.BackspaceDeletesText;
         }
@@ -307,12 +308,9 @@ namespace PxKeystrokesUi
             this.Close();
         }
 
-
-
-
-
-
-
-
+        private void cb_hideWindow_CheckedChanged(object sender, EventArgs e)
+        {
+            settings.EnableWindowFade = cb_hideWindow.Checked;
+        }
     }
 }

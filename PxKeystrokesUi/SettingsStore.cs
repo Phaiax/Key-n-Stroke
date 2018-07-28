@@ -254,6 +254,14 @@ namespace PxKeystrokesUi
             set { enableHistoryTimeout = value; OnSettingChanged("EnableHistoryTimeout"); }
         }
 
+        private bool enableWindowFade;
+        public bool EnableWindowFadeDefault = true;
+        public bool EnableWindowFade
+        {
+            get { return enableWindowFade; }
+            set { enableWindowFade = value; OnSettingChanged("EnableWindowFade"); }
+        }
+
         private bool enableCursorIndicator;
         public bool EnableCursorIndicatorDefault = true;
         public bool EnableCursorIndicator
