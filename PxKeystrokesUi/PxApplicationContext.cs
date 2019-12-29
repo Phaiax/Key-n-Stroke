@@ -16,7 +16,7 @@ namespace PxKeystrokesUi
 
         public PxApplicationContext()
         {
-            Log.SetTagFilter("NONE");
+            Log.SetTagFilter("");
 
             Application.ApplicationExit += Application_ApplicationExit;
 
