@@ -1,6 +1,6 @@
 # PxKeystrokesForScreencasts
 
-Displays Keystrokes in an overlay window. (Windows 8)
+Displays Keystrokes in an overlay window. (Windows 10 - Mai 2019 - 1903)
 
 Press <code>Ctrl + Shift + Alt</code> to reveal configuration options, resize, move or close the window.
 
@@ -43,11 +43,11 @@ You can find the exe in the <code>Releases</code> folder
 - v0.2.0 (indicator for cursor position, history timeout, bugfixes, documentation)
 - v0.3.0 (indicator for pressed buttons, deadkey fixes, backspace functionality)
 - v0.3.1 (new icons, little fixes and internal improvements)
+- v0.x.x (update to net framework 4.8)
 
 ## Requirements
-Windows 8 or 10
 
-Windows 7 requires you to change the default font, otherwise you will see little squares instead of symbols.
+Windows 10
 
 # Screenshots
 
