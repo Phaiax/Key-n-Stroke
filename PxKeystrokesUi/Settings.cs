@@ -11,6 +11,15 @@ using System.Windows.Forms;
 
 namespace PxKeystrokesUi
 {
+    // Developing on HighDPI Screens:
+    // https://docs.microsoft.com/de-de/visualstudio/designers/disable-dpi-awareness?view=vs-2019
+    // Edit the settings window (Windows Forms Designer) only while Visual Studio is in DPI-Unaware mode
+    // (this can be archived by using the yellow bar that appears in the designer view)
+    // All fonts should become blurry in visual studio, even this text.
+
+    // Developing good behaving apps:
+    // https://stackoverflow.com/questions/22735174/how-to-write-winforms-code-that-auto-scales-to-system-font-and-dpi-settings
+
     public partial class Settings : Form
     {
         public Settings(SettingsStore s)
