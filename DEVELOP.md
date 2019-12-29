@@ -39,7 +39,8 @@ The idea is, that you just do this nice pure C# thing
 		// process hook
 	}
 	IKeyboardRawEventProvider myKeyboardHook = new KeyboardHook();
-	hook.KeyEvent += hook_KeyEvent; ```
+	hook.KeyEvent += hook_KeyEvent;
+```
 
 ... instead of dealing with the raw system library calls.
 
