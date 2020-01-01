@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="PxKeystrokesWPF.LabeledSlider"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PxKeystrokesWPF"
+             mc:Ignorable="d" 
+             d:DesignHeight="40" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Label Target="{Binding ElementName=slider}" Content="{Binding Title}" Margin="0,-3,0,0"/>
+        <Slider x:Name="slider" Grid.Column="1" Maximum="{Binding Maximum}" Minimum="{Binding Minimum}" Value="{Binding Value}" ValueChanged="Slider_ValueChanged" />
+    </Grid>
+</UserControl>
