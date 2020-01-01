@@ -149,7 +149,6 @@
     <Compile Include="TweenLabel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UrlOpener.cs" />
     <EmbeddedResource Include="ButtonIndicator.resx">
       <DependentUpon>ButtonIndicator.cs</DependentUpon>
     </EmbeddedResource>

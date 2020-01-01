@@ -69,6 +69,7 @@
       <DependentUpon>Settings1.xaml</DependentUpon>
     </Compile>
     <Compile Include="SettingsStore.cs" />
+    <Compile Include="UrlOpener.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
