@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PxKeystrokesUi;
+using PxKeystrokesWPF;
 using System.Drawing;
 
 

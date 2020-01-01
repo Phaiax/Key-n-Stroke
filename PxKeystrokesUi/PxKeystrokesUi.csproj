@@ -145,7 +145,6 @@
     <Compile Include="Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
-    <Compile Include="SettingsStore.cs" />
     <Compile Include="SpecialkeysParser.cs" />
     <Compile Include="TweenLabel.cs">
       <SubType>Component</SubType>

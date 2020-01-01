@@ -8,7 +8,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>PxKeystrokesTests</RootNamespace>
     <AssemblyName>PxKeystrokesTests</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -16,6 +16,7 @@
     <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
     <IsCodedUITest>False</IsCodedUITest>
     <TestProjectType>UnitTest</TestProjectType>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -60,6 +61,10 @@
     <ProjectReference Include="..\PxKeystrokesUi\PxKeystrokesUi.csproj">
       <Project>{1c6c11f1-8473-43cb-8f6d-1bc1187742d5}</Project>
       <Name>PxKeystrokesUi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PxKeystrokesWPF\PxKeystrokesWPF.csproj">
+      <Project>{ba117557-febc-45c5-8895-4017d05c3dcd}</Project>
+      <Name>PxKeystrokesWPF</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>
