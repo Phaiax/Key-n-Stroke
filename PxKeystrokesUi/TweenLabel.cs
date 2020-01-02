@@ -234,13 +234,13 @@ namespace PxKeystrokesUi
 
             switch (settings.LabelTextAlignment)
             {
-                case TextAlignent.Left:
+                case TextAlignment.Left:
                     x = 0;
                     break;
-                case TextAlignent.Right:
+                case TextAlignment.Right:
                     x = this.Width - (int)StringSize.Width;
                     break;
-                case TextAlignent.Center:
+                case TextAlignment.Center:
                     x = (int)(((float)this.Width - StringSize.Width) / 2.0f);
                     break;
             }

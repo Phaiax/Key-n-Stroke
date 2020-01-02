@@ -8,7 +8,7 @@ namespace PxKeystrokesWPF
 {
     public class Log
     {
-        static string TagFilter = "";
+        static string TagFilter = "CNV";
         static string[] allowed = new string[]{};
         public static void SetTagFilter(string tagfilter)
         {

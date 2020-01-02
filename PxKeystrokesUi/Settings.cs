@@ -47,17 +47,17 @@ namespace PxKeystrokesUi
 
         private void rb_align_left_CheckedChanged(object sender, EventArgs e)
         {
-            settings.LabelTextAlignment = TextAlignent.Left;
+            settings.LabelTextAlignment = TextAlignment.Left;
         }
 
         private void rb_align_center_CheckedChanged(object sender, EventArgs e)
         {
-            settings.LabelTextAlignment = TextAlignent.Center;
+            settings.LabelTextAlignment = TextAlignment.Center;
         }
 
         private void rb_align_right_CheckedChanged(object sender, EventArgs e)
         {
-            settings.LabelTextAlignment = TextAlignent.Right;
+            settings.LabelTextAlignment = TextAlignment.Right;
         }
 
         private void rb_td_down_CheckedChanged(object sender, EventArgs e)
@@ -238,13 +238,13 @@ namespace PxKeystrokesUi
 
             switch (settings.LabelTextAlignment)
             {
-                case TextAlignent.Right:
+                case TextAlignment.Right:
                     rb_align_right.Checked = true;
                     break;
-                case TextAlignent.Center:
+                case TextAlignment.Center:
                     rb_align_center.Checked = true;
                     break;
-                case TextAlignent.Left:
+                case TextAlignment.Left:
                     rb_align_left.Checked = true;
                     break;
             }

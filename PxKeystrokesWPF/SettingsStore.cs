@@ -17,7 +17,7 @@ namespace PxKeystrokesWPF
 
     #region Enums for some settings
 
-    public enum TextAlignent
+    public enum TextAlignment
     {
         Left,
         Right,
@@ -146,7 +146,7 @@ namespace PxKeystrokesWPF
         [DataMember] public SerializableColor textColor;
         [DataMember] public SerializableColor backgroundColor;
         [DataMember] public float opacity;
-        [DataMember] public TextAlignent labelTextAlignment;
+        [DataMember] public TextAlignment labelTextAlignment;
         [DataMember] public TextDirection labelTextDirection;
         [DataMember] public Style labelAnimation;
         [DataMember] public SerializablePoint windowLocation;
@@ -231,8 +231,8 @@ namespace PxKeystrokesWPF
             set { i.opacity = value; OnSettingChanged("Opacity"); }
         }
 
-        public TextAlignent LabelTextAlignmentDefault = TextAlignent.Left;
-        public TextAlignent LabelTextAlignment
+        public TextAlignment LabelTextAlignmentDefault = TextAlignment.Left;
+        public TextAlignment LabelTextAlignment
         {
             get { return Or(i.labelTextAlignment, LabelTextAlignmentDefault); }
             set { i.labelTextAlignment = value; OnSettingChanged("LabelTextAlignment"); }
@@ -326,7 +326,8 @@ namespace PxKeystrokesWPF
         public float CursorIndicatorOpacity
         {
             get { return Or(i.cursorIndicatorOpacity, CursorIndicatorOpacityDefault); }
-            set { i.cursorIndicatorOpacity = value; OnSettingChanged("CursorIndicatorOpacity"); }
+            set { i.cursorIndicatorOpacity = value; OnSettingChanged("CursorIndicatorOpacity");
+                Console.WriteLine("CursorIndicatorOpacity " + value); }
         }
 
         public Size CursorIndicatorSizeDefault = new Size(55, 55);

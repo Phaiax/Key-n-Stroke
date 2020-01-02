@@ -27,7 +27,7 @@ namespace PxKeystrokesUi
 
             mySettings.settingChanged += OnSettingChanged;
 
-            PxKeystrokesWPF.Settings1 settings1 = new PxKeystrokesWPF.Settings1();
+            PxKeystrokesWPF.Settings1 settings1 = new PxKeystrokesWPF.Settings1(mySettings);
             System.Windows.Forms.Integration.ElementHost.EnableModelessKeyboardInterop(settings1);
             //WPFHelper.SetOwner(this, dlg);
             //dlg.ShowDialog();

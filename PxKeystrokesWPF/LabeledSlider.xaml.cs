@@ -24,7 +24,7 @@ namespace PxKeystrokesWPF
         public LabeledSlider()
         {
             InitializeComponent();
-            this.DataContext = this;
+            layout_root.DataContext = this;
         }
 
 

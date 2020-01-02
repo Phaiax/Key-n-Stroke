@@ -116,7 +116,6 @@
       <DependentUpon>CursorIndicator.cs</DependentUpon>
     </Compile>
     <Compile Include="ImageResources.cs" />
-    <Compile Include="Log.cs" />
     <Compile Include="NativeMethodsDC.cs" />
     <Compile Include="PxApplicationContext.cs" />
     <Compile Include="KeyboardLayoutParser.cs" />

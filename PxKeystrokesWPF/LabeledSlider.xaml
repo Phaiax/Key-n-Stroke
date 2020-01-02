@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:PxKeystrokesWPF"
              mc:Ignorable="d" 
              d:DesignHeight="40" d:DesignWidth="800">
-    <Grid>
+    <Grid x:Name="layout_root">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
