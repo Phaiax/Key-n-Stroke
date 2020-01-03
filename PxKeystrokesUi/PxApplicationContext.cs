@@ -17,7 +17,7 @@ namespace PxKeystrokesUi
 
         public PxApplicationContext()
         {
-            Log.SetTagFilter("");
+            Log.SetTagFilter("CNV|BIN");
 
             Application.ApplicationExit += Application_ApplicationExit;
 

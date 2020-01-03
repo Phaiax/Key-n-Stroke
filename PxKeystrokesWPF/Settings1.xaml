@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:uc="clr-namespace:PxKeystrokesWPF"
+        xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
         mc:Ignorable="d"
         Title="Settings" Height="auto" Width="900"
         SizeToContent="Height" Closing="Window_Closing">
@@ -24,7 +25,7 @@
         <uc:EnumBooleanConverter x:Key="EnumBooleanConverter" />
         <uc:FloatPercentageConverter x:Key="FloatPercentageConverter"/>
     </Window.Resources>
-    <Grid Margin="5,0">
+    <Grid Margin="5,0" x:Name="layout_root">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="50"/>
@@ -92,7 +93,7 @@
                         <CheckBox x:Name="cb_enableHistoryTimeout"  IsChecked="{Binding EnableHistoryTimeout}">
                             <TextBlock>
                                 History Timeout
-                                <TextBlock Margin="20,0,0,0" Text="{Binding ElementName=slider_historycount, Path=Value}" />ms
+                                <TextBlock Margin="20,0,0,0" Text="{Binding ElementName=slider_history_timeout, Path=Value}" />ms
                             </TextBlock>
                         </CheckBox>
                     </WrapPanel>
@@ -101,7 +102,6 @@
                                       Title="Timeout"
                                       Maximum="120000"
                                       Minimum="1000"
-                                      Value="{Binding HistoryTimeout}"
                                       />
                     <CheckBox x:Name="cb_hideWindow" IsChecked="{Binding EnableWindowFade}">Hide Window when empty</CheckBox>
                     <CheckBox x:Name="cb_backspace" IsChecked="{Binding BackspaceDeletesText}">Backspace can delete text</CheckBox>

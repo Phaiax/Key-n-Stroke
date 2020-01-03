@@ -12,6 +12,6 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Label Target="{Binding ElementName=slider}" Content="{Binding Title}" Margin="0,-3,0,0"/>
-        <Slider x:Name="slider" Grid.Column="1" Maximum="{Binding Maximum}" Minimum="{Binding Minimum}" Value="{Binding Value}" ValueChanged="Slider_ValueChanged" />
+        <Slider x:Name="slider" Grid.Column="1" Maximum="{Binding Maximum}" Minimum="{Binding Minimum}" Value="{Binding Value, Mode=TwoWay}" ValueChanged="Slider_ValueChanged" />
     </Grid>
 </UserControl>

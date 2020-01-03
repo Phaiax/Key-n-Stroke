@@ -316,7 +316,7 @@ namespace PxKeystrokesUi
 
             while (tweenLabels.Count > settings.HistoryLength)
             {
-                System.Diagnostics.Debug.WriteLine(String.Format("Dele{0} {1} u{2}", 
+                Log.e("TWE", String.Format("Dele{0} {1} u{2}", 
                     tweenLabels.Count, this.Controls.Count, u));
 
                 tweenLabels[0].FadeOutAndRecycle(null);

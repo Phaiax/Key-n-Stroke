@@ -54,7 +54,8 @@ namespace PxKeystrokesWPF
         {
             InitializeComponent();
             settings = s;
-            this.DataContext = settings;
+            Log.e("BIN", "Set Data context in settings window");
+            layout_root.DataContext = settings;
         }
 
         SettingsStore settings;
@@ -77,10 +78,10 @@ namespace PxKeystrokesWPF
 
         private void Bn_reset_position_Click(object sender, RoutedEventArgs e)
         {
-            Log.e("CNV", "Alignment: " + settings.LabelTextAlignment.ToString() 
-                + " EnCurIn " + settings.EnableCursorIndicator.ToString()
-                + " VDist " + settings.LineDistance.ToString()
-                + " " + slider_vertdist.Value);
+            Log.e("CNV", $"Alignment: {settings.LabelTextAlignment}" 
+                + $" | settings.EnableCursorIndicator={settings.EnableCursorIndicator}" 
+                + $" | settings.HistoryTimeout={settings.HistoryTimeout}"
+                + $" | slider_history_timeout.Value={slider_history_timeout.Value}");
         }
 
         private void Button_close_Click(object sender, RoutedEventArgs e)

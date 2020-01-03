@@ -24,6 +24,7 @@ namespace PxKeystrokesWPF
         public LabeledSlider()
         {
             InitializeComponent();
+            Log.e("BIN", "Set Data context in labeled slider");
             layout_root.DataContext = this;
         }
 
