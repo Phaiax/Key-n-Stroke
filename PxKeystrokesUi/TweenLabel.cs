@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
@@ -59,7 +60,7 @@ namespace PxKeystrokesUi
             if (settings == null)
             {
                 settings = s;
-                settings.settingChanged += settingChanged;
+                settings.PropertyChanged += settingChanged;
                 this.TextChanged += TweenLabel_TextChanged;
                 this.Font = settings.LabelFont;
                 this.ForeColor = settings.TextColor;
@@ -75,9 +76,9 @@ namespace PxKeystrokesUi
         }
 
 
-        private void settingChanged(SettingsChangedEventArgs e)
+        private void settingChanged(object sender, PropertyChangedEventArgs e)
         {
-            switch (e.Name)
+            switch (e.PropertyName)
             {
                 case "LabelFont":
                     this.Font = settings.LabelFont;

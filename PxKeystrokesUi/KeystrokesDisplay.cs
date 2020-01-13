@@ -46,7 +46,7 @@ namespace PxKeystrokesUi
             this.k.KeystrokeEvent += k_KeystrokeEvent;
 
             this.settings = s;
-            this.settings.settingChanged += settingChanged;
+            this.settings.PropertyChanged += settingChanged;
 
             this.settings.OnSettingChangedAll();
 
@@ -69,7 +69,7 @@ namespace PxKeystrokesUi
                 FadeStatus = FadeStatuses.Visible;
             }
 
-            settings.settingChanged += (SettingsChangedEventArgs e) =>
+            settings.PropertyChanged += (object sender, PropertyChangedEventArgs e) =>
             {
                 if (settings.EnableWindowFade && tweenLabels.Count == 0 && Opacity > 0)
                 {
@@ -222,9 +222,9 @@ namespace PxKeystrokesUi
             this.bn_settings.BringToFront();
         }
 
-        private void settingChanged(SettingsChangedEventArgs e)
+        private void settingChanged(object sender, PropertyChangedEventArgs e)
         {
-            switch (e.Name)
+            switch (e.PropertyName)
             {
                 case "BackgroundColor":
                     this.BackColor = settings.BackgroundColor;
@@ -382,7 +382,7 @@ namespace PxKeystrokesUi
         void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             k.KeystrokeEvent -= k_KeystrokeEvent;
-            settings.settingChanged -= settingChanged;
+            settings.PropertyChanged -= settingChanged;
 
             settings.SaveAll();
         }

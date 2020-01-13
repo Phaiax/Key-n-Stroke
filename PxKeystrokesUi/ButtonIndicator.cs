@@ -34,7 +34,7 @@ namespace PxKeystrokesUi
             SetFormStyles();
 
             m.MouseEvent += m_MouseEvent;
-            s.settingChanged += settingChanged;
+            s.PropertyChanged += settingChanged;
             DoubleClickIconTimer.Tick += leftDoubleClickIconTimeout_Tick;
             DoubleClickIconTimer.Interval = 750;
 
@@ -239,7 +239,7 @@ namespace PxKeystrokesUi
             if (m != null)
                 m.MouseEvent -= m_MouseEvent;
             if (s != null)
-                s.settingChanged -= settingChanged;
+                s.PropertyChanged -= settingChanged;
             m = null;
             s = null;
         }
@@ -291,10 +291,10 @@ namespace PxKeystrokesUi
                || c.addBRightDouble);
         }
 
-        private void settingChanged(SettingsChangedEventArgs e)
+        private void settingChanged(object sender, PropertyChangedEventArgs e)
         {
             Log.e("SOME", "ButtonIndicator => settingChanged");
-            switch (e.Name)
+            switch (e.PropertyName)
             {
                 case "ButtonIndicator":
                     break;

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.IO.IsolatedStorage;
@@ -117,26 +118,6 @@ namespace PxKeystrokesWPF
 
     #endregion
 
-    #region class SettingChangedEventArgs, delegate
-
-    public delegate void SettingsChangedEventHandler(SettingsChangedEventArgs e);
-
-    public class SettingsChangedEventArgs
-    {
-        private string name;
-        public string Name
-        {
-            get { return name; }
-        }
-
-        public SettingsChangedEventArgs(string name)
-        {
-            this.name = name;
-        }
-    }
-
-    #endregion
-
     #region Serializable Settings
 
     [DataContract]
@@ -172,7 +153,7 @@ namespace PxKeystrokesWPF
 
     #endregion
 
-    public class SettingsStore
+    public class SettingsStore : INotifyPropertyChanged
     {
 
         #region Constructor
@@ -392,15 +373,13 @@ namespace PxKeystrokesWPF
 
         #region SettingsChangedEvent
 
-        public SettingsChangedEventHandler settingChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        private void OnSettingChanged(string name)
+        private void OnSettingChanged(string property)
         {
             dirty = true;
-            if (this.settingChanged != null)
-            {
-                this.settingChanged(new SettingsChangedEventArgs(name));
-            }
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(property));
         }
 
         public void OnSettingChangedAll()

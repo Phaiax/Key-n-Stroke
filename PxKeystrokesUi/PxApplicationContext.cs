@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
 using PxKeystrokesWPF;
+using System.ComponentModel;
 
 namespace PxKeystrokesUi
 {
@@ -25,21 +26,22 @@ namespace PxKeystrokesUi
             InitSettings();
             InitKeyboardInterception();
 
-            mySettings.settingChanged += OnSettingChanged;
+            mySettings.PropertyChanged += OnSettingChanged;
+            mySettings.HistoryTimeout = 30000;
 
             PxKeystrokesWPF.Settings1 settings1 = new PxKeystrokesWPF.Settings1(mySettings);
             System.Windows.Forms.Integration.ElementHost.EnableModelessKeyboardInterop(settings1);
             //WPFHelper.SetOwner(this, dlg);
             //dlg.ShowDialog();
-            settings1.Show();
+            settings1.ShowDialog();
 
             myUi = new KeystrokesDisplay(myKeystrokeConverter, mySettings);
             myUi.FormClosed += OnUiClosed;
-            myUi.Show();
+            //myUi.Show();
             this.MainForm = myUi;
 
-            OnCursorIndicatorSettingChanged();
-            OnButtonIndicatorSettingChanged();
+            //OnCursorIndicatorSettingChanged();
+            //OnButtonIndicatorSettingChanged();
         }
 
         SettingsStore mySettings;
@@ -79,9 +81,9 @@ namespace PxKeystrokesUi
             myUi.Close();
         }
 
-        private void OnSettingChanged(SettingsChangedEventArgs e)
+        private void OnSettingChanged(object sender, PropertyChangedEventArgs e)
         {
-            switch (e.Name)
+            switch (e.PropertyName)
             {
                 case "EnableCursorIndicator":
                     OnCursorIndicatorSettingChanged();

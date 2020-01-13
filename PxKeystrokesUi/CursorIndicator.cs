@@ -29,7 +29,7 @@ namespace PxKeystrokesUi
 
             m.MouseEvent += m_MouseEvent;
             Paint += CursorIndicator_Paint;
-            s.settingChanged += settingChanged;
+            s.PropertyChanged += settingChanged;
 
             BackColor = Color.Lavender;
             TransparencyKey = Color.Lavender;
@@ -58,7 +58,7 @@ namespace PxKeystrokesUi
             if ( m != null )
                 m.MouseEvent -= m_MouseEvent;
             if ( s != null )
-                s.settingChanged -= settingChanged;
+                s.PropertyChanged -= settingChanged;
             m = null;
             s = null;
         }
@@ -88,9 +88,9 @@ namespace PxKeystrokesUi
             //this.Location = cursorPosition;
         }
 
-        private void settingChanged(SettingsChangedEventArgs e)
+        private void settingChanged(object sender, PropertyChangedEventArgs e)
         {
-            switch (e.Name)
+            switch (e.PropertyName)
             {
                 case "EnableCursorIndicator":
                     break;
