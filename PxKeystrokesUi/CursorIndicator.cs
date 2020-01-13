@@ -40,7 +40,7 @@ namespace PxKeystrokesUi
             this.Location = new Point(0, 0);
             Graphics g = this.CreateGraphics();
             Pen p = new Pen(s.CursorIndicatorColor, 7);
-            g.FillEllipse(p.Brush, 0, 0, s.CursorIndicatorSize.Width, s.CursorIndicatorSize.Height);
+            g.FillEllipse(p.Brush, 0, 0, s.CursorIndicatorSize, s.CursorIndicatorSize);
             //UpdatePosition();
         }
 
@@ -78,7 +78,7 @@ namespace PxKeystrokesUi
 
         void UpdateSize()
         {
-            this.Size = s.CursorIndicatorSize;
+            this.Size = new Size(s.CursorIndicatorSize, s.CursorIndicatorSize);
             this.Invalidate(new Rectangle(0, 0, this.Size.Width, this.Size.Height));
         }
 

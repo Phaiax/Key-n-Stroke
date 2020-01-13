@@ -83,7 +83,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Button x:Name="button_textcolor" Grid.Column="0">Color</Button>
-                        <Button x:Name="button_textfont" Grid.Column="2">Font</Button>
+                        <Button x:Name="button_textfont" Grid.Column="2" Click="OnButtonTextFontClick">Font</Button>
                     </Grid>
                     <uc:LabeledSlider x:Name="slider_fontsize" Title="Fontsize" Minimum="800" Maximum="3000" />
                     <uc:LabeledSlider x:Name="slider_vertdist" Title="Vertical Distance" Minimum="10" Maximum="100"
@@ -117,7 +117,7 @@
                     <CheckBox x:Name="cb_cursorindicator" IsChecked="{Binding EnableCursorIndicator}">Indicate cursor position</CheckBox>
                     <uc:LabeledSlider x:Name="slider_ci_opacity" Title="Opacity" Minimum="10" Maximum="100" 
                                       Value="{Binding CursorIndicatorOpacity, Converter={StaticResource FloatPercentageConverter}, Mode=TwoWay}" />
-                    <uc:LabeledSlider x:Name="slider_ci_size" Title="Size" Minimum="800" Maximum="3000" Value="{Binding CursorIndicatorSize, Mode=TwoWay}" />
+                    <uc:LabeledSlider x:Name="slider_ci_size" Title="Size" Minimum="3" Maximum="300" Value="{Binding CursorIndicatorSize, Mode=TwoWay}" />
                     <Button x:Name="button_ci_color" Margin="10">Color</Button>
                 </StackPanel>
             </GroupBox>

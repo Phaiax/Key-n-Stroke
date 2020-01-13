@@ -62,8 +62,8 @@ namespace PxKeystrokesUi
                 settings = s;
                 settings.PropertyChanged += settingChanged;
                 this.TextChanged += TweenLabel_TextChanged;
-                this.Font = settings.LabelFont;
-                this.ForeColor = settings.TextColor;
+                //this.Font = new Font(settings.LabelFont.;
+                //this.ForeColor = settings.TextColor;
                 this.DoubleBuffered = true;
             }
 
@@ -81,10 +81,10 @@ namespace PxKeystrokesUi
             switch (e.PropertyName)
             {
                 case "LabelFont":
-                    this.Font = settings.LabelFont;
+                    //this.Font = settings.LabelFont;
                     break;
                 case "TextColor":
-                    this.ForeColor = settings.TextColor;
+                    //this.ForeColor = settings.TextColor;
                     break;
                 case "HistoryTimeout":
                     ResetHistoryTimeoutTimer();

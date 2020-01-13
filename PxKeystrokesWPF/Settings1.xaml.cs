@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WpfColorFontDialog;
 
 namespace PxKeystrokesWPF
 {
@@ -84,6 +85,20 @@ namespace PxKeystrokesWPF
         private void Button_close_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void OnButtonTextFontClick(object sender, RoutedEventArgs e)
+        {
+            ColorFontDialog dialog = new ColorFontDialog(true, true);
+            dialog.Font = settings.LabelFont;
+            if (dialog.ShowDialog() == true)
+            {
+                FontInfo font = dialog.Font;
+                if (font != null)
+                {
+                    settings.LabelFont = font;
+                }
+            }
         }
     }
 }

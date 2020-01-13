@@ -130,6 +130,16 @@ namespace PxKeystrokesUi
                 if (addBWheelDown) s += "WheelDown ";
                 return s;
             }
+
+            public override bool Equals(object obj)
+            {
+                return base.Equals(obj);
+            }
+
+            public override int GetHashCode()
+            {
+                return base.GetHashCode();
+            }
         }
 
         static ComposeOptions lastComposeOptions;

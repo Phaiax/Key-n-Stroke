@@ -87,19 +87,19 @@ namespace PxKeystrokesUi
 
         private void button_textcolor_Click(object sender, EventArgs e)
         {
-            picker_textcolor.Color = settings.TextColor;
+            //picker_textcolor.Color = settings.TextColor;
             if(picker_textcolor.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
             {
-                settings.TextColor = picker_textcolor.Color;
+                //settings.TextColor = picker_textcolor.Color;
             }
         }
 
         private void button_textfont_Click(object sender, EventArgs e)
         {
-            fontDialog_text.Font = settings.LabelFont;
+            //fontDialog_text.Font = settings.LabelFont;
             if(fontDialog_text.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
             {
-                settings.LabelFont = fontDialog_text.Font;
+                //settings.LabelFont = fontDialog_text.Font;
                 UpdateSliderValues();
             }
         }
@@ -107,7 +107,7 @@ namespace PxKeystrokesUi
         private void slider_fontsize_Scroll(object sender, EventArgs e)
         {
             float newsize = (float)slider_fontsize.Value / 100f;
-            settings.LabelFont = new Font(settings.LabelFont.FontFamily, newsize, settings.LabelFont.Style);
+            //settings.LabelFont = new Font(settings.LabelFont.FontFamily, newsize, settings.LabelFont.Style);
         }
 
         private void button_backcolor_Click(object sender, EventArgs e)
@@ -152,7 +152,7 @@ namespace PxKeystrokesUi
 
         private void slider_ci_size_Scroll(object sender, EventArgs e)
         {
-            settings.CursorIndicatorSize = new Size(slider_ci_size.Value, slider_ci_size.Value);
+            settings.CursorIndicatorSize = slider_ci_size.Value;
         }
 
         private void button_ci_color_Click(object sender, EventArgs e)
@@ -201,11 +201,11 @@ namespace PxKeystrokesUi
 
         private void UpdateSliderValues()
         {
-            ExtendTrackbarRangeIfNeeded(slider_fontsize, (int)(settings.LabelFont.SizeInPoints * 100f));
+            //ExtendTrackbarRangeIfNeeded(slider_fontsize, (int)(settings.LabelFont.SizeInPoints * 100f));
 
             slider_opacity.Value = (int)(settings.Opacity * 100f);
 
-            ExtendTrackbarRangeIfNeeded(slider_ci_size, settings.CursorIndicatorSize.Height);
+            ExtendTrackbarRangeIfNeeded(slider_ci_size, settings.CursorIndicatorSize);
             slider_ci_opacity.Value = (int)(settings.CursorIndicatorOpacity * 100f);
 
             nud_historycount.Value = settings.HistoryLength;

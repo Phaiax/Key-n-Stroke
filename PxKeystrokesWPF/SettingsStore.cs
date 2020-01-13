@@ -11,6 +11,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
+using WpfColorFontDialog;
 //using System.Windows.Forms;
 
 namespace PxKeystrokesWPF
@@ -53,20 +54,43 @@ namespace PxKeystrokesWPF
     }
 
     [DataContract]
-    public class SerializableFont : IGet<Font>
+    public class SerializableFont : IGet<FontInfo>
     {
-        [DataMember] public string fontfamily;
+        [DataMember] public string family;
+        [DataMember] public SerializableColor color;
         [DataMember] public double size;
-        [DataMember] public int style;
-        public SerializableFont(Font value)
+        [DataMember] public string style;
+        [DataMember] public int stretch;
+        [DataMember] public int weight;
+
+        public SerializableFont(FontInfo value)
         {
-            fontfamily = value.Name;
-            size = (double)value.SizeInPoints;
-            style = (int)value.Style;
+            color = new SerializableColor(value.Color.Brush.Color);
+            family = value.Family.Source;
+            size = value.Size;
+            stretch = value.Stretch.ToOpenTypeStretch();
+            if (value.Style == System.Windows.FontStyles.Italic) style = "Italic";
+            else if (value.Style == System.Windows.FontStyles.Oblique) style = "Oblique";
+            else style = "Normal";
+            weight = value.Weight.ToOpenTypeWeight();
+
         }
-        public Font Get()
+        public FontInfo Get()
         {
-            return new Font(fontfamily, (float)size, (FontStyle)style);
+            System.Windows.FontStyle style = System.Windows.FontStyles.Normal;
+            if (this.style == "Italic") style = System.Windows.FontStyles.Italic;
+            if (this.style == "Oblique") style = System.Windows.FontStyles.Oblique;
+
+            return new FontInfo(new System.Windows.Media.FontFamily(family),
+                                size,
+                                style,
+                                System.Windows.FontStretch.FromOpenTypeStretch(stretch),
+                                System.Windows.FontWeight.FromOpenTypeWeight(weight),
+                                new System.Windows.Media.SolidColorBrush(color.Get()));
+        }
+        public override string ToString()
+        {
+            return $"{family}, {size}, {style}, stretch={stretch}, weight={weight}, #{color.r:X2}{color.g:X2}{color.b:X2}";
         }
     }
 
@@ -103,10 +127,31 @@ namespace PxKeystrokesWPF
     }
 
     [DataContract]
-    public class SerializableColor : IGet<Color>
+    public class SerializableColor : IGet<System.Windows.Media.Color>
+    {
+        [DataMember] public byte a;
+        [DataMember] public byte r;
+        [DataMember] public byte g;
+        [DataMember] public byte b;
+
+        public SerializableColor(System.Windows.Media.Color value)
+        {
+            a = value.A;
+            r = value.R;
+            g = value.G;
+            b = value.B;
+        }
+        public System.Windows.Media.Color Get()
+        {
+            return System.Windows.Media.Color.FromArgb(a, r, g, b);
+        }
+    }
+
+    [DataContract]
+    public class SerializableColor2 : IGet<Color>
     {
         [DataMember] public int color;
-        public SerializableColor(Color value)
+        public SerializableColor2(Color value)
         {
             color = value.ToArgb();
         }
@@ -125,7 +170,7 @@ namespace PxKeystrokesWPF
     {
         [DataMember] public SerializableFont labelFont;
         [DataMember] public SerializableColor textColor;
-        [DataMember] public SerializableColor backgroundColor;
+        [DataMember] public SerializableColor2 backgroundColor;
         [DataMember] public float opacity;
         [DataMember] public TextAlignment labelTextAlignment;
         [DataMember] public TextDirection labelTextDirection;
@@ -141,8 +186,8 @@ namespace PxKeystrokesWPF
         [DataMember] public bool enableWindowFade;
         [DataMember] public bool enableCursorIndicator;
         [DataMember] public float cursorIndicatorOpacity;
-        [DataMember] public SerializableSize cursorIndicatorSize;
-        [DataMember] public SerializableColor cursorIndicatorColor;
+        [DataMember] public int cursorIndicatorSize;
+        [DataMember] public SerializableColor2 cursorIndicatorColor;
         [DataMember] public ButtonIndicatorType buttonIndicator;
         [DataMember] public float buttonIndicatorSize;
         [DataMember] public float buttonIndicatorPositionAngle;
@@ -184,25 +229,23 @@ namespace PxKeystrokesWPF
 
         Settings i = new Settings();
 
-        public Font LabelFontDefault = new Font("Open Sans", 14);
-        public Font LabelFont
+        public FontInfo LabelFontDefault = new FontInfo(new System.Windows.Media.FontFamily("Calibri"),
+                                                        14.0,
+                                                        System.Windows.FontStyles.Normal,
+                                                        System.Windows.FontStretch.FromOpenTypeStretch(5),
+                                                        System.Windows.FontWeight.FromOpenTypeWeight(400),
+                                                        new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(255,255,255)));
+        public FontInfo LabelFont
         {
             get { return Or(i.labelFont, LabelFontDefault); }
             set { i.labelFont = new SerializableFont(value); OnSettingChanged("LabelFont"); }
-        }
-
-        public Color TextColorDefault = Color.White;
-        public Color TextColor
-        {
-            get { return Or(i.textColor, TextColorDefault); }
-            set { i.textColor = new SerializableColor(value); OnSettingChanged("TextColor"); }
         }
 
         public Color BackgroundColorDefault = Color.Black;
         public Color BackgroundColor
         {
             get { return Or(i.backgroundColor, BackgroundColorDefault); }
-            set { i.backgroundColor = new SerializableColor(value); OnSettingChanged("BackgroundColor"); }
+            set { i.backgroundColor = new SerializableColor2(value); OnSettingChanged("BackgroundColor"); }
         }
 
         public float OpacityDefault = 0.78f;
@@ -311,18 +354,18 @@ namespace PxKeystrokesWPF
                 Console.WriteLine("CursorIndicatorOpacity " + value); }
         }
 
-        public Size CursorIndicatorSizeDefault = new Size(55, 55);
-        public Size CursorIndicatorSize
+        public int CursorIndicatorSizeDefault = 55;
+        public int CursorIndicatorSize
         {
             get { return Or(i.cursorIndicatorSize, CursorIndicatorSizeDefault); }
-            set { i.cursorIndicatorSize = new SerializableSize(value); OnSettingChanged("CursorIndicatorSize"); }
+            set { i.cursorIndicatorSize = value; OnSettingChanged("CursorIndicatorSize"); }
         }
 
         public Color CursorIndicatorColorDefault = Color.FromArgb(-32640);
         public Color CursorIndicatorColor
         {
             get { return Or(i.cursorIndicatorColor, CursorIndicatorColorDefault); }
-            set { i.cursorIndicatorColor = new SerializableColor(value); OnSettingChanged("CursorIndicatorColor"); }
+            set { i.cursorIndicatorColor = new SerializableColor2(value); OnSettingChanged("CursorIndicatorColor"); }
         }
 
         public ButtonIndicatorType ButtonIndicatorDefault = ButtonIndicatorType.PicsAroundCursor;
@@ -465,7 +508,14 @@ namespace PxKeystrokesWPF
                             DataContractJsonSerializer ser =
                                 new DataContractJsonSerializer(typeof(Settings));
 
-                            i = (Settings) ser.ReadObject(stream);
+                            try
+                            {
+                                i = (Settings)ser.ReadObject(stream);
+                            } catch
+                            {
+                                Log.e("SETTINGS", "Could not load settings, use default.");
+                                i = new Settings();
+                            }
                         }
 
                     }
@@ -489,8 +539,7 @@ namespace PxKeystrokesWPF
         public override string ToString()
         {
 
-            return $@"LabelFont:                       {LabelFont.ToString()}
-TextColor:                       {TextColor.ToString()}
+            return $@"LabelFont:                       {i.labelFont.ToString()}
 BackgroundColor:                 {BackgroundColor.ToString()}
 Opacity:                         {Opacity}
 LabelTextAlignment:              {LabelTextAlignment.ToString()}
