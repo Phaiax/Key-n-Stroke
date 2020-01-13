@@ -78,10 +78,7 @@ namespace PxKeystrokesWPF
 
         private void Bn_reset_position_Click(object sender, RoutedEventArgs e)
         {
-            Log.e("CNV", $"Alignment: {settings.LabelTextAlignment}" 
-                + $" | settings.EnableCursorIndicator={settings.EnableCursorIndicator}" 
-                + $" | settings.HistoryTimeout={settings.HistoryTimeout}"
-                + $" | slider_history_timeout.Value={slider_history_timeout.Value}");
+            Log.e("CNV", $"\r\n{settings}");
         }
 
         private void Button_close_Click(object sender, RoutedEventArgs e)

@@ -486,6 +486,36 @@ namespace PxKeystrokesWPF
 
         #endregion
 
+        public override string ToString()
+        {
+
+            return $@"LabelFont:                       {LabelFont.ToString()}
+TextColor:                       {TextColor.ToString()}
+BackgroundColor:                 {BackgroundColor.ToString()}
+Opacity:                         {Opacity}
+LabelTextAlignment:              {LabelTextAlignment.ToString()}
+LabelTextDirection:              {LabelTextDirection.ToString()}
+LabelAnimation:                  {LabelAnimation.ToString()}
+WindowLocation:                  {WindowLocation.ToString()}
+WindowSize:                      {WindowSize.ToString()}
+PanelLocation:                   {PanelLocation.ToString()}
+PanelSize:                       {PanelSize.ToString()}
+LineDistance:                    {LineDistance}
+HistoryLength:                   {HistoryLength}
+HistoryTimeout:                  {HistoryTimeout}
+EnableHistoryTimeout:            {EnableHistoryTimeout}
+EnableWindowFade:                {EnableWindowFade}
+EnableCursorIndicator:           {EnableCursorIndicator}
+CursorIndicatorOpacity:          {CursorIndicatorOpacity}
+CursorIndicatorSize:             {CursorIndicatorSize.ToString()}
+CursorIndicatorColor:            {CursorIndicatorColor.ToString()}
+ButtonIndicator:                 {ButtonIndicator.ToString()}
+ButtonIndicatorSize:             {ButtonIndicatorSize}
+ButtonIndicatorPositionAngle:    {ButtonIndicatorPositionAngle}
+ButtonIndicatorPositionDistance: {ButtonIndicatorPositionDistance}
+AddButtonEventsToHistory:        {AddButtonEventsToHistory}
+BackspaceDeletesText:            {BackspaceDeletesText}";
+        }
 
     }
 }
