@@ -91,6 +91,8 @@ namespace PxKeystrokesWPF
         {
             ColorFontDialog dialog = new ColorFontDialog(true, true);
             dialog.Font = settings.LabelFont;
+            TextBox sampleText = UIHelper.FindChild<TextBox>((DependencyObject) dialog.Content, "txtSampleText");
+            sampleText.Background = Brushes.Black;
             if (dialog.ShowDialog() == true)
             {
                 FontInfo font = dialog.Font;

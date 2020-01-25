@@ -72,6 +72,7 @@
       <DependentUpon>Settings1.xaml</DependentUpon>
     </Compile>
     <Compile Include="SettingsStore.cs" />
+    <Compile Include="UIHelper.cs" />
     <Compile Include="UrlOpener.cs" />
   </ItemGroup>
   <ItemGroup>

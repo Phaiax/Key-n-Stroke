@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:uc="clr-namespace:PxKeystrokesWPF"
         xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
+        xmlns:fontcolorpicker="clr-namespace:WpfColorFontDialog;assembly=WpfColorFontDialog"
         mc:Ignorable="d"
         Title="Settings" Height="auto" Width="900"
         SizeToContent="Height" Closing="Window_Closing">
@@ -76,16 +77,7 @@
         <StackPanel Grid.Column="1" Margin="5">
             <GroupBox Header="Text">
                 <StackPanel Margin="0,0,0,5">
-                    <Grid Margin="5,5,5,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="10"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Button x:Name="button_textcolor" Grid.Column="0">Color</Button>
-                        <Button x:Name="button_textfont" Grid.Column="2" Click="OnButtonTextFontClick">Font</Button>
-                    </Grid>
-                    <uc:LabeledSlider x:Name="slider_fontsize" Title="Fontsize" Minimum="800" Maximum="3000" />
+                    <Button x:Name="button_textfont" Click="OnButtonTextFontClick" Grid.ColumnSpan="3" Margin="10">Font and Color</Button>
                     <uc:LabeledSlider x:Name="slider_vertdist" Title="Vertical Distance" Minimum="10" Maximum="100"
                                       Value="{Binding LineDistance, Mode=TwoWay}" />
                     <uc:LabeledSlider x:Name="slider_historycount" Title="History Count" Minimum="1" Maximum="50" Value="{Binding HistoryLength, Mode=TwoWay}" />
@@ -124,6 +116,10 @@
             <GroupBox Header="Text Background">
                 <StackPanel Margin="0,0,0,5">
                     <Button x:Name="button_backcolor" Margin="10">Background color</Button>
+                    <fontcolorpicker:ColorPicker x:Name="colorPicker"
+                                   Grid.Row="1"
+                                   Margin="10" />
+                    <ColorPicker></ColorPicker>
                     <uc:LabeledSlider x:Name="slider_opacity" Title="Opacity" Minimum="800" Maximum="3000" Value="{Binding CursorIndicatorOpacity, Mode=TwoWay}" />
                 </StackPanel>
             </GroupBox>
