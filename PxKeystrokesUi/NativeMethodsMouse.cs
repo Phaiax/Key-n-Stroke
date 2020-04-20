@@ -44,6 +44,9 @@ namespace PxKeystrokesUi
         [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
         public static extern int GetDoubleClickTime();
 
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern bool GetCursorPos(ref POINT lpPoint);
+
         public const int WH_MOUSE_LL = 14;
         public const int HC_ACTION = 0; // The wParam and lParam parameters contain information about a mouse message.
 

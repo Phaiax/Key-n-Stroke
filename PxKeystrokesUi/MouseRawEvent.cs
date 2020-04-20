@@ -59,7 +59,12 @@ namespace PxKeystrokesUi
 
         public Point Position
         {
-            get { return new Point(Msllhookstruct.pt.X, Msllhookstruct.pt.Y); }
+            get {
+                NativeMethodsMouse.POINT screenCoords;
+                screenCoords.X = screenCoords.Y = 0;
+                NativeMethodsMouse.GetCursorPos(ref screenCoords);
+                return new Point(screenCoords.X, screenCoords.Y); 
+            }
         }
 
         public void ParseWparam(UIntPtr wParam)
