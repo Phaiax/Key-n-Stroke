@@ -1,3 +1,7 @@
+# Building
+
+To build this program, you must install Visual Studio. You can then simply import the source code from this repository and open the included .sln project file.
+
 # PxKeystrokesForScreencasts
 (aka PxKS)
 
