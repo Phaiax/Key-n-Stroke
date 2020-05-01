@@ -168,7 +168,7 @@ namespace PxKeystrokesWPF
     class Settings
     {
         [DataMember] public SerializableFont labelFont;
-        [DataMember] public SerializableColor textColor;
+        [DataMember] public SerializableColor2 labelColor;
         [DataMember] public SerializableColor2 backgroundColor;
         [DataMember] public float opacity;
         [DataMember] public TextAlignment labelTextAlignment;
@@ -234,11 +234,22 @@ namespace PxKeystrokesWPF
                                                         System.Windows.FontStretch.FromOpenTypeStretch(5),
                                                         System.Windows.FontWeight.FromOpenTypeWeight(400),
                                                         new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(255,255,255)));
+        // Note: The color from the FontInfo can't be used. If we use a non-pallete (a color without a Name), then
+        // The .Color item will read as null and the WpfColorFontDialog is unable to work with this FontInfo
+        // So always keep the color in a safe white.
         public FontInfo LabelFont
         {
             get { return Or(i.labelFont, LabelFontDefault); }
             set { i.labelFont = new SerializableFont(value); OnSettingChanged("LabelFont"); }
         }
+
+        public Color LabelColorDefault = Color.White;
+        public Color LabelColor
+        {
+            get { return Or(i.labelColor, LabelColorDefault); }
+            set { i.labelColor = new SerializableColor2(value); OnSettingChanged("LabelColor"); }
+        }
+
 
         public Color BackgroundColorDefault = Color.Black;
         public Color BackgroundColor
@@ -422,12 +433,13 @@ namespace PxKeystrokesWPF
             dirty = true;
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(property));
+            Log.e(this.ToString());
         }
 
         public void OnSettingChangedAll()
         {
             OnSettingChanged("LabelFont");
-            OnSettingChanged("TextColor");
+            OnSettingChanged("LabelColor");
             OnSettingChanged("BackgroundColor");
             OnSettingChanged("Opacity");
             OnSettingChanged("LabelTextAlignment");
@@ -538,12 +550,13 @@ namespace PxKeystrokesWPF
         public override string ToString()
         {
 
-            return $@"LabelFont:                       {i.labelFont.ToString()}
+            return $@"LabelFont:                       {LabelFont.ToString()}
 BackgroundColor:                 {BackgroundColor.ToString()}
 Opacity:                         {Opacity}
 LabelTextAlignment:              {LabelTextAlignment.ToString()}
 LabelTextDirection:              {LabelTextDirection.ToString()}
 LabelAnimation:                  {LabelAnimation.ToString()}
+LabelColor:                      {LabelColor.ToString()}
 WindowLocation:                  {WindowLocation.ToString()}
 WindowSize:                      {WindowSize.ToString()}
 PanelLocation:                   {PanelLocation.ToString()}

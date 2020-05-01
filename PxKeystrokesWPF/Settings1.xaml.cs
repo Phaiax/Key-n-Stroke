@@ -106,8 +106,7 @@ namespace PxKeystrokesWPF
         {
             ColorFontDialog dialog = new ColorFontDialog(true, true, false);
             dialog.Font = settings.LabelFont;
-            TextBox sampleText = UIHelper.FindChild<TextBox>((DependencyObject) dialog.Content, "txtSampleText");
-            sampleText.Background = new SolidColorBrush(UIHelper.ToMediaColor(settings.BackgroundColor));
+            dialog.Loaded += FontDialogLoaded;
             if (dialog.ShowDialog() == true)
             {
                 FontInfo font = dialog.Font;
@@ -116,6 +115,15 @@ namespace PxKeystrokesWPF
                     settings.LabelFont = font;
                 }
             }
+        }
+
+        private void FontDialogLoaded(object sender, RoutedEventArgs e)
+        {
+            // run after the init funtions of the colordialog itself
+            ColorFontDialog dialog = (ColorFontDialog)sender;
+            TextBox sampleText = UIHelper.FindChild<TextBox>((DependencyObject)dialog.Content, "txtSampleText");
+            sampleText.Background = new SolidColorBrush(UIHelper.ToMediaColor(settings.BackgroundColor));
+            sampleText.Foreground = new SolidColorBrush(UIHelper.ToMediaColor(settings.LabelColor));
         }
     }
 }

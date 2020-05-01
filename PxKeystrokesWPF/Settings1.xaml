@@ -80,7 +80,7 @@
             <GroupBox Header="Text">
                 <StackPanel Margin="0,0,0,5">
                     <Button x:Name="button_textfont" Click="OnButtonTextFontClick" Grid.ColumnSpan="3" Margin="10">Font</Button>
-                    <xctk:ColorPicker x:Name="colorpicker_text_color" ColorMode="ColorCanvas" Margin="10" SelectedColor="{Binding TextColor, Mode=TwoWay, Converter={StaticResource MediaColorDrawingColorConverter}}"/>
+                    <xctk:ColorPicker x:Name="colorpicker_text_color" ColorMode="ColorCanvas" Margin="10" SelectedColor="{Binding LabelColor, Mode=TwoWay, Converter={StaticResource MediaColorDrawingColorConverter}}"/>
                     <uc:LabeledSlider x:Name="slider_vertdist" Title="Vertical Distance" Minimum="10" Maximum="100"
                                       Value="{Binding LineDistance, Mode=TwoWay}" />
                     <uc:LabeledSlider x:Name="slider_historycount" Title="History Count" Minimum="1" Maximum="50" Value="{Binding HistoryLength, Mode=TwoWay}" />
@@ -119,7 +119,7 @@
             <GroupBox Header="Text Background">
                 <StackPanel Margin="0,0,0,5">
                     <xctk:ColorPicker x:Name="colorpicker_background_color" ColorMode="ColorCanvas" Margin="10" SelectedColor="{Binding BackgroundColor, Mode=TwoWay, Converter={StaticResource MediaColorDrawingColorConverter}}"/>
-                    <uc:LabeledSlider x:Name="slider_opacity" Title="Opacity" Minimum="800" Maximum="3000" Value="{Binding CursorIndicatorOpacity, Mode=TwoWay}" />
+                    <uc:LabeledSlider x:Name="slider_opacity" Title="Opacity" Minimum="800" Maximum="3000" Value="{Binding Opacity, Mode=TwoWay}" />
                 </StackPanel>
             </GroupBox>
         </StackPanel>
