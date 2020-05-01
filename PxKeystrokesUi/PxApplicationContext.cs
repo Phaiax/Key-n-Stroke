@@ -106,7 +106,7 @@ namespace PxKeystrokesUi
             }
         }
 
-        ButtonIndicator myButtons = null;
+        ButtonIndicator2 myButtons = null;
 
         private void EnableButtonIndicator()
         {
@@ -114,14 +114,10 @@ namespace PxKeystrokesUi
                 return;
             Log.e("BI", "EnableButtonIndicator");
             EnableMouseHook();
-            myButtons = new ButtonIndicator(myMouseHook, mySettings);
-            myButtons.FormClosed += myButton_FormClosed;
+            myButtons = new ButtonIndicator2(myMouseHook, mySettings);
             myButtons.Show();
         }
 
-        private void myButton_FormClosed(object sender, FormClosedEventArgs e)
-        {
-        }
 
         private void DisableButtonIndicator()
         {

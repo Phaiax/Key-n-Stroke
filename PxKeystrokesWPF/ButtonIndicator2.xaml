@@ -1,0 +1,13 @@
+﻿<Window x:Class="PxKeystrokesWPF.ButtonIndicator2"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PxKeystrokesWPF"
+        mc:Ignorable="d"
+        Title="ButtonIndicator2" Height="100" Width="100"
+        AllowsTransparency="True" 
+        WindowStyle='None' 
+        Background="Transparent">
+    <Ellipse Width="100" Height="100" Fill="Red" Opacity="0.5"/>
+</Window>
