@@ -118,7 +118,6 @@
     <Compile Include="CursorIndicator.Designer.cs">
       <DependentUpon>CursorIndicator.cs</DependentUpon>
     </Compile>
-    <Compile Include="ImageResources.cs" />
     <Compile Include="PxApplicationContext.cs" />
     <Compile Include="KeystrokesDisplay.cs">
       <SubType>Form</SubType>
@@ -177,16 +176,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\mouse.png" />
-    <EmbeddedResource Include="Resources\mouse.svg" />
-    <EmbeddedResource Include="Resources\mouse_left.png" />
-    <EmbeddedResource Include="Resources\mouse_left_double.png" />
-    <EmbeddedResource Include="Resources\mouse_middle.png" />
-    <EmbeddedResource Include="Resources\mouse_right.png" />
-    <EmbeddedResource Include="Resources\mouse_right_double.png" />
-    <EmbeddedResource Include="Resources\mouse_test.svg" />
-    <EmbeddedResource Include="Resources\mouse_wheel_down.png" />
-    <EmbeddedResource Include="Resources\mouse_wheel_up.png" />
     <Content Include="app.ico" />
     <Content Include="Resources\app.ico" />
     <Content Include="Umut-Pulat-Tulliana-2-Font-true-type.ico" />

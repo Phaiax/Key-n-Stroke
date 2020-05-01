@@ -10,9 +10,9 @@ using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
 using PxKeystrokesWPF;
 
-namespace PxKeystrokesUi
+namespace PxKeystrokesWPF
 {
-    class ImageResources
+    public class ImageResources
     {
         static Assembly _assembly;
 
@@ -45,14 +45,14 @@ namespace PxKeystrokesUi
                 {
                     Log.e("RES", i);
                 }
-                OrigBMouse = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesUi.Resources.mouse.png"));
-                OrigBLeft = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesUi.Resources.mouse_left.png"));
-                OrigBRight = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesUi.Resources.mouse_right.png"));
-                OrigBMiddle = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesUi.Resources.mouse_middle.png"));
-                OrigBLeftDouble = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesUi.Resources.mouse_left_double.png"));
-                OrigBRightDouble = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesUi.Resources.mouse_right_double.png"));
-                OrigBWheelUp = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesUi.Resources.mouse_wheel_up.png"));
-                OrigBWheelDown = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesUi.Resources.mouse_wheel_down.png"));
+                OrigBMouse = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse.png"));
+                OrigBLeft = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse_left.png"));
+                OrigBRight = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse_right.png"));
+                OrigBMiddle = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse_middle.png"));
+                OrigBLeftDouble = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse_left_double.png"));
+                OrigBRightDouble = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse_right_double.png"));
+                OrigBWheelUp = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse_wheel_up.png"));
+                OrigBWheelDown = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse_wheel_down.png"));
 
             }
             catch
