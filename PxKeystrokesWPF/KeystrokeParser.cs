@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Input;
 using PxKeystrokesWPF;
 
-namespace PxKeystrokesUi
+namespace PxKeystrokesWPF
 {
     public class KeystrokeParser : IKeystrokeEventProvider
     {

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using PxKeystrokesWPF;
 
-namespace PxKeystrokesUi
+namespace PxKeystrokesWPF
 {
     public enum MouseEventType
     {

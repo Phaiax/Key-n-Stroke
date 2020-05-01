@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Input;
 using PxKeystrokesWPF;
 
-namespace PxKeystrokesUi
+namespace PxKeystrokesWPF
 {
     /// Some Parts are from 
     /// KEYBOARD.CS (c) 2006 by Emma Burrows

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using PxKeystrokesWPF;
 
-namespace PxKeystrokesUi
+namespace PxKeystrokesWPF
 {
     // https://docs.microsoft.com/en-us/windows/win32/winmsg/window-features?WT.mc_id=DT-MVP-5003235#layered-windows
     // https://docs.microsoft.com/en-us/windows/win32/gdi/about-device-contexts

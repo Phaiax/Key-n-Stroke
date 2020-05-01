@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 
-namespace PxKeystrokesUi
+namespace PxKeystrokesWPF
 {
     /// <summary>
     /// Each Window has some associated memory with holds flags for window behaviour

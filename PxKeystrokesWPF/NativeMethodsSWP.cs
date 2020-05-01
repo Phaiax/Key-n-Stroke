@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PxKeystrokesUi
+namespace PxKeystrokesWPF
 {
     /// <summary>
     /// These Method can be used to pin the window on top of everything
