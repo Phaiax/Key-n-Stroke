@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
-using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using System.Windows.Input;
 using PxKeystrokesWPF;
 
 namespace PxKeystrokesUi
@@ -79,6 +79,21 @@ namespace PxKeystrokesUi
         private const int WM_KEYDOWN = 0x0100;
         private const int WM_SYSKEYDOWN = 0x0104;
 
+        private const int
+        VK_SHIFT = 0x10,
+        VK_CONTROL = 0x11,
+        VK_MENU = 0x12,
+        VK_CAPITAL = 0x14,
+        VK_LWIN = 0x5B,
+        VK_RWIN = 0x5C,
+        VK_NUMLOCK = 0x90,
+        VK_SCROLL = 0x91,
+        VK_LSHIFT = 0xA0,
+        VK_RSHIFT = 0xA1,
+        VK_LCONTROL = 0xA2,
+        VK_RCONTROL = 0xA3,
+        VK_LMENU = 0xA4,
+        VK_RMENU = 0xA5;
 
         /// <summary>
         /// Processes the key event captured by the hook.
@@ -128,20 +143,20 @@ namespace PxKeystrokesUi
         /// </summary>
         private void CheckModifiers(KeyboardRawEventArgs e)
         {
-            e.Shift = CheckModifierDown(Keys.ShiftKey);
-            e.Ctrl = CheckModifierDown(Keys.ControlKey);
-            e.Alt = CheckModifierDown(Keys.Menu);
-            e.Caps = CheckModifierToggled(Keys.CapsLock);
-            e.LWin = CheckModifierDown(Keys.LWin);
-            e.RWin = CheckModifierDown(Keys.RWin);
-            e.Numlock = CheckModifierToggled(Keys.NumLock);
-            e.Scrollock = CheckModifierToggled(Keys.Scroll);
-            e.LShift = CheckModifierDown(Keys.LShiftKey);
-            e.RShift = CheckModifierDown(Keys.RShiftKey);
-            e.LCtrl = CheckModifierDown(Keys.LControlKey);
-            e.RCtrl = CheckModifierDown(Keys.RControlKey);
-            e.LAlt = CheckModifierDown(Keys.LMenu);
-            e.RAlt = CheckModifierDown(Keys.RMenu);
+            e.Shift = CheckModifierDown(VK_SHIFT);
+            e.Ctrl = CheckModifierDown(VK_CONTROL);
+            e.Alt = CheckModifierDown(VK_MENU);
+            e.Caps = CheckModifierToggled(VK_CAPITAL);
+            e.LWin = CheckModifierDown(VK_LWIN);
+            e.RWin = CheckModifierDown(VK_RWIN);
+            e.Numlock = CheckModifierToggled(VK_NUMLOCK);
+            e.Scrollock = CheckModifierToggled(VK_SCROLL);
+            e.LShift = CheckModifierDown(VK_LSHIFT);
+            e.RShift = CheckModifierDown(VK_RSHIFT);
+            e.LCtrl = CheckModifierDown(VK_LCONTROL);
+            e.RCtrl = CheckModifierDown(VK_RCONTROL);
+            e.LAlt = CheckModifierDown(VK_LMENU);
+            e.RAlt = CheckModifierDown(VK_RMENU);
         }
 
         /// <summary>
@@ -149,7 +164,7 @@ namespace PxKeystrokesUi
         /// </summary>
         /// <param name="modifiercode"></param>
         /// <returns></returns>
-        private bool CheckModifierDown(Keys modifiercode)
+        private bool CheckModifierDown(int modifiercode)
         {
             // SHORT NativeMethodsKeyboard.GetKeyState(int)
             // The return value specifies the status of the specified virtual key, as follows:
@@ -160,7 +175,7 @@ namespace PxKeystrokesUi
             //   off and untoggled if the low-order bit is 0. A toggle key's 
             //   indicator light (if any) on the keyboard will be on when the 
             //   key is toggled, and off when the key is untoggled.
-            return ((NativeMethodsKeyboard.GetKeyState((int)modifiercode) & 0x8000) != 0);
+            return ((NativeMethodsKeyboard.GetKeyState(modifiercode) & 0x8000) != 0);
         }
 
         /// <summary>
@@ -168,9 +183,9 @@ namespace PxKeystrokesUi
         /// </summary>
         /// <param name="modifiercode"></param>
         /// <returns></returns>
-        private bool CheckModifierToggled(Keys modifiercode)
+        private bool CheckModifierToggled(int modifiercode)
         {
-            return (NativeMethodsKeyboard.GetKeyState((int)modifiercode) & 0x0001) != 0;
+            return (NativeMethodsKeyboard.GetKeyState(modifiercode) & 0x0001) != 0;
         }
 
 
@@ -178,23 +193,25 @@ namespace PxKeystrokesUi
         {
             if (e.Uppercase)
             {
-                e.keyState[(int)Keys.ShiftKey] = 129;
+                e.keyState[VK_SHIFT] = 129;
 
             }
             return;
-            e.keyState[(int)Keys.LShiftKey] = (byte)(e.LShift ? 129 : 1);
-            e.keyState[(int)Keys.RShiftKey] = (byte)(e.RShift ? 129 : 1);
-            e.keyState[(int)Keys.CapsLock] = (byte)(e.Caps ? 129 : 1);
-            e.keyState[(int)Keys.ControlKey] = (byte)(e.Ctrl ? 129 : 1);
-            e.keyState[(int)Keys.Menu] = (byte)(e.Alt ? 129 : 1);
-            e.keyState[(int)Keys.LWin] = (byte)(e.LWin ? 129 : 1);
-            e.keyState[(int)Keys.RWin] = (byte)(e.RWin ? 129 : 1);
-            e.keyState[(int)Keys.NumLock] = (byte)(e.Numlock ? 129 : 1);
-            e.keyState[(int)Keys.Scroll] = (byte)(e.Scrollock ? 129 : 1);
-            e.keyState[(int)Keys.LControlKey] = (byte)(e.LCtrl ? 129 : 1);
-            e.keyState[(int)Keys.RControlKey] = (byte)(e.RCtrl ? 129 : 1);
-            e.keyState[(int)Keys.LMenu] = (byte)(e.LAlt ? 129 : 1);
-            e.keyState[(int)Keys.RMenu] = (byte)(e.RAlt ? 129 : 1);
+#pragma warning disable CS0162 // Unerreichbarer Code wurde entdeckt.
+            e.keyState[VK_CONTROL] = (byte)(e.Ctrl ? 129 : 1);
+#pragma warning restore CS0162 // Unerreichbarer Code wurde entdeckt.
+            e.keyState[VK_MENU] = (byte)(e.Alt ? 129 : 1);
+            e.keyState[VK_CAPITAL] = (byte)(e.Caps ? 129 : 1);
+            e.keyState[VK_LWIN] = (byte)(e.LWin ? 129 : 1);
+            e.keyState[VK_RWIN] = (byte)(e.RWin ? 129 : 1);
+            e.keyState[VK_NUMLOCK] = (byte)(e.Numlock ? 129 : 1);
+            e.keyState[VK_SCROLL] = (byte)(e.Scrollock ? 129 : 1);
+            e.keyState[VK_LSHIFT] = (byte)(e.LShift ? 129 : 1);
+            e.keyState[VK_RSHIFT] = (byte)(e.RShift ? 129 : 1);
+            e.keyState[VK_LCONTROL] = (byte)(e.LCtrl ? 129 : 1);
+            e.keyState[VK_RCONTROL] = (byte)(e.RCtrl ? 129 : 1);
+            e.keyState[VK_LMENU] = (byte)(e.LAlt ? 129 : 1);
+            e.keyState[VK_RMENU] = (byte)(e.RAlt ? 129 : 1);
         }
 
         #endregion

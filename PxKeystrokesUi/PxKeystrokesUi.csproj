@@ -120,7 +120,6 @@
     </Compile>
     <Compile Include="ImageResources.cs" />
     <Compile Include="PxApplicationContext.cs" />
-    <Compile Include="KeyboardLayoutParser.cs" />
     <Compile Include="KeystrokesDisplay.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -128,10 +127,6 @@
       <DependentUpon>KeystrokesDisplay.cs</DependentUpon>
     </Compile>
     <Compile Include="KeyboardHook - Kopieren.cs" />
-    <Compile Include="KeyboardHook.cs" />
-    <Compile Include="KeyboardRawEvent.cs" />
-    <Compile Include="KeystrokeParser.cs" />
-    <Compile Include="KeystrokeEvent.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs">
@@ -140,7 +135,6 @@
     <Compile Include="Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
-    <Compile Include="SpecialkeysParser.cs" />
     <Compile Include="TweenLabel.cs">
       <SubType>Component</SubType>
     </Compile>

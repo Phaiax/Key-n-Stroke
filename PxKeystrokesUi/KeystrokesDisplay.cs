@@ -107,7 +107,7 @@ namespace PxKeystrokesUi
                     && LastHistoryLineIsText
                     && !LastHistoryLineRequiredNewLineAfterwards
                     && e.NoModifiers
-                    && e.Key == Keys.Back)
+                    && e.Key == System.Windows.Input.Key.Back)
                 {
                     Log.e("BS", "delete last char");
                     Log.e("BS", "NumberOfDeletionsAllowed " + NumberOfDeletionsAllowed.ToString());

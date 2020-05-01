@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace PxKeystrokesUi
 {
@@ -57,10 +57,10 @@ namespace PxKeystrokesUi
         public List<string> ShortcutModifiersToList()
         {
             List<string> Modifiers = new List<string>();
-            if (Shift) Modifiers.Add(SpecialkeysParser.ToString(Keys.Shift));
-            if (Ctrl) Modifiers.Add(SpecialkeysParser.ToString(Keys.ControlKey));
-            if (Alt) Modifiers.Add(SpecialkeysParser.ToString(Keys.Menu));
-            if (Win) Modifiers.Add(SpecialkeysParser.ToString(Keys.LWin));
+            if (Shift) Modifiers.Add(SpecialkeysParser.ToString(Key.LeftShift));
+            if (Ctrl) Modifiers.Add(SpecialkeysParser.ToString(Key.LeftCtrl));
+            if (Alt) Modifiers.Add(SpecialkeysParser.ToString(Key.LeftAlt));
+            if (Win) Modifiers.Add(SpecialkeysParser.ToString(Key.LWin));
             return Modifiers;
         }
 

@@ -4,14 +4,15 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Windows;
+using System.Windows.Input;
 using PxKeystrokesWPF;
 
 namespace PxKeystrokesUi
 {
-    class KeystrokeParser : IKeystrokeEventProvider
+    public class KeystrokeParser : IKeystrokeEventProvider
     {
-        KeysConverter Converter = new KeysConverter();
+        //KeysConverter Converter = new KeysConverter();
 
         #region Constructor
 
@@ -36,7 +37,7 @@ namespace PxKeystrokesUi
             e.IsNumericFromNumbers = CheckIsNumericFromNumbers(e);
             e.IsNoUnicodekey = CheckIsNoUnicodekey(e);
             e.IsFunctionKey = CheckIsFunctionKey(e);
-            e.ModifierToggledEvent = CheckVkCodeIsModifier(e);
+            e.ModifierToggledEvent = CheckKeyIsModifier(e);
 
             Log.e("KP", "   alpha:" + e.IsAlpha.ToString());
 
@@ -59,12 +60,12 @@ namespace PxKeystrokesUi
                     e.Deletable = true;
                     Log.e("KP", "   e.IsNumeric && e.NoModifiers > ParseNumeric");
                 }
-                else if (e.ModifierToggledEvent) // vkcode is modifier
+                else if (e.ModifierToggledEvent) // key is modifier
                 {
                     e.ShouldBeDisplayed = false;
-                    AddModifier((Keys)e.vkCode, e);
+                    AddModifier(e.Key, e);
                     e.StrokeType = KeystrokeType.Modifiers;
-                    Log.e("KP", "   e.ModifierToggledEvent > AddModifier " + ((Keys)e.vkCode).ToString());
+                    Log.e("KP", "   e.ModifierToggledEvent > AddModifier " + e.Key.ToString());
                 }
                 else if (e.IsNoUnicodekey && e.NoModifiers)
                 {
@@ -82,7 +83,7 @@ namespace PxKeystrokesUi
                     Log.e("KP", "   e.NoModifiers > try SpecialkeysParser.ToString ");
                     try
                     {
-                        e.KeyString = SpecialkeysParser.ToString((Keys)e.vkCode);
+                        e.KeyString = SpecialkeysParser.ToString(e.Key);
                     }
                     catch (NotImplementedException)
                     {
@@ -92,7 +93,7 @@ namespace PxKeystrokesUi
                     }
                     e.ShouldBeDisplayed = true;
                     e.StrokeType = KeystrokeType.Text;
-                    e.RequiresNewLineAfterwards = (Keys)e.vkCode == Keys.Return;
+                    e.RequiresNewLineAfterwards = e.Key == Key.Return;
                 }
                 else if (e.OnlyShiftOrCaps) //  special char, but only Shifted, eg ;:_ÖÄ'*ÜP
                 // (e.IsNoUnicodekey is always false here -> could be a unicode key combinatin)
@@ -149,13 +150,13 @@ namespace PxKeystrokesUi
 
             if (e.Method == KeyUpDown.Up)
             {
-                if (e.ModifierToggledEvent) // vkcode is modifier
+                if (e.ModifierToggledEvent) // key is modifier
                 {
                     e.ShouldBeDisplayed = false;
-                    RemoveModifier((Keys)e.vkCode, e);
+                    RemoveModifier(e.Key, e);
                     e.StrokeType = KeystrokeType.Modifiers;
                 }
-                Log.e("KP", "   code:" + ((Keys)e.vkCode).ToString());
+                Log.e("KP", "   code:" + (e.Key).ToString());
 
                 // only react to modifiers on key up, nothing else
             }
@@ -219,7 +220,7 @@ namespace PxKeystrokesUi
                 e.KeyString = SpecialkeysParser.ToString(e.Key);
                 e.ShouldBeDisplayed = true;
                 e.StrokeType = KeystrokeType.Text;
-                e.RequiresNewLineAfterwards = (Keys)e.vkCode == Keys.Return;
+                e.RequiresNewLineAfterwards = e.Key == Key.Return;
             }
             catch (NotImplementedException)
             {
@@ -227,52 +228,46 @@ namespace PxKeystrokesUi
             }
         }
 
-        private void AddModifier(Keys keys, KeystrokeEventArgs e)
+        private void AddModifier(Key keys, KeystrokeEventArgs e)
         {
             switch (keys)
             {
-                case Keys.ControlKey: e.Ctrl = true; break;
-                case Keys.LControlKey: e.LCtrl = true; e.Ctrl = true; break;
-                case Keys.RControlKey: e.RCtrl = true; e.Ctrl = true; break;
-                case Keys.ShiftKey: e.Shift = true; break;
-                case Keys.LShiftKey: e.LShift = true; e.Shift = true; break;
-                case Keys.RShiftKey: e.RShift = true; e.Shift = true; break;
-                case Keys.LWin: e.LWin = true; break;
-                case Keys.RWin: e.RWin = true; break;
-                case Keys.Menu: e.Alt = true; break;
-                case Keys.LMenu: e.LAlt = true; e.Alt = true; break;
-                case Keys.RMenu: e.RAlt = true; e.Alt = true; break;
-                case Keys.NumLock: e.Numlock = true; break;
-                case Keys.Scroll: e.Scrollock = true; break;
-                case Keys.CapsLock: e.Caps = true; break;
+                case Key.LeftCtrl: e.LCtrl = true; e.Ctrl = true; break;
+                case Key.RightCtrl: e.RCtrl = true; e.Ctrl = true; break;
+                case Key.LeftShift: e.LShift = true; e.Shift = true; break;
+                case Key.RightShift: e.RShift = true; e.Shift = true; break;
+                case Key.LWin: e.LWin = true; break;
+                case Key.RWin: e.RWin = true; break;
+                case Key.LeftAlt: e.LAlt = true; e.Alt = true; break;
+                case Key.RightAlt: e.RAlt = true; e.Alt = true; break;
+                case Key.NumLock: e.Numlock = true; break;
+                case Key.Scroll: e.Scrollock = true; break;
+                case Key.CapsLock: e.Caps = true; break;
             }
         }
 
-        private void RemoveModifier(Keys keys, KeystrokeEventArgs e)
+        private void RemoveModifier(Key keys, KeystrokeEventArgs e)
         {
             // If Left Shift is released, then only unset Shift if RShift is not set
             switch (keys)
             {
-                case Keys.ControlKey: e.Ctrl = false; break;
-                case Keys.LControlKey: e.LCtrl = false; e.Ctrl = e.RCtrl; break;
-                case Keys.RControlKey: e.RCtrl = false; e.Ctrl = e.LCtrl; break;
-                case Keys.ShiftKey: e.Shift = false; break;
-                case Keys.LShiftKey: e.LShift = false; e.Shift = e.RShift; break;
-                case Keys.RShiftKey: e.RShift = false; e.Shift = e.LShift; break;
-                case Keys.LWin: e.LWin = false; break;
-                case Keys.RWin: e.RWin = false; break;
-                case Keys.Menu: e.Alt = false; break;
-                case Keys.LMenu: e.LAlt = false; e.Alt = e.RAlt; break;
-                case Keys.RMenu: e.RAlt = false; e.Alt = e.LAlt; break;
-                case Keys.NumLock: e.Numlock = false; break;
-                case Keys.Scroll: e.Scrollock = false; break;
-                case Keys.CapsLock: e.Caps = false; break;
+                case Key.LeftCtrl: e.LCtrl = false; e.Ctrl = e.RCtrl; break;
+                case Key.RightCtrl: e.RCtrl = false; e.Ctrl = e.LCtrl; break;
+                case Key.LeftShift: e.LShift = false; e.Shift = e.RShift; break;
+                case Key.RightShift: e.RShift = false; e.Shift = e.LShift; break;
+                case Key.LWin: e.LWin = false; break;
+                case Key.RWin: e.RWin = false; break;
+                case Key.LeftAlt: e.LAlt = false; e.Alt = e.RAlt; break;
+                case Key.RightAlt: e.RAlt = false; e.Alt = e.LAlt; break;
+                case Key.NumLock: e.Numlock = false; break;
+                case Key.Scroll: e.Scrollock = false; break;
+                case Key.CapsLock: e.Caps = false; break;
             }
         }
 
         private string ParseChar(KeystrokeEventArgs e)
         {
-            string c = ((Keys)e.vkCode).ToString();
+            string c = e.Key.ToString();
             if (!e.Uppercase)
                 c = c.ToLower();
 
@@ -288,23 +283,23 @@ namespace PxKeystrokesUi
         {
             if (e.IsNumericFromNumbers)
             {
-                return (e.vkCode - (int)Keys.D0).ToString();
+                return ((int)e.Key - (int)Key.D0).ToString();
             }
             else if (e.IsNumericFromNumpad)
             {
-                return (e.vkCode - (int)Keys.NumPad0).ToString();
+                return ((int)e.Key - (int)Key.NumPad0).ToString();
             }
             return "BUG1";
         }
 
         bool CheckIsAlpha(KeyboardRawEventArgs e)
         {
-            return CheckIsAlpha(e.vkCode);
+            return CheckIsAlpha(e.Key);
         }
 
-        bool CheckIsAlpha(int vkCode)
+        bool CheckIsAlpha(Key key)
         {
-            return ((int)Keys.A <= vkCode && vkCode <= (int)Keys.Z);
+            return ((int)Key.A <= (int)key && (int)key <= (int)Key.Z);
         }
 
         bool CheckIsAlpha(string s)
@@ -319,12 +314,12 @@ namespace PxKeystrokesUi
 
         bool CheckIsNumericFromNumpad(KeyboardRawEventArgs e)
         {
-            return CheckIsNumericFromNumpad(e.vkCode);
+            return CheckIsNumericFromNumpad(e.Key);
         }
 
-        bool CheckIsNumericFromNumpad(int vkCode)
+        bool CheckIsNumericFromNumpad(Key key)
         {
-            return ((int)Keys.NumPad0 <= vkCode && vkCode <= (int)Keys.NumPad9);
+            return ((int)Key.NumPad0 <= (int)key && (int)key <= (int)Key.NumPad9);
         }
 
         bool CheckIsNumeric(string s)
@@ -334,17 +329,17 @@ namespace PxKeystrokesUi
         
         bool CheckIsNumericFromNumbers(KeyboardRawEventArgs e)
         {
-            return CheckIsNumericFromNumbers(e.vkCode);
+            return CheckIsNumericFromNumbers(e.Key);
         }
 
-        bool CheckIsNumericFromNumbers(int vkCode)
+        bool CheckIsNumericFromNumbers(Key key)
         {
-            return ((int)Keys.D0 <= vkCode && vkCode <= (int)Keys.D9);
+            return ((int)Key.D0 <= (int)key && (int)key <= (int)Key.D9);
         }
 
         bool CheckIsFunctionKey(KeyboardRawEventArgs e)
         {
-            return ((int)Keys.F1 <= e.vkCode && e.vkCode <= (int)Keys.F24);
+            return ((int)Key.F1 <= (int)e.Key && (int)e.Key <= (int)Key.F24);
         }
 
         /// <summary>
@@ -355,52 +350,51 @@ namespace PxKeystrokesUi
         /// <returns></returns>
         bool CheckIsNoUnicodekey(KeyboardRawEventArgs e)
         {
-            Keys[] NoUnicodeKeys = { Keys.Cancel, Keys.Tab, Keys.LineFeed, Keys.Clear, 
-                   Keys.Enter, Keys.Return, Keys.ShiftKey, Keys.ControlKey, Keys.Menu, 
-                   Keys.Pause, Keys.CapsLock, Keys.Capital, Keys.KanaMode, Keys.HanguelMode,
-                   Keys.HangulMode, Keys.JunjaMode, Keys.FinalMode, Keys.KanjiMode, Keys.HanjaMode,
-                   Keys.Escape, Keys.IMEConvert, Keys.IMENonconvert, Keys.IMEAceept, Keys.IMEAccept,
-                   Keys.IMEModeChange, Keys.Space, Keys.Prior, Keys.PageUp, Keys.Next, 
-                   Keys.PageDown, Keys.End, Keys.Home, Keys.Left, Keys.Up, Keys.Right, 
-                   Keys.Down, Keys.Select, Keys.Print, Keys.Execute, Keys.PrintScreen,
-                   Keys.Snapshot, Keys.Insert, Keys.Delete, Keys.Help,
-                   Keys.LWin, Keys.RWin, Keys.Apps, Keys.Sleep,
-                   Keys.Multiply, Keys.Add, Keys.Separator, Keys.Subtract, Keys.Decimal, 
-                   Keys.Divide, Keys.F1, Keys.F2, Keys.F3, Keys.F4, Keys.F5, Keys.F6, 
-                   Keys.F7, Keys.F8, Keys.F9, Keys.F10, Keys.F11, Keys.F12, Keys.F13,
-                   Keys.F14, Keys.F15, Keys.F16, Keys.F17, Keys.F18, Keys.F19, Keys.F20, 
-                   Keys.F21, Keys.F22, Keys.F23, Keys.F24, Keys.NumLock, Keys.Scroll, 
-                   Keys.LShiftKey, Keys.RShiftKey, Keys.LControlKey, Keys.RControlKey,
-                   Keys.LMenu, Keys.RMenu, Keys.BrowserBack, Keys.BrowserForward, 
-                   Keys.BrowserRefresh, Keys.BrowserStop, Keys.BrowserSearch, 
-                   Keys.BrowserFavorites, Keys.BrowserHome, Keys.VolumeMute, Keys.VolumeDown, 
-                   Keys.VolumeUp, Keys.MediaNextTrack, Keys.MediaPreviousTrack, Keys.MediaStop, 
-                   Keys.MediaPlayPause, Keys.LaunchMail, Keys.SelectMedia, Keys.LaunchApplication1, 
-                   Keys.LaunchApplication2, Keys.ProcessKey,
-                   Keys.Packet, Keys.Attn, Keys.Crsel, Keys.Exsel, Keys.EraseEof, Keys.Play,
-                   Keys.Zoom, Keys.NoName, Keys.Pa1, Keys.OemClear, Keys.KeyCode, Keys.Shift,
-                   Keys.Control, Keys.Alt };
-            return NoUnicodeKeys.Contains((Keys)e.vkCode);
+            Key[] NoUnicodeKeys = { Key.Cancel, Key.Tab, Key.LineFeed, Key.Clear, 
+                   Key.Enter, Key.Return, 
+                   Key.Pause, Key.CapsLock, Key.Capital, Key.KanaMode,
+                   Key.JunjaMode, Key.FinalMode, Key.KanjiMode, Key.HanjaMode,
+                   Key.Escape, Key.ImeConvert, Key.ImeNonConvert, Key.ImeAccept,
+                   Key.ImeModeChange, Key.Space, Key.Prior, Key.PageUp, Key.Next, 
+                   Key.PageDown, Key.End, Key.Home, Key.Left, Key.Up, Key.Right, 
+                   Key.Down, Key.Select, Key.Print, Key.Execute, Key.PrintScreen,
+                   Key.Snapshot, Key.Insert, Key.Delete, Key.Help,
+                   Key.LWin, Key.RWin, Key.Apps, Key.Sleep,
+                   Key.Multiply, Key.Add, Key.Separator, Key.Subtract, Key.Decimal, 
+                   Key.Divide, Key.F1, Key.F2, Key.F3, Key.F4, Key.F5, Key.F6, 
+                   Key.F7, Key.F8, Key.F9, Key.F10, Key.F11, Key.F12, Key.F13,
+                   Key.F14, Key.F15, Key.F16, Key.F17, Key.F18, Key.F19, Key.F20, 
+                   Key.F21, Key.F22, Key.F23, Key.F24, Key.NumLock, Key.Scroll, 
+                   Key.LeftShift, Key.RightShift, Key.LeftCtrl, Key.RightCtrl,
+                   Key.LeftAlt, Key.RightAlt, Key.BrowserBack, Key.BrowserForward, 
+                   Key.BrowserRefresh, Key.BrowserStop, Key.BrowserSearch, 
+                   Key.BrowserFavorites, Key.BrowserHome, Key.VolumeMute, Key.VolumeDown, 
+                   Key.VolumeUp, Key.MediaNextTrack, Key.MediaPreviousTrack, Key.MediaStop, 
+                   Key.MediaPlayPause, Key.LaunchMail, Key.SelectMedia, Key.LaunchApplication1, 
+                   Key.LaunchApplication2, Key.ImeProcessed,
+                   0, Key.Attn, Key.CrSel, Key.ExSel, Key.EraseEof, Key.Play,
+                   Key.Zoom, Key.NoName, Key.Pa1, Key.OemClear };
+            return NoUnicodeKeys.Contains(e.Key);
         }
 
-        private bool IsDeletableSpecialKey(Keys keys)
+        private bool IsDeletableSpecialKey(Key key)
         {
-            Keys[] DeletableKeys = { 
-                   Keys.Multiply, Keys.Add, Keys.Subtract, Keys.Decimal, 
-                   Keys.Divide, Keys.Space};
-            return DeletableKeys.Contains(keys);
+            Key[] DeletableKeys = { 
+                   Key.Multiply, Key.Add, Key.Subtract, Key.Decimal, 
+                   Key.Divide, Key.Space};
+            return DeletableKeys.Contains(key);
         }
 
 
-        bool CheckVkCodeIsModifier(KeyboardRawEventArgs e)
+        bool CheckKeyIsModifier(KeyboardRawEventArgs e)
         {
-            Keys[] ModifierKeys = { Keys.ControlKey, Keys.LControlKey, Keys.RControlKey,
-                                    Keys.ShiftKey, Keys.LShiftKey, Keys.RShiftKey,
-                                    Keys.LWin, Keys.RWin,
-                                    Keys.Menu, Keys.LMenu, Keys.RMenu,
-                                    Keys.NumLock, Keys.Scroll,
-                                    Keys.CapsLock};
-            return ModifierKeys.Contains((Keys)e.vkCode);
+            Key[] ModifierKeys = { Key.LeftShift, Key.RightShift,
+                                   Key.LeftCtrl, Key.RightCtrl,
+                                   Key.LeftAlt, Key.RightAlt,
+                                   Key.LWin, Key.RWin,
+                                   Key.NumLock, Key.Scroll,
+                                   Key.CapsLock};
+            return ModifierKeys.Contains(e.Key);
         }
 
         #region Event Forwarding

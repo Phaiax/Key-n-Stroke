@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace PxKeystrokesUi
 {
@@ -33,7 +33,8 @@ namespace PxKeystrokesUi
         public bool Scrollock;
 
         public int vkCode { get { return Kbdllhookstruct.vkCode; } }
-        public Keys Key { get { return (Keys)vkCode; } }
+        private Key key;
+        public Key Key { get {  return key; } }
         public KeyUpDown Method = KeyUpDown.Undefined;
 
         public bool Uppercase { get { return (Shift && !Caps) || (Caps && !Shift);  } }
@@ -47,12 +48,13 @@ namespace PxKeystrokesUi
         public KeyboardRawEventArgs(NativeMethodsKeyboard.KBDLLHOOKSTRUCT Kbdllhookstruct)
         {
             this.Kbdllhookstruct = Kbdllhookstruct;
+            this.key = KeyInterop.KeyFromVirtualKey(this.vkCode); /* cache */
         }
     }
 
     public delegate void KeyboardRawEventHandler(KeyboardRawEventArgs e);
 
-    interface IKeyboardRawEventProvider : IDisposable
+    public interface IKeyboardRawEventProvider : IDisposable
     {
         event KeyboardRawEventHandler KeyEvent;
     }
