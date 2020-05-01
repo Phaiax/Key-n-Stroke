@@ -27,7 +27,7 @@ namespace PxKeystrokesUi
 
         IKeystrokeEventProvider k;
 
-        Settings SettingsForm;
+        Settings1 SettingsForm;
 
         List<TweenLabel> tweenLabels = new List<TweenLabel>(5);
         bool LastHistoryLineIsText = false;
@@ -252,10 +252,10 @@ namespace PxKeystrokesUi
         {
             if (SettingsForm != null)
             {
-                SettingsForm.Dispose();
+                //SettingsForm.Dispose();
             }
-            SettingsForm = new Settings(settings);
-            SettingsForm.Show(this);
+            SettingsForm = new Settings1(settings);
+            SettingsForm.ShowDialog();
         }
 
         #endregion

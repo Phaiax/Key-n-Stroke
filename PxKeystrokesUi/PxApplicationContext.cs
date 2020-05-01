@@ -18,7 +18,7 @@ namespace PxKeystrokesUi
 
         public PxApplicationContext()
         {
-            Log.SetTagFilter("CNV|BIN");
+            Log.SetTagFilter("POS");
 
             Application.ApplicationExit += Application_ApplicationExit;
 
@@ -29,19 +29,19 @@ namespace PxKeystrokesUi
             mySettings.PropertyChanged += OnSettingChanged;
             mySettings.HistoryTimeout = 30000;
 
-            PxKeystrokesWPF.Settings1 settings1 = new PxKeystrokesWPF.Settings1(mySettings);
-            System.Windows.Forms.Integration.ElementHost.EnableModelessKeyboardInterop(settings1);
+            //PxKeystrokesWPF.Settings1 settings1 = new PxKeystrokesWPF.Settings1(mySettings);
+            //System.Windows.Forms.Integration.ElementHost.EnableModelessKeyboardInterop(settings1);
             //WPFHelper.SetOwner(this, dlg);
             //dlg.ShowDialog();
-            settings1.ShowDialog();
+            //settings1.ShowDialog();
 
             myUi = new KeystrokesDisplay(myKeystrokeConverter, mySettings);
             myUi.FormClosed += OnUiClosed;
             //myUi.Show();
             this.MainForm = myUi;
 
-            //OnCursorIndicatorSettingChanged();
-            //OnButtonIndicatorSettingChanged();
+            OnCursorIndicatorSettingChanged();
+            OnButtonIndicatorSettingChanged();
         }
 
         SettingsStore mySettings;
