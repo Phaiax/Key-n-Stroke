@@ -12,7 +12,6 @@ using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
 using WpfColorFontDialog;
-//using System.Windows.Forms;
 
 namespace PxKeystrokesWPF
 {

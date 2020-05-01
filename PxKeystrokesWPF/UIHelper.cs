@@ -5,11 +5,26 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using MColor = System.Windows.Media.Color;
+using DColor = System.Drawing.Color;
+
 
 namespace PxKeystrokesWPF
 {
     class UIHelper
     {
+        #region Helper to convert Drawing.Color to Windows.Media.Color
+        public static MColor ToMediaColor(DColor color)
+        {
+            return MColor.FromArgb(color.A, color.R, color.G, color.B);
+        }
+
+        public static DColor ToDrawingColor(MColor color)
+        {
+            return DColor.FromArgb(color.A, color.R, color.G, color.B);
+        }
+        #endregion
+
         /// <summary>
         /// Finds a Child of a given item in the visual tree. 
         /// </summary>

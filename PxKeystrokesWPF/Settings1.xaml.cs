@@ -35,14 +35,29 @@ namespace PxKeystrokesWPF
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            Log.e("CNV", "Convert " + value.ToString() + " tt: " + targetType.ToString());
+            //Log.e("CNV", "Convert " + value.ToString() + " tt: " + targetType.ToString());
             return (int) ((float) value * 100f);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            Log.e("CNV", "Convert Back " + value.ToString() + " tt: " + targetType.ToString());
+            //Log.e("CNV", "Convert Back " + value.ToString() + " tt: " + targetType.ToString());
             return (int)value / 100f;
+        }
+    }
+
+    public class MediaColorDrawingColorConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            //Log.e("CNV", "Convert " + value.ToString() + " tt: " + targetType.ToString());
+            return UIHelper.ToMediaColor((System.Drawing.Color) value);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            //Log.e("CNV", "Convert Back " + value.ToString() + " tt: " + targetType.ToString());
+            return UIHelper.ToDrawingColor((System.Windows.Media.Color) value);
         }
     }
 
@@ -89,10 +104,10 @@ namespace PxKeystrokesWPF
 
         private void OnButtonTextFontClick(object sender, RoutedEventArgs e)
         {
-            ColorFontDialog dialog = new ColorFontDialog(true, true);
+            ColorFontDialog dialog = new ColorFontDialog(true, true, false);
             dialog.Font = settings.LabelFont;
             TextBox sampleText = UIHelper.FindChild<TextBox>((DependencyObject) dialog.Content, "txtSampleText");
-            sampleText.Background = Brushes.Black;
+            sampleText.Background = new SolidColorBrush(UIHelper.ToMediaColor(settings.BackgroundColor));
             if (dialog.ShowDialog() == true)
             {
                 FontInfo font = dialog.Font;
