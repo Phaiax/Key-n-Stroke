@@ -10,7 +10,7 @@ namespace PxKeystrokesUi
     /// <summary>
     /// These Method can be used to pin the window on top of everything
     /// </summary>
-    class NativeMethodsSWP
+    public class NativeMethodsSWP
     {
 
         /// <summary>

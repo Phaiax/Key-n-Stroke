@@ -41,7 +41,7 @@ namespace PxKeystrokesUi
 
     // https://docs.microsoft.com/de-de/windows/win32/gdi/bitmaps?redirectedfrom=MSDN
 
-    class NativeMethodsDC
+    public class NativeMethodsDC
     {
 
         /// <summary>

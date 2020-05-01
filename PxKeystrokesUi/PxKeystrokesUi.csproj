@@ -119,12 +119,8 @@
       <DependentUpon>CursorIndicator.cs</DependentUpon>
     </Compile>
     <Compile Include="ImageResources.cs" />
-    <Compile Include="NativeMethodsDC.cs" />
     <Compile Include="PxApplicationContext.cs" />
     <Compile Include="KeyboardLayoutParser.cs" />
-    <Compile Include="MouseHook.cs" />
-    <Compile Include="MouseRawEvent.cs" />
-    <Compile Include="NativeMethodsGWL.cs" />
     <Compile Include="KeystrokesDisplay.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -136,9 +132,6 @@
     <Compile Include="KeyboardRawEvent.cs" />
     <Compile Include="KeystrokeParser.cs" />
     <Compile Include="KeystrokeEvent.cs" />
-    <Compile Include="NativeMethodsKeyboard.cs" />
-    <Compile Include="NativeMethodsMouse.cs" />
-    <Compile Include="NativeMethodsSWP.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs">
