@@ -259,7 +259,7 @@ namespace PxKeystrokesUi
 
         void UpdateSize()
         {
-            ImageResources.ApplyScalingFactor(s.ButtonIndicatorSize);
+            ImageResources.ApplyScalingFactor(s.ButtonIndicatorSize / 100.0f);
             Log.e("BI", "size change");
             Redraw();
         }
@@ -268,8 +268,8 @@ namespace PxKeystrokesUi
 
         void RecalcOffset()
         {
-            offset.Width = (int)(s.ButtonIndicatorPositionDistance * Math.Sin(s.ButtonIndicatorPositionAngle));
-            offset.Height = (int)(s.ButtonIndicatorPositionDistance * Math.Cos(s.ButtonIndicatorPositionAngle));
+            offset.Width = (int)(s.ButtonIndicatorPositionDistance * Math.Sin(s.ButtonIndicatorPositionAngle / 10.0f));
+            offset.Height = (int)(s.ButtonIndicatorPositionDistance * Math.Cos(s.ButtonIndicatorPositionAngle / 10.0f));
         }
 
         void UpdatePosition()

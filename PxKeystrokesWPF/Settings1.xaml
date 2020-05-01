@@ -119,7 +119,7 @@
             <GroupBox Header="Text Background">
                 <StackPanel Margin="0,0,0,5">
                     <xctk:ColorPicker x:Name="colorpicker_background_color" ColorMode="ColorCanvas" Margin="10" SelectedColor="{Binding BackgroundColor, Mode=TwoWay, Converter={StaticResource MediaColorDrawingColorConverter}}"/>
-                    <uc:LabeledSlider x:Name="slider_opacity" Title="Opacity" Minimum="800" Maximum="3000" Value="{Binding Opacity, Mode=TwoWay}" />
+                    <uc:LabeledSlider x:Name="slider_opacity" Title="Opacity" Minimum="10" Maximum="100" Value="{Binding Opacity, Mode=TwoWay}" />
                 </StackPanel>
             </GroupBox>
         </StackPanel>
@@ -130,9 +130,9 @@
                                  IsChecked="{Binding ButtonIndicator, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:ButtonIndicatorType.Disabled}}"/>
                     <RadioButton x:Name="rb_bi_icon" Content="Show icon on click" GroupName="bi"
                                  IsChecked="{Binding ButtonIndicator, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:ButtonIndicatorType.PicsAroundCursor}}"/>
-                    <uc:LabeledSlider x:Name="slider_bi_size" Title="Size" Minimum="800" Maximum="3000" Value="{Binding ButtonIndicatorSize, Mode=TwoWay}"/>
-                    <uc:LabeledSlider x:Name="slider_bi_distance" Title="Distance" Minimum="800" Maximum="3000" Value="{Binding ButtonIndicatorPositionDistance, Mode=TwoWay}"/>
-                    <uc:LabeledSlider x:Name="slider_bi_angle" Title="Direction" Minimum="800" Maximum="3000" Value="{Binding ButtonIndicatorPositionAngle, Mode=TwoWay}"/>
+                    <uc:LabeledSlider x:Name="slider_bi_size" Title="Size" Minimum="20" Maximum="70" Value="{Binding ButtonIndicatorSize, Mode=TwoWay}"/>
+                    <uc:LabeledSlider x:Name="slider_bi_distance" Title="Distance" Minimum="10" Maximum="100" Value="{Binding ButtonIndicatorPositionDistance, Mode=TwoWay}"/>
+                    <uc:LabeledSlider x:Name="slider_bi_angle" Title="Direction" Maximum="65" Value="{Binding ButtonIndicatorPositionAngle, Mode=TwoWay}"/>
                     <CheckBox x:Name="cb_bi_history"  IsChecked="{Binding AddButtonEventsToHistory}">Add to history</CheckBox>
                 </StackPanel>
             </GroupBox>
