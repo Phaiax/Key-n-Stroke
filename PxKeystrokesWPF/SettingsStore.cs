@@ -188,7 +188,7 @@ namespace PxKeystrokesWPF
         [DataMember] public int cursorIndicatorSize;
         [DataMember] public SerializableColor2 cursorIndicatorColor;
         [DataMember] public ButtonIndicatorType buttonIndicator;
-        [DataMember] public float buttonIndicatorSize;
+        [DataMember] public float buttonIndicatorScalingPercentage;
         [DataMember] public float buttonIndicatorPositionAngle;
         [DataMember] public int buttonIndicatorPositionDistance;
         [DataMember] public bool addButtonEventsToHistory;
@@ -385,11 +385,11 @@ namespace PxKeystrokesWPF
             set { i.buttonIndicator = value; OnSettingChanged("ButtonIndicator"); }
         }
 
-        public float ButtonIndicatorSizeDefault = 0.32f;
-        public float ButtonIndicatorSize
+        public float ButtonIndicatorScalingPercentageDefault = 100f;
+        public float ButtonIndicatorScalingPercentage
         {
-            get { return Or(i.buttonIndicatorSize, ButtonIndicatorSizeDefault); }
-            set { i.buttonIndicatorSize = value; OnSettingChanged("ButtonIndicatorSize"); }
+            get { return Or(i.buttonIndicatorScalingPercentage, ButtonIndicatorScalingPercentageDefault); }
+            set { i.buttonIndicatorScalingPercentage = value; OnSettingChanged("ButtonIndicatorScalingPercentage"); }
         }
 
         public float ButtonIndicatorPositionAngleDefault = 0f;
@@ -459,7 +459,7 @@ namespace PxKeystrokesWPF
             OnSettingChanged("CursorIndicatorSize");
             OnSettingChanged("CursorIndicatorColor");
             OnSettingChanged("ButtonIndicator");
-            OnSettingChanged("ButtonIndicatorSize");
+            OnSettingChanged("ButtonIndicatorScalingPercentage");
             OnSettingChanged("ButtonIndicatorPositionAngle");
             OnSettingChanged("ButtonIndicatorPositionDistance");
             OnSettingChanged("AddButtonEventsToHistory");
@@ -571,7 +571,7 @@ CursorIndicatorOpacity:          {CursorIndicatorOpacity}
 CursorIndicatorSize:             {CursorIndicatorSize.ToString()}
 CursorIndicatorColor:            {CursorIndicatorColor.ToString()}
 ButtonIndicator:                 {ButtonIndicator.ToString()}
-ButtonIndicatorSize:             {ButtonIndicatorSize}
+buttonIndicatorScalingPercentage:{ButtonIndicatorScalingPercentage}
 ButtonIndicatorPositionAngle:    {ButtonIndicatorPositionAngle}
 ButtonIndicatorPositionDistance: {ButtonIndicatorPositionDistance}
 AddButtonEventsToHistory:        {AddButtonEventsToHistory}

@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PxKeystrokesWPF"
         mc:Ignorable="d"
-        Title="ButtonIndicator2" Height="100" Width="100"
+        Title="ButtonIndicator" Height="100" Width="100"
         AllowsTransparency="True" 
         WindowStyle='None' 
-        Background="Transparent">
+        Background="Transparent" ResizeMode="NoResize" ShowInTaskbar="False" IsEnabled="False">
     <Ellipse Width="100" Height="100" Fill="Red" Opacity="0.5"/>
 </Window>

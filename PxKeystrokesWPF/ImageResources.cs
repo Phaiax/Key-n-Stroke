@@ -16,24 +16,20 @@ namespace PxKeystrokesWPF
     {
         static Assembly _assembly;
 
+        private struct BitmapCollection
+        {
+            public Bitmap BMouse;
+            public Bitmap BLeft;
+            public Bitmap BRight;
+            public Bitmap BMiddle;
+            public Bitmap BLeftDouble;
+            public Bitmap BRightDouble;
+            public Bitmap BWheelUp;
+            public Bitmap BWheelDown;
+        }
 
-        public static Bitmap BMouse;
-        public static Bitmap BLeft;
-        public static Bitmap BRight;
-        public static Bitmap BMiddle;
-        public static Bitmap BLeftDouble;
-        public static Bitmap BRightDouble;
-        public static Bitmap BWheelUp;
-        public static Bitmap BWheelDown;
-
-        static Bitmap OrigBMouse;
-        static Bitmap OrigBLeft;
-        static Bitmap OrigBRight;
-        static Bitmap OrigBMiddle;
-        static Bitmap OrigBLeftDouble;
-        static Bitmap OrigBRightDouble;
-        static Bitmap OrigBWheelUp;
-        static Bitmap OrigBWheelDown;
+        static Dictionary<uint, BitmapCollection> ScaledByDpi;
+        static BitmapCollection Orig;
 
         public static void Init()
         {
@@ -45,14 +41,14 @@ namespace PxKeystrokesWPF
                 {
                     Log.e("RES", i);
                 }
-                OrigBMouse = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse.png"));
-                OrigBLeft = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse_left.png"));
-                OrigBRight = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse_right.png"));
-                OrigBMiddle = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse_middle.png"));
-                OrigBLeftDouble = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse_left_double.png"));
-                OrigBRightDouble = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse_right_double.png"));
-                OrigBWheelUp = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse_wheel_up.png"));
-                OrigBWheelDown = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse_wheel_down.png"));
+                Orig.BMouse = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse.png"));
+                Orig.BLeft = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse_left.png"));
+                Orig.BRight = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse_right.png"));
+                Orig.BMiddle = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse_middle.png"));
+                Orig.BLeftDouble = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse_left_double.png"));
+                Orig.BRightDouble = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse_right_double.png"));
+                Orig.BWheelUp = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse_wheel_up.png"));
+                Orig.BWheelDown = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse_wheel_down.png"));
 
             }
             catch
@@ -67,24 +63,47 @@ namespace PxKeystrokesWPF
 
         public static void ApplyScalingFactor(float scalingfactor)
         {
+            scalingfactor = Math.Min(10f, Math.Max(0.1f, scalingfactor));
+
             if (appliedScalingFactor != scalingfactor)
             {
-                BMouse = Scale(scalingfactor, OrigBMouse);
-                BLeft = Scale(scalingfactor, OrigBLeft);
-                BRight = Scale(scalingfactor, OrigBRight);
-                BMiddle = Scale(scalingfactor, OrigBMiddle);
-                BLeftDouble = Scale(scalingfactor, OrigBLeftDouble);
-                BRightDouble = Scale(scalingfactor, OrigBRightDouble);
-                BWheelUp = Scale(scalingfactor, OrigBWheelUp);
-                BWheelDown = Scale(scalingfactor, OrigBWheelDown);
+                var newByDpi = new Dictionary<uint, BitmapCollection>();
+                
+                List<uint> dpis = NativeMethodsWindow.GetAllUsedDpis();
+
+                foreach (uint dpi in dpis)
+                {
+                    newByDpi.Add(dpi, CreateScaledBitmapCollection(scalingfactor, dpi));
+                }
 
                 appliedScalingFactor = scalingfactor;
+                ScaledByDpi = newByDpi;
             }
         }
 
-        private static Bitmap Scale(float scalingFactor, Bitmap original)
+        private static BitmapCollection CreateScaledBitmapCollection(float scalingFactor, uint dpi)
         {
+            BitmapCollection scaled = new BitmapCollection
+            {
+                BMouse = Scale(scalingFactor, Orig.BMouse, dpi),
+                BLeft = Scale(scalingFactor, Orig.BLeft, dpi),
+                BRight = Scale(scalingFactor, Orig.BRight, dpi),
+                BMiddle = Scale(scalingFactor, Orig.BMiddle, dpi),
+                BLeftDouble = Scale(scalingFactor, Orig.BLeftDouble, dpi),
+                BRightDouble = Scale(scalingFactor, Orig.BRightDouble, dpi),
+                BWheelUp = Scale(scalingFactor, Orig.BWheelUp, dpi),
+                BWheelDown = Scale(scalingFactor, Orig.BWheelDown, dpi)
+            };
+
+            return scaled;
+        }
+
+        private static Bitmap Scale(float scalingFactor, Bitmap original, uint dpi)
+        {
+            var dpiScale = (float)dpi / 96.0f;
+            scalingFactor *= dpiScale;
             var scaledWidth = (int)(original.Width * scalingFactor);
+            Log.e("DPI", $"Scale: DPI: {dpi}, dpiScaleFactor:{dpiScale}, scaledWidth:{scaledWidth}, totalScalingFactor:{scalingFactor}");
             var scaledHeight = (int)(original.Height * scalingFactor);
             var scaledBitmap = new Bitmap(scaledWidth, scaledHeight, PixelFormat.Format32bppArgb);
             // Draw original image onto new bitmap and interpolate
@@ -98,6 +117,7 @@ namespace PxKeystrokesWPF
 
         public struct ComposeOptions
         {
+            public uint dpi;
             public bool addBMouse;
             public bool addBLeft;
             public bool addBRight;
@@ -154,20 +174,27 @@ namespace PxKeystrokesWPF
             }
 
 
-            Log.e("RES", "COMPOSE! " + c.ToString());
 
+            var byDpi = ScaledByDpi; // take reference to prevent datarace with update/replace logic on scaling factor change
+            if (!byDpi.ContainsKey(c.dpi))
+            {
+                byDpi.Add(c.dpi, CreateScaledBitmapCollection(appliedScalingFactor, c.dpi));
+            }
 
-            var targetBitmap = new Bitmap(BMouse.Size.Width, BMouse.Size.Height, PixelFormat.Format32bppArgb);
+            BitmapCollection scaled = byDpi[c.dpi];
+            Log.e("DPI", $"COMPOSE! {c}, {scaled.BMouse.Size.Width}");
+
+            var targetBitmap = new Bitmap(scaled.BMouse.Size.Width, scaled.BMouse.Size.Height, PixelFormat.Format32bppArgb);
             Graphics graph = Graphics.FromImage(targetBitmap);
 
-            if (c.addBMouse) graph.DrawImageUnscaled(BMouse, 0, 0);
-            if (c.addBLeft) graph.DrawImageUnscaled(BLeft, 0, 0);
-            if (c.addBRight) graph.DrawImageUnscaled(BRight, 0, 0);
-            if (c.addBMiddle) graph.DrawImageUnscaled(BMiddle, 0, 0);
-            if (c.addBLeftDouble) graph.DrawImageUnscaled(BLeftDouble, 0, 0);
-            if (c.addBRightDouble) graph.DrawImageUnscaled(BRightDouble, 0, 0);
-            if (c.addBWheelUp) graph.DrawImageUnscaled(BWheelUp, 0, 0);
-            if (c.addBWheelDown) graph.DrawImageUnscaled(BWheelDown, 0, 0);
+            if (c.addBMouse) graph.DrawImageUnscaled(scaled.BMouse, 0, 0);
+            if (c.addBLeft) graph.DrawImageUnscaled(scaled.BLeft, 0, 0);
+            if (c.addBRight) graph.DrawImageUnscaled(scaled.BRight, 0, 0);
+            if (c.addBMiddle) graph.DrawImageUnscaled(scaled.BMiddle, 0, 0);
+            if (c.addBLeftDouble) graph.DrawImageUnscaled(scaled.BLeftDouble, 0, 0);
+            if (c.addBRightDouble) graph.DrawImageUnscaled(scaled.BRightDouble, 0, 0);
+            if (c.addBWheelUp) graph.DrawImageUnscaled(scaled.BWheelUp, 0, 0);
+            if (c.addBWheelDown) graph.DrawImageUnscaled(scaled.BWheelDown, 0, 0);
 
             lastComposeOptions = c;
             lastComposedBitmap = targetBitmap;

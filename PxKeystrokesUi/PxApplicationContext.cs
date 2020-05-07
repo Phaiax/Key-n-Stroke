@@ -18,7 +18,7 @@ namespace PxKeystrokesUi
 
         public PxApplicationContext()
         {
-            Log.SetTagFilter("POS");
+            Log.SetTagFilter("POS|DPI");
 
             Application.ApplicationExit += Application_ApplicationExit;
 

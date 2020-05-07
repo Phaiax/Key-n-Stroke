@@ -30,7 +30,7 @@ namespace PxKeystrokesUi
 
             HideMouseIfNoButtonPressed();
 
-            NativeMethodsSWP.SetWindowTopMost(this.Handle);
+            NativeMethodsWindow.SetWindowTopMost(this.Handle);
             SetFormStyles();
 
             m.MouseEvent += m_MouseEvent;
@@ -259,7 +259,7 @@ namespace PxKeystrokesUi
 
         void UpdateSize()
         {
-            ImageResources.ApplyScalingFactor(s.ButtonIndicatorSize / 100.0f);
+            ImageResources.ApplyScalingFactor(s.ButtonIndicatorScalingPercentage);
             Log.e("BI", "size change");
             Redraw();
         }

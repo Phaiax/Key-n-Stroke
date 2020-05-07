@@ -55,7 +55,7 @@ namespace PxKeystrokesUi
 
             addWelcomeInfo();
 
-            NativeMethodsSWP.SetWindowTopMost(this.Handle);
+            NativeMethodsWindow.SetWindowTopMost(this.Handle);
             ActivateDisplayOnlyMode(true);
 
             if (settings.EnableWindowFade)

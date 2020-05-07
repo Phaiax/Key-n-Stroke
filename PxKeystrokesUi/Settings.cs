@@ -176,7 +176,7 @@ namespace PxKeystrokesUi
 
         private void slider_bi_size_Scroll(object sender, EventArgs e)
         {
-            settings.ButtonIndicatorSize = (float)slider_bi_size.Value / 100f;
+            settings.ButtonIndicatorScalingPercentage = (float)slider_bi_size.Value;
         }
 
         private void slider_bi_distance_Scroll(object sender, EventArgs e)
@@ -214,7 +214,7 @@ namespace PxKeystrokesUi
 
             ExtendTrackbarRangeIfNeeded(slider_bi_angle, (int)(settings.ButtonIndicatorPositionAngle * 10f));
             ExtendTrackbarRangeIfNeeded(slider_bi_distance, settings.ButtonIndicatorPositionDistance);
-            ExtendTrackbarRangeIfNeeded(slider_bi_size, (int)(settings.ButtonIndicatorSize * 100f));
+            ExtendTrackbarRangeIfNeeded(slider_bi_size, (int)(settings.ButtonIndicatorScalingPercentage));
         }
 
         private void ExtendTrackbarRangeIfNeeded(TrackBar slider, int value)

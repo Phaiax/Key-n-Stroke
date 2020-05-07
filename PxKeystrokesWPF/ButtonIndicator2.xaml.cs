@@ -45,7 +45,10 @@ namespace PxKeystrokesWPF
             this.handle = new WindowInteropHelper(this).Handle;
             HideMouseIfNoButtonPressed();
 
-            NativeMethodsSWP.SetWindowTopMost(handle);
+            c.dpi = 96;
+            UpdatePosition();
+
+            NativeMethodsWindow.SetWindowTopMost(handle);
             SetFormStyles();
 
             m.MouseEvent += m_MouseEvent;
@@ -60,9 +63,16 @@ namespace PxKeystrokesWPF
             Redraw();
         }
 
+
+        protected override void OnRender(DrawingContext drawingContext)
+        {
+            base.OnRender(drawingContext);
+        }
+
         private void Redraw()
         {
             Bitmap scaledAndComposedBitmap = ImageResources.Compose(c);
+            Log.e("DPI", $"DPI at Redraw: {c.dpi}");
             NativeMethodsDC.SetBitmapForWindow(this.handle,
                                                new System.Drawing.Point((int)this.Left, (int)this.Top),
                                                scaledAndComposedBitmap,
@@ -77,12 +87,12 @@ namespace PxKeystrokesWPF
             UpdateSize();
         }
 
-        System.Drawing.Point cursorPosition;
+        //System.Drawing.Point cursorPosition;
         MouseRawEventArgs lastDblClk;
 
         void m_MouseEvent(MouseRawEventArgs raw_e)
         {
-            cursorPosition = raw_e.Position;
+            // cursorPosition = raw_e.Position; this position does not work nice with multiple monitor/dpi setups
             switch (raw_e.Action)
             {
                 case MouseAction.Up:
@@ -274,12 +284,12 @@ namespace PxKeystrokesWPF
 
         void UpdateSize()
         {
-            ImageResources.ApplyScalingFactor(s.ButtonIndicatorSize / 100.0f);
+            ImageResources.ApplyScalingFactor(s.ButtonIndicatorScalingPercentage / 100.0f);
             Log.e("BI", "size change");
             Redraw();
         }
 
-        System.Drawing.Size offset = new System.Drawing.Size(0, 0);
+        System.Drawing.Size offset = new System.Drawing.Size(0, 0); // dpi independend
 
         void RecalcOffset()
         {
@@ -291,11 +301,36 @@ namespace PxKeystrokesWPF
         {
             if (OnlyDblClkIconVisible() && doubleClickReleased)
                 return;
-            System.Drawing.Point buttonIndicatorCenter = System.Drawing.Point.Subtract(cursorPosition, offset);
-            var location = System.Drawing.Point.Subtract(buttonIndicatorCenter, new System.Drawing.Size((int) this.Width / 2, (int) this.Height / 2));
-            this.Top = location.Y;
-            this.Left = location.X;
-            Log.e("POS", $"Cursor: {cursorPosition.X},{cursorPosition.Y}. Window: {location.X},{location.Y}");
+            NativeMethodsMouse.POINT cursorPosition = new NativeMethodsMouse.POINT(0, 0);
+            NativeMethodsWindow.GetCursorPos(ref cursorPosition);
+            IntPtr monitor = NativeMethodsWindow.MonitorFromPoint(cursorPosition, NativeMethodsWindow.MonitorOptions.MONITOR_DEFAULTTONEAREST);
+
+            // Angular DPI seems to work best
+            //uint edpiX = 0, edpiY = 0;
+            //NativeMethodsWindow.GetDpiForMonitor(monitor, NativeMethodsWindow.DpiType.MDT_EFFECTIVE_DPI, ref edpiX, ref edpiY);
+            uint adpiX = 0, adpiY = 0;
+            NativeMethodsWindow.GetDpiForMonitor(monitor, NativeMethodsWindow.DpiType.MDT_ANGULAR_DPI, ref adpiX, ref adpiY);
+            //uint rdpiX = 0, rdpiY = 0;
+            //NativeMethodsWindow.GetDpiForMonitor(monitor, NativeMethodsWindow.DpiType.MDT_RAW_DPI, ref rdpiX, ref rdpiY);
+
+            c.dpi = adpiX;
+
+            //NativeMethodsWindow.ProcessDpiAwareness dpiawareness = 0;
+            //NativeMethodsWindow.GetProcessDpiAwareness(IntPtr.Zero, ref dpiawareness);
+            //System.Drawing.Point buttonIndicatorCenter = System.Drawing.Point.Subtract(cursorPosition, offset);
+            //var location = System.Drawing.Point.Subtract(buttonIndicatorCenter, new System.Drawing.Size((int) this.Width / 2, (int) this.Height / 2));
+            //this.Top = location.Y;piawareness);
+
+            //IntPtr hContext = NativeMethodsWindow.GetThreadDpiAwarenessContext();
+            //NativeMethodsWindow.DpiAwareness threaddpiawareness = NativeMethodsWindow.GetAwarenessFromDpiAwarenessContext(hContext);
+            //uint threadDpi = NativeMethodsWindow.GetDpiFromDpiAwarenessContext(hContext);
+
+            NativeMethodsWindow.SetWindowPosition(this.handle, cursorPosition.X, cursorPosition.Y);
+
+            //this.Left = location.X;
+            //Log.e("DPI", $"DPI: edpiX,edpiY/{adpiX},{adpiY}/rdpiX,rdpiY, Monitor: {(int)monitor}, Awareness: {dpiawareness}/{threaddpiawareness}/{threadDpi}");
+            //Log.e("POS", $"Cursor: {cursorPosition.X},{cursorPosition.Y}. Window: {location.X},{location.Y}, ");
+            //Log.e("POS", $"Cursor: {cursorPosition.X},{cursorPosition.Y}.");
         }
 
         private bool OnlyDblClkIconVisible()
@@ -324,7 +359,7 @@ namespace PxKeystrokesWPF
                     RecalcOffset();
                     UpdatePosition();
                     break;
-                case "ButtonIndicatorSize":
+                case "ButtonIndicatorScalingPercentage":
                     UpdateSize();
                     UpdatePosition();
                     break;

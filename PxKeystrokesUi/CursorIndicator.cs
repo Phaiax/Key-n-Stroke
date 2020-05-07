@@ -24,7 +24,7 @@ namespace PxKeystrokesUi
             this.s = s;
             FormClosed += CursorIndicator_FormClosed;
 
-            NativeMethodsSWP.SetWindowTopMost(this.Handle);
+            NativeMethodsWindow.SetWindowTopMost(this.Handle);
             SetFormStyles();
 
             m.MouseEvent += m_MouseEvent;
