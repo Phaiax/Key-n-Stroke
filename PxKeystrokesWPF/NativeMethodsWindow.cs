@@ -134,5 +134,30 @@ namespace PxKeystrokesWPF
             return dpis;
         }
 
+        static public void PrintDpiAwarenessInfo()
+        {
+            NativeMethodsMouse.POINT cursorPosition = new NativeMethodsMouse.POINT(0, 0);
+            GetCursorPos(ref cursorPosition);
+            IntPtr monitor = MonitorFromPoint(cursorPosition, MonitorOptions.MONITOR_DEFAULTTONEAREST);
+
+            // Angular DPI seems to work best
+            uint edpiX = 0, edpiY = 0;
+            NativeMethodsWindow.GetDpiForMonitor(monitor, NativeMethodsWindow.DpiType.MDT_EFFECTIVE_DPI, ref edpiX, ref edpiY);
+            uint adpiX = 0, adpiY = 0;
+            NativeMethodsWindow.GetDpiForMonitor(monitor, NativeMethodsWindow.DpiType.MDT_ANGULAR_DPI, ref adpiX, ref adpiY);
+            uint rdpiX = 0, rdpiY = 0;
+            NativeMethodsWindow.GetDpiForMonitor(monitor, NativeMethodsWindow.DpiType.MDT_RAW_DPI, ref rdpiX, ref rdpiY);
+
+
+            ProcessDpiAwareness dpiawareness = 0;
+            GetProcessDpiAwareness(IntPtr.Zero, ref dpiawareness);
+
+            IntPtr hContext = GetThreadDpiAwarenessContext();
+            DpiAwareness threaddpiawareness = GetAwarenessFromDpiAwarenessContext(hContext);
+            uint threadDpi = GetDpiFromDpiAwarenessContext(hContext);
+            
+            Log.e("DPI", $"DPI: {edpiX},{edpiY}/{adpiX},{adpiY}/{rdpiX},{rdpiY}, Monitor: {(int)monitor}, Awareness: {dpiawareness}/{threaddpiawareness}/{threadDpi}");
+            
+        }
     }
 }

@@ -1,82 +1,61 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Windows.Threading;
+using System.Windows.Forms;
+using PxKeystrokesWPF;
 
 namespace PxKeystrokesWPF
 {
-    /// <summary>
-    /// Interaktionslogik für ButtonIndicator2.xaml
-    /// </summary>
-    public partial class ButtonIndicator2 : Window
+    public partial class ButtonIndicator1 : Form
     {
-
         IMouseRawEventProvider m;
         SettingsStore s;
         ImageResources.ComposeOptions c;
-        IntPtr handle;
 
-        public ButtonIndicator2(IMouseRawEventProvider m, SettingsStore s)
+        public ButtonIndicator1(IMouseRawEventProvider m, SettingsStore s)
         {
             InitializeComponent();
+
             this.m = m;
             this.s = s;
-            this.Closed += this.Window_Closed;
-            this.Loaded += Window_Loaded;
-            
+            FormClosed += CursorIndicator_FormClosed;
 
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            this.handle = new WindowInteropHelper(this).Handle;
             HideMouseIfNoButtonPressed();
 
             c.dpi = 96;
             UpdatePosition();
 
-            NativeMethodsWindow.SetWindowTopMost(handle);
+            NativeMethodsWindow.SetWindowTopMost(this.Handle);
             SetFormStyles();
 
             m.MouseEvent += m_MouseEvent;
             s.PropertyChanged += settingChanged;
             DoubleClickIconTimer.Tick += leftDoubleClickIconTimeout_Tick;
-            DoubleClickIconTimer.Interval = TimeSpan.FromMilliseconds(750.0);
+            DoubleClickIconTimer.Interval = 750;
 
-            WheelIconTimer.Interval = TimeSpan.FromMilliseconds(750.0);
+            WheelIconTimer.Interval = 750;
             WheelIconTimer.Tick += WheelIconTimer_Tick;
 
 
             Redraw();
         }
 
-
-        protected override void OnRender(DrawingContext drawingContext)
-        {
-            base.OnRender(drawingContext);
-        }
-
         private void Redraw()
         {
             Bitmap scaledAndComposedBitmap = ImageResources.Compose(c);
-            Log.e("DPI", $"DPI at Redraw: {c.dpi}");
-            NativeMethodsDC.SetBitmapForWindow(this.handle,
-                                               new System.Drawing.Point((int)this.Left, (int)this.Top),
+            NativeMethodsDC.SetBitmapForWindow(this.Handle,
+                                               this.Location,
                                                scaledAndComposedBitmap,
                                                1.0f);   // opacity
+            NativeMethodsWindow.PrintDpiAwarenessInfo();
         }
 
         private void ButtonIndicator_Load(object sender, EventArgs e)
@@ -87,12 +66,12 @@ namespace PxKeystrokesWPF
             UpdateSize();
         }
 
-        //System.Drawing.Point cursorPosition;
+        //Point cursorPosition;
         MouseRawEventArgs lastDblClk;
 
         void m_MouseEvent(MouseRawEventArgs raw_e)
         {
-            // cursorPosition = raw_e.Position; this position does not work nice with multiple monitor/dpi setups
+            //cursorPosition = raw_e.Position;
             switch (raw_e.Action)
             {
                 case MouseAction.Up:
@@ -116,7 +95,7 @@ namespace PxKeystrokesWPF
             }
         }
 
-        DispatcherTimer WheelIconTimer = new DispatcherTimer();
+        Timer WheelIconTimer = new Timer();
 
         private void IndicateWheel(MouseRawEventArgs raw_e)
         {
@@ -167,7 +146,7 @@ namespace PxKeystrokesWPF
 
         void leftDoubleClickIconTimeout_Tick(object sender, EventArgs e)
         {
-            ((DispatcherTimer)sender).Stop();
+            ((Timer)sender).Stop();
             c.addBLeftDouble = false;
             HideMouseIfNoButtonPressed();
             Redraw();
@@ -205,7 +184,7 @@ namespace PxKeystrokesWPF
             }
         }
 
-        DispatcherTimer DoubleClickIconTimer = new DispatcherTimer();
+        Timer DoubleClickIconTimer = new Timer();
         bool doubleClickReleased = true;
 
         private void HideButton(MouseRawEventArgs raw_e)
@@ -217,7 +196,7 @@ namespace PxKeystrokesWPF
                     doubleClickReleased = true;
                     if (c.addBLeftDouble)
                     {
-                        if (raw_e.Msllhookstruct.time - lastDblClk.Msllhookstruct.time > DoubleClickIconTimer.Interval.TotalMilliseconds)
+                        if (raw_e.Msllhookstruct.time - lastDblClk.Msllhookstruct.time > DoubleClickIconTimer.Interval)
                         {
                             c.addBLeftDouble = false;
                         }
@@ -247,7 +226,7 @@ namespace PxKeystrokesWPF
 
         void HideMouseIfNoButtonPressed()
         {
-            if (!c.addBLeft
+            if (   !c.addBLeft
                 && !c.addBRight
                 && !c.addBMiddle
                 && !c.addBLeftDouble
@@ -259,7 +238,7 @@ namespace PxKeystrokesWPF
             }
         }
 
-        private void Window_Closed(object sender, EventArgs e)
+        void CursorIndicator_FormClosed(object sender, FormClosedEventArgs e)
         {
             if (m != null)
                 m.MouseEvent -= m_MouseEvent;
@@ -271,10 +250,10 @@ namespace PxKeystrokesWPF
 
         void SetFormStyles()
         {
-            //this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             //this.Opacity = 0.8;
-            NativeMethodsGWL.ClickThrough(this.handle); // This also makes the window style WS_EX_LAYERED
-            NativeMethodsGWL.HideFromAltTab(this.handle);
+            NativeMethodsGWL.ClickThrough(this.Handle); // This also makes the window style WS_EX_LAYERED
+            NativeMethodsGWL.HideFromAltTab(this.Handle);
 
             UpdateSize();
             UpdatePosition();
@@ -289,7 +268,7 @@ namespace PxKeystrokesWPF
             Redraw();
         }
 
-        System.Drawing.Size offset = new System.Drawing.Size(0, 0); // dpi independend
+        Size offset = new Size(0, 0);
 
         void RecalcOffset()
         {
@@ -301,22 +280,15 @@ namespace PxKeystrokesWPF
         {
             if (OnlyDblClkIconVisible() && doubleClickReleased)
                 return;
+            //Point buttonIndicatorCenter = Point.Subtract(cursorPosition, offset);
+            //this.Location = Point.Subtract(buttonIndicatorCenter, new Size(this.Size.Width / 2, this.Size.Height / 2));
             NativeMethodsMouse.POINT cursorPosition = new NativeMethodsMouse.POINT(0, 0);
-            NativeMethodsWindow.GetCursorPos(ref cursorPosition);
+            NativeMethodsMouse.GetCursorPos(ref cursorPosition);
             IntPtr monitor = NativeMethodsWindow.MonitorFromPoint(cursorPosition, NativeMethodsWindow.MonitorOptions.MONITOR_DEFAULTTONEAREST);
-
-            // Angular DPI seems to work best
-            //uint edpiX = 0, edpiY = 0;
-            //NativeMethodsWindow.GetDpiForMonitor(monitor, NativeMethodsWindow.DpiType.MDT_EFFECTIVE_DPI, ref edpiX, ref edpiY);
             uint adpiX = 0, adpiY = 0;
             NativeMethodsWindow.GetDpiForMonitor(monitor, NativeMethodsWindow.DpiType.MDT_ANGULAR_DPI, ref adpiX, ref adpiY);
-            //uint rdpiX = 0, rdpiY = 0;
-            //NativeMethodsWindow.GetDpiForMonitor(monitor, NativeMethodsWindow.DpiType.MDT_RAW_DPI, ref rdpiX, ref rdpiY);
-
             c.dpi = adpiX;
-
-
-            NativeMethodsWindow.SetWindowPosition(this.handle, cursorPosition.X, cursorPosition.Y);
+            NativeMethodsWindow.SetWindowPosition(this.Handle, cursorPosition.X, cursorPosition.Y);
 
         }
 
@@ -346,12 +318,13 @@ namespace PxKeystrokesWPF
                     RecalcOffset();
                     UpdatePosition();
                     break;
-                case "ButtonIndicatorScalingPercentage":
+                case "ButtonIndicatorSize":
                     UpdateSize();
                     UpdatePosition();
                     break;
             }
         }
+
 
     }
 }

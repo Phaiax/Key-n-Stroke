@@ -182,7 +182,7 @@ namespace PxKeystrokesWPF
             }
 
             BitmapCollection scaled = byDpi[c.dpi];
-            Log.e("DPI", $"COMPOSE! {c}, {scaled.BMouse.Size.Width}");
+            Log.e("DPI", $"COMPOSE! {c.dpi}, {c}, {scaled.BMouse.Size.Width}");
 
             var targetBitmap = new Bitmap(scaled.BMouse.Size.Width, scaled.BMouse.Size.Height, PixelFormat.Format32bppArgb);
             Graphics graph = Graphics.FromImage(targetBitmap);

@@ -124,7 +124,7 @@ namespace PxKeystrokesWPF
             }
         }
 
-        ButtonIndicator2 myButtons = null;
+        ButtonIndicator1 myButtons = null;
 
         private void EnableButtonIndicator()
         {
@@ -132,7 +132,7 @@ namespace PxKeystrokesWPF
                 return;
             Log.e("BI", "EnableButtonIndicator");
             EnableMouseHook();
-            myButtons = new ButtonIndicator2(myMouseHook, mySettings);
+            myButtons = new ButtonIndicator1(myMouseHook, mySettings);
             myButtons.Show();
         }
 

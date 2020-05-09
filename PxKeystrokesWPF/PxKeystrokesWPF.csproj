@@ -60,7 +60,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -89,8 +89,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ButtonIndicator2.xaml.cs">
-      <DependentUpon>ButtonIndicator2.xaml</DependentUpon>
+    <Compile Include="ButtonIndicator1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ButtonIndicator1.Designer.cs">
+      <DependentUpon>ButtonIndicator1.cs</DependentUpon>
     </Compile>
     <Compile Include="ImageResources.cs" />
     <Compile Include="KeyboardHook.cs" />
@@ -131,6 +134,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="ButtonIndicator1.resx">
+      <DependentUpon>ButtonIndicator1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -146,10 +152,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="ButtonIndicator2.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="LabeledSlider.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
