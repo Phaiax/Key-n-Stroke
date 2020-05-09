@@ -60,6 +60,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -81,6 +82,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ResizeButton.xaml.cs">
+      <DependentUpon>ResizeButton.xaml</DependentUpon>
+    </Compile>
     <Page Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -99,6 +103,9 @@
     <Compile Include="KeyboardHook.cs" />
     <Compile Include="KeyboardLayoutParser.cs" />
     <Compile Include="KeyboardRawEvent.cs" />
+    <Compile Include="KeystrokeDisplay.xaml.cs">
+      <DependentUpon>KeystrokeDisplay.xaml</DependentUpon>
+    </Compile>
     <Compile Include="KeystrokeEvent.cs" />
     <Compile Include="KeystrokeParser.cs" />
     <Compile Include="LabeledSlider.xaml.cs">
@@ -117,8 +124,19 @@
     </Compile>
     <Compile Include="SettingsStore.cs" />
     <Compile Include="SpecialkeysParser.cs" />
+    <Compile Include="TweenLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UIHelper.cs" />
     <Compile Include="UrlOpener.cs" />
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResizeButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -152,6 +170,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="KeystrokeDisplay.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="LabeledSlider.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

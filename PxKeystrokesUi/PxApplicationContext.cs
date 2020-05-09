@@ -106,27 +106,27 @@ namespace PxKeystrokesUi
             }
         }
 
-        ButtonIndicator2 myButtons = null;
+        //ButtonIndicator2 myButtons = null;
 
         private void EnableButtonIndicator()
         {
-            if (myButtons != null)
+            /*if (myButtons != null)
                 return;
             Log.e("BI", "EnableButtonIndicator");
             EnableMouseHook();
             myButtons = new ButtonIndicator2(myMouseHook, mySettings);
-            myButtons.Show();
+            myButtons.Show();*/
         }
 
 
         private void DisableButtonIndicator()
         {
-            if (myButtons == null)
+            /*if (myButtons == null)
                 return;
             myButtons.Close();
             myButtons = null;
             DisableMouseHookIfNotNeeded();
-            Log.e("BI", "DisableButtonIndicator");
+            Log.e("BI", "DisableButtonIndicator");*/
         }
 
         private void OnCursorIndicatorSettingChanged()
@@ -180,7 +180,7 @@ namespace PxKeystrokesUi
 
         private void DisableMouseHookIfNotNeeded()
         {
-            if (myCursor == null && myButtons == null)
+            if (myCursor == null /*&& myButtons == null*/)
                 DisableMouseHook();
         }
 

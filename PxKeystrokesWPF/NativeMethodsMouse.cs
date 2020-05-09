@@ -71,6 +71,11 @@ namespace PxKeystrokesWPF
                 return new POINT(p.X, p.Y);
             }
 
+            public static implicit operator System.Windows.Point(POINT p)
+            {
+                return new System.Windows.Point(p.X, p.Y);
+            }
+
             public bool Equals(POINT p2)
             {
                 return X == p2.X && Y == p2.Y;
@@ -91,6 +96,17 @@ namespace PxKeystrokesWPF
                                              ref MSLLHOOKSTRUCT lParam);
 
 
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern bool GetCursorPos(ref NativeMethodsMouse.POINT lpPoint);
 
+        public static System.Windows.Point CursorPosition
+        {
+            get
+            {
+                POINT pos = new POINT(0, 0);
+                GetCursorPos(ref pos);
+                return pos;
+            }
+        }
     }
 }

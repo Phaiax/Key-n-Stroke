@@ -20,12 +20,21 @@ namespace PxKeystrokesWPF
         }
 
         /// <summary>
-        /// Sets the Topmost property for the window Handle
+        /// Sets the Position property for the window Handle
         /// </summary>
         /// <param name="Handle">The Forms myform.Handle</param>
         public static void SetWindowPosition(IntPtr Handle, int x, int y)
         {
             SetWindowPos(Handle, HWND_TOPMOST, x, y, 0, 0, SWP_NOSIZE | SWP_NOOWNERZORDER);
+        }
+
+        /// <summary>
+        /// Sets the Size property for the window Handle
+        /// </summary>
+        /// <param name="Handle">The Forms myform.Handle</param>
+        public static void SetWindowSize(IntPtr Handle, int width, int height)
+        {
+            SetWindowPos(Handle, HWND_TOPMOST, 0, 0, width, height, SWP_NOMOVE | SWP_NOOWNERZORDER);
         }
 
         public static readonly IntPtr HWND_TOPMOST = new IntPtr(-1);
@@ -61,9 +70,6 @@ namespace PxKeystrokesWPF
 
         [DllImport("Shcore.dll", CharSet = CharSet.Auto, SetLastError = true)]
         public static extern uint GetDpiForMonitor(IntPtr hmonitor, DpiType dpiType, ref uint dpiX, ref uint dpiY);
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        public static extern bool GetCursorPos(ref NativeMethodsMouse.POINT lpPoint);
 
         public enum ProcessDpiAwareness : uint
         {
@@ -137,7 +143,7 @@ namespace PxKeystrokesWPF
         static public void PrintDpiAwarenessInfo()
         {
             NativeMethodsMouse.POINT cursorPosition = new NativeMethodsMouse.POINT(0, 0);
-            GetCursorPos(ref cursorPosition);
+            NativeMethodsMouse.GetCursorPos(ref cursorPosition);
             IntPtr monitor = MonitorFromPoint(cursorPosition, MonitorOptions.MONITOR_DEFAULTTONEAREST);
 
             // Angular DPI seems to work best

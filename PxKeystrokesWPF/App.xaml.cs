@@ -18,6 +18,7 @@ namespace PxKeystrokesWPF
     /// </summary>
     public partial class App : Application
     {
+        KeystrokeDisplay myUi;
 
         [System.STAThreadAttribute()]
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -37,7 +38,7 @@ namespace PxKeystrokesWPF
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            Log.SetTagFilter("POS|DPI");
+            Log.SetTagFilter("RESIZE");
 
             ImageResources.Init();
             InitSettings();
@@ -46,17 +47,17 @@ namespace PxKeystrokesWPF
             mySettings.PropertyChanged += OnSettingChanged;
             mySettings.HistoryTimeout = 30000;
 
-            Settings1 settings1 = new Settings1(mySettings);
+            //Settings1 settings1 = new Settings1(mySettings);
             //System.Windows.Forms.Integration.ElementHost.EnableModelessKeyboardInterop(settings1);
             //WPFHelper.SetOwner(this, dlg);
             //dlg.ShowDialog();
-            settings1.Show();
+            //settings1.Show();
             //settings1.ShowDialog();
             mySettings.ButtonIndicator = ButtonIndicatorType.PicsAroundCursor;
 
-            //myUi = new KeystrokesDisplay(myKeystrokeConverter, mySettings);
+            myUi = new KeystrokeDisplay(myKeystrokeConverter, mySettings);
             //myUi.FormClosed += OnUiClosed;
-            //myUi.Show();
+            myUi.Show();
             //this.MainForm = myUi;
 
             //OnCursorIndicatorSettingChanged();
@@ -183,7 +184,7 @@ namespace PxKeystrokesWPF
             Log.e("CI", "DisableCursorIndicator");
         }*/
 
-        PxKeystrokesWPF.IMouseRawEventProvider myMouseHook = null;
+        IMouseRawEventProvider myMouseHook = null;
 
         private void EnableMouseHook()
         {
