@@ -18,5 +18,6 @@
             <local:ResizeButton HorizontalAlignment="Right" Margin="0,0,-1,-1"
                 VerticalAlignment="Bottom" Width="38" Height="38" ResizeTarget="Parent" Panel.ZIndex="5" />
         </Grid>
+
     </Grid>
 </Window>

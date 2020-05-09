@@ -10,6 +10,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
@@ -22,11 +23,12 @@ namespace PxKeystrokesWPF
     {
         SettingsStore settings;
         IKeystrokeEventProvider k;
-
+        Storyboard windowOpacity;
 
         public KeystrokeDisplay(IKeystrokeEventProvider k, SettingsStore s)
         {
             InitializeComponent();
+            InitializeAnimations();
 
             this.k = k;
             //this.k.KeystrokeEvent += k_KeystrokeEvent;
@@ -35,6 +37,22 @@ namespace PxKeystrokesWPF
             this.settings.PropertyChanged += settingChanged;
 
             this.settings.OnSettingChangedAll();
+        }
+
+        private void InitializeAnimations()
+        {
+            var anim = new DoubleAnimation
+            {
+                From = 0.0,
+                To = 1.0,
+                Duration = new Duration(TimeSpan.FromMilliseconds(800)),
+                RepeatBehavior = RepeatBehavior.Forever,
+                AutoReverse = true
+            };
+            windowOpacity = new Storyboard();
+            windowOpacity.Children.Add(anim);
+            Storyboard.SetTarget(anim, this);
+            Storyboard.SetTargetProperty(anim, new PropertyPath(Window.OpacityProperty));
         }
 
         private void settingChanged(object sender, PropertyChangedEventArgs e)
