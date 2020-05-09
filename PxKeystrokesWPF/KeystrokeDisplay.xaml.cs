@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -14,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace PxKeystrokesWPF
 {
@@ -74,7 +77,7 @@ namespace PxKeystrokesWPF
                 {
                     FadeIn();
                 }
-                /*
+                
                 if (!e.RequiresNewLine
                     && NumberOfDeletionsAllowed > 0
                     && LastHistoryLineIsText
@@ -115,14 +118,14 @@ namespace PxKeystrokesWPF
 
                 LastHistoryLineIsText = e.StrokeType == KeystrokeType.Text;
                 LastHistoryLineRequiredNewLineAfterwards = e.RequiresNewLineAfterwards;
-                */
+                
             }
         }
 
 
         #endregion
 
-        #region Animations
+        #region Opacity Animation
 
         DoubleAnimation windowOpacityAnim;
         Storyboard windowOpacitySB;
@@ -178,10 +181,7 @@ namespace PxKeystrokesWPF
         #endregion
 
 
-        private void Window_Closing(object sender, CancelEventArgs e)
-        {
-
-        }
+ 
 
         #region settingsChanged, Dialog
 
@@ -331,13 +331,186 @@ namespace PxKeystrokesWPF
 
         #endregion
 
-        #region Button Click Events
+        #region Button Click  and Window Close Events
 
         private void buttonSettings_Click(object sender, RoutedEventArgs e)
         {
             ShowSettingsDialog();
         }
 
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+
+        }
         #endregion
+
+        #region display and animate Label
+
+        struct LabelData
+        {
+            public Label label;
+            public Storyboard storyboard;
+            public DispatcherTimer historyTimeout;
+        }
+
+        List<LabelData> labels = new List<LabelData>(5);
+        bool LastHistoryLineIsText = false;
+        bool LastHistoryLineRequiredNewLineAfterwards = false;
+        int NumberOfDeletionsAllowed = 0;
+
+        void addToLine(string chars)
+        {
+            LabelData T = labels[labels.Count - 1];
+            T.label.Content = HttpUtility.UrlDecode(T.label.Content + chars, Encoding.UTF8);
+            //T.Refresh();
+        }
+
+        private bool removeLastChar()
+        {
+            if (labels.Count == 0)
+            {
+                return false;
+            }
+
+            LabelData T = labels[labels.Count - 1];
+            var content = ((string)T.label.Content);
+            if (content.Length == 0)
+                return false;
+            T.label.Content = HttpUtility.UrlDecode(content.Substring(0, content.Length - 1));
+            NumberOfDeletionsAllowed -= 1;
+            //T.Refresh();
+            return true;
+        }
+
+        void addNextLine(string chars)
+        {
+            Label next = new Label();
+            next.Content = chars;
+            next.Height = 26;
+            
+            Storyboard showLabelSB = new Storyboard();
+
+            var fadeInAnimation = new DoubleAnimation
+            {
+                From = 0,
+                To = 1.0,
+                Duration = new Duration(TimeSpan.FromMilliseconds(200)),
+            };
+            showLabelSB.Children.Add(fadeInAnimation);
+            Storyboard.SetTarget(fadeInAnimation, next);
+            Storyboard.SetTargetProperty(fadeInAnimation, new PropertyPath(Label.OpacityProperty));
+
+            if (settings.LabelTextDirection == TextDirection.Down)
+            {
+                next.Margin = new Thickness(0, 0, 0, -next.Height);
+            }
+            else
+            {
+                next.Margin = new Thickness(0, -next.Height, 0, 0);
+            }
+
+            var pushUpwardsAnimation = new ThicknessAnimation
+            {
+                From = next.Margin,
+                To = new Thickness(0, 0, 0, 0),
+                Duration = new Duration(TimeSpan.FromMilliseconds(200)),
+            };
+            showLabelSB.Children.Add(pushUpwardsAnimation);
+            Storyboard.SetTarget(pushUpwardsAnimation, next);
+            Storyboard.SetTargetProperty(pushUpwardsAnimation, new PropertyPath(Label.MarginProperty));
+
+            if (settings.LabelTextDirection == TextDirection.Down)
+            {
+                labelStack.Children.Add(next);
+            } else
+            {
+                labelStack.Children.Insert(0, next);
+            }
+
+            var pack = new LabelData
+            {
+                label = next,
+                storyboard = showLabelSB,
+                historyTimeout = null,
+            };
+            pack.historyTimeout = FireOnce(settings.HistoryTimeout, () =>
+            {
+                fadeOutLabel(pack);
+            });
+            labels.Add(pack);
+            pack.storyboard.Begin(pack.label);
+
+            while (labels.Count > settings.HistoryLength)
+            {
+                Log.e("TWE", $"Delete: Have: {labels.Count}");
+                var toRemove = labels[0];
+                fadeOutLabel(toRemove);
+                labels.RemoveAt(0);
+            }
+
+        }
+
+        void fadeOutLabel(LabelData toRemove)
+        {
+            toRemove.historyTimeout.Stop();
+            toRemove.storyboard.Remove(toRemove.label);
+
+            Storyboard hideLabelSB = new Storyboard();
+            var fadeOutAnimation = new DoubleAnimation
+            {
+                From = toRemove.label.Opacity,
+                To = 0,
+                Duration = new Duration(TimeSpan.FromMilliseconds(200)),
+            };
+            hideLabelSB.Children.Add(fadeOutAnimation);
+            Storyboard.SetTarget(fadeOutAnimation, toRemove.label);
+            Storyboard.SetTargetProperty(fadeOutAnimation, new PropertyPath(Label.OpacityProperty));
+            fadeOutAnimation.Completed += (object sender, EventArgs e) => {
+                hideLabelSB.Remove(toRemove.label);
+                labelStack.Children.Remove(toRemove.label);
+
+                if (settings.EnableWindowFade && labels.Count == 0)
+                {
+                    FadeOut();
+                }
+            };
+            hideLabelSB.Begin(toRemove.label);
+        }
+
+
+        /// <summary>
+        /// Fires an action once after "seconds"
+        /// </summary>
+        public static DispatcherTimer FireOnce(int milliSeconds, Action onElapsed)
+        {
+            var timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(milliSeconds) };
+
+            var handler = new EventHandler((s, args) =>
+            {
+                if (timer.IsEnabled)
+                {
+                    onElapsed();
+                }
+                timer.Stop();
+            });
+
+            timer.Tick += handler;
+            timer.Start();
+            return timer;
+        }
+
+        bool addingWouldFitInCurrentLine(string s)
+        {
+            if (labels.Count == 0)
+                return false;
+
+            //return labels[labels.Count - 1].AddingWouldFit(s); TODO
+            return true;
+        }
+
+
+        #endregion
+
+
     }
 }
