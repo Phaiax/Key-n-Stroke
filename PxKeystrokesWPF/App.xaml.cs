@@ -38,7 +38,7 @@ namespace PxKeystrokesWPF
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            Log.SetTagFilter("RESIZE");
+            Log.SetTagFilter("OPACITY");
 
             ImageResources.Init();
             InitSettings();

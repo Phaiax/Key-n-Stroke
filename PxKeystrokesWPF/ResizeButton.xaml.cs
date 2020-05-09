@@ -32,7 +32,8 @@ namespace PxKeystrokesWPF
         private Vector dragStartWindowSizeReal;
         private Vector minSize;
 
-        private Window Window;
+        private Window window;
+        private IntPtr windowHandle;
         private FrameworkElement CurrentParent;
         private MouseHook mouseHook = null;
 
@@ -57,8 +58,9 @@ namespace PxKeystrokesWPF
             {
                 if (ResizeTarget == ResizeTarget.Window)
                 {
-                    Window = Window.GetWindow(this);
-                    dragStartSize = new Size(Window.Width, Window.Height);
+                    window = Window.GetWindow(this);
+                    windowHandle = new WindowInteropHelper(window).Handle;
+                    dragStartSize = new Size(window.Width, window.Height);
                     dragStartWindowSizeReal = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice.Transform(new Vector(dragStartSize.Width, dragStartSize.Height));
                     minSize = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice.Transform(new Vector(this.Width, this.Height));
                 }
@@ -82,7 +84,7 @@ namespace PxKeystrokesWPF
                 mouseHook.MouseEvent -= MouseHook_MouseEvent;
                 mouseHook.Dispose();
                 CurrentParent = null;
-                Window = null;
+                window = null;
                 mouseHook = null;
                 return;
             }
@@ -105,7 +107,7 @@ namespace PxKeystrokesWPF
                 Vector diffReal = new Vector((currentCursorPosition.X - dragStartCursorPosition.X), (currentCursorPosition.Y - dragStartCursorPosition.Y));
                 Vector diffDpiIndependend = PresentationSource.FromVisual(this).CompositionTarget.TransformFromDevice.Transform(diffReal);
 
-                if (Window != null)
+                if (window != null)
                 {
                     // This renders once after setting Width and another time after setting Height, causing a visual staircase effect while resizing.
                     //Window.Width = dragStartSize.Width + diffDpiIndependend.X;
@@ -113,7 +115,7 @@ namespace PxKeystrokesWPF
 
                     // As a fix: Use native SetWindowPos() API for smoother resize. The window will automatically redraw itself.
                     NativeMethodsWindow.SetWindowSize(
-                        new WindowInteropHelper(Window).Handle,
+                        windowHandle,
                         (int)Math.Max(minSize.X, (dragStartWindowSizeReal.X + diffReal.X)),
                         (int)Math.Max(minSize.Y, (dragStartWindowSizeReal.Y + diffReal.Y)));
                 }
