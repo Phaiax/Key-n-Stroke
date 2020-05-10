@@ -210,6 +210,18 @@ namespace PxKeystrokesWPF
                     this.innerPanel.Width = settings.PanelSize.Width;
                     this.innerPanel.Height = settings.PanelSize.Height;
                     break;
+                case "LabelFont":
+                case "LabelColor":
+                case "LabelTextAlignment":
+                case "LineDistance":
+                    UpdateLabelStyles();
+                    break;
+                case "LabelTextDirection":
+                    labelStack.VerticalAlignment =
+                        (settings.LabelTextDirection == TextDirection.Down)
+                        ? VerticalAlignment.Bottom
+                        : VerticalAlignment.Top;
+                    break;
             }
         }
 
@@ -293,6 +305,7 @@ namespace PxKeystrokesWPF
         {
             this.DragMove();
             e.Handled = true;
+
         }
 
         private bool InnerPanelIsDragging = false;
@@ -386,8 +399,10 @@ namespace PxKeystrokesWPF
         {
             Label next = new Label();
             next.Content = chars;
-            next.Height = 26;
-            
+            ApplyLabelStyle(next);
+
+
+
             Storyboard showLabelSB = new Storyboard();
 
             var fadeInAnimation = new DoubleAnimation
@@ -433,10 +448,13 @@ namespace PxKeystrokesWPF
                 storyboard = showLabelSB,
                 historyTimeout = null,
             };
-            pack.historyTimeout = FireOnce(settings.HistoryTimeout, () =>
+            if (settings.EnableHistoryTimeout)
             {
-                fadeOutLabel(pack);
-            });
+                pack.historyTimeout = FireOnce(settings.HistoryTimeout, () =>
+                {
+                    fadeOutLabel(pack);
+                });
+            }
             labels.Add(pack);
             pack.storyboard.Begin(pack.label);
 
@@ -452,7 +470,10 @@ namespace PxKeystrokesWPF
 
         void fadeOutLabel(LabelData toRemove)
         {
-            toRemove.historyTimeout.Stop();
+            if (toRemove.historyTimeout != null)
+            {
+                toRemove.historyTimeout.Stop();
+            }
             toRemove.storyboard.Remove(toRemove.label);
 
             Storyboard hideLabelSB = new Storyboard();
@@ -506,6 +527,38 @@ namespace PxKeystrokesWPF
 
             //return labels[labels.Count - 1].AddingWouldFit(s); TODO
             return true;
+        }
+
+        void ApplyLabelStyle(Label label)
+        {
+            label.Height = settings.LineDistance;
+            label.Foreground = new SolidColorBrush(UIHelper.ToMediaColor(settings.LabelColor));
+            label.FontSize = settings.LabelFont.Size;
+            label.FontFamily = settings.LabelFont.Family;
+            label.FontStretch = settings.LabelFont.Stretch;
+            label.FontStyle = settings.LabelFont.Style;
+            label.FontWeight = settings.LabelFont.Weight;
+
+            if (settings.LabelTextAlignment == TextAlignment.Left)
+            {
+                label.HorizontalContentAlignment = HorizontalAlignment.Left;
+            }
+            else if (settings.LabelTextAlignment == TextAlignment.Center)
+            {
+                label.HorizontalContentAlignment = HorizontalAlignment.Center;
+            }
+            else
+            {
+                label.HorizontalContentAlignment = HorizontalAlignment.Right;
+            }
+        }
+
+        void UpdateLabelStyles()
+        {
+            foreach (var pack in labels)
+            {
+                ApplyLabelStyle(pack.label);
+            }
         }
 
 
