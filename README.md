@@ -30,11 +30,13 @@ This security alert will appear. Click the <code>More Info</code> link, and then
 
 <img src="https://raw.githubusercontent.com/Phaiax/PxKeystrokesForScreencasts/master/Screenshots/Smartscreen1.png" alt="SmartScreen filter dialog.">
 
-This dialog is ugly. To fix this, i need a validated security certificate. Certum offers a low priced <a href="http://www.certum.eu/certum/cert,offer_en_open_source_cs.xml"> 1 year certificate for open source projects </a> for € 17.22 per annum. If someone funds at least three years of certification (€ 51.66), i will use that money to buy a new certificate each year. Then I will also implement a secure autoupdater. <a href="https://github.com/Phaiax/PxKeystrokesForScreencasts/issues/15">Get in contact with me.</a> For transparency: Currently total raised money: € 0.
+This dialog is ugly. To fix this, i need a validated security certificate. Certum offers a low priced <a href="http://www.certum.eu/certum/cert,offer_en_open_source_cs.xml"> 1 year certificate for open source projects </a> for € 25.00 per annum. If someone funds at least three years of certification (€ 75.00), i will use that money to buy a new certificate each year. Then I will also implement a secure autoupdater. <a href="https://github.com/Phaiax/PxKeystrokesForScreencasts/issues/15">Get in contact with me.</a> For transparency: Currently total raised money: € 0 (May 2020). You can support via <a href="https://www.patreon.com/PxKeystrokesForScreencasts">Patreon</a>, <a href="https://www.paypal.me/phaiax">paypal.me/phaiax</a>, send Bitcoins (`1JWER55pheUeJzaUcqaYwP8ZaGe5C16Rp9`) or Stellar Lumens (`phaiax*keybase.io`). You can verify the wallet addresses cryptographically on <a href="https://keybase.io/phaiax">keybase.io/phaiax</a>. Add the message "pkfs" to the payment so I can associate it with this project. After funds for the next six years of developer certificates are raised (which I assume will never happen), I will use any additional funds to buy and eat icecream for myself and anyone I like.
 
 
 ## Releases
 You can find the exe in the <code>Releases</code> folder
+
+May 2020: There is <a href="https://github.com/Phaiax/PxKeystrokesForScreencasts/commits/devel">new version</a> in the works with support for multi monitor / multi dpi setups. It will takes a while since I need to port the app from WindowsForms to WPF and I do this in my spare time.
 
 - v0.0.1 (Text positioning not implemented yet)
 - v0.1.1 (Looks fine)
