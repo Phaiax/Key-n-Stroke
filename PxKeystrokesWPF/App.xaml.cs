@@ -34,6 +34,7 @@ namespace PxKeystrokesWPF
             //DisableCursorIndicator();
             DisableButtonIndicator();
             //myUi.Close();
+            this.notifyIcon_main.Visible = false;
         }
 
         protected override void OnStartup(StartupEventArgs e)
