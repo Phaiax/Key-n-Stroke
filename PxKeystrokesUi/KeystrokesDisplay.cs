@@ -97,7 +97,7 @@ namespace PxKeystrokesUi
             CheckForSettingsMode(e);
             if (e.ShouldBeDisplayed)
             {
-                if (settings.EnableWindowFade && Opacity < 1)
+                if (settings.EnableWindowFade && Opacity != settings.Opacity)
                 {
                     FadeIn();
                 }

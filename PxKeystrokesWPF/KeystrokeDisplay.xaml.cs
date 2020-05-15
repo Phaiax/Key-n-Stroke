@@ -152,7 +152,7 @@ namespace PxKeystrokesWPF
 
         private void FadeIn()
         {
-            ToOpacity(Math.Max(minOpacityWhenVisible, settings.Opacity / 100.0f), true);
+            ToOpacity(Math.Max(minOpacityWhenVisible, settings.Opacity), true);
         }
 
         private void FullOpacity()
@@ -169,12 +169,14 @@ namespace PxKeystrokesWPF
                     windowOpacitySB.Stop();
                     windowOpacityAnim.From = this.Opacity;
                     windowOpacityAnim.To = targetOpacity;
+                    Log.e("OPACITY", $"Restart Anim, from {Opacity} to {targetOpacity}.");
                     windowOpacitySB.Begin(this);
                 } else
                 {
                     // https://docs.microsoft.com/de-de/dotnet/framework/wpf/graphics-multimedia/how-to-set-a-property-after-animating-it-with-a-storyboard
                     this.BeginAnimation(Window.OpacityProperty, null); // Break connection between storyboard and property
                     Opacity = targetOpacity;
+                    Log.e("OPACITY", $"Remov anim, to {targetOpacity}. {Opacity}");
                 }
             }
         }
@@ -193,7 +195,7 @@ namespace PxKeystrokesWPF
                     //this.BackColor = settings.BackgroundColor;
                     break;
                 case "Opacity":
-                    ToOpacity(Math.Max(minOpacityWhenVisible, settings.Opacity / 100.0f), false);
+                    ToOpacity(Math.Max(minOpacityWhenVisible, settings.Opacity), false);
                     break;
                 case "WindowLocation":
                     this.Left = settings.WindowLocation.X;

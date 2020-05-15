@@ -38,7 +38,7 @@ namespace PxKeystrokesWPF
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            Log.SetTagFilter("SLIDER");
+            Log.SetTagFilter("OPACITY");
 
             ImageResources.Init();
             InitSettings();
