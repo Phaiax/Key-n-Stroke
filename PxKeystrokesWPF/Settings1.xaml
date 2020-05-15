@@ -117,13 +117,26 @@
                             Grid.ColumnSpan="3"
                             Margin="10">Font</Button>
                     <StackPanel Orientation="Horizontal">
-                        <Label VerticalAlignment="Center">Color</Label>
+                        <Label VerticalAlignment="Center">Text Color</Label>
                         <xctk:ColorPicker x:Name="colorpicker_text_color"
                                           ColorMode="ColorCanvas"
                                           Margin="10,0,0,0"
                                           Width="80"
                                           SelectedColor="{Binding LabelColor, Mode=TwoWay, Converter={StaticResource MediaColorDrawingColorConverter}}" />
                     </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,3,0,0">
+                        <Label VerticalAlignment="Center">Background Color</Label>
+                        <xctk:ColorPicker x:Name="colorpicker_background_color"
+                                          ColorMode="ColorCanvas"
+                                          Margin="10,0,0,0"
+                                          Width="80"
+                                          SelectedColor="{Binding BackgroundColor, Mode=TwoWay, Converter={StaticResource MediaColorDrawingColorConverter}}" />
+                    </StackPanel>
+                    <uc:LabeledSlider x:Name="slider_opacity"
+                                      Title="Opacity"
+                                      Minimum="0.1"
+                                      Maximum="1.0"
+                                      Value="{Binding Opacity, Mode=TwoWay}" />
                     <uc:LabeledSlider x:Name="slider_vertdist"
                                       Title="Line Distance"
                                       Minimum="10.0"
@@ -190,23 +203,6 @@
                                           Width="80"
                                           SelectedColor="{Binding CursorIndicatorColor, Mode=TwoWay, Converter={StaticResource MediaColorDrawingColorConverter}}" />
                     </StackPanel>
-                </StackPanel>
-            </GroupBox>
-            <GroupBox Header="Text Background">
-                <StackPanel Margin="0,0,0,5">
-                    <StackPanel Orientation="Horizontal">
-                        <Label VerticalAlignment="Center">Color</Label>
-                        <xctk:ColorPicker x:Name="colorpicker_background_color"
-                                          ColorMode="ColorCanvas"
-                                          Margin="10,0,0,0"
-                                          Width="80"
-                                          SelectedColor="{Binding BackgroundColor, Mode=TwoWay, Converter={StaticResource MediaColorDrawingColorConverter}}" />
-                    </StackPanel>
-                    <uc:LabeledSlider x:Name="slider_opacity"
-                                      Title="Opacity"
-                                      Minimum="0.1"
-                                      Maximum="1.0"
-                                      Value="{Binding Opacity, Mode=TwoWay}" />
                 </StackPanel>
             </GroupBox>
         </StackPanel>
