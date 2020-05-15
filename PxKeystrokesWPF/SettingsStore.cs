@@ -94,18 +94,18 @@ namespace PxKeystrokesWPF
     }
 
     [DataContract]
-    public class SerializablePoint : IGet<Point>
+    public class SerializablePoint : IGet<System.Windows.Point>
     {
-        [DataMember] public int x;
-        [DataMember] public int y;
-        public SerializablePoint(Point value)
+        [DataMember] public double x;
+        [DataMember] public double y;
+        public SerializablePoint(System.Windows.Point value)
         {
             x = value.X;
             y = value.Y;
         }
-        public Point Get()
+        public System.Windows.Point Get()
         {
-            return new Point(x, y);
+            return new System.Windows.Point(x, y);
         }
     }
 
@@ -286,8 +286,8 @@ namespace PxKeystrokesWPF
             set { i.labelAnimation = value; OnSettingChanged("LabelAnimation"); }
         }
 
-        public Point WindowLocationDefault = new Point(100, 100);
-        public Point WindowLocation
+        public System.Windows.Point WindowLocationDefault = new System.Windows.Point(100, 100);
+        public System.Windows.Point WindowLocation
         {
             get { return Or(i.windowLocation, WindowLocationDefault); }
             set { i.windowLocation = new SerializablePoint(value); OnSettingChanged("WindowLocation"); }
@@ -300,8 +300,8 @@ namespace PxKeystrokesWPF
             set { i.windowSize = new SerializableSize(value); OnSettingChanged("WindowSize"); }
         }
 
-        public Point PanelLocationDefault = new Point(50, 11);
-        public Point PanelLocation
+        public System.Windows.Point PanelLocationDefault = new System.Windows.Point(50, 11);
+        public System.Windows.Point PanelLocation
         {
             get { return Or(i.panelLocation, PanelLocationDefault); }
             set { i.panelLocation = new SerializablePoint(value); OnSettingChanged("PanelLocation"); }

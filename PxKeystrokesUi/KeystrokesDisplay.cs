@@ -233,14 +233,14 @@ namespace PxKeystrokesUi
                     this.Opacity = settings.Opacity;
                     break;
                 case "WindowLocation":
-                    this.Location = settings.WindowLocation;
+                    //this.Location = settings.WindowLocation;
                     Log.e("KD", String.Format("Apply X: {0}", settings.WindowLocation.X));
                     break;
                 case "WindowSize":
                     this.Size = settings.WindowSize;
                     break;
                 case "PanelLocation":
-                    this.panel_textposhelper.Location = settings.PanelLocation;
+                    //this.panel_textposhelper.Location = settings.PanelLocation;
                     break;
                 case "PanelSize":
                     this.panel_textposhelper.Size = settings.PanelSize;
@@ -440,7 +440,7 @@ namespace PxKeystrokesUi
             if (MoveWindowDragging)
             {
                 Point dif = Point.Subtract(Cursor.Position, new Size(MoveDragCursorPoint));
-                settings.WindowLocation = Point.Add(MoveDragFormPoint, new Size(dif));
+                //settings.WindowLocation = Point.Add(MoveDragFormPoint, new Size(dif));
             }
         }
 
@@ -497,7 +497,7 @@ namespace PxKeystrokesUi
             if (MovePanelDragging)
             {
                 Point dif = Point.Subtract(Cursor.Position, new Size(MoveDragCursorPoint));
-                settings.PanelLocation = Point.Add(MoveDragFormPoint, new Size(dif));
+                //settings.PanelLocation = Point.Add(MoveDragFormPoint, new Size(dif));
             }
         }
 

@@ -76,9 +76,9 @@ namespace PxKeystrokesWPF
             mySettings = new SettingsStore();
 
             
-            mySettings.WindowLocationDefault = new System.Drawing.Point(
-                (int) System.Windows.SystemParameters.PrimaryScreenWidth - mySettings.WindowSizeDefault.Width - 20,
-                (int) System.Windows.SystemParameters.PrimaryScreenHeight - mySettings.WindowSizeDefault.Height);
+            mySettings.WindowLocationDefault = new Point(
+                System.Windows.SystemParameters.PrimaryScreenWidth - mySettings.WindowSizeDefault.Width - 20,
+                System.Windows.SystemParameters.PrimaryScreenHeight - mySettings.WindowSizeDefault.Height);
 
             //mySettings.ClearAll(); // test defaults
             mySettings.LoadAll();

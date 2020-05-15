@@ -196,7 +196,8 @@ namespace PxKeystrokesWPF
                     ToOpacity(Math.Max(minOpacityWhenVisible, settings.Opacity / 100.0f), false);
                     break;
                 case "WindowLocation":
-                    //this.Location = settings.WindowLocation;
+                    this.Left = settings.WindowLocation.X;
+                    this.Top = settings.WindowLocation.Y;
                     Log.e("KD", String.Format("Apply X: {0}", settings.WindowLocation.X));
                     break;
                 case "WindowSize":
@@ -306,6 +307,11 @@ namespace PxKeystrokesWPF
             this.DragMove();
             e.Handled = true;
 
+        }
+
+        private void Window_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            settings.WindowLocation = new Point(this.Left, this.Top);
         }
 
         private bool InnerPanelIsDragging = false;
@@ -564,6 +570,7 @@ namespace PxKeystrokesWPF
                 ApplyLabelStyle(pack.label);
             }
         }
+
 
 
         #endregion
