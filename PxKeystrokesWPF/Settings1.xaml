@@ -88,7 +88,7 @@
                         <CheckBox x:Name="cb_enableHistoryTimeout"  IsChecked="{Binding EnableHistoryTimeout}">
                             <TextBlock>
                                 History Timeout
-                                <TextBlock Margin="20,0,0,0" Text="{Binding ElementName=slider_history_timeout, Path=Value, Mode=OneWay}" />ms
+                                <TextBlock Margin="20,0,0,0" Text="{Binding ElementName=slider_history_timeout, Path=Value, Mode=OneWay, StringFormat=N1}" />s
                             </TextBlock>
                         </CheckBox>
                     </WrapPanel>
@@ -96,7 +96,9 @@
                                       Margin="16,5,10,5"
                                       Title="Timeout"
                                       Maximum="120.0"
-                                      Minimum="1.0"
+                                      Minimum="0.5"
+                                      Logarithmic="True"
+                                      HalfWay="0.08"
                                       Value="{Binding HistoryTimeout, Mode=TwoWay}"
                                       />
                     <CheckBox x:Name="cb_hideWindow" IsChecked="{Binding EnableWindowFade}">Hide Window when empty</CheckBox>
