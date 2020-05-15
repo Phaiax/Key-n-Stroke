@@ -73,7 +73,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Button x:Name="bn_reset_position" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,5,9.667,0" VerticalAlignment="Top" Click="Bn_reset_position_Click">Reset position</Button>
-                <Button x:Name="bn_reset_all" Grid.Column="2">Reset all</Button>
+                <Button x:Name="bn_reset_all" Grid.Column="2" Click="bn_reset_all_Click">Reset all</Button>
             </Grid>
         </StackPanel>
         <StackPanel Grid.Column="1" Margin="5">

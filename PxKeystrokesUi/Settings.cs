@@ -301,7 +301,7 @@ namespace PxKeystrokesUi
         {
             settings.ClearAll();
             settings.LoadAll();
-            settings.OnSettingChangedAll();
+            settings.CallPropertyChangedForAllProperties();
             UpdateSliderValues();
             UpdateRadioButtons();
             UpdateCheckboxes();

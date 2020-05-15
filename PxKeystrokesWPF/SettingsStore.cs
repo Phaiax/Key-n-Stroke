@@ -167,32 +167,32 @@ namespace PxKeystrokesWPF
     [DataContract]
     class Settings
     {
-        [DataMember] public SerializableFont labelFont;
-        [DataMember] public SerializableColor2 labelColor;
-        [DataMember] public SerializableColor2 backgroundColor;
-        [DataMember] public double opacity;
-        [DataMember] public TextAlignment labelTextAlignment;
-        [DataMember] public TextDirection labelTextDirection;
-        [DataMember] public Style labelAnimation;
-        [DataMember] public SerializablePoint windowLocation;
-        [DataMember] public SerializableSize windowSize;
-        [DataMember] public SerializablePoint panelLocation;
-        [DataMember] public SerializableSize panelSize;
-        [DataMember] public double lineDistance;
-        [DataMember] public int historyLength;
-        [DataMember] public double historyTimeout;
-        [DataMember] public bool enableHistoryTimeout;
-        [DataMember] public bool enableWindowFade;
-        [DataMember] public bool enableCursorIndicator;
-        [DataMember] public double cursorIndicatorOpacity;
-        [DataMember] public double cursorIndicatorSize;
-        [DataMember] public SerializableColor2 cursorIndicatorColor;
-        [DataMember] public ButtonIndicatorType buttonIndicator;
-        [DataMember] public double buttonIndicatorScaling;
-        [DataMember] public double buttonIndicatorPositionAngle;
-        [DataMember] public double buttonIndicatorPositionDistance;
-        [DataMember] public bool addButtonEventsToHistory;
-        [DataMember] public bool backspaceDeletesText;
+        [DataMember] public SerializableFont labelFont = null;
+        [DataMember] public SerializableColor2 labelColor = null;
+        [DataMember] public SerializableColor2 backgroundColor = null;
+        [DataMember] public Nullable<double> opacity = null;
+        [DataMember] public Nullable<TextAlignment> labelTextAlignment = null;
+        [DataMember] public Nullable<TextDirection> labelTextDirection = null;
+        [DataMember] public Nullable<Style> labelAnimation = null;
+        [DataMember] public SerializablePoint windowLocation = null;
+        [DataMember] public SerializableSize windowSize = null;
+        [DataMember] public SerializablePoint panelLocation = null;
+        [DataMember] public SerializableSize panelSize = null;
+        [DataMember] public Nullable<double> lineDistance = null;
+        [DataMember] public Nullable<int> historyLength = null;
+        [DataMember] public Nullable<double> historyTimeout = null;
+        [DataMember] public Nullable<bool> enableHistoryTimeout = null;
+        [DataMember] public Nullable<bool> enableWindowFade = null;
+        [DataMember] public Nullable<bool> enableCursorIndicator = null;
+        [DataMember] public Nullable<double> cursorIndicatorOpacity = null;
+        [DataMember] public Nullable<double> cursorIndicatorSize = null;
+        [DataMember] public SerializableColor2 cursorIndicatorColor = null;
+        [DataMember] public Nullable<ButtonIndicatorType> buttonIndicator = null;
+        [DataMember] public Nullable<double> buttonIndicatorScaling = null;
+        [DataMember] public Nullable<double> buttonIndicatorPositionAngle = null;
+        [DataMember] public Nullable<double> buttonIndicatorPositionDistance = null;
+        [DataMember] public Nullable<bool> addButtonEventsToHistory = null;
+        [DataMember] public Nullable<bool> backspaceDeletesText = null;
     }
 
     #endregion
@@ -216,9 +216,9 @@ namespace PxKeystrokesWPF
             return b;
         }
 
-        private T Or<T>(T a, T b)
+        private T Or<T>(Nullable<T> a, T b) where T : struct
         {
-            if (a != null) return a;
+            if (a.HasValue) return a.Value;
             return b;
         }
 
@@ -541,9 +541,12 @@ namespace PxKeystrokesWPF
             dirty = false;
         }
 
-        public void ClearAll()
+        public void ResetAll()
         {
             i = new Settings();
+            dirty = true;
+            SaveAll();
+            CallPropertyChangedForAllProperties();
         }
 
         #endregion

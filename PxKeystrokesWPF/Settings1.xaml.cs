@@ -99,6 +99,11 @@ namespace PxKeystrokesWPF
             settings.WindowSize = settings.WindowSizeDefault;
         }
 
+        private void bn_reset_all_Click(object sender, RoutedEventArgs e)
+        {
+            settings.ResetAll();
+        }
+
         private void Button_close_Click(object sender, RoutedEventArgs e)
         {
             Close();
@@ -132,7 +137,6 @@ namespace PxKeystrokesWPF
             sampleText.Background = new SolidColorBrush(UIHelper.ToMediaColor(settings.BackgroundColor));
             sampleText.Foreground = new SolidColorBrush(UIHelper.ToMediaColor(settings.LabelColor));
         }
-
 
     }
 }
