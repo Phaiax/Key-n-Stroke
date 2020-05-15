@@ -56,13 +56,16 @@ namespace PxKeystrokesWPF
 
             settings.PropertyChanged += (object sender, PropertyChangedEventArgs e) =>
             {
-                if (settings.EnableWindowFade/*TODO &&  tweenLabels.Count == 0 */)
+                if (e.PropertyName == "EnableWindowFade")
                 {
-                    FadeOut();
-                }
-                else
-                {
-                    FadeIn();
+                    if (settings.EnableWindowFade && labels.Count == 0)
+                    {
+                        FadeOut();
+                    }
+                    else
+                    {
+                        FadeIn();
+                    }
                 }
             };
         }
@@ -242,6 +245,9 @@ namespace PxKeystrokesWPF
                         UpdateLabelStyles();
                     }
                     break;
+                case "HistoryLength":
+                    TruncateHistory();
+                    break;
             }
         }
 
@@ -404,6 +410,15 @@ namespace PxKeystrokesWPF
         void addToLine(string chars)
         {
             LabelData T = labels[labels.Count - 1];
+            if (T.historyTimeout != null)
+            {
+                T.historyTimeout.Stop();
+                if (settings.EnableHistoryTimeout)
+                {
+                    T.historyTimeout.Interval = TimeSpan.FromSeconds(settings.HistoryTimeout);
+                    T.historyTimeout.Start();
+                }
+            }
             T.label.Content = HttpUtility.UrlDecode(T.label.Content + chars, Encoding.UTF8);
             //T.Refresh();
         }
@@ -489,14 +504,18 @@ namespace PxKeystrokesWPF
             labels.Add(pack);
             pack.storyboard.Begin(pack.label);
 
+            TruncateHistory();
+        }
+
+        void TruncateHistory()
+        {
             while (labels.Count > settings.HistoryLength)
             {
-                Log.e("TWE", $"Delete: Have: {labels.Count}");
                 var toRemove = labels[0];
+                Log.e("LABELREMOVAL", $"Truncate {toRemove.label.Content}. Currently in list: {labels.Count}");
                 fadeOutLabel(toRemove);
                 labels.Remove(toRemove);
             }
-
         }
 
         void fadeOutLabel(LabelData toRemove)
@@ -518,14 +537,17 @@ namespace PxKeystrokesWPF
             Storyboard.SetTarget(fadeOutAnimation, toRemove.label);
             Storyboard.SetTargetProperty(fadeOutAnimation, new PropertyPath(Label.OpacityProperty));
             fadeOutAnimation.Completed += (object sender, EventArgs e) => {
+                Log.e("LABELREMOVAL", $"{toRemove.label.Content}: Fade out completed");
                 hideLabelSB.Remove(toRemove.label);
                 labelStack.Children.Remove(toRemove.label);
 
                 if (settings.EnableWindowFade && labels.Count == 0)
                 {
+                    Log.e("LABELREMOVAL", $"{toRemove.label.Content}: Fade out completed -> no more labels -> Window wade out");
                     FadeOut();
                 }
             };
+            labels.Remove(toRemove);
             hideLabelSB.Begin(toRemove.label);
         }
 
