@@ -45,15 +45,13 @@ namespace PxKeystrokesWPF
             InitKeyboardInterception();
 
             mySettings.PropertyChanged += OnSettingChanged;
-            mySettings.HistoryTimeout = 30000;
-
+            
             //Settings1 settings1 = new Settings1(mySettings);
             //System.Windows.Forms.Integration.ElementHost.EnableModelessKeyboardInterop(settings1);
             //WPFHelper.SetOwner(this, dlg);
             //dlg.ShowDialog();
             //settings1.Show();
             //settings1.ShowDialog();
-            mySettings.ButtonIndicator = ButtonIndicatorType.PicsAroundCursor;
 
             myUi = new KeystrokeDisplay(myKeystrokeConverter, mySettings);
             //myUi.FormClosed += OnUiClosed;

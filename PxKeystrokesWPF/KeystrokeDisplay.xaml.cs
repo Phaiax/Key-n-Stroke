@@ -42,7 +42,7 @@ namespace PxKeystrokesWPF
             this.settings = s;
             this.settings.PropertyChanged += settingChanged;
 
-            this.settings.OnSettingChangedAll();
+            this.settings.CallPropertyChangedForAllProperties();
 
             //addWelcomeInfo();
 

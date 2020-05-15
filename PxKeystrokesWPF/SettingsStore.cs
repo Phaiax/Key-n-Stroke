@@ -433,37 +433,38 @@ namespace PxKeystrokesWPF
             dirty = true;
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(property));
-            Log.e(this.ToString());
         }
 
-        public void OnSettingChangedAll()
+        public void CallPropertyChangedForAllProperties()
         {
-            OnSettingChanged("LabelFont");
-            OnSettingChanged("LabelColor");
-            OnSettingChanged("BackgroundColor");
-            OnSettingChanged("Opacity");
-            OnSettingChanged("LabelTextAlignment");
-            OnSettingChanged("LabelTextDirection");
-            OnSettingChanged("LabelAnimation");
-            OnSettingChanged("WindowLocation");
-            OnSettingChanged("WindowSize");
-            OnSettingChanged("PanelLocation");
-            OnSettingChanged("PanelSize");
-            OnSettingChanged("LineDistance");
-            OnSettingChanged("HistoryLength");
-            OnSettingChanged("HistoryTimeout");
-            OnSettingChanged("EnableHistoryTimeout");
-            OnSettingChanged("EnableWindowFade");
-            OnSettingChanged("EnableCursorIndicator");
-            OnSettingChanged("CursorIndicatorOpacity");
-            OnSettingChanged("CursorIndicatorSize");
-            OnSettingChanged("CursorIndicatorColor");
-            OnSettingChanged("ButtonIndicator");
-            OnSettingChanged("ButtonIndicatorScalingPercentage");
-            OnSettingChanged("ButtonIndicatorPositionAngle");
-            OnSettingChanged("ButtonIndicatorPositionDistance");
-            OnSettingChanged("AddButtonEventsToHistory");
-            OnSettingChanged("BackspaceDeletesText");
+            if (PropertyChanged != null) {
+                PropertyChanged(this, new PropertyChangedEventArgs("LabelFont"));
+                PropertyChanged(this, new PropertyChangedEventArgs("LabelColor"));
+                PropertyChanged(this, new PropertyChangedEventArgs("BackgroundColor"));
+                PropertyChanged(this, new PropertyChangedEventArgs("Opacity"));
+                PropertyChanged(this, new PropertyChangedEventArgs("LabelTextAlignment"));
+                PropertyChanged(this, new PropertyChangedEventArgs("LabelTextDirection"));
+                PropertyChanged(this, new PropertyChangedEventArgs("LabelAnimation"));
+                PropertyChanged(this, new PropertyChangedEventArgs("WindowLocation"));
+                PropertyChanged(this, new PropertyChangedEventArgs("WindowSize"));
+                PropertyChanged(this, new PropertyChangedEventArgs("PanelLocation"));
+                PropertyChanged(this, new PropertyChangedEventArgs("PanelSize"));
+                PropertyChanged(this, new PropertyChangedEventArgs("LineDistance"));
+                PropertyChanged(this, new PropertyChangedEventArgs("HistoryLength"));
+                PropertyChanged(this, new PropertyChangedEventArgs("HistoryTimeout"));
+                PropertyChanged(this, new PropertyChangedEventArgs("EnableHistoryTimeout"));
+                PropertyChanged(this, new PropertyChangedEventArgs("EnableWindowFade"));
+                PropertyChanged(this, new PropertyChangedEventArgs("EnableCursorIndicator"));
+                PropertyChanged(this, new PropertyChangedEventArgs("CursorIndicatorOpacity"));
+                PropertyChanged(this, new PropertyChangedEventArgs("CursorIndicatorSize"));
+                PropertyChanged(this, new PropertyChangedEventArgs("CursorIndicatorColor"));
+                PropertyChanged(this, new PropertyChangedEventArgs("ButtonIndicator"));
+                PropertyChanged(this, new PropertyChangedEventArgs("ButtonIndicatorScalingPercentage"));
+                PropertyChanged(this, new PropertyChangedEventArgs("ButtonIndicatorPositionAngle"));
+                PropertyChanged(this, new PropertyChangedEventArgs("ButtonIndicatorPositionDistance"));
+                PropertyChanged(this, new PropertyChangedEventArgs("AddButtonEventsToHistory"));
+                PropertyChanged(this, new PropertyChangedEventArgs("BackspaceDeletesText"));
+            }
         }
 
         #endregion
@@ -472,7 +473,7 @@ namespace PxKeystrokesWPF
 
         const string ISOLATED_STORAGE_FILE_NAME = "settings";
 
-        bool dirty = true;
+        bool dirty = false;
 
         public void SaveAll()
         {
@@ -537,7 +538,7 @@ namespace PxKeystrokesWPF
                 System.Windows.MessageBox.Show(sx.Message);
                 throw;
             }
-            dirty = true;
+            dirty = false;
         }
 
         public void ClearAll()
