@@ -62,6 +62,31 @@ namespace PxKeystrokesWPF
 
             //OnCursorIndicatorSettingChanged();
             OnButtonIndicatorSettingChanged();
+
+            makeNotifyIcon();
+        }
+
+
+        private System.Windows.Forms.NotifyIcon notifyIcon_main;
+        void makeNotifyIcon()
+        {
+            var _assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            var icon = new System.Drawing.Icon(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.app.ico"));
+
+
+            this.notifyIcon_main = new System.Windows.Forms.NotifyIcon();
+            this.notifyIcon_main.BalloonTipText = "xfxfn";
+            this.notifyIcon_main.BalloonTipTitle = "xfgn";
+            this.notifyIcon_main.Click += new EventHandler(notifyIcon_Click);
+            this.notifyIcon_main.Icon = icon;
+            this.notifyIcon_main.Visible = true;
+
+        }
+
+        void notifyIcon_Click(object sender, EventArgs e)
+        {
+            Settings1 settings1 = new Settings1(mySettings);
+            settings1.ShowDialog();
         }
 
         protected override void OnActivated(EventArgs e)
