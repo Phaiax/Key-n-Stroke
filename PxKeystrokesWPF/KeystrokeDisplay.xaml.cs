@@ -605,7 +605,7 @@ namespace PxKeystrokesWPF
                 new NumberSubstitution(),
                 1);
 
-            return formattedText.Width < label.ActualWidth - 15;
+            return formattedText.Width < label.ActualWidth - 20;
         }
 
         void ApplyLabelStyle(Label label)
