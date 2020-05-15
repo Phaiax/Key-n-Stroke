@@ -427,8 +427,8 @@ namespace PxKeystrokesWPF
             var pushUpwardsAnimation = new ThicknessAnimation
             {
                 From = next.Margin,
-                To = new Thickness(0, 0, 0, 0),
-                Duration = new Duration(TimeSpan.FromMilliseconds(200)),
+                To = new Thickness(0, 0, 0, -next.Height + settings.LineDistance),
+                Duration = new Duration(TimeSpan.FromMilliseconds(200))
             };
             showLabelSB.Children.Add(pushUpwardsAnimation);
             Storyboard.SetTarget(pushUpwardsAnimation, next);
@@ -531,7 +531,11 @@ namespace PxKeystrokesWPF
 
         void ApplyLabelStyle(Label label)
         {
-            label.Height = settings.LineDistance;
+            label.Height = 120;
+            label.BeginAnimation(Label.MarginProperty, null);
+            label.Margin = new Thickness(0, 0, 0, -label.Height + settings.LineDistance);
+            label.BeginAnimation(Label.OpacityProperty, null);
+            label.Opacity = 1.0;
             label.Foreground = new SolidColorBrush(UIHelper.ToMediaColor(settings.LabelColor));
             label.FontSize = settings.LabelFont.Size;
             label.FontFamily = settings.LabelFont.Family;
