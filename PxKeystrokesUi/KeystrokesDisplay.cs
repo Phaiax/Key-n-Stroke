@@ -48,7 +48,7 @@ namespace PxKeystrokesUi
             this.settings = s;
             this.settings.PropertyChanged += settingChanged;
 
-            this.settings.OnSettingChangedAll();
+            this.settings.CallPropertyChangedForAllProperties();
 
             this.TopMost = true;
             this.FormClosing += Form1_FormClosing;
@@ -85,7 +85,7 @@ namespace PxKeystrokesUi
 
         private void KeystrokesDisplay_Shown(object sender, EventArgs e)
         {
-            this.settings.OnSettingChangedAll();
+            this.settings.CallPropertyChangedForAllProperties();
         }
 
         #endregion
