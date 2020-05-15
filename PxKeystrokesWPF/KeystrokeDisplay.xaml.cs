@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -220,10 +221,25 @@ namespace PxKeystrokesWPF
                     UpdateLabelStyles();
                     break;
                 case "LabelTextDirection":
-                    labelStack.VerticalAlignment =
-                        (settings.LabelTextDirection == TextDirection.Down)
-                        ? VerticalAlignment.Bottom
-                        : VerticalAlignment.Top;
+                    if (labelStack.VerticalAlignment == VerticalAlignment.Top && settings.LabelTextDirection == TextDirection.Up)
+                    {
+                        labelStack.VerticalAlignment = VerticalAlignment.Bottom;
+                        labelStack.Children.Clear();
+                        for(int i = 0; i < labels.Count; i++)
+                        {
+                            labelStack.Children.Add(labels[i].label);
+                        }
+                        UpdateLabelStyles();
+                    } else if (labelStack.VerticalAlignment == VerticalAlignment.Bottom && settings.LabelTextDirection == TextDirection.Down)
+                    {
+                        labelStack.VerticalAlignment = VerticalAlignment.Top;
+                        labelStack.Children.Clear();
+                        for (int i = labels.Count - 1; i >= 0; i--)
+                        {
+                            labelStack.Children.Add(labels[i].label);
+                        }
+                        UpdateLabelStyles();
+                    }
                     break;
             }
         }
@@ -428,6 +444,7 @@ namespace PxKeystrokesWPF
             Storyboard.SetTarget(fadeInAnimation, next);
             Storyboard.SetTargetProperty(fadeInAnimation, new PropertyPath(Label.OpacityProperty));
 
+            Thickness targetMargin = next.Margin; // from ApplyLabelStyle
             if (settings.LabelTextDirection == TextDirection.Down)
             {
                 next.Margin = new Thickness(0, 0, 0, -next.Height);
@@ -440,14 +457,14 @@ namespace PxKeystrokesWPF
             var pushUpwardsAnimation = new ThicknessAnimation
             {
                 From = next.Margin,
-                To = new Thickness(0, 0, 0, -next.Height + settings.LineDistance),
+                To = targetMargin,
                 Duration = new Duration(TimeSpan.FromMilliseconds(200))
             };
             showLabelSB.Children.Add(pushUpwardsAnimation);
             Storyboard.SetTarget(pushUpwardsAnimation, next);
             Storyboard.SetTargetProperty(pushUpwardsAnimation, new PropertyPath(Label.MarginProperty));
 
-            if (settings.LabelTextDirection == TextDirection.Down)
+            if (settings.LabelTextDirection == TextDirection.Up)
             {
                 labelStack.Children.Add(next);
             } else
@@ -476,7 +493,7 @@ namespace PxKeystrokesWPF
                 Log.e("TWE", $"Delete: Have: {labels.Count}");
                 var toRemove = labels[0];
                 fadeOutLabel(toRemove);
-                labels.RemoveAt(0);
+                labels.Remove(toRemove);
             }
 
         }
@@ -546,7 +563,17 @@ namespace PxKeystrokesWPF
         {
             label.Height = 120;
             label.BeginAnimation(Label.MarginProperty, null);
-            label.Margin = new Thickness(0, 0, 0, -label.Height + settings.LineDistance);
+            if (settings.LabelTextDirection == TextDirection.Down)
+            {
+                label.Margin = new Thickness(0, 0, 0, -label.Height + settings.LineDistance);
+                label.VerticalContentAlignment = VerticalAlignment.Top;
+            }
+            else
+            {
+                label.Margin = new Thickness(0, -label.Height + settings.LineDistance, 0, 0);
+                label.VerticalContentAlignment = VerticalAlignment.Bottom;
+            }
+
             label.BeginAnimation(Label.OpacityProperty, null);
             label.Opacity = 1.0;
             label.Foreground = new SolidColorBrush(UIHelper.ToMediaColor(settings.LabelColor));
