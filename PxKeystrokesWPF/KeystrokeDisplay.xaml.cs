@@ -357,6 +357,11 @@ namespace PxKeystrokesWPF
             ShowSettingsDialog();
         }
 
+        private void buttonClose_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Application.Current.Shutdown();
+        }
+
         private void Window_Closing(object sender, CancelEventArgs e)
         {
 
@@ -570,6 +575,7 @@ namespace PxKeystrokesWPF
                 ApplyLabelStyle(pack.label);
             }
         }
+
 
 
 

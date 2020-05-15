@@ -147,7 +147,7 @@
                 </Hyperlink>
             </TextBlock>
         </StackPanel>
-        <Button x:Name="button_exit" Grid.Column="2" Grid.Row="1" VerticalAlignment="Bottom" Margin="10,0,10,10">Exit Application</Button>
+        <Button x:Name="button_exit" Grid.Column="2" Grid.Row="1" VerticalAlignment="Bottom" Margin="10,0,10,10" Click="button_exit_Click">Exit Application</Button>
         <Button x:Name="button_close" Grid.Column="3" Grid.Row="1" VerticalAlignment="Bottom" Margin="10,0,10,10" Click="Button_close_Click">Close</Button>
     </Grid>
 </Window>

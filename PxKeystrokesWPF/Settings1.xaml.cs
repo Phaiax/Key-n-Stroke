@@ -104,6 +104,11 @@ namespace PxKeystrokesWPF
             Close();
         }
 
+        private void button_exit_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Application.Current.Shutdown();
+        }
+
         private void OnButtonTextFontClick(object sender, RoutedEventArgs e)
         {
             ColorFontDialog dialog = new ColorFontDialog(true, true, false);
@@ -127,5 +132,7 @@ namespace PxKeystrokesWPF
             sampleText.Background = new SolidColorBrush(UIHelper.ToMediaColor(settings.BackgroundColor));
             sampleText.Foreground = new SolidColorBrush(UIHelper.ToMediaColor(settings.LabelColor));
         }
+
+
     }
 }
