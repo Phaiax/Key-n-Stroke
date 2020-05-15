@@ -163,10 +163,11 @@ namespace PxKeystrokesWPF
 
         private void ToOpacity(double targetOpacity, bool fade)
         {
-            if (Opacity != targetOpacity)
+            if (Math.Abs(Opacity - targetOpacity) > 0.0001)
             {
                 if (fade)
                 {
+                    // Fixme: Animation is restarting for every single keypress on fade-in
                     windowOpacitySB.Stop();
                     windowOpacityAnim.From = this.Opacity;
                     windowOpacityAnim.To = targetOpacity;
