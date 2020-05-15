@@ -93,7 +93,10 @@ namespace PxKeystrokesWPF
 
         private void Bn_reset_position_Click(object sender, RoutedEventArgs e)
         {
-            Log.e("CNV", $"\r\n{settings}");
+            settings.PanelLocation = settings.PanelLocationDefault;
+            settings.PanelSize = settings.PanelSizeDefault;
+            settings.WindowLocation = settings.WindowLocationDefault;
+            settings.WindowSize = settings.WindowSizeDefault;
         }
 
         private void Button_close_Click(object sender, RoutedEventArgs e)
