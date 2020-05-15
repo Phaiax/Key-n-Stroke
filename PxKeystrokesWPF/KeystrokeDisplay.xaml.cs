@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -578,8 +579,19 @@ namespace PxKeystrokesWPF
             if (labels.Count == 0)
                 return false;
 
-            //return labels[labels.Count - 1].AddingWouldFit(s); TODO
-            return true;
+            var label = labels[labels.Count - 1].label;
+            var text = (String) label.Content;
+            var formattedText = new FormattedText(
+                text,
+                CultureInfo.CurrentCulture,
+                FlowDirection.LeftToRight,
+                new Typeface(label.FontFamily, label.FontStyle, label.FontWeight, label.FontStretch),
+                label.FontSize,
+                Brushes.Black,
+                new NumberSubstitution(),
+                1);
+
+            return formattedText.Width < label.ActualWidth - 15;
         }
 
         void ApplyLabelStyle(Label label)
