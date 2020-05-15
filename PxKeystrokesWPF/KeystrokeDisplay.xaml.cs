@@ -447,39 +447,49 @@ namespace PxKeystrokesWPF
             next.Content = chars;
             ApplyLabelStyle(next);
 
-
-
-            Storyboard showLabelSB = new Storyboard();
-
-            var fadeInAnimation = new DoubleAnimation
+            var pack = new LabelData
             {
-                From = 0,
-                To = 1.0,
-                Duration = new Duration(TimeSpan.FromMilliseconds(200)),
+                label = next,
+                storyboard = null,
+                historyTimeout = null,
             };
-            showLabelSB.Children.Add(fadeInAnimation);
-            Storyboard.SetTarget(fadeInAnimation, next);
-            Storyboard.SetTargetProperty(fadeInAnimation, new PropertyPath(Label.OpacityProperty));
 
-            Thickness targetMargin = next.Margin; // from ApplyLabelStyle
-            if (settings.LabelTextDirection == TextDirection.Down)
+            if (settings.LabelAnimation == PxKeystrokesWPF.Style.Slide)
             {
-                next.Margin = new Thickness(0, 0, 0, -next.Height);
-            }
-            else
-            {
-                next.Margin = new Thickness(0, -next.Height, 0, 0);
-            }
+                Storyboard showLabelSB = new Storyboard();
+                var fadeInAnimation = new DoubleAnimation
+                {
+                    From = 0,
+                    To = 1.0,
+                    Duration = new Duration(TimeSpan.FromMilliseconds(200)),
+                };
+                showLabelSB.Children.Add(fadeInAnimation);
+                Storyboard.SetTarget(fadeInAnimation, next);
+                Storyboard.SetTargetProperty(fadeInAnimation, new PropertyPath(Label.OpacityProperty));
 
-            var pushUpwardsAnimation = new ThicknessAnimation
-            {
-                From = next.Margin,
-                To = targetMargin,
-                Duration = new Duration(TimeSpan.FromMilliseconds(200))
-            };
-            showLabelSB.Children.Add(pushUpwardsAnimation);
-            Storyboard.SetTarget(pushUpwardsAnimation, next);
-            Storyboard.SetTargetProperty(pushUpwardsAnimation, new PropertyPath(Label.MarginProperty));
+                Thickness targetMargin = next.Margin; // from ApplyLabelStyle
+                if (settings.LabelTextDirection == TextDirection.Down)
+                {
+                    next.Margin = new Thickness(0, 0, 0, -next.Height);
+                }
+                else
+                {
+                    next.Margin = new Thickness(0, -next.Height, 0, 0);
+                }
+
+                var pushUpwardsAnimation = new ThicknessAnimation
+                {
+                    From = next.Margin,
+                    To = targetMargin,
+                    Duration = new Duration(TimeSpan.FromMilliseconds(200))
+                };
+                showLabelSB.Children.Add(pushUpwardsAnimation);
+                Storyboard.SetTarget(pushUpwardsAnimation, next);
+                Storyboard.SetTargetProperty(pushUpwardsAnimation, new PropertyPath(Label.MarginProperty));
+
+                pack.storyboard = showLabelSB;
+                pack.storyboard.Begin(pack.label);
+            }
 
             if (settings.LabelTextDirection == TextDirection.Up)
             {
@@ -489,12 +499,7 @@ namespace PxKeystrokesWPF
                 labelStack.Children.Insert(0, next);
             }
 
-            var pack = new LabelData
-            {
-                label = next,
-                storyboard = showLabelSB,
-                historyTimeout = null,
-            };
+
             if (settings.EnableHistoryTimeout)
             {
                 pack.historyTimeout = FireOnce(settings.HistoryTimeout, () =>
@@ -503,7 +508,6 @@ namespace PxKeystrokesWPF
                 });
             }
             labels.Add(pack);
-            pack.storyboard.Begin(pack.label);
 
             TruncateHistory();
         }
@@ -525,31 +529,41 @@ namespace PxKeystrokesWPF
             {
                 toRemove.historyTimeout.Stop();
             }
-            toRemove.storyboard.Remove(toRemove.label);
-
-            Storyboard hideLabelSB = new Storyboard();
-            var fadeOutAnimation = new DoubleAnimation
+            if (toRemove.storyboard != null)
             {
-                From = toRemove.label.Opacity,
-                To = 0,
-                Duration = new Duration(TimeSpan.FromMilliseconds(200)),
-            };
-            hideLabelSB.Children.Add(fadeOutAnimation);
-            Storyboard.SetTarget(fadeOutAnimation, toRemove.label);
-            Storyboard.SetTargetProperty(fadeOutAnimation, new PropertyPath(Label.OpacityProperty));
-            fadeOutAnimation.Completed += (object sender, EventArgs e) => {
-                Log.e("LABELREMOVAL", $"{toRemove.label.Content}: Fade out completed");
-                hideLabelSB.Remove(toRemove.label);
-                labelStack.Children.Remove(toRemove.label);
+                toRemove.storyboard.Remove(toRemove.label);
+            }
 
-                if (settings.EnableWindowFade && labels.Count == 0)
+            if (settings.LabelAnimation == PxKeystrokesWPF.Style.Slide)
+            {
+                Storyboard hideLabelSB = new Storyboard();
+                var fadeOutAnimation = new DoubleAnimation
                 {
-                    Log.e("LABELREMOVAL", $"{toRemove.label.Content}: Fade out completed -> no more labels -> Window wade out");
-                    FadeOut();
-                }
-            };
+                    From = toRemove.label.Opacity,
+                    To = 0,
+                    Duration = new Duration(TimeSpan.FromMilliseconds(200)),
+                };
+                hideLabelSB.Children.Add(fadeOutAnimation);
+                Storyboard.SetTarget(fadeOutAnimation, toRemove.label);
+                Storyboard.SetTargetProperty(fadeOutAnimation, new PropertyPath(Label.OpacityProperty));
+                fadeOutAnimation.Completed += (object sender, EventArgs e) =>
+                {
+                    Log.e("LABELREMOVAL", $"{toRemove.label.Content}: Fade out completed");
+                    hideLabelSB.Remove(toRemove.label);
+                    labelStack.Children.Remove(toRemove.label);
+
+                    if (settings.EnableWindowFade && labels.Count == 0)
+                    {
+                        Log.e("LABELREMOVAL", $"{toRemove.label.Content}: Fade out completed -> no more labels -> Window wade out");
+                        FadeOut();
+                    }
+                };
+                hideLabelSB.Begin(toRemove.label);
+            } else
+            {
+                labelStack.Children.Remove(toRemove.label);
+            }
             labels.Remove(toRemove);
-            hideLabelSB.Begin(toRemove.label);
         }
 
 
