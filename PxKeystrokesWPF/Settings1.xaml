@@ -160,7 +160,8 @@
                               IsChecked="{Binding EnableWindowFade}">Hide Window when empty</CheckBox>
                     <CheckBox x:Name="cb_backspace"
                               IsChecked="{Binding BackspaceDeletesText}">Backspace can delete text</CheckBox>
-
+                    <CheckBox x:Name="cb_periodictopmost"
+                              IsChecked="{Binding PeriodicTopmost}">Put on top periodically</CheckBox>
 
                 </StackPanel>
             </GroupBox>

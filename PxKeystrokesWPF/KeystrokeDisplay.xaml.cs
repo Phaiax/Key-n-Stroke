@@ -69,7 +69,37 @@ namespace PxKeystrokesWPF
                     }
                 }
             };
+
+            InitPeriodicTopmostTimer();
         }
+
+        #region bring on top
+        DispatcherTimer makeTopMostTimer = new DispatcherTimer();
+        void InitPeriodicTopmostTimer()
+        {
+            makeTopMostTimer.Tick += (object sender, EventArgs e) =>
+            {
+                IntPtr handle = new WindowInteropHelper(this).Handle;
+                NativeMethodsWindow.SetWindowTopMost(handle);
+            };
+            makeTopMostTimer.Interval = TimeSpan.FromSeconds(1.0);
+
+            settings.PropertyChanged += (object sender, PropertyChangedEventArgs e) =>
+            {
+                if (e.PropertyName == "PeriodicTopmost")
+                {
+                    if (settings.PeriodicTopmost)
+                    {
+                        makeTopMostTimer.Start();
+                    }
+                    else
+                    {
+                        makeTopMostTimer.Stop();
+                    }
+                }
+            };
+        }
+        #endregion
 
         #region keystroke handler
 
