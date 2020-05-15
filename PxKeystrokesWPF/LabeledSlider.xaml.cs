@@ -43,44 +43,44 @@ namespace PxKeystrokesWPF
             );
 
         [Browsable(true)]
-        public int Minimum
+        public double Minimum
         {
-            get { return (int)GetValue(MinimumProperty); }
+            get { return (double) GetValue(MinimumProperty); }
             set { SetValue(MinimumProperty, value); }
         }
         public static readonly DependencyProperty MinimumProperty =
-            DependencyProperty.Register("Minimum", typeof(int), typeof(LabeledSlider), new PropertyMetadata(0));
+            DependencyProperty.Register("Minimum", typeof(double), typeof(LabeledSlider), new PropertyMetadata(0.0));
 
 
         [Browsable(true)]
-        public int Maximum
+        public double Maximum
         {
-            get { return (int)GetValue(MaximumProperty); }
+            get { return (double) GetValue(MaximumProperty); }
             set { SetValue(MaximumProperty, value); }
         }
         public static readonly DependencyProperty MaximumProperty =
-            DependencyProperty.Register("Maximum", typeof(int), typeof(LabeledSlider), new PropertyMetadata(0));
+            DependencyProperty.Register("Maximum", typeof(double), typeof(LabeledSlider), new PropertyMetadata(0.0));
 
 
         [Browsable(true)]
-        public int Value
+        public double Value
         {
-            get { return (int)GetValue(ValueProperty); }
+            get { return (double) GetValue(ValueProperty); }
             set { SetValue(ValueProperty, value); }
         }
         public static readonly DependencyProperty ValueProperty =
-            DependencyProperty.Register("Value", typeof(int), typeof(LabeledSlider), new PropertyMetadata(0));
+            DependencyProperty.Register("Value", typeof(double), typeof(LabeledSlider), new PropertyMetadata(0.0));
 
 
 
-        public event RoutedPropertyChangedEventHandler<int> ValueChanged;
+        public event RoutedPropertyChangedEventHandler<double> ValueChanged;
 
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            RoutedPropertyChangedEventArgs<int> eint = null;
+            RoutedPropertyChangedEventArgs<double> eint = null;
             if (e != null)
             {
-                eint = new RoutedPropertyChangedEventArgs<int>((int)e.OldValue, (int)e.NewValue, e.RoutedEvent);
+                eint = new RoutedPropertyChangedEventArgs<double>(e.OldValue, e.NewValue, e.RoutedEvent);
             }
             if (ValueChanged != null)
             {

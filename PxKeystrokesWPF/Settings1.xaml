@@ -81,9 +81,9 @@
                 <StackPanel Margin="0,0,0,5">
                     <Button x:Name="button_textfont" Click="OnButtonTextFontClick" Grid.ColumnSpan="3" Margin="10">Font</Button>
                     <xctk:ColorPicker x:Name="colorpicker_text_color" ColorMode="ColorCanvas" Margin="10" SelectedColor="{Binding LabelColor, Mode=TwoWay, Converter={StaticResource MediaColorDrawingColorConverter}}"/>
-                    <uc:LabeledSlider x:Name="slider_vertdist" Title="Vertical Distance" Minimum="10" Maximum="100"
+                    <uc:LabeledSlider x:Name="slider_vertdist" Title="Vertical Distance" Minimum="10.0" Maximum="100.0"
                                       Value="{Binding LineDistance, Mode=TwoWay}" />
-                    <uc:LabeledSlider x:Name="slider_historycount" Title="History Count" Minimum="1" Maximum="50" Value="{Binding HistoryLength, Mode=TwoWay}" />
+                    <uc:LabeledSlider x:Name="slider_historycount" Title="History Count" Minimum="1.0" Maximum="50.0" Value="{Binding HistoryLength, Mode=TwoWay}" />
                     <WrapPanel Margin="0,10,0,0">
                         <CheckBox x:Name="cb_enableHistoryTimeout"  IsChecked="{Binding EnableHistoryTimeout}">
                             <TextBlock>
@@ -95,8 +95,8 @@
                     <uc:LabeledSlider x:Name="slider_history_timeout" 
                                       Margin="16,5,10,5"
                                       Title="Timeout"
-                                      Maximum="120000"
-                                      Minimum="1000"
+                                      Maximum="120.0"
+                                      Minimum="1.0"
                                       Value="{Binding HistoryTimeout, Mode=TwoWay}"
                                       />
                     <CheckBox x:Name="cb_hideWindow" IsChecked="{Binding EnableWindowFade}">Hide Window when empty</CheckBox>
@@ -110,16 +110,16 @@
             <GroupBox Header="Cursor">
                 <StackPanel>
                     <CheckBox x:Name="cb_cursorindicator" IsChecked="{Binding EnableCursorIndicator}">Indicate cursor position</CheckBox>
-                    <uc:LabeledSlider x:Name="slider_ci_opacity" Title="Opacity" Minimum="10" Maximum="100" 
-                                      Value="{Binding CursorIndicatorOpacity, Converter={StaticResource FloatPercentageConverter}, Mode=TwoWay}" />
-                    <uc:LabeledSlider x:Name="slider_ci_size" Title="Size" Minimum="3" Maximum="300" Value="{Binding CursorIndicatorSize, Mode=TwoWay}" />
+                    <uc:LabeledSlider x:Name="slider_ci_opacity" Title="Opacity" Minimum="0.1" Maximum="1" 
+                                      Value="{Binding CursorIndicatorOpacity, Mode=TwoWay}" />
+                    <uc:LabeledSlider x:Name="slider_ci_size" Title="Size" Minimum="3.0" Maximum="300.0" Value="{Binding CursorIndicatorSize, Mode=TwoWay}" />
                     <xctk:ColorPicker x:Name="colorpicker_ci_color" ColorMode="ColorCanvas" Margin="10" SelectedColor="{Binding CursorIndicatorColor, Mode=TwoWay, Converter={StaticResource MediaColorDrawingColorConverter}}"/>
                 </StackPanel>
             </GroupBox>
             <GroupBox Header="Text Background">
                 <StackPanel Margin="0,0,0,5">
                     <xctk:ColorPicker x:Name="colorpicker_background_color" ColorMode="ColorCanvas" Margin="10" SelectedColor="{Binding BackgroundColor, Mode=TwoWay, Converter={StaticResource MediaColorDrawingColorConverter}}"/>
-                    <uc:LabeledSlider x:Name="slider_opacity" Title="Opacity" Minimum="10" Maximum="100" Value="{Binding Opacity, Mode=TwoWay}" />
+                    <uc:LabeledSlider x:Name="slider_opacity" Title="Opacity" Minimum="0.1" Maximum="1.0" Value="{Binding Opacity, Mode=TwoWay}" />
                 </StackPanel>
             </GroupBox>
         </StackPanel>
@@ -130,7 +130,7 @@
                                  IsChecked="{Binding ButtonIndicator, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:ButtonIndicatorType.Disabled}}"/>
                     <RadioButton x:Name="rb_bi_icon" Content="Show icon on click" GroupName="bi"
                                  IsChecked="{Binding ButtonIndicator, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:ButtonIndicatorType.PicsAroundCursor}}"/>
-                    <uc:LabeledSlider x:Name="slider_bi_size" Title="Size" Minimum="10" Maximum="500" Value="{Binding ButtonIndicatorScalingPercentage, Mode=TwoWay}"/>
+                    <uc:LabeledSlider x:Name="slider_bi_size" Title="Size" Minimum="0.1" Maximum="5" Value="{Binding ButtonIndicatorScaling, Mode=TwoWay}"/>
                     <uc:LabeledSlider x:Name="slider_bi_distance" Title="Distance" Minimum="10" Maximum="100" Value="{Binding ButtonIndicatorPositionDistance, Mode=TwoWay}"/>
                     <uc:LabeledSlider x:Name="slider_bi_angle" Title="Direction" Maximum="65" Value="{Binding ButtonIndicatorPositionAngle, Mode=TwoWay}"/>
                     <CheckBox x:Name="cb_bi_history"  IsChecked="{Binding AddButtonEventsToHistory}">Add to history</CheckBox>

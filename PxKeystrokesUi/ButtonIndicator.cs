@@ -259,7 +259,7 @@ namespace PxKeystrokesUi
 
         void UpdateSize()
         {
-            ImageResources.ApplyScalingFactor(s.ButtonIndicatorScalingPercentage);
+            ImageResources.ApplyScalingFactor(s.ButtonIndicatorScaling);
             Log.e("BI", "size change");
             Redraw();
         }

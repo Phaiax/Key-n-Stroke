@@ -316,7 +316,7 @@ namespace PxKeystrokesWPF
                 timeoutTimer.Tick += timeoutTimer_Tick;
             }
 
-            timeoutTimer.Interval = settings.HistoryTimeout;
+            timeoutTimer.Interval = (int) (settings.HistoryTimeout * 1000);
             timeoutTimer.Start();
         }
 

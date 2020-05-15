@@ -502,9 +502,9 @@ namespace PxKeystrokesWPF
         /// <summary>
         /// Fires an action once after "seconds"
         /// </summary>
-        public static DispatcherTimer FireOnce(int milliSeconds, Action onElapsed)
+        public static DispatcherTimer FireOnce(double timeout, Action onElapsed)
         {
-            var timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(milliSeconds) };
+            var timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(timeout) };
 
             var handler = new EventHandler((s, args) =>
             {

@@ -170,7 +170,7 @@ namespace PxKeystrokesWPF
         [DataMember] public SerializableFont labelFont;
         [DataMember] public SerializableColor2 labelColor;
         [DataMember] public SerializableColor2 backgroundColor;
-        [DataMember] public float opacity;
+        [DataMember] public double opacity;
         [DataMember] public TextAlignment labelTextAlignment;
         [DataMember] public TextDirection labelTextDirection;
         [DataMember] public Style labelAnimation;
@@ -178,19 +178,19 @@ namespace PxKeystrokesWPF
         [DataMember] public SerializableSize windowSize;
         [DataMember] public SerializablePoint panelLocation;
         [DataMember] public SerializableSize panelSize;
-        [DataMember] public int lineDistance;
+        [DataMember] public double lineDistance;
         [DataMember] public int historyLength;
-        [DataMember] public int historyTimeout;
+        [DataMember] public double historyTimeout;
         [DataMember] public bool enableHistoryTimeout;
         [DataMember] public bool enableWindowFade;
         [DataMember] public bool enableCursorIndicator;
-        [DataMember] public float cursorIndicatorOpacity;
-        [DataMember] public int cursorIndicatorSize;
+        [DataMember] public double cursorIndicatorOpacity;
+        [DataMember] public double cursorIndicatorSize;
         [DataMember] public SerializableColor2 cursorIndicatorColor;
         [DataMember] public ButtonIndicatorType buttonIndicator;
-        [DataMember] public float buttonIndicatorScalingPercentage;
-        [DataMember] public float buttonIndicatorPositionAngle;
-        [DataMember] public int buttonIndicatorPositionDistance;
+        [DataMember] public double buttonIndicatorScaling;
+        [DataMember] public double buttonIndicatorPositionAngle;
+        [DataMember] public double buttonIndicatorPositionDistance;
         [DataMember] public bool addButtonEventsToHistory;
         [DataMember] public bool backspaceDeletesText;
     }
@@ -258,8 +258,8 @@ namespace PxKeystrokesWPF
             set { i.backgroundColor = new SerializableColor2(value); OnSettingChanged("BackgroundColor"); }
         }
 
-        public float OpacityDefault = 0.78f;
-        public float Opacity
+        public double OpacityDefault = 0.78f;
+        public double Opacity
         {
             get { return Or(i.opacity, OpacityDefault); }
             set { i.opacity = value; OnSettingChanged("Opacity"); }
@@ -314,8 +314,8 @@ namespace PxKeystrokesWPF
             set { i.panelSize = new SerializableSize(value); OnSettingChanged("PanelSize"); }
         }
 
-        public int LineDistanceDefault = 36;
-        public int LineDistance
+        public double LineDistanceDefault = 36;
+        public double LineDistance
         {
             get { return Or(i.lineDistance, LineDistanceDefault); }
             set { i.lineDistance = value; OnSettingChanged("LineDistance"); }
@@ -328,8 +328,8 @@ namespace PxKeystrokesWPF
             set { i.historyLength = value; OnSettingChanged("HistoryLength"); }
         }
 
-        public int HistoryTimeoutDefault = 10000; // ms
-        public int HistoryTimeout
+        public double HistoryTimeoutDefault = 10.0; // seconds
+        public double HistoryTimeout
         {
             get { return Or(i.historyTimeout, HistoryTimeoutDefault); }
             set { i.historyTimeout = value; OnSettingChanged("HistoryTimeout"); }
@@ -356,16 +356,16 @@ namespace PxKeystrokesWPF
             set { i.enableCursorIndicator = value; OnSettingChanged("EnableCursorIndicator"); }
         }
 
-        public float CursorIndicatorOpacityDefault = 0.3f;
-        public float CursorIndicatorOpacity
+        public double CursorIndicatorOpacityDefault = 0.3;
+        public double CursorIndicatorOpacity
         {
             get { return Or(i.cursorIndicatorOpacity, CursorIndicatorOpacityDefault); }
             set { i.cursorIndicatorOpacity = value; OnSettingChanged("CursorIndicatorOpacity");
                 Console.WriteLine("CursorIndicatorOpacity " + value); }
         }
 
-        public int CursorIndicatorSizeDefault = 55;
-        public int CursorIndicatorSize
+        public double CursorIndicatorSizeDefault = 55;
+        public double CursorIndicatorSize
         {
             get { return Or(i.cursorIndicatorSize, CursorIndicatorSizeDefault); }
             set { i.cursorIndicatorSize = value; OnSettingChanged("CursorIndicatorSize"); }
@@ -385,22 +385,22 @@ namespace PxKeystrokesWPF
             set { i.buttonIndicator = value; OnSettingChanged("ButtonIndicator"); }
         }
 
-        public float ButtonIndicatorScalingPercentageDefault = 100f;
-        public float ButtonIndicatorScalingPercentage
+        public double ButtonIndicatorScalingDefault = 1.0f;
+        public double ButtonIndicatorScaling
         {
-            get { return Or(i.buttonIndicatorScalingPercentage, ButtonIndicatorScalingPercentageDefault); }
-            set { i.buttonIndicatorScalingPercentage = value; OnSettingChanged("ButtonIndicatorScalingPercentage"); }
+            get { return Or(i.buttonIndicatorScaling, ButtonIndicatorScalingDefault); }
+            set { i.buttonIndicatorScaling = value; OnSettingChanged("ButtonIndicatorScalingPercentage"); }
         }
 
-        public float ButtonIndicatorPositionAngleDefault = 0f;
-        public float ButtonIndicatorPositionAngle
+        public double ButtonIndicatorPositionAngleDefault = 0f;
+        public double ButtonIndicatorPositionAngle
         {
             get { return Or(i.buttonIndicatorPositionAngle, ButtonIndicatorPositionAngleDefault); }
             set { i.buttonIndicatorPositionAngle = value; OnSettingChanged("ButtonIndicatorPositionAngle"); }
         }
 
-        public int ButtonIndicatorPositionDistanceDefault = 56;
-        public int ButtonIndicatorPositionDistance
+        public double ButtonIndicatorPositionDistanceDefault = 56;
+        public double ButtonIndicatorPositionDistance
         {
             get { return Or(i.buttonIndicatorPositionDistance, ButtonIndicatorPositionDistanceDefault); }
             set { i.buttonIndicatorPositionDistance = value; OnSettingChanged("ButtonIndicatorPositionDistance"); }
@@ -571,7 +571,7 @@ CursorIndicatorOpacity:          {CursorIndicatorOpacity}
 CursorIndicatorSize:             {CursorIndicatorSize.ToString()}
 CursorIndicatorColor:            {CursorIndicatorColor.ToString()}
 ButtonIndicator:                 {ButtonIndicator.ToString()}
-buttonIndicatorScalingPercentage:{ButtonIndicatorScalingPercentage}
+buttonIndicatorScalingPercentage:{ButtonIndicatorScaling}
 ButtonIndicatorPositionAngle:    {ButtonIndicatorPositionAngle}
 ButtonIndicatorPositionDistance: {ButtonIndicatorPositionDistance}
 AddButtonEventsToHistory:        {AddButtonEventsToHistory}

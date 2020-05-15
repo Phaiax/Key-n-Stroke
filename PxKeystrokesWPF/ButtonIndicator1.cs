@@ -263,7 +263,7 @@ namespace PxKeystrokesWPF
 
         void UpdateSize()
         {
-            ImageResources.ApplyScalingFactor(s.ButtonIndicatorScalingPercentage / 100.0f);
+            ImageResources.ApplyScalingFactor(s.ButtonIndicatorScaling);
             Log.e("BI", "size change");
             Redraw();
         }

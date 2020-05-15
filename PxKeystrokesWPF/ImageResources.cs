@@ -59,9 +59,9 @@ namespace PxKeystrokesWPF
             ApplyScalingFactor(1.0f);
         }
 
-        static float appliedScalingFactor = -1f;
+        static double appliedScalingFactor = -1.0;
 
-        public static void ApplyScalingFactor(float scalingfactor)
+        public static void ApplyScalingFactor(double scalingfactor)
         {
             scalingfactor = Math.Min(10f, Math.Max(0.1f, scalingfactor));
 
@@ -73,7 +73,7 @@ namespace PxKeystrokesWPF
 
                 foreach (uint dpi in dpis)
                 {
-                    newByDpi.Add(dpi, CreateScaledBitmapCollection(scalingfactor, dpi));
+                    newByDpi.Add(dpi, CreateScaledBitmapCollection((float)scalingfactor, dpi));
                 }
 
                 appliedScalingFactor = scalingfactor;
@@ -178,7 +178,7 @@ namespace PxKeystrokesWPF
             var byDpi = ScaledByDpi; // take reference to prevent datarace with update/replace logic on scaling factor change
             if (!byDpi.ContainsKey(c.dpi))
             {
-                byDpi.Add(c.dpi, CreateScaledBitmapCollection(appliedScalingFactor, c.dpi));
+                byDpi.Add(c.dpi, CreateScaledBitmapCollection((float) appliedScalingFactor, c.dpi));
             }
 
             BitmapCollection scaled = byDpi[c.dpi];

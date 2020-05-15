@@ -354,24 +354,24 @@ namespace PxKeystrokesUi
                 return new Point(panel_textposhelper.Location.X,
                     panel_textposhelper.Location.Y +
                     panel_textposhelper.Size.Height -
-                    settings.LineDistance);
+                    (int) settings.LineDistance);
             }
         }
 
         Size getLabelSize()
         {
-            return new Size(panel_textposhelper.Width, settings.LineDistance);
+            return new Size(panel_textposhelper.Width, (int)settings.LineDistance);
         }
 
         Point getLabelMoveDirection()
         {
             if (settings.LabelTextDirection == TextDirection.Down)
             {
-                return new Point(0, settings.LineDistance);
+                return new Point(0, (int)settings.LineDistance);
             }
             else
             {
-                return new Point(0, -settings.LineDistance);
+                return new Point(0, (int)-settings.LineDistance);
             }
         }
 
