@@ -120,7 +120,7 @@ namespace PxKeystrokesWPF
                     && e.NoModifiers
                     && e.Key == System.Windows.Input.Key.Back)
                 {
-                    Log.e("BS", "delete last char");
+                    Log.e("BS", $"delete last char -> {labels[labels.Count - 1].text}");
                     Log.e("BS", "NumberOfDeletionsAllowed " + NumberOfDeletionsAllowed.ToString());
                     if (!removeLastChar())
                     {
@@ -137,13 +137,14 @@ namespace PxKeystrokesWPF
                     || LastHistoryLineRequiredNewLineAfterwards)
                 {
                     addNextLine(e.ToString(false));
+                    Log.e("BS", $"new line: {e.ToString(false)} -> {labels[labels.Count - 1].text}");
                     NumberOfDeletionsAllowed = e.Deletable ? 1 : 0;
                     Log.e("BS", "NumberOfDeletionsAllowed " + NumberOfDeletionsAllowed.ToString());
                 }
                 else
                 {
-                    Log.e("BS", "add to line ");
                     addToLine(e.ToString(false));
+                    Log.e("BS", $"add to line: {e.ToString(false)} -> {labels[labels.Count-1].text}");
                     if (e.Deletable)
                         NumberOfDeletionsAllowed += 1;
                     else
@@ -426,9 +427,10 @@ namespace PxKeystrokesWPF
 
         #region display and animate Label
 
-        struct LabelData
+        class LabelData
         {
             public Label label;
+            public string text;
             public Storyboard storyboard;
             public DispatcherTimer historyTimeout;
         }
@@ -440,17 +442,18 @@ namespace PxKeystrokesWPF
 
         void addToLine(string chars)
         {
-            LabelData T = labels[labels.Count - 1];
-            if (T.historyTimeout != null)
+            LabelData pack = labels[labels.Count - 1];
+            if (pack.historyTimeout != null)
             {
-                T.historyTimeout.Stop();
+                pack.historyTimeout.Stop();
                 if (settings.EnableHistoryTimeout)
                 {
-                    T.historyTimeout.Interval = TimeSpan.FromSeconds(settings.HistoryTimeout);
-                    T.historyTimeout.Start();
+                    pack.historyTimeout.Interval = TimeSpan.FromSeconds(settings.HistoryTimeout);
+                    pack.historyTimeout.Start();
                 }
             }
-            T.label.Content = HttpUtility.UrlDecode(T.label.Content + chars, Encoding.UTF8);
+            pack.text = pack.text + chars;
+            pack.label.Content = pack.text.Replace("_", "__");
             //T.Refresh();
         }
 
@@ -461,25 +464,26 @@ namespace PxKeystrokesWPF
                 return false;
             }
 
-            LabelData T = labels[labels.Count - 1];
-            var content = ((string)T.label.Content);
+            LabelData pack = labels[labels.Count - 1];
+            var content = ((string)pack.label.Content);
             if (content.Length == 0)
                 return false;
-            T.label.Content = HttpUtility.UrlDecode(content.Substring(0, content.Length - 1));
+            pack.text = pack.text.Substring(0, pack.text.Length - 1);
+            pack.label.Content = pack.text.Replace("_", "__");
             NumberOfDeletionsAllowed -= 1;
-            //T.Refresh();
             return true;
         }
 
         void addNextLine(string chars)
         {
             Label next = new Label();
-            next.Content = chars;
+            next.Content = chars.Replace("_", "__"); ;
             ApplyLabelStyle(next);
 
             var pack = new LabelData
             {
                 label = next,
+                text = chars,
                 storyboard = null,
                 historyTimeout = null,
             };

@@ -78,7 +78,7 @@ namespace PxKeystrokesWPF
             Log.e("KP", "    FirstBuffertype " + buffertype.ToString());
 
             Log.e("KP",
-                    String.Format("   ToUnicode: bl {0} str {1} alt {2} vk {3}", buffertype,
+                    String.Format("    ToUnicode: bl {0} str {1} alt {2} vk {3}", buffertype,
                         inBuffer.ToString(), e.Alt, e.vkCode));
             string keystate = "";
             for (int i = 0; i < e.keyState.Length; i++ )

@@ -121,7 +121,7 @@ namespace PxKeystrokesWPF
                 {
                     CheckModifiers(e);
                     FixKeyStateArray(e);
-                    Log.e("KE", "EVENT " + e.Method.ToString() + " shift:" + e.Uppercase.ToString());
+                    Log.e("KE", $"EVENT scanCode={lParam.scanCode} vkCode={e.vkCode} method={e.Method} uppercase={e.Uppercase} ");
                     OnKeyEvent(e);
                 }
 
@@ -194,7 +194,9 @@ namespace PxKeystrokesWPF
             if (e.Uppercase)
             {
                 e.keyState[VK_SHIFT] = 129;
-
+            } else
+            {
+                e.keyState[VK_SHIFT] = 1;
             }
             return;
 #pragma warning disable CS0162 // Unerreichbarer Code wurde entdeckt.

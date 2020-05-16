@@ -81,6 +81,30 @@ namespace PxKeystrokesWPF
                 case Key.Sleep:
                     return " [" + k.ToString() + "] ";
 
+            
+           
+                case Key.OemSemicolon: //  Key.Oem1
+                    return ";";
+                case Key.OemComma:
+                    return ",";
+                case Key.OemQuestion: // Key.Oem2
+                    return "?";
+                case Key.OemTilde: // Key.Oem3
+                    return "~";
+                //case Key.AbntC1:
+                //case Key.AbntC2:
+                //case Key.OemOpenBrackets:
+                //case Key.OemCloseBrackets:
+                case Key.OemQuotes: // Key.Oem7
+                    return "\"";
+
+                //case Key.Oem102:
+                case Key.OemPipe: // Key.Oem5
+                    return "|";
+                case Key.OemBackslash:
+                    return "\\";
+
+
                 case Key.Multiply:
                     return "*";
                 case Key.Add:
@@ -88,7 +112,9 @@ namespace PxKeystrokesWPF
                 case Key.Separator:
                     return " [Seperator] ";
                 case Key.Subtract:
+                case Key.OemMinus:
                     return "-";
+                case Key.OemPeriod:
                 case Key.Decimal:
                     return ".";
                 case Key.Divide:

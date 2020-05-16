@@ -39,7 +39,7 @@ namespace PxKeystrokesWPF
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            Log.SetTagFilter("LABELREMOVAL");
+            Log.SetTagFilter("KE|KP|BS");
 
             ImageResources.Init();
             InitSettings();
