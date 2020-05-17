@@ -36,17 +36,22 @@ namespace PxKeystrokesWPF
             InitializeComponent();
             InitializeAnimations();
 
-            windowHandle = new WindowInteropHelper(this).Handle;
-
             this.k = k;
-            this.k.KeystrokeEvent += k_KeystrokeEvent;
 
             this.settings = s;
             this.settings.PropertyChanged += settingChanged;
-
             this.settings.CallPropertyChangedForAllProperties();
 
             //addWelcomeInfo();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Window handle is available
+            InitPeriodicTopmostTimer();
+            windowHandle = new WindowInteropHelper(this).Handle;
+
+            this.k.KeystrokeEvent += k_KeystrokeEvent;
 
             ActivateDisplayOnlyMode(true);
 
@@ -54,26 +59,9 @@ namespace PxKeystrokesWPF
             {
                 FadeOut();
             }
-
-            settings.PropertyChanged += (object sender, PropertyChangedEventArgs e) =>
-            {
-                if (e.PropertyName == "EnableWindowFade")
-                {
-                    if (settings.EnableWindowFade && labels.Count == 0)
-                    {
-                        FadeOut();
-                    }
-                    else
-                    {
-                        FadeIn();
-                    }
-                }
-            };
-
-            InitPeriodicTopmostTimer();
         }
 
-        #region bring on top
+        #region periodically make TopMost
         DispatcherTimer makeTopMostTimer = new DispatcherTimer();
         void InitPeriodicTopmostTimer()
         {
@@ -280,6 +268,17 @@ namespace PxKeystrokesWPF
                 case "HistoryLength":
                     TruncateHistory();
                     break;
+                case "EnableWindowFade":
+                    if (settings.EnableWindowFade && labels.Count == 0)
+                    {
+                        FadeOut();
+                    }
+                    else
+                    {
+                        FadeIn();
+                    }
+                    break;
+
             }
         }
 
@@ -687,6 +686,7 @@ namespace PxKeystrokesWPF
                 ApplyLabelStyle(pack.label);
             }
         }
+
 
 
 
