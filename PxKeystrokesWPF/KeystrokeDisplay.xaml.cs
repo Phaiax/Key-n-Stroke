@@ -30,6 +30,7 @@ namespace PxKeystrokesWPF
         SettingsStore settings;
         IKeystrokeEventProvider k;
         IntPtr windowHandle;
+        Brush OrigInnerPanelBackgroundColor;
 
         public KeystrokeDisplay(IKeystrokeEventProvider k, SettingsStore s)
         {
@@ -53,6 +54,7 @@ namespace PxKeystrokesWPF
 
             this.k.KeystrokeEvent += k_KeystrokeEvent;
 
+            OrigInnerPanelBackgroundColor = innerPanel.Background;
             ActivateDisplayOnlyMode(true);
 
             if (settings.EnableWindowFade)
@@ -319,7 +321,7 @@ namespace PxKeystrokesWPF
                 this.buttonResizeInnerPanel.Visibility = Visibility.Hidden;
                 this.buttonResizeWindow.Visibility = Visibility.Hidden;
                 this.buttonSettings.Visibility = Visibility.Hidden;
-                //this.panel_textposhelper.Visibility = Visibility.Hidden; TODO
+                this.innerPanel.Background = new SolidColorBrush(Color.FromArgb(0,0,0,0));
 
                 SettingsModeActivated = false;
 
@@ -341,12 +343,12 @@ namespace PxKeystrokesWPF
                 this.buttonResizeInnerPanel.Visibility = Visibility.Visible;
                 this.buttonResizeWindow.Visibility = Visibility.Visible;
                 this.buttonSettings.Visibility = Visibility.Visible;
-                //this.panel_textposhelper.Visibility = Visibility.Visible; TODO
+                this.innerPanel.Background = OrigInnerPanelBackgroundColor;
 
-                /* TODO foreach (TweenLabel T in tweenLabels)
+                foreach (LabelData d in labels)
                 {
-                    T.Visibility = Visibility.Hidden;
-                }*/
+                    d.label.Visibility = Visibility.Hidden;
+                }
 
                 SettingsModeActivated = true;
             }
