@@ -344,7 +344,7 @@ namespace PxKeystrokesWPF
             set { i.enableHistoryTimeout = value; OnSettingChanged("EnableHistoryTimeout"); }
         }
 
-        public bool EnableWindowFadeDefault = true;
+        public bool EnableWindowFadeDefault = false;
         public bool EnableWindowFade
         {
             get { return Or(i.enableWindowFade, EnableWindowFadeDefault); }
