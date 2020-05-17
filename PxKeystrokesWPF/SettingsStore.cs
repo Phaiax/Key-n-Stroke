@@ -274,7 +274,7 @@ namespace PxKeystrokesWPF
             set { i.labelTextAlignment = value; OnSettingChanged("LabelTextAlignment"); }
         }
 
-        public TextDirection LabelTextDirectionDefault = TextDirection.Down;
+        public TextDirection LabelTextDirectionDefault = TextDirection.Up;
         public TextDirection LabelTextDirection
         {
             get { return Or(i.labelTextDirection, LabelTextDirectionDefault); }
