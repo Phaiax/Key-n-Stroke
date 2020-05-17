@@ -51,7 +51,7 @@ namespace PxKeystrokesUi
             mySettings = new SettingsStore();
 
             Rectangle R = Screen.PrimaryScreen.WorkingArea;
-            mySettings.WindowLocationDefault = new Point(R.Right - mySettings.WindowSizeDefault.Width - 20,
+            mySettings.WindowLocationDefault = new System.Windows.Point(R.Right - mySettings.WindowSizeDefault.Width - 20,
                 R.Bottom - mySettings.WindowSizeDefault.Height);
 
             //mySettings.ClearAll(); // test defaults

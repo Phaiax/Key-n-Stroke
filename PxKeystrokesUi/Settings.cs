@@ -299,7 +299,7 @@ namespace PxKeystrokesUi
 
         private void bn_reset_all_Click(object sender, EventArgs e)
         {
-            settings.ClearAll();
+            settings.ResetAll();
             settings.LoadAll();
             settings.CallPropertyChangedForAllProperties();
             UpdateSliderValues();
