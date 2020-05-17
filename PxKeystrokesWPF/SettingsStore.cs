@@ -252,7 +252,7 @@ namespace PxKeystrokesWPF
         }
 
 
-        public Color BackgroundColorDefault = Color.Black;
+        public Color BackgroundColorDefault = Color.FromArgb((int)(0.78*255), 0, 0, 0);
         public Color BackgroundColor
         {
             get { return Or(i.backgroundColor, BackgroundColorDefault); }
@@ -260,6 +260,7 @@ namespace PxKeystrokesWPF
         }
 
         public double OpacityDefault = 0.78f;
+        // replaced by Background Color Alpha channel
         public double Opacity
         {
             get { return Or(i.opacity, OpacityDefault); }

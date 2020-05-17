@@ -132,11 +132,7 @@
                                           Width="80"
                                           SelectedColor="{Binding BackgroundColor, Mode=TwoWay, Converter={StaticResource MediaColorDrawingColorConverter}}" />
                     </StackPanel>
-                    <uc:LabeledSlider x:Name="slider_opacity"
-                                      Title="Opacity"
-                                      Minimum="0.1"
-                                      Maximum="1.0"
-                                      Value="{Binding Opacity, Mode=TwoWay}" />
+                    <TextBlock TextWrapping="Wrap" Margin="5,3,0,0">Set the window opacity via the "A" channel of the background color.</TextBlock>
                     <uc:LabeledSlider x:Name="slider_vertdist"
                                       Title="Line Distance"
                                       Minimum="10.0"

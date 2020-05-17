@@ -178,7 +178,9 @@ namespace PxKeystrokesWPF
 
         private void FadeIn()
         {
-            ToOpacity(Math.Max(minOpacityWhenVisible, settings.Opacity), true);
+            // Opacity now via background color
+            //ToOpacity(Math.Max(minOpacityWhenVisible, settings.Opacity), true);
+            ToOpacity(1.0, true);
         }
 
         private void FullOpacity()
@@ -222,7 +224,7 @@ namespace PxKeystrokesWPF
                     backgroundGrid.Background = new SolidColorBrush(UIHelper.ToMediaColor(settings.BackgroundColor));
                     break;
                 case "Opacity":
-                    ToOpacity(Math.Max(minOpacityWhenVisible, settings.Opacity), false);
+                    //ToOpacity(Math.Max(minOpacityWhenVisible, settings.Opacity), false);
                     break;
                 case "WindowLocation":
                     this.Left = settings.WindowLocation.X;
