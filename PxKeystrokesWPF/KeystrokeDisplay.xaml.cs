@@ -219,7 +219,7 @@ namespace PxKeystrokesWPF
             switch (e.PropertyName)
             {
                 case "BackgroundColor":
-                    //this.BackColor = settings.BackgroundColor;
+                    backgroundGrid.Background = new SolidColorBrush(UIHelper.ToMediaColor(settings.BackgroundColor));
                     break;
                 case "Opacity":
                     ToOpacity(Math.Max(minOpacityWhenVisible, settings.Opacity), false);
@@ -317,11 +317,12 @@ namespace PxKeystrokesWPF
 
                 InnerPanelIsDragging = false;
 
-                this.buttonClose.Visibility = Visibility.Hidden;
-                this.buttonResizeInnerPanel.Visibility = Visibility.Hidden;
-                this.buttonResizeWindow.Visibility = Visibility.Hidden;
-                this.buttonSettings.Visibility = Visibility.Hidden;
-                this.innerPanel.Background = new SolidColorBrush(Color.FromArgb(0,0,0,0));
+                buttonClose.Visibility = Visibility.Hidden;
+                buttonResizeInnerPanel.Visibility = Visibility.Hidden;
+                buttonResizeWindow.Visibility = Visibility.Hidden;
+                buttonSettings.Visibility = Visibility.Hidden;
+                innerPanel.Background = new SolidColorBrush(Color.FromArgb(0,0,0,0));
+                backgroundGrid.Background = new SolidColorBrush(UIHelper.ToMediaColor(settings.BackgroundColor));
 
                 SettingsModeActivated = false;
 
@@ -339,11 +340,12 @@ namespace PxKeystrokesWPF
 
                 InnerPanelIsDragging = false;
 
-                this.buttonClose.Visibility = Visibility.Visible;
-                this.buttonResizeInnerPanel.Visibility = Visibility.Visible;
-                this.buttonResizeWindow.Visibility = Visibility.Visible;
-                this.buttonSettings.Visibility = Visibility.Visible;
-                this.innerPanel.Background = OrigInnerPanelBackgroundColor;
+                buttonClose.Visibility = Visibility.Visible;
+                buttonResizeInnerPanel.Visibility = Visibility.Visible;
+                buttonResizeWindow.Visibility = Visibility.Visible;
+                buttonSettings.Visibility = Visibility.Visible;
+                innerPanel.Background = OrigInnerPanelBackgroundColor;
+                backgroundGrid.Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
 
                 foreach (LabelData d in labels)
                 {

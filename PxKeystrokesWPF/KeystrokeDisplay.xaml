@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PxKeystrokesWPF"
         mc:Ignorable="d"
-        Title="KeystrokeDisplay" Height="450" Width="800" Closing="Window_Closing" ShowInTaskbar="False" Topmost="True" AllowsTransparency="True" WindowStyle="None" ResizeMode="NoResize" MouseUp="Window_MouseUp" Loaded="Window_Loaded">
+        Title="KeystrokeDisplay" Height="450" Width="800" Closing="Window_Closing" ShowInTaskbar="False" Topmost="True" AllowsTransparency="True" WindowStyle="None" ResizeMode="NoResize" MouseUp="Window_MouseUp" Loaded="Window_Loaded" Background="Transparent">
     <Grid x:Name="backgroundGrid" Background="Black"
           MouseDown="backgroundGrid_MouseDown">
 
