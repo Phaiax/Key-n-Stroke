@@ -39,7 +39,7 @@ namespace PxKeystrokesWPF
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            Log.SetTagFilter("KE|KP|BS");
+            Log.SetTagFilter("CI");
 
             ImageResources.Init();
             InitSettings();
@@ -59,7 +59,7 @@ namespace PxKeystrokesWPF
             myUi.Show();
             //this.MainForm = myUi;
 
-            //OnCursorIndicatorSettingChanged();
+            OnCursorIndicatorSettingChanged();
             OnButtonIndicatorSettingChanged();
 
             makeNotifyIcon();
@@ -104,7 +104,7 @@ namespace PxKeystrokesWPF
                 System.Windows.SystemParameters.PrimaryScreenWidth - mySettings.WindowSizeDefault.Width - 20,
                 System.Windows.SystemParameters.PrimaryScreenHeight - mySettings.WindowSizeDefault.Height);
 
-            //mySettings.ClearAll(); // test defaults
+            //mySettings.ResetAll(); // test defaults
             mySettings.LoadAll();
         }
 
@@ -119,7 +119,7 @@ namespace PxKeystrokesWPF
 
         private void OnUiClosed(object sender, EventArgs e)
         {
-            //DisableCursorIndicator();
+            DisableCursorIndicator();
             DisableButtonIndicator();
             //ExitThread();
         }
@@ -129,7 +129,7 @@ namespace PxKeystrokesWPF
             switch (e.PropertyName)
             {
                 case "EnableCursorIndicator":
-                    //OnCursorIndicatorSettingChanged();
+                    OnCursorIndicatorSettingChanged();
                     break;
                 case "ButtonIndicator":
                     OnButtonIndicatorSettingChanged();
@@ -171,7 +171,7 @@ namespace PxKeystrokesWPF
             DisableMouseHookIfNotNeeded();
             Log.e("BI", "DisableButtonIndicator");
         }
-        /*
+        
         private void OnCursorIndicatorSettingChanged()
         {
             if (mySettings.EnableCursorIndicator)
@@ -184,7 +184,7 @@ namespace PxKeystrokesWPF
             }
         }
 
-        CursorIndicator myCursor = null;
+        CursorIndicator1 myCursor = null;
 
         private void EnableCursorIndicator()
         {
@@ -192,7 +192,7 @@ namespace PxKeystrokesWPF
                 return;
             Log.e("CI", "EnableCursorIndicator");
             EnableMouseHook();
-            myCursor = new CursorIndicator(myMouseHook, mySettings);
+            myCursor = new CursorIndicator1(myMouseHook, mySettings);
             myCursor.Show();
         }
 
@@ -206,7 +206,7 @@ namespace PxKeystrokesWPF
             myCursor = null;
             DisableMouseHookIfNotNeeded();
             Log.e("CI", "DisableCursorIndicator");
-        }*/
+        }
 
         IMouseRawEventProvider myMouseHook = null;
 
@@ -214,13 +214,12 @@ namespace PxKeystrokesWPF
         {
             if (myMouseHook != null)
                 return;
-            //DisableMouseHook();
             myMouseHook = new MouseHook();
         }
 
         private void DisableMouseHookIfNotNeeded()
         {
-            if (/*myCursor == null &&*/ myButtons == null)
+            if (myCursor == null && myButtons == null)
                 DisableMouseHook();
         }
 

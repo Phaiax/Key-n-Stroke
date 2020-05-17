@@ -82,6 +82,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CursorIndicator1.xaml.cs">
+      <DependentUpon>CursorIndicator1.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ResizeButton.xaml.cs">
       <DependentUpon>ResizeButton.xaml</DependentUpon>
     </Compile>
@@ -129,6 +132,10 @@
     </Compile>
     <Compile Include="UIHelper.cs" />
     <Compile Include="UrlOpener.cs" />
+    <Page Include="CursorIndicator1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

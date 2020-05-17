@@ -26,7 +26,7 @@ namespace PxKeystrokesWPF
 
             this.m = m;
             this.s = s;
-            FormClosed += CursorIndicator_FormClosed;
+            FormClosed += ButtonIndicator_FormClosed;
 
             HideMouseIfNoButtonPressed();
 
@@ -238,7 +238,7 @@ namespace PxKeystrokesWPF
             }
         }
 
-        void CursorIndicator_FormClosed(object sender, FormClosedEventArgs e)
+        void ButtonIndicator_FormClosed(object sender, FormClosedEventArgs e)
         {
             if (m != null)
                 m.MouseEvent -= m_MouseEvent;
