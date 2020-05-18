@@ -77,6 +77,7 @@ namespace PxKeystrokesWPF
             IntPtr monitor = NativeMethodsWindow.MonitorFromPoint(cursorPosition, NativeMethodsWindow.MonitorOptions.MONITOR_DEFAULTTONEAREST);
             uint adpiX = 0, adpiY = 0;
             NativeMethodsWindow.GetDpiForMonitor(monitor, NativeMethodsWindow.DpiType.MDT_ANGULAR_DPI, ref adpiX, ref adpiY);
+            Log.e("CI", $"apix={adpiX} adpiy={adpiY} aw={ActualWidth} ah={ActualHeight}");
             NativeMethodsWindow.SetWindowPosition(windowHandle, 
                     (int)(cursorPosition.X - (this.ActualWidth / 2) * (double)adpiX / 96.0),
                     (int)(cursorPosition.Y - (this.ActualHeight / 2) * (double)adpiY / 96.0));
@@ -84,23 +85,30 @@ namespace PxKeystrokesWPF
 
         private void settingChanged(object sender, PropertyChangedEventArgs e)
         {
-            switch (e.PropertyName)
+            this.Dispatcher.BeginInvoke((Action) (() =>
             {
-                case "EnableCursorIndicator":
-                    break;
-                case "CursorIndicatorOpacity":
-                    //this.Opacity = s.CursorIndicatorOpacity;
-                    break;
-                case "CursorIndicatorSize":
-                    UpdateSize();
-                    break;
-                case "CursorIndicatorColor":
-                    var c = UIHelper.ToMediaColor(s.CursorIndicatorColor);
-                    circle.Fill = new SolidColorBrush(Color.FromArgb((byte) (255 * (1 - s.CursorIndicatorOpacity)), c.R, c.G, c.B);
-                    break;
-            }
+                switch (e.PropertyName)
+                {
+                    case "EnableCursorIndicator":
+                        break;
+                    case "CursorIndicatorOpacity":
+                        UpdateColor();
+                        break;
+                    case "CursorIndicatorSize":
+                        UpdateSize();
+                        break;
+                    case "CursorIndicatorColor":
+                        UpdateColor();
+                        break;
+                }
+            }));
         }
 
+        private void UpdateColor()
+        {
+            var c = UIHelper.ToMediaColor(s.CursorIndicatorColor);
+            circle.Fill = new SolidColorBrush(Color.FromArgb((byte)(255 * (1 - s.CursorIndicatorOpacity)), c.R, c.G, c.B));
+        }
 
         private void Window_Closed(object sender, EventArgs e)
         {
