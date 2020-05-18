@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using System.Data;
+using System.Drawing.Printing;
 using System.IO;
 using System.IO.IsolatedStorage;
 using System.Linq;
@@ -18,7 +19,8 @@ namespace PxKeystrokesWPF
     /// </summary>
     public partial class App : Application
     {
-        KeystrokeDisplay myUi;
+
+        #region Main()
 
         [System.STAThreadAttribute()]
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -29,13 +31,11 @@ namespace PxKeystrokesWPF
             app.Run();
         }
 
-        protected override void OnExit(ExitEventArgs e)
-        {
-            //DisableCursorIndicator();
-            DisableButtonIndicator();
-            //myUi.Close();
-            this.notifyIcon_main.Visible = false;
-        }
+        #endregion
+
+        #region Init
+
+        SettingsStore mySettings;
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -46,25 +46,64 @@ namespace PxKeystrokesWPF
             InitKeyboardInterception();
 
             mySettings.PropertyChanged += OnSettingChanged;
-            
-            //Settings1 settings1 = new Settings1(mySettings);
-            //System.Windows.Forms.Integration.ElementHost.EnableModelessKeyboardInterop(settings1);
-            //WPFHelper.SetOwner(this, dlg);
-            //dlg.ShowDialog();
-            //settings1.Show();
-            //settings1.ShowDialog();
 
-            myUi = new KeystrokeDisplay(myKeystrokeConverter, mySettings);
             //myUi.FormClosed += OnUiClosed;
-            myUi.Show();
-            //this.MainForm = myUi;
 
+            OnKeystrokeHistorySettingChanged();
             OnCursorIndicatorSettingChanged();
             OnButtonIndicatorSettingChanged();
 
             makeNotifyIcon();
         }
 
+
+        protected override void OnActivated(EventArgs e)
+        {
+
+        }
+
+
+        private void InitSettings()
+        {
+            mySettings = new SettingsStore();
+
+            mySettings.WindowLocationDefault = new Point(
+                System.Windows.SystemParameters.PrimaryScreenWidth - mySettings.WindowSizeDefault.Width - 20,
+                System.Windows.SystemParameters.PrimaryScreenHeight - mySettings.WindowSizeDefault.Height);
+
+            //mySettings.ResetAll(); // test defaults
+            mySettings.LoadAll();
+        }
+
+        IKeyboardRawEventProvider myKeyboardHook;
+        IKeystrokeEventProvider myKeystrokeConverter;
+
+        private void InitKeyboardInterception()
+        {
+            myKeyboardHook = new KeyboardHook();
+            myKeystrokeConverter = new KeystrokeParser(myKeyboardHook);
+        }
+
+        #endregion
+
+        #region Closing/Exiting
+
+        private void OnUiClosed(object sender, EventArgs e)
+        {
+            DisableCursorIndicator();
+            DisableButtonIndicator();
+            DisableKeystrokeHistory();
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            OnUiClosed(this, e);
+            this.notifyIcon_main.Visible = false;
+        }
+
+        #endregion
+
+        #region Tray Icon
 
         private System.Windows.Forms.NotifyIcon notifyIcon_main;
         void makeNotifyIcon()
@@ -88,41 +127,11 @@ namespace PxKeystrokesWPF
             settings1.ShowDialog();
         }
 
-        protected override void OnActivated(EventArgs e)
-        {
+        #endregion
 
-        }
 
-        SettingsStore mySettings;
 
-        private void InitSettings()
-        {
-            mySettings = new SettingsStore();
-
-            
-            mySettings.WindowLocationDefault = new Point(
-                System.Windows.SystemParameters.PrimaryScreenWidth - mySettings.WindowSizeDefault.Width - 20,
-                System.Windows.SystemParameters.PrimaryScreenHeight - mySettings.WindowSizeDefault.Height);
-
-            //mySettings.ResetAll(); // test defaults
-            mySettings.LoadAll();
-        }
-
-        IKeyboardRawEventProvider myKeyboardHook;
-        IKeystrokeEventProvider myKeystrokeConverter;
-
-        private void InitKeyboardInterception()
-        {
-            myKeyboardHook = new KeyboardHook();
-            myKeystrokeConverter = new KeystrokeParser(myKeyboardHook);
-        }
-
-        private void OnUiClosed(object sender, EventArgs e)
-        {
-            DisableCursorIndicator();
-            DisableButtonIndicator();
-            //ExitThread();
-        }
+        #region OnSettingChanged
 
         private void OnSettingChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -134,8 +143,54 @@ namespace PxKeystrokesWPF
                 case "ButtonIndicator":
                     OnButtonIndicatorSettingChanged();
                     break;
+                case "EnableKeystrokeHistory":
+                    OnKeystrokeHistorySettingChanged();
+                    break;
             }
         }
+
+        #endregion
+
+        #region Keystroke History
+
+        KeystrokeDisplay KeystrokeHistoryWindow;
+        bool KeystrokeHistoryVisible;
+
+        private void OnKeystrokeHistorySettingChanged()
+        {
+            if (mySettings.EnableKeystrokeHistory)
+            {
+                EnableKeystrokeHistory();
+            }
+            else
+            {
+                DisableKeystrokeHistory();
+            }
+        }
+
+        private void EnableKeystrokeHistory()
+        {
+            if (KeystrokeHistoryVisible || KeystrokeHistoryWindow != null)
+                return;
+            KeystrokeHistoryVisible = true; // Prevent Recursive call
+            KeystrokeHistoryWindow = new KeystrokeDisplay(myKeystrokeConverter, mySettings);
+            KeystrokeHistoryWindow.Show();
+        }
+
+        private void DisableKeystrokeHistory()
+        {
+            KeystrokeHistoryVisible = false;
+            if (KeystrokeHistoryWindow == null)
+                return;
+            KeystrokeHistoryWindow.Close();
+            KeystrokeHistoryWindow = null;
+        }
+
+        #endregion
+
+        #region Button Indicator
+
+        ButtonIndicator1 ButtonIndicatorWindow = null;
 
         private void OnButtonIndicatorSettingChanged()
         {
@@ -149,29 +204,34 @@ namespace PxKeystrokesWPF
             }
         }
 
-        ButtonIndicator1 myButtons = null;
 
         private void EnableButtonIndicator()
         {
-            if (myButtons != null)
+            if (ButtonIndicatorWindow != null)
                 return;
             Log.e("BI", "EnableButtonIndicator");
             EnableMouseHook();
-            myButtons = new ButtonIndicator1(myMouseHook, mySettings);
-            myButtons.Show();
+            ButtonIndicatorWindow = new ButtonIndicator1(myMouseHook, mySettings);
+            ButtonIndicatorWindow.Show();
         }
 
 
         private void DisableButtonIndicator()
         {
-            if (myButtons == null)
+            if (ButtonIndicatorWindow == null)
                 return;
-            myButtons.Close();
-            myButtons = null;
+            ButtonIndicatorWindow.Close();
+            ButtonIndicatorWindow = null;
             DisableMouseHookIfNotNeeded();
             Log.e("BI", "DisableButtonIndicator");
         }
-        
+
+        #endregion
+
+        #region Cursor Indicator
+
+        CursorIndicator1 CursorIndicatorWindow = null;
+
         private void OnCursorIndicatorSettingChanged()
         {
             if (mySettings.EnableCursorIndicator)
@@ -184,29 +244,33 @@ namespace PxKeystrokesWPF
             }
         }
 
-        CursorIndicator1 myCursor = null;
-
+        
         private void EnableCursorIndicator()
         {
-            if (myCursor != null)
+            if (CursorIndicatorWindow != null)
                 return;
             Log.e("CI", "EnableCursorIndicator");
             EnableMouseHook();
-            myCursor = new CursorIndicator1(myMouseHook, mySettings);
-            myCursor.Show();
+            CursorIndicatorWindow = new CursorIndicator1(myMouseHook, mySettings);
+            CursorIndicatorWindow.Show();
         }
 
 
 
         private void DisableCursorIndicator()
         {
-            if (myCursor == null)
+            if (CursorIndicatorWindow == null)
                 return;
-            myCursor.Close();
-            myCursor = null;
+            CursorIndicatorWindow.Close();
+            CursorIndicatorWindow = null;
             DisableMouseHookIfNotNeeded();
             Log.e("CI", "DisableCursorIndicator");
         }
+
+
+        #endregion
+
+        #region Mouse Hook
 
         IMouseRawEventProvider myMouseHook = null;
 
@@ -219,7 +283,7 @@ namespace PxKeystrokesWPF
 
         private void DisableMouseHookIfNotNeeded()
         {
-            if (myCursor == null && myButtons == null)
+            if (CursorIndicatorWindow == null && ButtonIndicatorWindow == null)
                 DisableMouseHook();
         }
 
@@ -230,5 +294,7 @@ namespace PxKeystrokesWPF
             myMouseHook.Dispose();
             myMouseHook = null;
         }
+
+        #endregion
     }
 }

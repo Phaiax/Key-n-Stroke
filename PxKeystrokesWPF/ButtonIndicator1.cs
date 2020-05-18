@@ -51,7 +51,16 @@ namespace PxKeystrokesWPF
         private void Redraw()
         {
             Bitmap scaledAndComposedBitmap = ImageResources.Compose(c);
-            NativeMethodsDC.SetBitmapForWindow(this.Handle,
+            IntPtr handle;
+            try
+            {
+                handle = this.Handle; // May be already disposed if leftDoubleClickIconTimeout triggers
+            }
+            catch (System.ObjectDisposedException)
+            {
+                throw;
+            }
+            NativeMethodsDC.SetBitmapForWindow(handle,
                                                this.Location,
                                                scaledAndComposedBitmap,
                                                1.0f);   // opacity
