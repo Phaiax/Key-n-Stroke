@@ -193,7 +193,8 @@ namespace PxKeystrokesWPF
         [DataMember] public Nullable<double> buttonIndicatorPositionDistance = null;
         [DataMember] public Nullable<bool> addButtonEventsToHistory = null;
         [DataMember] public Nullable<bool> backspaceDeletesText = null;
-        [DataMember] public Nullable<bool> periodicTopmost = null;      
+        [DataMember] public Nullable<bool> periodicTopmost = null;
+        [DataMember] public Nullable<bool> enableKeystrokeHistory = null;
     }
 
     #endregion
@@ -429,6 +430,13 @@ namespace PxKeystrokesWPF
             set { i.periodicTopmost = value; OnSettingChanged("PeriodicTopmost"); }
         }
 
+        public bool EnableKeystrokeHistoryDefault = true;
+        public bool EnableKeystrokeHistory
+        {
+            get { return Or(i.enableKeystrokeHistory, EnableKeystrokeHistoryDefault); }
+            set { i.enableKeystrokeHistory = value; OnSettingChanged("EnableKeystrokeHistory"); }
+        }
+
         // Add new settings also to method CallPropertyChangedForAllProperties()
 
         #endregion
@@ -477,6 +485,7 @@ namespace PxKeystrokesWPF
                 PropertyChanged(this, new PropertyChangedEventArgs("AddButtonEventsToHistory"));
                 PropertyChanged(this, new PropertyChangedEventArgs("BackspaceDeletesText"));
                 PropertyChanged(this, new PropertyChangedEventArgs("PeriodicTopmost"));
+                PropertyChanged(this, new PropertyChangedEventArgs("EnableKeystrokeHistory"));
             }
         }
 
@@ -593,7 +602,8 @@ ButtonIndicatorPositionAngle:    {ButtonIndicatorPositionAngle}
 ButtonIndicatorPositionDistance: {ButtonIndicatorPositionDistance}
 AddButtonEventsToHistory:        {AddButtonEventsToHistory}
 BackspaceDeletesText:            {BackspaceDeletesText}
-PeriodicTopmost:                 {PeriodicTopmost}";
+PeriodicTopmost:                 {PeriodicTopmost}
+EnableKeystrokeHistory:          {EnableKeystrokeHistory}";
         }
 
     }

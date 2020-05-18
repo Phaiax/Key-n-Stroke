@@ -48,9 +48,10 @@
             <ColumnDefinition Width="100*" />
             <ColumnDefinition Width="100*" />
         </Grid.ColumnDefinitions>
-        <GroupBox Header="Keystroke Display"
+        <GroupBox Header="Keystroke History"
                   Grid.Column="0"
-                  Grid.ColumnSpan="2">
+                  Grid.ColumnSpan="2"
+                  Margin="5">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100*" />
@@ -58,6 +59,8 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0"
                             Margin="5">
+                    <CheckBox x:Name="cb_enableKeystrokeDisplay"
+                              IsChecked="{Binding EnableKeystrokeHistory}">Show Keystroke History</CheckBox>
 
                     <StackPanel Margin="0,0,0,5">
                         <Button x:Name="button_textfont"
@@ -127,7 +130,7 @@
                 </StackPanel>
                 <StackPanel Margin="5"
                             Grid.Column="1">
-                    <GroupBox Header="Keystroke Display: Alignment">
+                    <GroupBox Header="Alignment">
                         <StackPanel Margin="0,0,5,0">
                             <RadioButton x:Name="rb_align_left"
                                          Content="left"
@@ -145,7 +148,7 @@
                                          IsChecked="{Binding LabelTextAlignment, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:TextAlignment.Right}}" />
                         </StackPanel>
                     </GroupBox>
-                    <GroupBox Header="Keystroke Display: Text Direction">
+                    <GroupBox Header="Move Direction">
                         <StackPanel>
                             <RadioButton x:Name="rb_td_up"
                                          Content="up"
@@ -157,7 +160,7 @@
                                          IsChecked="{Binding LabelTextDirection, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:TextDirection.Down}}" />
                         </StackPanel>
                     </GroupBox>
-                    <GroupBox Header="Keystroke Display: Animation">
+                    <GroupBox Header="Animation">
                         <StackPanel>
                             <RadioButton x:Name="rb_style_noani"
                                          Content="no animation"
