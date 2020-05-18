@@ -73,6 +73,7 @@ namespace PxKeystrokesWPF
             Log.e("BIN", "Set Data context in settings window");
             layout_root.DataContext = settings;
             AvailableShortcutKeys.Text = String.Join(", ", KeystrokeDisplay.AvailableKeysForShortcut);
+            SettingsModeShortcutDefault.Text = settings.KeystrokeHistorySettingsModeShortcutDefault;
         }
 
         SettingsStore settings;
@@ -151,6 +152,11 @@ namespace PxKeystrokesWPF
             {
                 TextBoxKeystrokeHistorySettingsModeShortcut.Background = new SolidColorBrush(Color.FromRgb(250, 189, 185));
             }
+        }
+
+        private void Hyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            TextBoxKeystrokeHistorySettingsModeShortcut.Text = settings.KeystrokeHistorySettingsModeShortcutDefault;
         }
     }
 }

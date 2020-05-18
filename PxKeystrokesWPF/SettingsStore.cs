@@ -196,6 +196,7 @@ namespace PxKeystrokesWPF
         [DataMember] public Nullable<bool> periodicTopmost = null;
         [DataMember] public Nullable<bool> enableKeystrokeHistory = null;
         [DataMember] public String keystrokeHistorySettingsModeShortcut = null;
+        [DataMember] public Nullable<bool> enableSettingsMode = null;
     }
 
     #endregion
@@ -445,13 +446,20 @@ namespace PxKeystrokesWPF
             set { i.enableKeystrokeHistory = value; OnSettingChanged("EnableKeystrokeHistory"); }
         }
 
-
         public String KeystrokeHistorySettingsModeShortcutDefault = "Ctrl+Alt+Shift";
         public String KeystrokeHistorySettingsModeShortcut
         {
             get { return Or(i.keystrokeHistorySettingsModeShortcut, KeystrokeHistorySettingsModeShortcutDefault); }
             set { i.keystrokeHistorySettingsModeShortcut = value; OnSettingChanged("KeystrokeHistorySettingsModeShortcut"); }
         }
+
+        public bool EnableSettingsModeDefault = false;
+        public bool EnableSettingsMode
+        {
+            get { return Or(i.enableSettingsMode, EnableSettingsModeDefault); }
+            set { i.enableSettingsMode = value; OnSettingChanged("EnableSettingsMode"); }
+        }
+
         // Add new settings also to method CallPropertyChangedForAllProperties()
 
         #endregion
@@ -502,6 +510,7 @@ namespace PxKeystrokesWPF
                 PropertyChanged(this, new PropertyChangedEventArgs("PeriodicTopmost"));
                 PropertyChanged(this, new PropertyChangedEventArgs("EnableKeystrokeHistory"));
                 PropertyChanged(this, new PropertyChangedEventArgs("KeystrokeHistorySettingsModeShortcut"));
+                PropertyChanged(this, new PropertyChangedEventArgs("EnableSettingsMode"));
             }
         }
 

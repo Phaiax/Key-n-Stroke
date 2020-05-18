@@ -285,6 +285,15 @@ namespace PxKeystrokesWPF
                 case "KeystrokeHistorySettingsModeShortcut":
                     SetSettingsModeShortcut(settings.KeystrokeHistorySettingsModeShortcut);
                     break;
+                case "EnableSettingsMode":
+                    if (settings.EnableSettingsMode)
+                    {
+                        ActivateSettingsMode();
+                    } else
+                    {
+                        ActivateDisplayOnlyMode(false);
+                    }
+                    break;
             }
         }
 

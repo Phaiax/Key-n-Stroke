@@ -172,6 +172,8 @@
                                          IsChecked="{Binding LabelAnimation, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:Style.Slide}}" />
                         </StackPanel>
                     </GroupBox>
+                    <CheckBox x:Name="cb_enablesettingsmode"
+                              IsChecked="{Binding EnableSettingsMode}">Enable resize/move mode</CheckBox>
                     <TextBlock TextWrapping="Wrap"
                                Margin="5,3,0,0">
                         Key combination to enable resizing and moving of the keystroke history window.</TextBlock>
@@ -181,11 +183,9 @@
                              TextChanged="TextBoxKeystrokeHistorySettingsModeShortcut_TextChanged" />
                     <TextBlock TextWrapping="Wrap"
                                Margin="10,0,0,0">
-                         Default is 'Ctrl+Alt+Shift'. <LineBreak /> 
-                         Available keys: <Run x:Name="AvailableShortcutKeys"></Run>. Combine the keys with '+'.<LineBreak />
+                         Default is <Hyperlink Click="Hyperlink_Click"><Run x:Name="SettingsModeShortcutDefault"></Run></Hyperlink>. <LineBreak /> 
+                         Available keys: <Run x:Name="AvailableShortcutKeys"></Run>. Combine the keys with '+'.
                     </TextBlock>
-                    <!--<CheckBox x:Name="cb_enablesettingsmode"
-                              IsChecked="{Binding EnableSettingsMode}">Enable Settings Mode</CheckBox>-->
                 </StackPanel>
 
             </Grid>
