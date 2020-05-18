@@ -440,8 +440,11 @@ namespace PxKeystrokesWPF
         private void OnSettingChanged(string property)
         {
             dirty = true;
+            var watch = System.Diagnostics.Stopwatch.StartNew();
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(property));
+            watch.Stop();
+            Log.e("SETTING", $"elapsedMs = {watch.ElapsedMilliseconds}");
         }
 
         public void CallPropertyChangedForAllProperties()
