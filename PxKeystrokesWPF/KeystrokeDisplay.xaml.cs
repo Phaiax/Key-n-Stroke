@@ -102,7 +102,7 @@ namespace PxKeystrokesWPF
                 {
                     FadeIn();
                 }
-                
+
                 if (!e.RequiresNewLine
                     && NumberOfDeletionsAllowed > 0
                     && LastHistoryLineIsText
@@ -144,7 +144,7 @@ namespace PxKeystrokesWPF
 
                 LastHistoryLineIsText = e.StrokeType == KeystrokeType.Text;
                 LastHistoryLineRequiredNewLineAfterwards = e.RequiresNewLineAfterwards;
-                
+
             }
         }
 
@@ -212,7 +212,7 @@ namespace PxKeystrokesWPF
         #endregion
 
 
- 
+
 
         #region settingsChanged, Dialog
 
@@ -282,7 +282,9 @@ namespace PxKeystrokesWPF
                         FadeIn();
                     }
                     break;
-
+                case "KeystrokeHistorySettingsModeShortcut":
+                    SetSettingsModeShortcut(settings.KeystrokeHistorySettingsModeShortcut);
+                    break;
             }
         }
 
@@ -298,9 +300,68 @@ namespace PxKeystrokesWPF
 
         #region Settings Mode
 
+        public static readonly String[] AvailableKeysForShortcut = {
+            "none",
+            "Ctrl",
+            "Alt",
+            "Shift",
+            "LCtrl",
+            "LAlt",
+            "LShift",
+            "RCtrl",
+            "RAlt",
+            "RShift",
+            "LWin",
+            "RWin",
+        };
+        public String[] SettingsModeShortcut;
+
+        public bool SetSettingsModeShortcut(string shortcut)
+        {
+            if (ValidateShortcutSetting(shortcut))
+            {
+                SettingsModeShortcut = shortcut.Split('+');
+                return true;
+            }
+            if (SettingsModeShortcut.Length == 0)
+            {
+                SettingsModeShortcut = settings.KeystrokeHistorySettingsModeShortcutDefault.Split('+');
+            }
+            return false;
+        }
+
+        public static bool ValidateShortcutSetting(string shortcut)
+        {
+            var allok = true;
+            foreach (var key in shortcut.Split('+'))
+            {
+                if (!KeystrokeDisplay.AvailableKeysForShortcut.Contains(key))
+                {
+                    allok = false;
+                }
+            }
+            return allok;
+        }
+
         private void CheckForSettingsMode(KeystrokeEventArgs e)
         {
-            if (e.Ctrl && e.Shift && e.Alt)
+            var activated = true;
+            foreach (var key in SettingsModeShortcut)
+            {
+                if (key == "none") activated = false;
+                else if (key == "Ctrl" && !e.Ctrl) activated = false;
+                else if (key == "Alt" && !e.Alt) activated = false;
+                else if (key == "Shift" && !e.Shift) activated = false;
+                else if (key == "LCtrl" && !e.LCtrl) activated = false;
+                else if (key == "LAlt" && !e.LAlt) activated = false;
+                else if (key == "LShift" && !e.LShift) activated = false;
+                else if (key == "RCtrl" && !e.RCtrl) activated = false;
+                else if (key == "RAlt" && !e.RAlt) activated = false;
+                else if (key == "RShift" && !e.RShift) activated = false;
+                else if (key == "LWin" && !e.LWin) activated = false;
+                else if (key == "RWin" && !e.RWin) activated = false;
+            }
+            if (activated)
                 ActivateSettingsMode();
             else
                 ActivateDisplayOnlyMode(false);

@@ -72,6 +72,7 @@ namespace PxKeystrokesWPF
             settings = s;
             Log.e("BIN", "Set Data context in settings window");
             layout_root.DataContext = settings;
+            AvailableShortcutKeys.Text = String.Join(", ", KeystrokeDisplay.AvailableKeysForShortcut);
         }
 
         SettingsStore settings;
@@ -138,5 +139,18 @@ namespace PxKeystrokesWPF
             sampleText.Foreground = new SolidColorBrush(UIHelper.ToMediaColor(settings.LabelColor));
         }
 
+
+        private void TextBoxKeystrokeHistorySettingsModeShortcut_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var text = TextBoxKeystrokeHistorySettingsModeShortcut.Text;
+            if (KeystrokeDisplay.ValidateShortcutSetting(text))
+            {
+                settings.KeystrokeHistorySettingsModeShortcut = text;
+                TextBoxKeystrokeHistorySettingsModeShortcut.Background = SystemColors.ControlLightLightBrush;
+            } else
+            {
+                TextBoxKeystrokeHistorySettingsModeShortcut.Background = new SolidColorBrush(Color.FromRgb(250, 189, 185));
+            }
+        }
     }
 }
