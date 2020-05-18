@@ -48,133 +48,132 @@
             <ColumnDefinition Width="100*" />
             <ColumnDefinition Width="100*" />
         </Grid.ColumnDefinitions>
-        <StackPanel Margin="5">
-            <GroupBox Header="Text Alignment">
-                <StackPanel Margin="0,0,5,0">
-                    <RadioButton x:Name="rb_align_left"
-                                 Content="left"
-                                 GroupName="align"
-                                 IsChecked="{Binding LabelTextAlignment, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:TextAlignment.Left}}" />
-                    <RadioButton x:Name="rb_align_center"
-                                 Content="center"
-                                 GroupName="align"
-                                 HorizontalAlignment="Center"
-                                 IsChecked="{Binding LabelTextAlignment, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:TextAlignment.Center}}" />
-                    <RadioButton x:Name="rb_align_right"
-                                 Content="right"
-                                 GroupName="align"
-                                 HorizontalAlignment="Right"
-                                 IsChecked="{Binding LabelTextAlignment, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:TextAlignment.Right}}" />
-                </StackPanel>
-            </GroupBox>
-            <GroupBox Header="Text Direction">
-                <StackPanel>
-                    <RadioButton x:Name="rb_td_up"
-                                 Content="up"
-                                 GroupName="td"
-                                 IsChecked="{Binding LabelTextDirection, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:TextDirection.Up}}" />
-                    <RadioButton x:Name="rb_td_down"
-                                 Content="down"
-                                 GroupName="td"
-                                 IsChecked="{Binding LabelTextDirection, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:TextDirection.Down}}" />
-                </StackPanel>
-            </GroupBox>
-            <GroupBox Header="Style">
-                <StackPanel>
-                    <RadioButton x:Name="rb_style_noani"
-                                 Content="no animation"
-                                 GroupName="style"
-                                 IsChecked="{Binding LabelAnimation, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:Style.NoAnimation}}" />
-                    <RadioButton x:Name="rb_style_slide"
-                                 Content="slide"
-                                 GroupName="style"
-                                 IsChecked="{Binding LabelAnimation, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:Style.Slide}}" />
-                </StackPanel>
-            </GroupBox>
-            <Grid Margin="10">
+        <GroupBox Header="Keystroke Display"
+                  Grid.Column="0"
+                  Grid.ColumnSpan="2">
+            <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="10" />
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="100*" />
+                    <ColumnDefinition Width="100*" />
                 </Grid.ColumnDefinitions>
-                <Button x:Name="bn_reset_position"
-                        Grid.Column="0"
-                        Grid.ColumnSpan="2"
-                        Margin="0,5,9.667,0"
-                        VerticalAlignment="Top"
-                        Click="Bn_reset_position_Click">Reset position</Button>
-                <Button x:Name="bn_reset_all"
-                        Grid.Column="2"
-                        Click="bn_reset_all_Click">Reset all</Button>
-            </Grid>
-        </StackPanel>
-        <StackPanel Grid.Column="1"
-                    Margin="5">
-            <GroupBox Header="Text">
-                <StackPanel Margin="0,0,0,5">
-                    <Button x:Name="button_textfont"
-                            Click="OnButtonTextFontClick"
-                            Grid.ColumnSpan="3"
-                            Margin="10">Font</Button>
-                    <StackPanel Orientation="Horizontal">
-                        <Label VerticalAlignment="Center">Text Color</Label>
-                        <xctk:ColorPicker x:Name="colorpicker_text_color"
-                                          ColorMode="ColorCanvas"
-                                          Margin="10,0,0,0"
-                                          Width="80"
-                                          SelectedColor="{Binding LabelColor, Mode=TwoWay, Converter={StaticResource MediaColorDrawingColorConverter}}" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="0,3,0,0">
-                        <Label VerticalAlignment="Center">Background Color</Label>
-                        <xctk:ColorPicker x:Name="colorpicker_background_color"
-                                          ColorMode="ColorCanvas"
-                                          Margin="10,0,0,0"
-                                          Width="80"
-                                          SelectedColor="{Binding BackgroundColor, Mode=TwoWay, Converter={StaticResource MediaColorDrawingColorConverter}}" />
-                    </StackPanel>
-                    <TextBlock TextWrapping="Wrap" Margin="5,3,0,0">Set the window opacity via the "A" channel of the background color.</TextBlock>
-                    <uc:LabeledSlider x:Name="slider_vertdist"
-                                      Title="Line Distance"
-                                      Minimum="10.0"
-                                      Maximum="100.0"
-                                      Value="{Binding LineDistance, Mode=TwoWay}" />
-                    <StackPanel Orientation="Horizontal">
-                        <Label>No of lines in history</Label>
-                        <xctk:IntegerUpDown x:Name="slider_historycount"
-                                            Minimum="1"
-                                            Maximum="50"
-                                            Increment="1"
-                                            Value="{Binding HistoryLength, Mode=TwoWay}"
-                                            Width="60" />
-                    </StackPanel>
-                    <WrapPanel Margin="0,0,0,0">
-                        <CheckBox x:Name="cb_enableHistoryTimeout"
-                                  IsChecked="{Binding EnableHistoryTimeout}">
-                            <TextBlock>
+                <StackPanel Grid.Column="0"
+                            Margin="5">
+
+                    <StackPanel Margin="0,0,0,5">
+                        <Button x:Name="button_textfont"
+                                Click="OnButtonTextFontClick"
+                                Grid.ColumnSpan="3"
+                                Margin="10">Font</Button>
+                        <StackPanel Orientation="Horizontal">
+                            <Label VerticalAlignment="Center">Text Color</Label>
+                            <xctk:ColorPicker x:Name="colorpicker_text_color"
+                                              ColorMode="ColorCanvas"
+                                              Margin="10,0,0,0"
+                                              Width="80"
+                                              SelectedColor="{Binding LabelColor, Mode=TwoWay, Converter={StaticResource MediaColorDrawingColorConverter}}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="0,3,0,0">
+                            <Label VerticalAlignment="Center">Background Color</Label>
+                            <xctk:ColorPicker x:Name="colorpicker_background_color"
+                                              ColorMode="ColorCanvas"
+                                              Margin="10,0,0,0"
+                                              Width="80"
+                                              SelectedColor="{Binding BackgroundColor, Mode=TwoWay, Converter={StaticResource MediaColorDrawingColorConverter}}" />
+                        </StackPanel>
+                        <TextBlock TextWrapping="Wrap"
+                                   Margin="5,3,0,0">Set the window opacity via the "A" channel of the background color.</TextBlock>
+                        <uc:LabeledSlider x:Name="slider_vertdist"
+                                          Title="Line Distance"
+                                          Minimum="10.0"
+                                          Maximum="100.0"
+                                          Value="{Binding LineDistance, Mode=TwoWay}" />
+                        <StackPanel Orientation="Horizontal">
+                            <Label>No of lines in history</Label>
+                            <xctk:IntegerUpDown x:Name="slider_historycount"
+                                                Minimum="1"
+                                                Maximum="50"
+                                                Increment="1"
+                                                Value="{Binding HistoryLength, Mode=TwoWay}"
+                                                Width="60" />
+                        </StackPanel>
+                        <WrapPanel Margin="0,0,0,0">
+                            <CheckBox x:Name="cb_enableHistoryTimeout"
+                                      IsChecked="{Binding EnableHistoryTimeout}">
+                                <TextBlock>
                                 Lines disappear after
                                 <TextBlock Margin="3,0,0,0"
                                            Text="{Binding ElementName=slider_history_timeout, Path=Value, Mode=OneWay, StringFormat=N1}" />s
                             </TextBlock>
-                        </CheckBox>
-                    </WrapPanel>
-                    <uc:LabeledSlider x:Name="slider_history_timeout"
-                                      Margin="20,5,10,0"
-                                      Title=""
-                                      Maximum="120.0"
-                                      Minimum="0.5"
-                                      Logarithmic="True"
-                                      HalfWay="0.08"
-                                      Value="{Binding HistoryTimeout, Mode=TwoWay}" />
-                    <CheckBox x:Name="cb_hideWindow"
-                              IsChecked="{Binding EnableWindowFade}">Hide Window when empty</CheckBox>
-                    <CheckBox x:Name="cb_backspace"
-                              IsChecked="{Binding BackspaceDeletesText}">Backspace can delete text</CheckBox>
-                    <CheckBox x:Name="cb_periodictopmost"
-                              IsChecked="{Binding PeriodicTopmost}">Put on top periodically</CheckBox>
+                            </CheckBox>
+                        </WrapPanel>
+                        <uc:LabeledSlider x:Name="slider_history_timeout"
+                                          Margin="20,5,10,0"
+                                          Title=""
+                                          Maximum="120.0"
+                                          Minimum="0.5"
+                                          Logarithmic="True"
+                                          HalfWay="0.08"
+                                          Value="{Binding HistoryTimeout, Mode=TwoWay}" />
+                        <CheckBox x:Name="cb_hideWindow"
+                                  IsChecked="{Binding EnableWindowFade}">Hide Window when empty</CheckBox>
+                        <CheckBox x:Name="cb_backspace"
+                                  IsChecked="{Binding BackspaceDeletesText}">Backspace can delete text</CheckBox>
+                        <CheckBox x:Name="cb_periodictopmost"
+                                  IsChecked="{Binding PeriodicTopmost}">Put on top periodically</CheckBox>
+
+                    </StackPanel>
 
                 </StackPanel>
-            </GroupBox>
-        </StackPanel>
+                <StackPanel Margin="5"
+                            Grid.Column="1">
+                    <GroupBox Header="Keystroke Display: Alignment">
+                        <StackPanel Margin="0,0,5,0">
+                            <RadioButton x:Name="rb_align_left"
+                                         Content="left"
+                                         GroupName="align"
+                                         IsChecked="{Binding LabelTextAlignment, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:TextAlignment.Left}}" />
+                            <RadioButton x:Name="rb_align_center"
+                                         Content="center"
+                                         GroupName="align"
+                                         HorizontalAlignment="Center"
+                                         IsChecked="{Binding LabelTextAlignment, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:TextAlignment.Center}}" />
+                            <RadioButton x:Name="rb_align_right"
+                                         Content="right"
+                                         GroupName="align"
+                                         HorizontalAlignment="Right"
+                                         IsChecked="{Binding LabelTextAlignment, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:TextAlignment.Right}}" />
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Keystroke Display: Text Direction">
+                        <StackPanel>
+                            <RadioButton x:Name="rb_td_up"
+                                         Content="up"
+                                         GroupName="td"
+                                         IsChecked="{Binding LabelTextDirection, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:TextDirection.Up}}" />
+                            <RadioButton x:Name="rb_td_down"
+                                         Content="down"
+                                         GroupName="td"
+                                         IsChecked="{Binding LabelTextDirection, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:TextDirection.Down}}" />
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Keystroke Display: Animation">
+                        <StackPanel>
+                            <RadioButton x:Name="rb_style_noani"
+                                         Content="no animation"
+                                         GroupName="style"
+                                         IsChecked="{Binding LabelAnimation, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:Style.NoAnimation}}" />
+                            <RadioButton x:Name="rb_style_slide"
+                                         Content="slide"
+                                         GroupName="style"
+                                         IsChecked="{Binding LabelAnimation, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:Style.Slide}}" />
+                        </StackPanel>
+                    </GroupBox>
+
+                </StackPanel>
+
+            </Grid>
+        </GroupBox>
         <StackPanel Grid.Column="2"
                     Margin="5">
             <GroupBox Header="Cursor">
@@ -232,6 +231,22 @@
                               IsChecked="{Binding AddButtonEventsToHistory}">Add to history</CheckBox>
                 </StackPanel>
             </GroupBox>
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button x:Name="bn_reset_position"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Margin="0,5,9.667,0"
+                        VerticalAlignment="Top"
+                        Click="Bn_reset_position_Click">Reset position</Button>
+                <Button x:Name="bn_reset_all"
+                        Grid.Column="2"
+                        Click="bn_reset_all_Click">Reset all</Button>
+            </Grid>
         </StackPanel>
         <StackPanel Grid.Row="1"
                     Grid.ColumnSpan="2"
