@@ -585,6 +585,7 @@ namespace PxKeystrokesWPF
                 System.Windows.MessageBox.Show(sx.Message);
                 throw;
             }
+            i.enableSettingsMode = false;
             dirty = false;
         }
 

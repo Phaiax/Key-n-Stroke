@@ -40,6 +40,7 @@ namespace PxKeystrokesWPF
             this.k = k;
 
             this.settings = s;
+            this.settings.EnableSettingsMode = false;
             this.settings.PropertyChanged += settingChanged;
             this.settings.CallPropertyChangedForAllProperties();
 
