@@ -106,7 +106,7 @@ namespace PxKeystrokesWPF
             {
                 KeyboardRawEventArgs e = new KeyboardRawEventArgs(lParam);
                 e.keyState = new byte[256];
-                NativeMethodsKeyboard.GetKeyboardState(e.keyState);
+                //NativeMethodsKeyboard.GetKeyboardState(e.keyState); probability of dataraces
 
                 if (wParam == (IntPtr)WM_KEYDOWN || wParam == (IntPtr)WM_SYSKEYDOWN)
                 {
