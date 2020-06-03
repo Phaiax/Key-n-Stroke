@@ -24,7 +24,6 @@ namespace PxKeystrokesWPF
         IMouseRawEventProvider m;
         SettingsStore s;
         IntPtr windowHandle;
-        System.Drawing.Point cursorPosition;
 
         public CursorIndicator1(IMouseRawEventProvider m, SettingsStore s)
         {
@@ -45,9 +44,8 @@ namespace PxKeystrokesWPF
 
         void m_MouseEvent(MouseRawEventArgs raw_e)
         {
-            cursorPosition = raw_e.Position;
             if (raw_e.Action == MouseAction.Move)
-                UpdatePosition();
+                UpdatePosition(raw_e.Position);
         }
 
 
@@ -59,7 +57,7 @@ namespace PxKeystrokesWPF
             NativeMethodsGWL.HideFromAltTab(windowHandle);
 
             UpdateSize();
-            UpdatePosition();
+            UpdatePosition(NativeMethodsMouse.CursorPosition);
         }
 
         void UpdateSize()
@@ -68,16 +66,12 @@ namespace PxKeystrokesWPF
             this.Height = s.CursorIndicatorSize;
         }
 
-        void UpdatePosition()
+        void UpdatePosition(NativeMethodsMouse.POINT cursorPosition)
         {
-            //var size = this.PointToScreen(new Point(this.ActualWidth, this.ActualHeight));
-            //Log.e("CI", $"Size: {size.X} {size.Y}");
-            NativeMethodsMouse.POINT cursorPosition = new NativeMethodsMouse.POINT(0, 0);
-            NativeMethodsMouse.GetCursorPos(ref cursorPosition);
             IntPtr monitor = NativeMethodsWindow.MonitorFromPoint(cursorPosition, NativeMethodsWindow.MonitorOptions.MONITOR_DEFAULTTONEAREST);
             uint adpiX = 0, adpiY = 0;
-            NativeMethodsWindow.GetDpiForMonitor(monitor, NativeMethodsWindow.DpiType.MDT_ANGULAR_DPI, ref adpiX, ref adpiY);
-            Log.e("CI", $"apix={adpiX} adpiy={adpiY} aw={ActualWidth} ah={ActualHeight}");
+            NativeMethodsWindow.GetDpiForMonitor(monitor, NativeMethodsWindow.DpiType.MDT_EFFECTIVE_DPI, ref adpiX, ref adpiY);
+            Log.e("CI", $"apix={adpiX} adpiy={adpiY} aw={ActualWidth} ah={ActualHeight} cx={cursorPosition.X} cy={cursorPosition.Y}");
             NativeMethodsWindow.SetWindowPosition(windowHandle, 
                     (int)(cursorPosition.X - (this.ActualWidth / 2) * (double)adpiX / 96.0),
                     (int)(cursorPosition.Y - (this.ActualHeight / 2) * (double)adpiY / 96.0));

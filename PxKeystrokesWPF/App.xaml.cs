@@ -39,7 +39,7 @@ namespace PxKeystrokesWPF
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            Log.SetTagFilter("SETTING");
+            Log.SetTagFilter("CI");
 
             ImageResources.Init();
             InitSettings();

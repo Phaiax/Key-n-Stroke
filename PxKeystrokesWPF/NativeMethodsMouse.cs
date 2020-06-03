@@ -99,7 +99,7 @@ namespace PxKeystrokesWPF
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         public static extern bool GetCursorPos(ref NativeMethodsMouse.POINT lpPoint);
 
-        public static System.Windows.Point CursorPosition
+        public static POINT CursorPosition
         {
             get
             {

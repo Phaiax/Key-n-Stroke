@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using PxKeystrokesWPF;
 
 namespace PxKeystrokesWPF
@@ -58,9 +58,9 @@ namespace PxKeystrokesWPF
             this.Msllhookstruct = msllhookstruct;
         }
 
-        public Point Position
+        public NativeMethodsMouse.POINT Position
         {
-            get { return new Point(Msllhookstruct.pt.X, Msllhookstruct.pt.Y); }
+            get { return Msllhookstruct.pt; }
         }
 
         public void ParseWparam(UIntPtr wParam)
