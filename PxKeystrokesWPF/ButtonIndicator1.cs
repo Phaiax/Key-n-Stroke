@@ -31,7 +31,7 @@ namespace PxKeystrokesWPF
             HideMouseIfNoButtonPressed();
 
             c.dpi = 96;
-            UpdatePosition();
+            UpdatePosition(NativeMethodsMouse.CursorPosition);
 
             NativeMethodsWindow.SetWindowTopMost(this.Handle);
             SetFormStyles();
@@ -75,12 +75,10 @@ namespace PxKeystrokesWPF
             UpdateSize();
         }
 
-        //Point cursorPosition;
         MouseRawEventArgs lastDblClk;
 
         void m_MouseEvent(MouseRawEventArgs raw_e)
         {
-            //cursorPosition = raw_e.Position;
             switch (raw_e.Action)
             {
                 case MouseAction.Up:
@@ -94,7 +92,7 @@ namespace PxKeystrokesWPF
                     IndicateDoubleClick(raw_e.Button);
                     break;
                 case MouseAction.Move:
-                    UpdatePosition();
+                    UpdatePosition(raw_e.Position);
                     break;
                 case MouseAction.Wheel:
                     IndicateWheel(raw_e);
@@ -169,19 +167,19 @@ namespace PxKeystrokesWPF
                     c.addBMouse = true;
                     c.addBLeft = true;
                     c.addBLeftDouble = false;
-                    UpdatePosition();
+                    //UpdatePosition();
                     Redraw();
                     break;
                 case MouseButton.RButton:
                     c.addBMouse = true;
                     c.addBRight = true;
-                    UpdatePosition();
+                    //UpdatePosition();
                     Redraw();
                     break;
                 case MouseButton.MButton:
                     c.addBMouse = true;
                     c.addBMiddle = true;
-                    UpdatePosition();
+                    //UpdatePosition();
                     Redraw();
                     break;
                 case MouseButton.XButton:
@@ -265,7 +263,7 @@ namespace PxKeystrokesWPF
             NativeMethodsGWL.HideFromAltTab(this.Handle);
 
             UpdateSize();
-            UpdatePosition();
+            UpdatePosition(NativeMethodsMouse.CursorPosition);
         }
 
 
@@ -285,17 +283,13 @@ namespace PxKeystrokesWPF
             offset.Height = (int)(s.ButtonIndicatorPositionDistance * Math.Cos(s.ButtonIndicatorPositionAngle / 10.0f));
         }
 
-        void UpdatePosition()
+        void UpdatePosition(NativeMethodsMouse.POINT cursorPosition)
         {
             if (OnlyDblClkIconVisible() && doubleClickReleased)
                 return;
-            //Point buttonIndicatorCenter = Point.Subtract(cursorPosition, offset);
-            //this.Location = Point.Subtract(buttonIndicatorCenter, new Size(this.Size.Width / 2, this.Size.Height / 2));
-            NativeMethodsMouse.POINT cursorPosition = new NativeMethodsMouse.POINT(0, 0);
-            NativeMethodsMouse.GetCursorPos(ref cursorPosition);
             IntPtr monitor = NativeMethodsWindow.MonitorFromPoint(cursorPosition, NativeMethodsWindow.MonitorOptions.MONITOR_DEFAULTTONEAREST);
             uint adpiX = 0, adpiY = 0;
-            NativeMethodsWindow.GetDpiForMonitor(monitor, NativeMethodsWindow.DpiType.MDT_ANGULAR_DPI, ref adpiX, ref adpiY);
+            NativeMethodsWindow.GetDpiForMonitor(monitor, NativeMethodsWindow.DpiType.MDT_EFFECTIVE_DPI, ref adpiX, ref adpiY);
             c.dpi = adpiX;
             NativeMethodsWindow.SetWindowPosition(this.Handle, cursorPosition.X, cursorPosition.Y);
 
@@ -321,15 +315,15 @@ namespace PxKeystrokesWPF
                     break;
                 case "ButtonIndicatorPositionAngle":
                     RecalcOffset();
-                    UpdatePosition();
+                    UpdatePosition(NativeMethodsMouse.CursorPosition);
                     break;
                 case "ButtonIndicatorPositionDistance":
                     RecalcOffset();
-                    UpdatePosition();
+                    UpdatePosition(NativeMethodsMouse.CursorPosition);
                     break;
                 case "ButtonIndicatorSize":
                     UpdateSize();
-                    UpdatePosition();
+                    UpdatePosition(NativeMethodsMouse.CursorPosition);
                     break;
             }
         }
