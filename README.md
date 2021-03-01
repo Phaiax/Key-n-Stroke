@@ -32,6 +32,7 @@ This security alert will appear. Click the <code>More Info</code> link, and then
 
 This dialog is ugly. To fix this, i need a validated security certificate. Certum offers a low priced <a href="http://www.certum.eu/certum/cert,offer_en_open_source_cs.xml"> 1 year certificate for open source projects </a> for € 25.00 per annum. If someone funds at least three years of certification (€ 75.00), i will use that money to buy a new certificate each year. Then I will also implement a secure autoupdater. <a href="https://github.com/Phaiax/PxKeystrokesForScreencasts/issues/15">Get in contact with me.</a> For transparency: Currently total raised money: € 0 (May 2020). You can support via <a href="https://www.patreon.com/PxKeystrokesForScreencasts">Patreon</a>, <a href="https://www.paypal.me/phaiax">paypal.me/phaiax</a>, send Bitcoins (`1JWER55pheUeJzaUcqaYwP8ZaGe5C16Rp9`) or Stellar Lumens (`phaiax*keybase.io`). You can verify the wallet addresses cryptographically on <a href="https://keybase.io/phaiax">keybase.io/phaiax</a>. Add the message "pkfs" to the payment so I can associate it with this project. After funds for the next six years of developer certificates are raised (which I assume will never happen), I will use any additional funds to buy and eat icecream for myself and anyone I like.
 
+2021-03-01: I've bought a certificate. An update is on the way.
 
 ## Releases
 You can find the exe in the <code>Releases</code> folder
@@ -81,3 +82,8 @@ Windows 7 requires you to change the default font, otherwise you will see little
 # License
 
 Apache Version 2, refer to the file LICENSE for details
+
+
+# Developed and signed by
+
+- Daniel Seemer (mail-oscert@invisibletower.de)
