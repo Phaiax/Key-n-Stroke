@@ -16,6 +16,13 @@ It initializes the classes decribed below.
 The keypress information is intercepted in KeyboardHook, passed to KeystrokeParser and then passed to KeystrokeDisplay.
 
 
+## TODO
+
+ - Fix bug: Clicking on close or settings icon does only work on the second click
+ - Password Mode
+ - Live Mouse Icon Size change
+ - Start Screen with Shortcut Info and Check for Update button
+
 ## How key events are intercepted from the system
 
 In Windows, you can register a callback (also known as hook) for certain process messages like [keyboard][LowLevelKeyboardProc] and mouse events.
