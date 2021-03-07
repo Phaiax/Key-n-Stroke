@@ -19,6 +19,7 @@ namespace PxKeystrokesWPF
         IMouseRawEventProvider m;
         SettingsStore s;
         ImageResources.ComposeOptions c;
+        Size bitmapsize;
 
         public ButtonIndicator1(IMouseRawEventProvider m, SettingsStore s)
         {
@@ -51,6 +52,7 @@ namespace PxKeystrokesWPF
         private void Redraw()
         {
             Bitmap scaledAndComposedBitmap = ImageResources.Compose(c);
+            this.bitmapsize = scaledAndComposedBitmap.Size;
             IntPtr handle;
             try
             {
@@ -291,7 +293,7 @@ namespace PxKeystrokesWPF
             uint adpiX = 0, adpiY = 0;
             NativeMethodsWindow.GetDpiForMonitor(monitor, NativeMethodsWindow.DpiType.MDT_EFFECTIVE_DPI, ref adpiX, ref adpiY);
             c.dpi = adpiX;
-            NativeMethodsWindow.SetWindowPosition(this.Handle, cursorPosition.X, cursorPosition.Y);
+            NativeMethodsWindow.SetWindowPosition(this.Handle, cursorPosition.X - this.bitmapsize.Width/2 + offset.Width, cursorPosition.Y - this.bitmapsize.Height/2 + offset.Height);
 
         }
 
