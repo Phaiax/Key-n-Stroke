@@ -401,7 +401,7 @@ namespace PxKeystrokesWPF
         public double ButtonIndicatorScaling
         {
             get { return Or(i.buttonIndicatorScaling, ButtonIndicatorScalingDefault); }
-            set { i.buttonIndicatorScaling = value; OnSettingChanged("ButtonIndicatorScalingPercentage"); }
+            set { i.buttonIndicatorScaling = value; OnSettingChanged("ButtonIndicatorScaling"); }
         }
 
         public double ButtonIndicatorPositionAngleDefault = 0f;

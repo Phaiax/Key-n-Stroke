@@ -232,7 +232,7 @@
                     <uc:LabeledSlider x:Name="slider_bi_size"
                                       Title="Size"
                                       Minimum="0.1"
-                                      Maximum="5"
+                                      Maximum="2"
                                       Value="{Binding ButtonIndicatorScaling, Mode=TwoWay}" />
                     <uc:LabeledSlider x:Name="slider_bi_distance"
                                       Title="Distance"

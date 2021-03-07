@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,6 +9,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PxKeystrokesWPF;
@@ -24,6 +26,7 @@ namespace PxKeystrokesWPF
         public ButtonIndicator1(IMouseRawEventProvider m, SettingsStore s)
         {
             InitializeComponent();
+            StartImageResizeThread();
 
             this.m = m;
             this.s = s;
@@ -45,8 +48,9 @@ namespace PxKeystrokesWPF
             WheelIconTimer.Interval = 750;
             WheelIconTimer.Tick += WheelIconTimer_Tick;
 
+            UpdateSize(); // will call Redraw() after 200ms and scaling the images
+            //Redraw();
 
-            Redraw();
         }
 
         private void Redraw()
@@ -62,6 +66,7 @@ namespace PxKeystrokesWPF
             {
                 throw;
             }
+
             NativeMethodsDC.SetBitmapForWindow(handle,
                                                this.Location,
                                                scaledAndComposedBitmap,
@@ -104,7 +109,7 @@ namespace PxKeystrokesWPF
             }
         }
 
-        Timer WheelIconTimer = new Timer();
+        System.Windows.Forms.Timer WheelIconTimer = new System.Windows.Forms.Timer();
 
         private void IndicateWheel(MouseRawEventArgs raw_e)
         {
@@ -155,7 +160,7 @@ namespace PxKeystrokesWPF
 
         void leftDoubleClickIconTimeout_Tick(object sender, EventArgs e)
         {
-            ((Timer)sender).Stop();
+            ((System.Windows.Forms.Timer)sender).Stop();
             c.addBLeftDouble = false;
             HideMouseIfNoButtonPressed();
             Redraw();
@@ -193,7 +198,7 @@ namespace PxKeystrokesWPF
             }
         }
 
-        Timer DoubleClickIconTimer = new Timer();
+        System.Windows.Forms.Timer DoubleClickIconTimer = new System.Windows.Forms.Timer();
         bool doubleClickReleased = true;
 
         private void HideButton(MouseRawEventArgs raw_e)
@@ -253,6 +258,8 @@ namespace PxKeystrokesWPF
                 m.MouseEvent -= m_MouseEvent;
             if (s != null)
                 s.PropertyChanged -= settingChanged;
+            if (newScalingFactors != null)
+                newScalingFactors.CompleteAdding();
             m = null;
             s = null;
         }
@@ -269,12 +276,50 @@ namespace PxKeystrokesWPF
         }
 
 
+        Thread imagesResizeThread;
+        BlockingCollection<double> newScalingFactors = new BlockingCollection<double>(new ConcurrentQueue<double>());
+
+        private void StartImageResizeThread()
+        {
+            imagesResizeThread = new Thread(new ThreadStart(BackgroundResizeImages));
+            imagesResizeThread.Start();
+        }
+
+
+        void BackgroundResizeImages()
+        {
+            while (true)
+            {
+                try
+                {
+                    double scalingFactor = newScalingFactors.Take(); // Blocks until at least one new Item is available
+                    Thread.Sleep(200); // wait for more data, so we don't do too eager calculations
+                    // skip all elements except for the last
+                    while (newScalingFactors.Count > 0)
+                    {
+                        scalingFactor = newScalingFactors.Take();
+                    }
+                    Log.e("BI", $"size change applied: {scalingFactor}");
+                    ImageResources.ApplyScalingFactor(scalingFactor);
+                    this.Invoke((Action) (() =>
+                    {
+                        Redraw();
+                        UpdatePosition(NativeMethodsMouse.CursorPosition);
+                    }));
+                }
+                catch (InvalidOperationException)
+                {
+                    // Window closed
+                    Log.e("BI", "BackgrounResizeThread stopped");
+                    return;
+                }
+            }
+        }
+
 
         void UpdateSize()
         {
-            ImageResources.ApplyScalingFactor(s.ButtonIndicatorScaling);
-            Log.e("BI", "size change");
-            Redraw();
+            newScalingFactors.Add(s.ButtonIndicatorScaling);
         }
 
         Size offset = new Size(0, 0);
@@ -310,7 +355,7 @@ namespace PxKeystrokesWPF
 
         private void settingChanged(object sender, PropertyChangedEventArgs e)
         {
-            Log.e("SOME", "ButtonIndicator => settingChanged");
+            // Log.e("BI", $"ButtonIndicator => settingChanged {e.PropertyName}");
             switch (e.PropertyName)
             {
                 case "ButtonIndicator":
@@ -323,9 +368,8 @@ namespace PxKeystrokesWPF
                     RecalcOffset();
                     UpdatePosition(NativeMethodsMouse.CursorPosition);
                     break;
-                case "ButtonIndicatorSize":
+                case "ButtonIndicatorScaling":
                     UpdateSize();
-                    UpdatePosition(NativeMethodsMouse.CursorPosition);
                     break;
             }
         }

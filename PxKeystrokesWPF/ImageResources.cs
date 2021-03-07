@@ -63,7 +63,7 @@ namespace PxKeystrokesWPF
 
         public static void ApplyScalingFactor(double scalingfactor)
         {
-            scalingfactor = Math.Min(10f, Math.Max(0.1f, scalingfactor));
+            scalingfactor = Math.Min(2f, Math.Max(0.1f, scalingfactor));
 
             if (appliedScalingFactor != scalingfactor)
             {
@@ -78,6 +78,7 @@ namespace PxKeystrokesWPF
 
                 appliedScalingFactor = scalingfactor;
                 ScaledByDpi = newByDpi;
+                lastComposedBitmap = null; // Force regeneration of Image
             }
         }
 
