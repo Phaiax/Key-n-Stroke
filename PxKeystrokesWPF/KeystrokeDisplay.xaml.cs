@@ -215,7 +215,7 @@ namespace PxKeystrokesWPF
 
 
 
-        #region settingsChanged, Dialog
+        #region settingsChanged
 
         private void settingChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -296,13 +296,6 @@ namespace PxKeystrokesWPF
                     }
                     break;
             }
-        }
-
-
-        void ShowSettingsDialog()
-        {
-            Settings1 settings1 = new Settings1(settings);
-            settings1.ShowDialog();
         }
 
         #endregion
@@ -487,7 +480,7 @@ namespace PxKeystrokesWPF
 
         private void buttonSettings_Click(object sender, RoutedEventArgs e)
         {
-            ShowSettingsDialog();
+            ((App)Application.Current).showSettingsWindow();
         }
 
         private void buttonClose_Click(object sender, RoutedEventArgs e)

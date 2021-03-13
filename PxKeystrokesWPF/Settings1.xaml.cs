@@ -78,6 +78,12 @@ namespace PxKeystrokesWPF
 
         SettingsStore settings;
 
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+            ((App)Application.Current).onSettingsWindowClosed();
+        }
+
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
 

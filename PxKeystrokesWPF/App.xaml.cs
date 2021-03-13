@@ -36,10 +36,12 @@ namespace PxKeystrokesWPF
         #region Init
 
         SettingsStore mySettings;
+        Window welcomeWindow;
+        Settings1 settingsWindow;
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            Log.SetTagFilter("CI");
+            Log.SetTagFilter("BI");
 
             ImageResources.Init();
             InitSettings();
@@ -54,6 +56,9 @@ namespace PxKeystrokesWPF
             OnButtonIndicatorSettingChanged();
 
             makeNotifyIcon();
+
+            welcomeWindow = new Welcome(mySettings);
+            welcomeWindow.Show();
         }
 
 
@@ -109,8 +114,10 @@ namespace PxKeystrokesWPF
         void makeNotifyIcon()
         {
             var _assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            var icon = new System.Drawing.Icon(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.app.ico"));
-
+            
+            //var icon = new System.Drawing.Icon(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.app.ico"));
+            Stream iconStream = Application.GetResourceStream(new Uri("pack://application:,,,/PxKeystrokesWPF;component/Resources/app.ico")).Stream;
+            var icon = new System.Drawing.Icon(iconStream);
 
             this.notifyIcon_main = new System.Windows.Forms.NotifyIcon();
             this.notifyIcon_main.BalloonTipText = "xfxfn";
@@ -123,12 +130,31 @@ namespace PxKeystrokesWPF
 
         void notifyIcon_Click(object sender, EventArgs e)
         {
-            Settings1 settings1 = new Settings1(mySettings);
-            settings1.ShowDialog();
+            showSettingsWindow();
         }
 
         #endregion
 
+        #region Settings Window
+
+        public void showSettingsWindow()
+        {
+            if (settingsWindow == null)
+            {
+                settingsWindow = new Settings1(mySettings);
+                settingsWindow.Show();
+            } else
+            {
+                settingsWindow.Activate();
+            }
+        }
+
+        public void onSettingsWindowClosed()
+        {
+            settingsWindow = null;
+        }
+
+        #endregion
 
 
         #region OnSettingChanged
