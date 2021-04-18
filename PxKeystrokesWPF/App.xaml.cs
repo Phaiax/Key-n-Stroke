@@ -8,6 +8,7 @@ using System.IO;
 using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Runtime.Serialization.Json;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using PxKeystrokesWPF;
@@ -41,7 +42,12 @@ namespace PxKeystrokesWPF
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            Log.SetTagFilter("BI");
+            Log.SetTagFilter("UPDATE");
+
+            if (Updater.Updater.HandleArgs(e.Args))
+            {
+                Shutdown();
+            }
 
             ImageResources.Init();
             InitSettings();
@@ -61,6 +67,7 @@ namespace PxKeystrokesWPF
             welcomeWindow.Show();
         }
 
+        
 
         protected override void OnActivated(EventArgs e)
         {
@@ -115,7 +122,6 @@ namespace PxKeystrokesWPF
         {
             var _assembly = System.Reflection.Assembly.GetExecutingAssembly();
             
-            //var icon = new System.Drawing.Icon(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.app.ico"));
             Stream iconStream = Application.GetResourceStream(new Uri("pack://application:,,,/PxKeystrokesWPF;component/Resources/app.ico")).Stream;
             var icon = new System.Drawing.Icon(iconStream);
 

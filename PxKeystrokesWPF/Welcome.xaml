@@ -8,17 +8,18 @@
         Title="Welcome" Height="440.617" Width="741.54" Icon="Resources/app.ico" WindowStartupLocation="CenterScreen">
     <Grid HorizontalAlignment="Stretch" Margin="10,10,10,10" VerticalAlignment="Stretch" x:Name="layout_root">
 
-        <TextBlock Margin="10,10,-0.333,240.333" TextWrapping="Wrap"><Span FontSize="24"><Run Text="Welcome to Px Keystrokes For Screencasts"/></Span><LineBreak/><Span FontSize="24"><Run/></Span><LineBreak/><LineBreak/><Run Text="Click on the "/><InlineUIContainer>
+        <TextBlock Margin="10,10,-0.333,163.333" TextWrapping="Wrap"><Span FontSize="24"><Run Text="Welcome to Px Keystrokes For Screencasts "/><Run x:Name="VersionInfo"></Run></Span><LineBreak/><Span FontSize="24"><Run/></Span><LineBreak/><LineBreak/><Run Text="Click on the "/><InlineUIContainer>
                 <Image Width="20" Source="Resources/app.ico" />
             </InlineUIContainer><Run Text=" icon in the tray to open the settings."/><LineBreak/><LineBreak/><Run Text="Hold the keys "/><Span FontWeight="Bold"><Run Text="{Binding KeystrokeHistorySettingsModeShortcut, Mode=OneWay}"/></Span><Run Text=" to resize the keystroke history window."/></TextBlock>
-        <Button x:Name="ButtonCheckForUpdates" Content="Check for Updates" HorizontalAlignment="Left" Margin="10,0,0,10.333" VerticalAlignment="Bottom" Width="129" Height="24" Click="ButtonCheckForUpdates_Click"/>
+        <Button x:Name="ButtonCheckForUpdates" Content="Check for Updates" HorizontalAlignment="Left" Margin="10,0,0,10.333" VerticalAlignment="Bottom" Width="129" Height="24" />
         <TextBlock Margin="10,278,-0.333,52.333" TextWrapping="Wrap">
-            Find the documentation here: <Hyperlink RequestNavigate="Hyperlink_RequestNavigate_README">https://github.com/Phaiax/PxKeystrokesForScreencasts/blob/master/README.md</Hyperlink>
+            Find the documentation here: <Hyperlink RequestNavigate="Hyperlink_RequestNavigate_README" NavigateUri="none://dummy" >https://github.com/Phaiax/PxKeystrokesForScreencasts/blob/master/README.md</Hyperlink>
             <LineBreak />
             <LineBreak />
-            Report Bugs in GitHub: <Hyperlink RequestNavigate="Hyperlink_RequestNavigate_Issues">https://github.com/Phaiax/PxKeystrokesForScreencasts/issues</Hyperlink>
+            Report Bugs in GitHub: <Hyperlink RequestNavigate="Hyperlink_RequestNavigate_Issues" NavigateUri="none://dummy" >https://github.com/Phaiax/PxKeystrokesForScreencasts/issues</Hyperlink>
         </TextBlock>
         <Button x:Name="ButtonExitApplication" Content="Exit Application" Margin="0,0,165.667,10.333" Click="ButtonExitApplication_Click" HorizontalAlignment="Right" Width="129" Height="24" VerticalAlignment="Bottom"/>
         <Button x:Name="ButtonHideThisWindow" Content="OK" Margin="0,0,9.667,10.333" Click="ButtonHideThisWindow_Click" Height="24" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="129"/>
+        <TextBlock x:Name="TextUpdateStatus" HorizontalAlignment="Left" Margin="152,0,0,13.333" VerticalAlignment="Bottom" Width="227"/>
     </Grid>
 </Window>
