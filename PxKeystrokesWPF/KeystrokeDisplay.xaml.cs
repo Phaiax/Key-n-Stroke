@@ -662,11 +662,17 @@ namespace PxKeystrokesWPF
                     }
                 };
                 hideLabelSB.Begin(toRemove.label);
+                labels.Remove(toRemove);
             } else
             {
                 labelStack.Children.Remove(toRemove.label);
+                labels.Remove(toRemove);
+                if (settings.EnableWindowFade && labels.Count == 0)
+                {
+                    Log.e("LABELREMOVAL", $"{toRemove.label.Content}: Fade out completed -> no more labels -> Window wade out");
+                    FadeOut();
+                }
             }
-            labels.Remove(toRemove);
         }
 
 
