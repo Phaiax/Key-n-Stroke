@@ -44,6 +44,9 @@ namespace PxKeystrokesWPF
             this.settings.PropertyChanged += settingChanged;
             this.settings.CallPropertyChangedForAllProperties();
 
+            this.buttonResizeWindow.Settings = s;
+            this.buttonResizeInnerPanel.Settings = s;
+
             //addWelcomeInfo();
         }
 
@@ -471,6 +474,7 @@ namespace PxKeystrokesWPF
         private void innerPanel_MouseUp(object sender, MouseButtonEventArgs e)
         {
             InnerPanelIsDragging = false;
+            settings.PanelLocation = new Point(innerPanel.Margin.Left, innerPanel.Margin.Top);
         }
 
 

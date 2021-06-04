@@ -42,7 +42,13 @@ namespace PxKeystrokesWPF
             InitializeComponent();
         }
 
+        private SettingsStore settings;
 
+        public SettingsStore Settings
+        {
+            set { settings = value; }
+            get { return settings; }
+        }
 
         public ResizeTarget ResizeTarget
         {
@@ -114,16 +120,19 @@ namespace PxKeystrokesWPF
                     //Window.Height = dragStartSize.Height + diffDpiIndependend.Y;
 
                     // As a fix: Use native SetWindowPos() API for smoother resize. The window will automatically redraw itself.
-                    NativeMethodsWindow.SetWindowSize(
-                        windowHandle,
-                        (int)Math.Max(minSize.X, (dragStartWindowSizeReal.X + diffReal.X)),
-                        (int)Math.Max(minSize.Y, (dragStartWindowSizeReal.Y + diffReal.Y)));
+                    int width = (int)Math.Max(minSize.X, (dragStartWindowSizeReal.X + diffReal.X));
+                    int height = (int)Math.Max(minSize.Y, (dragStartWindowSizeReal.Y + diffReal.Y));
+                    NativeMethodsWindow.SetWindowSize(windowHandle, width, height);
+
+                    settings.SetWindowSizeWithoutOnSettingChangedEvent(new System.Drawing.Size((int)(dragStartSize.Width + diffDpiIndependend.X), (int)(dragStartSize.Height + diffDpiIndependend.Y)));
                 }
 
                 if (CurrentParent != null)
                 {
                     CurrentParent.Width = Math.Max(minSize.X, dragStartSize.Width + diffDpiIndependend.X);
                     CurrentParent.Height = Math.Max(minSize.Y, dragStartSize.Height + diffDpiIndependend.Y);
+
+                    settings.SetPanelSizeWithoutOnSettingChangedEvent(new System.Drawing.Size((int)(dragStartSize.Width + diffDpiIndependend.X), (int)(dragStartSize.Height + diffDpiIndependend.Y)));
                 }
             }
         }

@@ -312,6 +312,12 @@ namespace PxKeystrokesWPF
             set { i.windowSize = new SerializableSize(value); OnSettingChanged("WindowSize"); }
         }
 
+        public void SetWindowSizeWithoutOnSettingChangedEvent(Size value)
+        {
+            i.windowSize = new SerializableSize(value);
+            dirty = true;
+        }
+
         public System.Windows.Point PanelLocationDefault = new System.Windows.Point(50, 11);
         public System.Windows.Point PanelLocation
         {
@@ -324,6 +330,12 @@ namespace PxKeystrokesWPF
         {
             get { return Or(i.panelSize, PanelSizeDefault); }
             set { i.panelSize = new SerializableSize(value); OnSettingChanged("PanelSize"); }
+        }
+
+        public void SetPanelSizeWithoutOnSettingChangedEvent(Size value)
+        {
+            i.panelSize = new SerializableSize(value);
+            dirty = true;
         }
 
         public double LineDistanceDefault = 36;
