@@ -269,8 +269,8 @@
                     Margin="5">
             <TextBlock>Press and hold Ctrl + Shift + Alt to reveal setting buttons</TextBlock>
             <TextBlock>
-                <Hyperlink RequestNavigate="Hyperlink_RequestNavigate">
-                    Issues? Want to have a look at the source code?
+                <Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="none://dummy">
+                    Issues?
                 </Hyperlink>
             </TextBlock>
         </StackPanel>
@@ -285,6 +285,6 @@
                 Grid.Row="1"
                 VerticalAlignment="Bottom"
                 Margin="10,0,10,10"
-                Click="Button_close_Click">Close</Button>
+                Click="Button_close_Click">Close Settings</Button>
     </Grid>
 </Window>
