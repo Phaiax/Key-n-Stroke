@@ -41,6 +41,7 @@ namespace PxKeystrokesWPF
 
             this.settings = s;
             this.settings.EnableSettingsMode = false;
+            this.settings.EnablePasswordMode = false;
             this.settings.PropertyChanged += settingChanged;
             this.settings.CallPropertyChangedForAllProperties();
 
@@ -60,6 +61,7 @@ namespace PxKeystrokesWPF
 
             OrigInnerPanelBackgroundColor = innerPanel.Background;
             ActivateDisplayOnlyMode(true);
+            DeactivatePasswordProtectionMode(true);
 
             if (settings.EnableWindowFade)
             {
@@ -99,7 +101,22 @@ namespace PxKeystrokesWPF
 
         void k_KeystrokeEvent(KeystrokeEventArgs e)
         {
-            CheckForSettingsMode(e);
+            string pressed = e.ShortcutIdentifier();
+            CheckForSettingsMode(pressed);
+            CheckForPasswordMode(pressed);
+
+            if (PasswordModeActivated || settings.EnablePasswordMode)
+            {
+                if (e.ShouldBeDisplayed)
+                {
+                    if (settings.EnableWindowFade && !SettingsModeActivated)
+                    {
+                        FadeIn();
+                    }
+                }
+                return;
+            }
+
             if (e.ShouldBeDisplayed)
             {
                 if (settings.EnableWindowFade && !SettingsModeActivated)
@@ -177,7 +194,7 @@ namespace PxKeystrokesWPF
 
         private void FadeOut()
         {
-            if (!SettingsModeActivated)
+            if (!SettingsModeActivated && !PasswordModeActivated)
             {
                 ToOpacity(0.0, true);
             }
@@ -301,6 +318,19 @@ namespace PxKeystrokesWPF
                         ActivateDisplayOnlyMode(false);
                     }
                     break;
+                case "KeystrokeHistoryPasswordModeShortcut":
+                    SetPasswordModeShortcut(settings.KeystrokeHistoryPasswordModeShortcut);
+                    break;
+                case "EnablePasswordMode":
+                    if (settings.EnablePasswordMode)
+                    {
+                        ActivatePasswordProtectionMode();
+                    }
+                    else
+                    {
+                        DeactivatePasswordProtectionMode(false);
+                    }
+                    break;
             }
         }
 
@@ -346,9 +376,9 @@ namespace PxKeystrokesWPF
             return true;
         }
 
-        private void CheckForSettingsMode(KeystrokeEventArgs e)
+        private void CheckForSettingsMode(string pressed)
         {
-            if (e.ShortcutIdentifier() == SettingsModeShortcut)
+            if (SettingsModeShortcut != null && pressed == SettingsModeShortcut)
             {
                 settings.EnableSettingsMode = !settings.EnableSettingsMode;
             }
@@ -362,7 +392,10 @@ namespace PxKeystrokesWPF
             {
                 FadeIn();
 
-                NativeMethodsGWL.ClickThrough(this.windowHandle);
+                if (!PasswordModeActivated)
+                {
+                    NativeMethodsGWL.ClickThrough(this.windowHandle);
+                }
                 NativeMethodsGWL.HideFromAltTab(this.windowHandle);
 
                 InnerPanelIsDragging = false;
@@ -412,18 +445,91 @@ namespace PxKeystrokesWPF
 
         #endregion
 
+        #region Password Protection Mode
+
+        public string PasswordModeShortcut;
+
+        public void SetPasswordModeShortcut(string shortcut)
+        {
+            if (ValidateShortcutSetting(shortcut))
+            {
+                PasswordModeShortcut = shortcut;
+            }
+            else
+            {
+                PasswordModeShortcut = settings.KeystrokeHistorySettingsModeShortcutDefault;
+            }
+            PasswordProtectionModeShortcut.Text = PasswordModeShortcut;
+        }
+
+
+        private void CheckForPasswordMode(string pressed)
+        {
+            Console.WriteLine($"{pressed} == {PasswordModeShortcut} (currently {settings.EnablePasswordMode})");
+            if (PasswordModeShortcut != null && pressed == PasswordModeShortcut)
+            {
+                settings.EnablePasswordMode = !settings.EnablePasswordMode;
+            }
+        }
+
+
+        private void buttonLeavePasswordMode_Click(object sender, RoutedEventArgs e)
+        {
+            settings.EnablePasswordMode = false;
+        }
+
+        bool PasswordModeActivated = false;
+
+        void ActivatePasswordProtectionMode()
+        {
+            if (!PasswordModeActivated)
+            {
+                NativeMethodsGWL.CatchClicks(this.windowHandle);
+
+                buttonLeavePasswordMode.Visibility = Visibility.Visible;
+                PasswordModeActivated = true;
+            }
+        }
+
+        void DeactivatePasswordProtectionMode(bool force)
+        {
+            if (PasswordModeActivated || force)
+            {
+                if (!SettingsModeActivated)
+                {
+                    NativeMethodsGWL.ClickThrough(this.windowHandle);
+                    if (settings.EnableWindowFade && labels.Count == 0)
+                    {
+                        FadeOut();
+                    }
+                }
+
+                buttonLeavePasswordMode.Visibility = Visibility.Hidden;
+                PasswordModeActivated = false;
+            }
+        }
+
+
+        #endregion
+
         #region Dragging of Window and innerPanel
 
         private void backgroundGrid_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            this.DragMove();
-            e.Handled = true;
+            if (this.SettingsModeActivated)
+            {
+                this.DragMove();
+                e.Handled = true;
+            }
 
         }
 
         private void Window_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            settings.WindowLocation = new Point(this.Left, this.Top);
+            if (this.SettingsModeActivated)
+            {
+                settings.WindowLocation = new Point(this.Left, this.Top);
+            }
         }
 
         private bool InnerPanelIsDragging = false;
@@ -755,6 +861,7 @@ namespace PxKeystrokesWPF
                 ApplyLabelStyle(pack.label);
             }
         }
+
 
 
 

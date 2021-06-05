@@ -172,19 +172,33 @@
                                          IsChecked="{Binding LabelAnimation, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:Style.Slide}}" />
                         </StackPanel>
                     </GroupBox>
-                    <CheckBox x:Name="cb_enablesettingsmode"
-                              IsChecked="{Binding EnableSettingsMode}">Enable resize/move mode</CheckBox>
                     <GroupBox Header="Keyboard Shortcuts">
                         <StackPanel>
                             <TextBlock TextWrapping="Wrap"
                                        Margin="5,3,0,0">
-                                Resize/move mode: <Run Text="{Binding KeystrokeHistorySettingsModeShortcut}" />
+                                Resize/move mode 
                             </TextBlock>
                             <TextBlock TextWrapping="Wrap"
                                        Margin="15,3,0,0">
-                                <Hyperlink Click="Hyperlink_ChangeResizeMoveShortcut">Change</Hyperlink>
+                                <Run Text="{Binding KeystrokeHistorySettingsModeShortcut}" />
+                                <LineBreak />
+                                <Hyperlink Click="Hyperlink_ChangeResizeMoveShortcut">Change</Hyperlink>&#160;&#160;&#160;&#160;&#160;&#160;
+                                <Hyperlink Click="Hyperlink_TriggerResizeMoveShortcut">Trigger</Hyperlink>
                                 <LineBreak />
                                 <Hyperlink Click="Hyperlink_ResetResizeMoveShortcut">Reset to <Run x:Name="SettingsModeShortcutDefault"></Run></Hyperlink>
+                            </TextBlock>
+                            <TextBlock TextWrapping="Wrap"
+                                       Margin="5,3,0,0">
+                                Passwort protection mode
+                            </TextBlock>
+                            <TextBlock TextWrapping="Wrap"
+                                       Margin="15,3,0,0">
+                                <Run Text="{Binding KeystrokeHistoryPasswordModeShortcut}" />
+                                <LineBreak />
+                                <Hyperlink Click="Hyperlink_ChangePasswordModeShortcut">Change</Hyperlink>&#160;&#160;&#160;&#160;&#160;&#160;
+                                <Hyperlink Click="Hyperlink_TriggerPasswordModeShortcut">Trigger</Hyperlink>
+                                <LineBreak />
+                                <Hyperlink Click="Hyperlink_ResetPasswordModeShortcut">Reset to <Run x:Name="PasswordModeShortcutDefault"></Run></Hyperlink>
                             </TextBlock>
                         </StackPanel>
                     </GroupBox>
@@ -267,16 +281,7 @@
                         Click="bn_reset_all_Click">Reset all</Button>
             </Grid>
         </StackPanel>
-        <StackPanel Grid.Row="1"
-                    Grid.ColumnSpan="2"
-                    Margin="5">
-            <TextBlock>Press and hold Ctrl + Shift + Alt to reveal setting buttons</TextBlock>
-            <TextBlock>
-                <Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="none://dummy">
-                    Issues?
-                </Hyperlink>
-            </TextBlock>
-        </StackPanel>
+
         <Button x:Name="button_exit"
                 Grid.Column="2"
                 Grid.Row="1"

@@ -74,6 +74,7 @@ namespace PxKeystrokesWPF
             Log.e("BIN", "Set Data context in settings window");
             layout_root.DataContext = settings;
             SettingsModeShortcutDefault.Text = settings.KeystrokeHistorySettingsModeShortcutDefault;
+            PasswordModeShortcutDefault.Text = settings.KeystrokeHistoryPasswordModeShortcutDefault;
 
         }
 
@@ -162,6 +163,31 @@ namespace PxKeystrokesWPF
         private void Hyperlink_ResetResizeMoveShortcut(object sender, RoutedEventArgs e)
         {
             settings.KeystrokeHistorySettingsModeShortcut = settings.KeystrokeHistorySettingsModeShortcutDefault;
+        }
+
+        private void Hyperlink_TriggerResizeMoveShortcut(object sender, RoutedEventArgs e)
+        {
+            settings.EnableSettingsMode = !settings.EnableSettingsMode;
+        }
+
+        private void Hyperlink_ChangePasswordModeShortcut(object sender, RoutedEventArgs e)
+        {
+            ReadShortcut rs = new ReadShortcut(k, " toggling password protection mode.");
+            rs.ShowDialog();
+            if (rs.Shortcut != null)
+            {
+                settings.KeystrokeHistoryPasswordModeShortcut= rs.Shortcut;
+            }
+        }
+
+        private void Hyperlink_ResetPasswordModeShortcut(object sender, RoutedEventArgs e)
+        {
+            settings.KeystrokeHistoryPasswordModeShortcut = settings.KeystrokeHistoryPasswordModeShortcutDefault;
+        }
+
+        private void Hyperlink_TriggerPasswordModeShortcut(object sender, RoutedEventArgs e)
+        {
+            settings.EnablePasswordMode = !settings.EnablePasswordMode;
         }
     }
 }

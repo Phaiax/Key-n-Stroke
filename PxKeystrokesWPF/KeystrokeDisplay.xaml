@@ -61,6 +61,23 @@
                 Height="38"
                 Panel.ZIndex="8"
                 Click="buttonLeaveSettingsMode_Click" Foreground="White" Background="#FF5CC358" />
+        <Button x:Name="buttonLeavePasswordMode"
+                HorizontalAlignment="Center"
+                Margin="0,0,0,0"
+                VerticalAlignment="Center"
+                Width="338"
+                FontSize="16"
+                Height="119"
+                Panel.ZIndex="8"
+                Click="buttonLeavePasswordMode_Click" Foreground="White" Background="#FFC3AA58">
+            <TextBlock HorizontalAlignment="Left" TextAlignment="Center">
+                Password Protection Mode Enabled
+                <LineBreak/>
+                <Span FontSize="12">To continue normally, click here or press<LineBreak/>
+                <Run x:Name="PasswordProtectionModeShortcut" Text=""/>
+                </Span>
+            </TextBlock>
+        </Button>
         <Grid x:Name="innerPanel"
               HorizontalAlignment="Left"
               Height="185"

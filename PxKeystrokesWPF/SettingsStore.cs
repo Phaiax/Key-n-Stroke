@@ -197,6 +197,8 @@ namespace PxKeystrokesWPF
         [DataMember] public Nullable<bool> enableKeystrokeHistory = null;
         [DataMember] public String keystrokeHistorySettingsModeShortcut = null;
         [DataMember] public Nullable<bool> enableSettingsMode = null;
+        [DataMember] public String keystrokeHistoryPasswordModeShortcut = null;
+        [DataMember] public Nullable<bool> enablePasswordMode = null;
     }
 
     #endregion
@@ -472,6 +474,20 @@ namespace PxKeystrokesWPF
             set { i.enableSettingsMode = value; OnSettingChanged("EnableSettingsMode"); }
         }
 
+        public String KeystrokeHistoryPasswordModeShortcutDefault = "RightCtrl + F11";
+        public String KeystrokeHistoryPasswordModeShortcut
+        {
+            get { return Or(i.keystrokeHistoryPasswordModeShortcut, KeystrokeHistoryPasswordModeShortcutDefault); }
+            set { i.keystrokeHistoryPasswordModeShortcut = value; OnSettingChanged("KeystrokeHistoryPasswordModeShortcut"); }
+        }
+
+        public bool EnablePasswordModeDefault = false;
+        public bool EnablePasswordMode
+        {
+            get { return Or(i.enablePasswordMode, EnablePasswordModeDefault); }
+            set { i.enablePasswordMode = value; OnSettingChanged("EnablePasswordMode"); }
+        }
+
         // Add new settings also to method CallPropertyChangedForAllProperties()
 
         #endregion
@@ -523,6 +539,8 @@ namespace PxKeystrokesWPF
                 PropertyChanged(this, new PropertyChangedEventArgs("EnableKeystrokeHistory"));
                 PropertyChanged(this, new PropertyChangedEventArgs("KeystrokeHistorySettingsModeShortcut"));
                 PropertyChanged(this, new PropertyChangedEventArgs("EnableSettingsMode"));
+                PropertyChanged(this, new PropertyChangedEventArgs("KeystrokeHistoryPasswordModeShortcut"));
+                PropertyChanged(this, new PropertyChangedEventArgs("EnablePasswordMode"));
             }
         }
 
