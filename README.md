@@ -74,6 +74,8 @@ You can find all the exe files in the <code>Releases</code> folder
     - Nicer icon rendering
     - High-Dpi compatability
     - Custom Icons
+- v1.0.1 
+    - No changes, just testing the update mechanism
 
 
 # Feature Requests
