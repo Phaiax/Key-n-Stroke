@@ -2,24 +2,24 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="68mm"
    height="74mm"
    viewBox="0 0 240.94464 262.20455"
    id="svg2"
    version="1.1"
-   inkscape:version="0.91 r13725"
+   inkscape:version="1.1 (c68e22c387, 2021-05-23)"
    sodipodi:docname="mouse.svg"
    inkscape:export-filename="C:\Users\danie_000\Documents\Visual Studio 2013\Projects\PxKeystrokesForScreencasts\PxKeystrokesUi\Resources\mouse_middle.png"
    inkscape:export-xdpi="50.09"
-   inkscape:export-ydpi="50.09">
+   inkscape:export-ydpi="50.09"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
      id="defs4">
     <inkscape:path-effect
@@ -91,18 +91,19 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4142136"
-     inkscape:cx="65.590798"
-     inkscape:cy="159.24528"
+     inkscape:zoom="1"
+     inkscape:cx="215.49999"
+     inkscape:cy="-82.999998"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1440"
-     inkscape:window-height="837"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
+     inkscape:window-width="3840"
+     inkscape:window-height="2066"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
      inkscape:window-maximized="1"
-     showguides="false" />
+     showguides="false"
+     inkscape:pagecheckerboard="0" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -111,7 +112,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -316,5 +317,43 @@
        id="path3347-0-2-7-9"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="sssssss" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:37.5px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.937499"
+       x="-0.72148502"
+       y="1050.5553"
+       id="text996"><tspan
+         sodipodi:role="line"
+         id="tspan994"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Arial;-inkscape-font-specification:'Arial Bold';stroke-width:0.937499"
+         x="-0.72148502"
+         y="1050.5553">Ctrl</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:37.5px;line-height:1.25;font-family:sans-serif;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.937499"
+       x="183.97139"
+       y="1049.4381"
+       id="text996-8"><tspan
+         sodipodi:role="line"
+         id="tspan994-4"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Arial;-inkscape-font-specification:'Arial Bold';stroke-width:0.937499"
+         x="183.97139"
+         y="1049.4381">Alt</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:45.6036px;line-height:1.25;font-family:sans-serif;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.14009"
+       x="2.8838181"
+       y="1094.2567"
+       id="text996-1"
+       transform="scale(1.081598,0.92455793)"><tspan
+         sodipodi:role="line"
+         id="tspan994-0"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Arial;-inkscape-font-specification:'Arial Bold';stroke-width:1.14009"
+         x="2.8838181"
+         y="1094.2567">⇧</tspan></text>
+    <path
+       d="m 200.48421,986.65943 11.11802,-1.526 v 10.7443 h -11.11802 m 12.45717,-10.9623 14.7306,-2.1489 v 13.0178 h -14.7306 m -12.45717,1.227 h 11.11802 v 10.77537 l -11.11802,-1.5571 m 12.45717,-9.07507 h 14.7306 v 12.89317 l -14.7306,-2.0866"
+       id="path12704"
+       style="stroke-width:0.311429" />
   </g>
 </svg>

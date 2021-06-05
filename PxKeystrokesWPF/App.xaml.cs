@@ -243,7 +243,7 @@ namespace PxKeystrokesWPF
                 return;
             Log.e("BI", "EnableButtonIndicator");
             EnableMouseHook();
-            ButtonIndicatorWindow = new ButtonIndicator1(myMouseHook, mySettings);
+            ButtonIndicatorWindow = new ButtonIndicator1(myMouseHook, myKeystrokeConverter, mySettings);
             ButtonIndicatorWindow.Show();
         }
 

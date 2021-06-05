@@ -19,17 +19,19 @@ namespace PxKeystrokesWPF
     public partial class ButtonIndicator1 : Form
     {
         IMouseRawEventProvider m;
+        IKeystrokeEventProvider k;
         SettingsStore s;
         ImageResources.ComposeOptions c;
         Size bitmapsize;
 
-        public ButtonIndicator1(IMouseRawEventProvider m, SettingsStore s)
+        public ButtonIndicator1(IMouseRawEventProvider m, IKeystrokeEventProvider k, SettingsStore s)
         {
             InitializeComponent();
             StartImageResizeThread();
 
             this.m = m;
             this.s = s;
+            this.k = k;
             FormClosed += ButtonIndicator_FormClosed;
 
             HideMouseIfNoButtonPressed();
@@ -41,6 +43,7 @@ namespace PxKeystrokesWPF
             SetFormStyles();
 
             m.MouseEvent += m_MouseEvent;
+            k.KeystrokeEvent += k_KeystrokeEvent;
             s.PropertyChanged += settingChanged;
             DoubleClickIconTimer.Tick += leftDoubleClickIconTimeout_Tick;
             DoubleClickIconTimer.Interval = 750;
@@ -82,6 +85,26 @@ namespace PxKeystrokesWPF
             UpdateSize();
         }
 
+        private void k_KeystrokeEvent(KeystrokeEventArgs e)
+        {
+            Console.Write(e.ToString());
+            bool changed = false;
+            if (e.StrokeType == KeystrokeType.Modifiers) {
+                if (e.Shift != c.addMShift) changed = true;
+                c.addMShift = e.Shift;
+                if (e.Ctrl != c.addMCtrl) changed = true;
+                c.addMCtrl = e.Ctrl;
+                if (e.Alt != c.addMAlt) changed = true;
+                c.addMAlt = e.Alt;
+                if (e.Win != c.addMWin) changed = true;
+                c.addMWin = e.Win;
+            }
+            if (changed)
+            {
+                Redraw();
+            }
+        }
+
         MouseRawEventArgs lastDblClk;
 
         void m_MouseEvent(MouseRawEventArgs raw_e)
@@ -108,6 +131,7 @@ namespace PxKeystrokesWPF
                     break;
             }
         }
+
 
         System.Windows.Forms.Timer WheelIconTimer = new System.Windows.Forms.Timer();
 

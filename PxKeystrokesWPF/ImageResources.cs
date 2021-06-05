@@ -26,6 +26,10 @@ namespace PxKeystrokesWPF
             public Bitmap BRightDouble;
             public Bitmap BWheelUp;
             public Bitmap BWheelDown;
+            public Bitmap MCtrl;
+            public Bitmap MWin;
+            public Bitmap MAlt;
+            public Bitmap MShift;
         }
 
         static Dictionary<uint, BitmapCollection> ScaledByDpi;
@@ -49,7 +53,10 @@ namespace PxKeystrokesWPF
                 Orig.BRightDouble = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse_right_double.png"));
                 Orig.BWheelUp = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse_wheel_up.png"));
                 Orig.BWheelDown = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse_wheel_down.png"));
-
+                Orig.MCtrl = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse_modifier_ctrl.png"));
+                Orig.MWin = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse_modifier_win.png"));
+                Orig.MAlt = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse_modifier_alt.png"));
+                Orig.MShift = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse_modifier_shift.png"));
             }
             catch
             {
@@ -93,7 +100,11 @@ namespace PxKeystrokesWPF
                 BLeftDouble = Scale(scalingFactor, Orig.BLeftDouble, dpi),
                 BRightDouble = Scale(scalingFactor, Orig.BRightDouble, dpi),
                 BWheelUp = Scale(scalingFactor, Orig.BWheelUp, dpi),
-                BWheelDown = Scale(scalingFactor, Orig.BWheelDown, dpi)
+                BWheelDown = Scale(scalingFactor, Orig.BWheelDown, dpi),
+                MCtrl = Scale(scalingFactor, Orig.MCtrl, dpi),
+                MWin = Scale(scalingFactor, Orig.MWin, dpi),
+                MAlt = Scale(scalingFactor, Orig.MAlt, dpi),
+                MShift = Scale(scalingFactor, Orig.MShift, dpi)
             };
 
             return scaled;
@@ -127,6 +138,10 @@ namespace PxKeystrokesWPF
             public bool addBRightDouble;
             public bool addBWheelUp;
             public bool addBWheelDown;
+            public bool addMCtrl;
+            public bool addMAlt;
+            public bool addMWin;
+            public bool addMShift;
 
             public static bool operator ==(ComposeOptions first, ComposeOptions second)
             {
@@ -149,6 +164,10 @@ namespace PxKeystrokesWPF
                 if (addBRightDouble) s += "RightDouble ";
                 if (addBWheelUp) s += "WheelUp ";
                 if (addBWheelDown) s += "WheelDown ";
+                if (addMCtrl) s += "Ctrl ";
+                if (addMAlt) s += "Alt ";
+                if (addMWin) s += "Win ";
+                if (addMShift) s += "Shift ";
                 return s;
             }
 
@@ -196,6 +215,10 @@ namespace PxKeystrokesWPF
             if (c.addBRightDouble) graph.DrawImageUnscaled(scaled.BRightDouble, 0, 0);
             if (c.addBWheelUp) graph.DrawImageUnscaled(scaled.BWheelUp, 0, 0);
             if (c.addBWheelDown) graph.DrawImageUnscaled(scaled.BWheelDown, 0, 0);
+            if (c.addMCtrl) graph.DrawImageUnscaled(scaled.MCtrl, 0, 0);
+            if (c.addMWin) graph.DrawImageUnscaled(scaled.MWin, 0, 0);
+            if (c.addMAlt) graph.DrawImageUnscaled(scaled.MAlt, 0, 0);
+            if (c.addMShift) graph.DrawImageUnscaled(scaled.MShift, 0, 0);
 
             lastComposeOptions = c;
             lastComposedBitmap = targetBitmap;
