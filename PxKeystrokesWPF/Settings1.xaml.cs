@@ -218,7 +218,7 @@ namespace PxKeystrokesWPF
         {
             using (System.Windows.Forms.FolderBrowserDialog dlg = new System.Windows.Forms.FolderBrowserDialog())
             {
-                dlg.Description = "Select folder";
+                dlg.Description = "Select folder with custom icons";
                 dlg.SelectedPath = settings.ButtonIndicatorCustomIconsFolder;
                 dlg.ShowNewFolderButton = true;
                 System.Windows.Forms.DialogResult result = dlg.ShowDialog();
@@ -231,7 +231,18 @@ namespace PxKeystrokesWPF
 
         private void OnButtonExportBuiltinIcons(object sender, RoutedEventArgs e)
         {
-
+            using (System.Windows.Forms.FolderBrowserDialog dlg = new System.Windows.Forms.FolderBrowserDialog())
+            {
+                dlg.Description = "Select folder for export";
+                // dlg.SelectedPath = settings.ButtonIndicatorCustomIconsFolder;
+                dlg.ShowNewFolderButton = true;
+                System.Windows.Forms.DialogResult result = dlg.ShowDialog();
+                if (result == System.Windows.Forms.DialogResult.OK)
+                {
+                    ImageResources.ExportBuiltinRessources(dlg.SelectedPath);
+                }
+            }
+            
         }
 
         private void OnClickCustomIconsHelp(object sender, RoutedEventArgs e)

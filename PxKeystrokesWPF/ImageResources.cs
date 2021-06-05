@@ -66,6 +66,54 @@ namespace PxKeystrokesWPF
             ApplyScalingFactor(1.0f);
         }
 
+        public static void ExportBuiltinRessources(string exportFolder)
+        {
+            string[] filenames = { "mouse.svg",
+                                   "mouse.png",
+                                   "mouse_left.png",
+                                   "mouse_right.png",
+                                   "mouse_middle.png",
+                                   "mouse_left_double.png",
+                                   "mouse_right_double.png",
+                                   "mouse_wheel_up.png",
+                                   "mouse_wheel_down.png",
+                                   "mouse_modifier_ctrl.png",
+                                   "mouse_modifier_win.png",
+                                   "mouse_modifier_alt.png",
+                                   "mouse_modifier_shift.png" };
+            foreach (string png_name in filenames)
+            {
+                try
+                {
+
+                    string target = Path.Combine(exportFolder, png_name);
+                    if (File.Exists(target))
+                    {
+                        var result = MessageBox.Show($"Overwrite {png_name}?", $"File already exists", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning, MessageBoxResult.Cancel);
+                        if (result == MessageBoxResult.Cancel)
+                        {
+                            return;
+                        }
+                        else if (result == MessageBoxResult.No)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            // Yes -> Overwrite
+                        }
+                    }
+                    using (var fs = new FileStream(target, FileMode.Create, FileAccess.Write))
+                    {
+                        _assembly.GetManifestResourceStream($"PxKeystrokesWPF.Resources.{png_name}").CopyTo(fs);
+                    }
+                }
+                catch (Exception)
+                {
+
+                }
+            }
+        }
         static double appliedScalingFactor = -1.0;
 
         public static void ApplyScalingFactor(double scalingfactor)
