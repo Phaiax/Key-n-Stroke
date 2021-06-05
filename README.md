@@ -5,7 +5,7 @@ Displays Keystrokes in an overlay window and visualize mouse clicks.
 
 # Features
 
- - Displays special keys (volume up: 🔊⏫) and shortcuts
+ - Displays special keys (e.g. volume up: 🔊) and shortcuts
  - Visually indicate mouse cursor position
  - Visually indicate pressed buttons
  - Click Through
@@ -53,7 +53,6 @@ Requirements: Windows 10
 	<img src="https://raw.githubusercontent.com/Phaiax/Key-n-Stroke/master/Screenshots/settings.png">
 </a>
 
-2021-03-01: I've bought a certificate. An update is on the way.
 
 ## Releases
 
@@ -81,12 +80,11 @@ This app is Open Source. If you miss a feature, write an issue or go for it and 
 
 # Donations and Financial
 
-You can donate via <a href="https://www.paypal.me/phaiax">paypal.me/phaiax</a>, send Bitcoins (`1JWER55pheUeJzaUcqaYwP8ZaGe5C16Rp9`) or Stellar Lumens (`phaiax*keybase.io`) [^1]
-
-[^1]: You can verify the wallet addresses cryptographically on <a href="https://keybase.io/phaiax">keybase.io/phaiax</a>. Add the message "pkfs" or "keynstroke" to the payment so I can associate it with this project. After funds for the next six years of developer certificates are raised (which I assume will never happen), I will use any additional funds to buy and eat icecream for myself and anyone I like.
+You can donate via <a href="https://www.paypal.me/phaiax">paypal.me/phaiax</a>, send Bitcoins (`1JWER55pheUeJzaUcqaYwP8ZaGe5C16Rp9`) or Stellar Lumens (`phaiax*keybase.io`).  You can verify the wallet addresses cryptographically on <a href="https://keybase.io/phaiax">keybase.io/phaiax</a>. Add the message "pkfs" or "keynstroke" to the payment so I can associate it with this project. After funds for the next six years of developer certificates are raised (which I assume will never happen), I will use any additional funds to buy and eat icecream for myself and anyone I like.
 
 Until version v0.3.1 this app showed an [ugly security dialog](https://raw.githubusercontent.com/Phaiax/Key-n-Stroke/master/Screenshots/Smartscreen1.png). To fix this, I bought a validated security certificate from <a href="http://www.certum.eu/certum/cert,offer_en_open_source_cs.xml">Certum</a>. I said that if someone funds at least three years of certification (€ 75.00), I will use that money to buy a new certificate each year and implement a secure autoupdater. It's not that much, but I started anyway :smile: Here is the list of donations for full transparency: (three as of May 2021)
 
+| Date       | Amount | From             |
 |------------|--------|------------------|
 | 2021-03-05 | €11.14 | Heitor K. M. M.  |
 | 2020-05-17 | € 5    | Marek S.         |
