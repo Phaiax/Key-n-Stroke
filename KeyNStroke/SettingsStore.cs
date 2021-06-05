@@ -514,8 +514,7 @@ namespace KeyNStroke
         {
             dirty = true;
             var watch = System.Diagnostics.Stopwatch.StartNew();
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(property));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
             watch.Stop();
             Log.e("SETTING", $"elapsedMs = {watch.ElapsedMilliseconds}");
         }
@@ -648,16 +647,16 @@ namespace KeyNStroke
         public override string ToString()
         {
 
-            return $@"LabelFont:                       {LabelFont.ToString()}
-BackgroundColor:                 {BackgroundColor.ToString()}
-LabelTextAlignment:              {LabelTextAlignment.ToString()}
-LabelTextDirection:              {LabelTextDirection.ToString()}
-LabelAnimation:                  {LabelAnimation.ToString()}
-LabelColor:                      {LabelColor.ToString()}
-WindowLocation:                  {WindowLocation.ToString()}
-WindowSize:                      {WindowSize.ToString()}
-PanelLocation:                   {PanelLocation.ToString()}
-PanelSize:                       {PanelSize.ToString()}
+            return $@"LabelFont:                       {LabelFont}
+BackgroundColor:                 {BackgroundColor}
+LabelTextAlignment:              {LabelTextAlignment}
+LabelTextDirection:              {LabelTextDirection}
+LabelAnimation:                  {LabelAnimation}
+LabelColor:                      {LabelColor}
+WindowLocation:                  {WindowLocation}
+WindowSize:                      {WindowSize}
+PanelLocation:                   {PanelLocation}
+PanelSize:                       {PanelSize}
 LineDistance:                    {LineDistance}
 HistoryLength:                   {HistoryLength}
 HistoryTimeout:                  {HistoryTimeout}
@@ -665,9 +664,9 @@ EnableHistoryTimeout:            {EnableHistoryTimeout}
 EnableWindowFade:                {EnableWindowFade}
 EnableCursorIndicator:           {EnableCursorIndicator}
 CursorIndicatorOpacity:          {CursorIndicatorOpacity}
-CursorIndicatorSize:             {CursorIndicatorSize.ToString()}
-CursorIndicatorColor:            {CursorIndicatorColor.ToString()}
-ButtonIndicator:                 {ButtonIndicator.ToString()}
+CursorIndicatorSize:             {CursorIndicatorSize}
+CursorIndicatorColor:            {CursorIndicatorColor}
+ButtonIndicator:                 {ButtonIndicator}
 buttonIndicatorScalingPercentage:{ButtonIndicatorScaling}
 ButtonIndicatorPositionAngle:    {ButtonIndicatorPositionAngle}
 ButtonIndicatorPositionDistance: {ButtonIndicatorPositionDistance}

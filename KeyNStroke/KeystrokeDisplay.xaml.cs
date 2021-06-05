@@ -27,8 +27,8 @@ namespace KeyNStroke
     /// </summary>
     public partial class KeystrokeDisplay : Window
     {
-        SettingsStore settings;
-        IKeystrokeEventProvider k;
+        readonly SettingsStore settings;
+        readonly IKeystrokeEventProvider k;
         IntPtr windowHandle;
         Brush OrigInnerPanelBackgroundColor;
 
@@ -42,7 +42,7 @@ namespace KeyNStroke
             this.settings = s;
             this.settings.EnableSettingsMode = false;
             this.settings.EnablePasswordMode = false;
-            this.settings.PropertyChanged += settingChanged;
+            this.settings.PropertyChanged += SettingChanged;
             this.settings.CallPropertyChangedForAllProperties();
 
             this.buttonResizeWindow.Settings = s;
@@ -57,7 +57,7 @@ namespace KeyNStroke
             InitPeriodicTopmostTimer();
             windowHandle = new WindowInteropHelper(this).Handle;
 
-            this.k.KeystrokeEvent += k_KeystrokeEvent;
+            this.k.KeystrokeEvent += KeystrokeEvent;
 
             OrigInnerPanelBackgroundColor = innerPanel.Background;
             ActivateDisplayOnlyMode(true);
@@ -70,7 +70,7 @@ namespace KeyNStroke
         }
 
         #region periodically make TopMost
-        DispatcherTimer makeTopMostTimer = new DispatcherTimer();
+        readonly DispatcherTimer makeTopMostTimer = new DispatcherTimer();
         void InitPeriodicTopmostTimer()
         {
             makeTopMostTimer.Tick += (object sender, EventArgs e) =>
@@ -99,7 +99,7 @@ namespace KeyNStroke
 
         #region keystroke handler
 
-        void k_KeystrokeEvent(KeystrokeEventArgs e)
+        void KeystrokeEvent(KeystrokeEventArgs e)
         {
             string pressed = e.ShortcutIdentifier();
             CheckForSettingsMode(pressed);
@@ -136,28 +136,28 @@ namespace KeyNStroke
                         Log.e("BS", $"delete last char -> {labels[labels.Count - 1].text}");
                     }
                     Log.e("BS", "NumberOfDeletionsAllowed " + NumberOfDeletionsAllowed.ToString());
-                    if (!removeLastChar())
+                    if (!RemoveLastChar())
                     {
                         // again
                         Log.e("BS", " failed");
                         NumberOfDeletionsAllowed = 0;
-                        k_KeystrokeEvent(e);
+                        KeystrokeEvent(e);
                         return;
                     }
                 }
                 else if (e.RequiresNewLine
-                    || !addingWouldFitInCurrentLine(e.ToString(false))
+                    || !AddingWouldFitInCurrentLine(e.ToString(false))
                     || !LastHistoryLineIsText
                     || LastHistoryLineRequiredNewLineAfterwards)
                 {
-                    addNextLine(e.ToString(false));
+                    AddNextLine(e.ToString(false));
                     Log.e("BS", $"new line: {e.ToString(false)} -> {labels[labels.Count - 1].text}");
                     NumberOfDeletionsAllowed = e.Deletable ? 1 : 0;
                     Log.e("BS", "NumberOfDeletionsAllowed " + NumberOfDeletionsAllowed.ToString());
                 }
                 else
                 {
-                    addToLine(e.ToString(false));
+                    AddToLine(e.ToString(false));
                     Log.e("BS", $"add to line: {e.ToString(false)} -> {labels[labels.Count-1].text}");
                     if (e.Deletable)
                         NumberOfDeletionsAllowed += 1;
@@ -241,7 +241,7 @@ namespace KeyNStroke
 
         #region settingsChanged
 
-        private void settingChanged(object sender, PropertyChangedEventArgs e)
+        private void SettingChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
@@ -470,7 +470,7 @@ namespace KeyNStroke
         }
 
 
-        private void buttonLeavePasswordMode_Click(object sender, RoutedEventArgs e)
+        private void ButtonLeavePasswordMode_Click(object sender, RoutedEventArgs e)
         {
             settings.EnablePasswordMode = false;
         }
@@ -511,7 +511,7 @@ namespace KeyNStroke
 
         #region Dragging of Window and innerPanel
 
-        private void backgroundGrid_MouseDown(object sender, MouseButtonEventArgs e)
+        private void BackgroundGrid_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (this.SettingsModeActivated)
             {
@@ -533,7 +533,7 @@ namespace KeyNStroke
         private Point InnerPanelDragStartCursorPosition;
         private Point InnerPanelDragStartPosition;
 
-        private void innerPanel_MouseDown(object sender, MouseButtonEventArgs e)
+        private void InnerPanel_MouseDown(object sender, MouseButtonEventArgs e)
         {
             InnerPanelDragStartCursorPosition = e.GetPosition(this);
             InnerPanelIsDragging = true;
@@ -541,7 +541,7 @@ namespace KeyNStroke
             e.Handled = true;
         }
 
-        private void innerPanel_MouseMove(object sender, MouseEventArgs e)
+        private void InnerPanel_MouseMove(object sender, MouseEventArgs e)
         {
             if (InnerPanelIsDragging)
             {
@@ -557,7 +557,7 @@ namespace KeyNStroke
             e.Handled = true;
         }
 
-        private void innerPanel_MouseUp(object sender, MouseButtonEventArgs e)
+        private void InnerPanel_MouseUp(object sender, MouseButtonEventArgs e)
         {
             InnerPanelIsDragging = false;
             settings.PanelLocation = new Point(innerPanel.Margin.Left, innerPanel.Margin.Top);
@@ -568,12 +568,12 @@ namespace KeyNStroke
 
         #region Button Click  and Window Close Events
 
-        private void buttonSettings_Click(object sender, RoutedEventArgs e)
+        private void ButtonSettings_Click(object sender, RoutedEventArgs e)
         {
             ((App)Application.Current).showSettingsWindow();
         }
 
-        private void buttonClose_Click(object sender, RoutedEventArgs e)
+        private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Application.Current.Shutdown();
         }
@@ -583,7 +583,7 @@ namespace KeyNStroke
 
         }
 
-        private void buttonLeaveSettingsMode_Click(object sender, RoutedEventArgs e)
+        private void ButtonLeaveSettingsMode_Click(object sender, RoutedEventArgs e)
         {
             settings.EnableSettingsMode = false;
         }
@@ -600,12 +600,12 @@ namespace KeyNStroke
             public DispatcherTimer historyTimeout;
         }
 
-        List<LabelData> labels = new List<LabelData>(5);
+        readonly List<LabelData> labels = new List<LabelData>(5);
         bool LastHistoryLineIsText = false;
         bool LastHistoryLineRequiredNewLineAfterwards = false;
         int NumberOfDeletionsAllowed = 0;
 
-        void addToLine(string chars)
+        void AddToLine(string chars)
         {
             LabelData pack = labels[labels.Count - 1];
             if (pack.historyTimeout != null)
@@ -617,12 +617,12 @@ namespace KeyNStroke
                     pack.historyTimeout.Start();
                 }
             }
-            pack.text = pack.text + chars;
+            pack.text += chars;
             pack.label.Content = pack.text.Replace("_", "__");
             //T.Refresh();
         }
 
-        private bool removeLastChar()
+        private bool RemoveLastChar()
         {
             if (labels.Count == 0)
             {
@@ -639,10 +639,12 @@ namespace KeyNStroke
             return true;
         }
 
-        void addNextLine(string chars)
+        void AddNextLine(string chars)
         {
-            Label next = new Label();
-            next.Content = chars.Replace("_", "__"); ;
+            Label next = new Label
+            {
+                Content = chars.Replace("_", "__")
+            };
             ApplyLabelStyle(next);
 
             var pack = new LabelData
@@ -703,7 +705,7 @@ namespace KeyNStroke
             {
                 pack.historyTimeout = FireOnce(settings.HistoryTimeout, () =>
                 {
-                    fadeOutLabel(pack);
+                    FadeOutLabel(pack);
                 });
             }
             labels.Add(pack);
@@ -717,12 +719,12 @@ namespace KeyNStroke
             {
                 var toRemove = labels[0];
                 Log.e("LABELREMOVAL", $"Truncate {toRemove.label.Content}. Currently in list: {labels.Count}");
-                fadeOutLabel(toRemove);
+                FadeOutLabel(toRemove);
                 labels.Remove(toRemove);
             }
         }
 
-        void fadeOutLabel(LabelData toRemove)
+        void FadeOutLabel(LabelData toRemove)
         {
             if (toRemove.historyTimeout != null)
             {
@@ -793,7 +795,7 @@ namespace KeyNStroke
             return timer;
         }
 
-        bool addingWouldFitInCurrentLine(string s)
+        bool AddingWouldFitInCurrentLine(string s)
         {
             if (labels.Count == 0)
                 return false;

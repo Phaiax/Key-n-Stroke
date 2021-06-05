@@ -12,7 +12,7 @@ namespace KeyNStroke
     /// </summary>
     public partial class Welcome : Window
     {
-        SettingsStore settings;
+        readonly SettingsStore settings;
 
         public Welcome(SettingsStore s)
         {
@@ -59,8 +59,10 @@ namespace KeyNStroke
                 TextUpdateStatus.Inlines.Clear();
                 if (e.details != null && e.details.Count > 0)
                 {
-                    Hyperlink hl = new Hyperlink(new Run(e.info));
-                    hl.NavigateUri = new Uri("none://dummy"); 
+                    Hyperlink hl = new Hyperlink(new Run(e.info))
+                    {
+                        NavigateUri = new Uri("none://dummy")
+                    };
                     hl.RequestNavigate += Hyperlink_RequestNavigate_UpdateDetails;
                     TextUpdateStatus.Inlines.Add(hl);
                     updateDetails = e.details;

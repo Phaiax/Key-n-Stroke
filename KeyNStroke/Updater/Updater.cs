@@ -46,7 +46,6 @@ namespace KeyNStroke.Updater
 
         static public void TriggerUpdateStep2(byte[] update)
         {
-            Random r = new Random();
             string oldExePath = System.Reflection.Assembly.GetEntryAssembly().Location;
             string tmpExeName = $"Key-n-Stroke_Updater.exe";
             string oldExeParentFolder = Path.GetDirectoryName(oldExePath); // may not be writable
@@ -59,10 +58,12 @@ namespace KeyNStroke.Updater
             }
             int ownPid = Process.GetCurrentProcess().Id;
 
-            ProcessStartInfo psi = new ProcessStartInfo();
-            psi.FileName = tmpExePath;
-            psi.WorkingDirectory = Path.GetDirectoryName(tmpExePath);
-            psi.Arguments = $"--update-step2 \"{oldExePath}\" {ownPid}";
+            ProcessStartInfo psi = new ProcessStartInfo
+            {
+                FileName = tmpExePath,
+                WorkingDirectory = Path.GetDirectoryName(tmpExePath),
+                Arguments = $"--update-step2 \"{oldExePath}\" {ownPid}"
+            };
 
             if (!Utils.IsDirectoryWritable(oldExeParentFolder))
             {
@@ -70,7 +71,7 @@ namespace KeyNStroke.Updater
                 psi.Verb = "runas";
             }
 
-            Process p = Process.Start(psi);
+            Process.Start(psi);
             // Shutdown own process immediately!
         }
 
@@ -105,10 +106,12 @@ namespace KeyNStroke.Updater
 
             int ownPid = Process.GetCurrentProcess().Id;
 
-            ProcessStartInfo psi = new ProcessStartInfo();
-            psi.FileName = oldExePath;
-            psi.WorkingDirectory = Path.GetDirectoryName(oldExePath);
-            psi.Arguments = $"--update-step3 \"{tmpExePath}\" {ownPid}";
+            ProcessStartInfo psi = new ProcessStartInfo
+            {
+                FileName = oldExePath,
+                WorkingDirectory = Path.GetDirectoryName(oldExePath),
+                Arguments = $"--update-step3 \"{tmpExePath}\" {ownPid}"
+            };
 
             Process.Start(psi); // Even if the updater has been started as Admin, this will start as the original user again.
             // Shutdown own process immediately

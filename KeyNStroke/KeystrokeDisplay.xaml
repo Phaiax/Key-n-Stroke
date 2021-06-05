@@ -19,7 +19,7 @@
         Background="Transparent">
     <Grid x:Name="backgroundGrid"
           Background="Black"
-          MouseDown="backgroundGrid_MouseDown">
+          MouseDown="BackgroundGrid_MouseDown">
 
         <local:ResizeButton x:Name="buttonResizeWindow"
                             HorizontalAlignment="Right"
@@ -40,7 +40,7 @@
                 Background="#FFD44A4A"
                 Foreground="White"
                 Panel.ZIndex="8"
-                Click="buttonClose_Click" />
+                Click="ButtonClose_Click" />
         <Button x:Name="buttonSettings"
                 Content="⚙"
                 HorizontalAlignment="Right"
@@ -50,7 +50,7 @@
                 FontSize="16"
                 Height="38"
                 Panel.ZIndex="8"
-                Click="buttonSettings_Click" />
+                Click="ButtonSettings_Click" />
         <Button x:Name="buttonLeaveSettingsMode"
                 Content="Finish Move+Resize"
                 HorizontalAlignment="Right"
@@ -60,7 +60,7 @@
                 FontSize="16"
                 Height="38"
                 Panel.ZIndex="8"
-                Click="buttonLeaveSettingsMode_Click" Foreground="White" Background="#FF5CC358" />
+                Click="ButtonLeaveSettingsMode_Click" Foreground="White" Background="#FF5CC358" />
         <Button x:Name="buttonLeavePasswordMode"
                 HorizontalAlignment="Center"
                 Margin="0,0,0,0"
@@ -69,7 +69,7 @@
                 FontSize="16"
                 Height="119"
                 Panel.ZIndex="8"
-                Click="buttonLeavePasswordMode_Click" Foreground="White" Background="#FFC3AA58">
+                Click="ButtonLeavePasswordMode_Click" Foreground="White" Background="#FFC3AA58">
             <TextBlock HorizontalAlignment="Left" TextAlignment="Center">
                 Password Protection Mode Enabled
                 <LineBreak/>
@@ -85,9 +85,9 @@
               VerticalAlignment="Top"
               Width="595"
               Background="#FFA7A7A7"
-              MouseDown="innerPanel_MouseDown"
-              MouseMove="innerPanel_MouseMove"
-              MouseUp="innerPanel_MouseUp">
+              MouseDown="InnerPanel_MouseDown"
+              MouseMove="InnerPanel_MouseMove"
+              MouseUp="InnerPanel_MouseUp">
             <StackPanel x:Name="labelStack"
                         Margin="0"
                         VerticalAlignment="Bottom">
