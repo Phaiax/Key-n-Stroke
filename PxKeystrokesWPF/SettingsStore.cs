@@ -191,6 +191,7 @@ namespace PxKeystrokesWPF
         [DataMember] public Nullable<double> buttonIndicatorScaling = null;
         [DataMember] public Nullable<double> buttonIndicatorPositionAngle = null;
         [DataMember] public Nullable<double> buttonIndicatorPositionDistance = null;
+        [DataMember] public Nullable<bool> buttonIndicatorShowModifiers = null;
         [DataMember] public Nullable<bool> addButtonEventsToHistory = null;
         [DataMember] public Nullable<bool> backspaceDeletesText = null;
         [DataMember] public Nullable<bool> periodicTopmost = null;
@@ -432,6 +433,13 @@ namespace PxKeystrokesWPF
             set { i.buttonIndicatorPositionDistance = value; OnSettingChanged("ButtonIndicatorPositionDistance"); }
         }
 
+        public bool ButtonIndicatorShowModifiersDefault = true;
+        public bool ButtonIndicatorShowModifiers
+        {
+            get { return Or(i.buttonIndicatorShowModifiers, ButtonIndicatorShowModifiersDefault); }
+            set { i.buttonIndicatorShowModifiers = value; OnSettingChanged("ButtonIndicatorShowModifiers"); }
+        }
+
         public bool AddButtonEventsToHistoryDefault = false;
         public bool AddButtonEventsToHistory
         {
@@ -533,6 +541,7 @@ namespace PxKeystrokesWPF
                 PropertyChanged(this, new PropertyChangedEventArgs("ButtonIndicatorScalingPercentage"));
                 PropertyChanged(this, new PropertyChangedEventArgs("ButtonIndicatorPositionAngle"));
                 PropertyChanged(this, new PropertyChangedEventArgs("ButtonIndicatorPositionDistance"));
+                PropertyChanged(this, new PropertyChangedEventArgs("ButtonIndicatorShowModifiers"));
                 PropertyChanged(this, new PropertyChangedEventArgs("AddButtonEventsToHistory"));
                 PropertyChanged(this, new PropertyChangedEventArgs("BackspaceDeletesText"));
                 PropertyChanged(this, new PropertyChangedEventArgs("PeriodicTopmost"));
@@ -656,10 +665,16 @@ ButtonIndicator:                 {ButtonIndicator.ToString()}
 buttonIndicatorScalingPercentage:{ButtonIndicatorScaling}
 ButtonIndicatorPositionAngle:    {ButtonIndicatorPositionAngle}
 ButtonIndicatorPositionDistance: {ButtonIndicatorPositionDistance}
+ButtonIndicatorShowModifiers:    {ButtonIndicatorShowModifiers}
 AddButtonEventsToHistory:        {AddButtonEventsToHistory}
 BackspaceDeletesText:            {BackspaceDeletesText}
 PeriodicTopmost:                 {PeriodicTopmost}
-EnableKeystrokeHistory:          {EnableKeystrokeHistory}";
+EnableKeystrokeHistory:          {EnableKeystrokeHistory}
+KeystrokeHistorySettingsModeShortcut: {KeystrokeHistorySettingsModeShortcut}
+EnableSettingsMode:             {EnableSettingsMode}
+KeystrokeHistoryPasswordModeShortcut: {KeystrokeHistoryPasswordModeShortcut}
+EnablePasswordMode:             {EnablePasswordMode}
+";
         }
 
     }

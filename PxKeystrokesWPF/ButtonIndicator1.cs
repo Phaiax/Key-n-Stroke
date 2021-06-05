@@ -89,15 +89,30 @@ namespace PxKeystrokesWPF
         {
             Console.Write(e.ToString());
             bool changed = false;
-            if (e.StrokeType == KeystrokeType.Modifiers) {
-                if (e.Shift != c.addMShift) changed = true;
-                c.addMShift = e.Shift;
-                if (e.Ctrl != c.addMCtrl) changed = true;
-                c.addMCtrl = e.Ctrl;
-                if (e.Alt != c.addMAlt) changed = true;
-                c.addMAlt = e.Alt;
-                if (e.Win != c.addMWin) changed = true;
-                c.addMWin = e.Win;
+            if (s.ButtonIndicatorShowModifiers)
+            {
+                if (e.StrokeType == KeystrokeType.Modifiers)
+                {
+                    if (e.Shift != c.addMShift) changed = true;
+                    c.addMShift = e.Shift;
+                    if (e.Ctrl != c.addMCtrl) changed = true;
+                    c.addMCtrl = e.Ctrl;
+                    if (e.Alt != c.addMAlt) changed = true;
+                    c.addMAlt = e.Alt;
+                    if (e.Win != c.addMWin) changed = true;
+                    c.addMWin = e.Win;
+                }
+            }
+            else
+            {
+                if (c.addMShift) changed = true;
+                c.addMShift = false;
+                if (c.addMCtrl) changed = true;
+                c.addMCtrl = false;
+                if (c.addMAlt) changed = true;
+                c.addMAlt = false;
+                if (c.addMWin) changed = true;
+                c.addMWin = false;
             }
             if (changed)
             {

@@ -262,6 +262,8 @@
                                       Value="{Binding ButtonIndicatorPositionAngle, Mode=TwoWay}" />
                     <CheckBox x:Name="cb_bi_history"
                               IsChecked="{Binding AddButtonEventsToHistory}">Add to history</CheckBox>
+                    <CheckBox x:Name="cb_bi_modifiers"
+                              IsChecked="{Binding ButtonIndicatorShowModifiers}">Show modifiers (Ctrl, Shift, ...)</CheckBox>
                 </StackPanel>
             </GroupBox>
             <Grid Margin="10">
