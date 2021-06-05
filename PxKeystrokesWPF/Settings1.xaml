@@ -174,18 +174,21 @@
                     </GroupBox>
                     <CheckBox x:Name="cb_enablesettingsmode"
                               IsChecked="{Binding EnableSettingsMode}">Enable resize/move mode</CheckBox>
-                    <TextBlock TextWrapping="Wrap"
-                               Margin="5,3,0,0">
-                        Key combination to enable resizing and moving of the keystroke history window.</TextBlock>
-                    <TextBox x:Name="TextBoxKeystrokeHistorySettingsModeShortcut"
-                             Margin="5,3,0,0"
-                             Text="{Binding KeystrokeHistorySettingsModeShortcut, Mode=TwoWay}"
-                             TextChanged="TextBoxKeystrokeHistorySettingsModeShortcut_TextChanged" />
-                    <TextBlock TextWrapping="Wrap"
-                               Margin="10,0,0,0">
-                         Default is <Hyperlink Click="Hyperlink_Click"><Run x:Name="SettingsModeShortcutDefault"></Run></Hyperlink>. <LineBreak /> 
-                         Available keys: <Run x:Name="AvailableShortcutKeys"></Run>. Combine the keys with '+'.
-                    </TextBlock>
+                    <GroupBox Header="Keyboard Shortcuts">
+                        <StackPanel>
+                            <TextBlock TextWrapping="Wrap"
+                                       Margin="5,3,0,0">
+                                Resize/move mode: <Run Text="{Binding KeystrokeHistorySettingsModeShortcut}" />
+                            </TextBlock>
+                            <TextBlock TextWrapping="Wrap"
+                                       Margin="15,3,0,0">
+                                <Hyperlink Click="Hyperlink_ChangeResizeMoveShortcut">Change</Hyperlink>
+                                <LineBreak />
+                                <Hyperlink Click="Hyperlink_ResetResizeMoveShortcut">Reset to <Run x:Name="SettingsModeShortcutDefault"></Run></Hyperlink>
+                            </TextBlock>
+                        </StackPanel>
+                    </GroupBox>
+
                 </StackPanel>
 
             </Grid>

@@ -66,17 +66,19 @@ namespace PxKeystrokesWPF
     /// </summary>
     public partial class Settings1 : Window
     {
-        public Settings1(SettingsStore s)
+        public Settings1(SettingsStore s, IKeystrokeEventProvider k)
         {
             InitializeComponent();
             settings = s;
+            this.k = k;
             Log.e("BIN", "Set Data context in settings window");
             layout_root.DataContext = settings;
-            AvailableShortcutKeys.Text = String.Join(", ", KeystrokeDisplay.AvailableKeysForShortcut);
             SettingsModeShortcutDefault.Text = settings.KeystrokeHistorySettingsModeShortcutDefault;
+
         }
 
         SettingsStore settings;
+        IKeystrokeEventProvider k;
 
         protected override void OnClosed(EventArgs e)
         {
@@ -147,22 +149,19 @@ namespace PxKeystrokesWPF
         }
 
 
-        private void TextBoxKeystrokeHistorySettingsModeShortcut_TextChanged(object sender, TextChangedEventArgs e)
+        private void Hyperlink_ChangeResizeMoveShortcut(object sender, RoutedEventArgs e)
         {
-            var text = TextBoxKeystrokeHistorySettingsModeShortcut.Text;
-            if (KeystrokeDisplay.ValidateShortcutSetting(text))
+            ReadShortcut rs = new ReadShortcut(k, "enabling and disabling the move+resize mode for the keystroke history window.");
+            rs.ShowDialog();
+            if (rs.Shortcut != null)
             {
-                settings.KeystrokeHistorySettingsModeShortcut = text;
-                TextBoxKeystrokeHistorySettingsModeShortcut.Background = SystemColors.ControlLightLightBrush;
-            } else
-            {
-                TextBoxKeystrokeHistorySettingsModeShortcut.Background = new SolidColorBrush(Color.FromRgb(250, 189, 185));
+                settings.KeystrokeHistorySettingsModeShortcut = rs.Shortcut;
             }
         }
 
-        private void Hyperlink_Click(object sender, RoutedEventArgs e)
+        private void Hyperlink_ResetResizeMoveShortcut(object sender, RoutedEventArgs e)
         {
-            TextBoxKeystrokeHistorySettingsModeShortcut.Text = settings.KeystrokeHistorySettingsModeShortcutDefault;
+            settings.KeystrokeHistorySettingsModeShortcut = settings.KeystrokeHistorySettingsModeShortcutDefault;
         }
     }
 }

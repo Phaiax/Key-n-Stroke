@@ -458,7 +458,7 @@ namespace PxKeystrokesWPF
             set { i.enableKeystrokeHistory = value; OnSettingChanged("EnableKeystrokeHistory"); }
         }
 
-        public String KeystrokeHistorySettingsModeShortcutDefault = "Ctrl+Alt+Shift";
+        public String KeystrokeHistorySettingsModeShortcutDefault = "RightCtrl + F12";
         public String KeystrokeHistorySettingsModeShortcut
         {
             get { return Or(i.keystrokeHistorySettingsModeShortcut, KeystrokeHistorySettingsModeShortcutDefault); }

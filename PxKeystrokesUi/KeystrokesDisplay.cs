@@ -254,7 +254,7 @@ namespace PxKeystrokesUi
             {
                 //SettingsForm.Dispose();
             }
-            SettingsForm = new Settings1(settings);
+            SettingsForm = new Settings1(settings, k);
             SettingsForm.ShowDialog();
         }
 

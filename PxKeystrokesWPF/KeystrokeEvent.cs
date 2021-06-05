@@ -64,6 +64,78 @@ namespace PxKeystrokesWPF
             return Modifiers;
         }
 
+        public string ShortcutIdentifier()
+        {
+            if (StrokeType == KeystrokeType.Text)
+            {
+                return null;
+            }
+            else if(StrokeType == KeystrokeType.Shortcut)
+            {
+
+                List<string> output = new List<string>();
+
+                if (this.LCtrl)
+                {
+                    output.Add("LeftCtrl");
+                }
+                if (this.RCtrl)
+                {
+                    output.Add("RightCtrl");
+                }
+                // else if (this.Ctrl)
+                // {
+                    // output.Add("Ctrl");
+                // }
+
+                if (this.LWin)
+                {
+                    output.Add("LeftWin");
+                }
+                if (this.RWin)
+                {
+                    output.Add("RightWin");
+                }
+
+                if (this.LAlt)
+                {
+                    output.Add("LeftAlt");
+                }
+                if (this.RAlt)
+                {
+                    output.Add("RightAlt");
+                }
+                // else if (this.Alt)
+                // {
+                    // output.Add("Alt");
+                // }
+
+                if (this.LShift)
+                {
+                    output.Add("LeftShift");
+                }
+                if (this.RShift)
+                {
+                    output.Add("RightShift");
+                }
+                // else if (this.Shift)
+                // {
+                // output.Add("Shift");
+                // }
+                string trimmed = KeyString.Trim();
+                if (trimmed.Length == 0) // The Space key
+                {
+                    output.Add(KeyString);
+                }
+                else
+                {
+                    output.Add(trimmed);
+                }
+                return string.Join(" + ", output);
+            }
+            return null;
+        }
+
 
         public KeystrokeEventArgs(KeyboardRawEventArgs e)
             : base(e.Kbdllhookstruct)

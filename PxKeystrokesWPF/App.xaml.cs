@@ -147,7 +147,7 @@ namespace PxKeystrokesWPF
         {
             if (settingsWindow == null)
             {
-                settingsWindow = new Settings1(mySettings);
+                settingsWindow = new Settings1(mySettings, myKeystrokeConverter);
                 settingsWindow.Show();
             } else
             {

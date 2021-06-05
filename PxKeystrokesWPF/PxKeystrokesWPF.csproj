@@ -225,6 +225,9 @@
     <Compile Include="CursorIndicator1.xaml.cs">
       <DependentUpon>CursorIndicator1.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ReadShortcut.xaml.cs">
+      <DependentUpon>ReadShortcut.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ResizeButton.xaml.cs">
       <DependentUpon>ResizeButton.xaml</DependentUpon>
     </Compile>
@@ -280,6 +283,10 @@
     <Compile Include="UIHelper.cs" />
     <Compile Include="UrlOpener.cs" />
     <Page Include="CursorIndicator1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ReadShortcut.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

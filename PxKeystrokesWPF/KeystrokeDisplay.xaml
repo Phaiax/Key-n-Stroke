@@ -51,6 +51,16 @@
                 Height="38"
                 Panel.ZIndex="8"
                 Click="buttonSettings_Click" />
+        <Button x:Name="buttonLeaveSettingsMode"
+                Content="Finish Move+Resize"
+                HorizontalAlignment="Right"
+                Margin="0,-2,140,0"
+                VerticalAlignment="Top"
+                Width="170"
+                FontSize="16"
+                Height="38"
+                Panel.ZIndex="8"
+                Click="buttonLeaveSettingsMode_Click" Foreground="White" Background="#FF5CC358" />
         <Grid x:Name="innerPanel"
               HorizontalAlignment="Left"
               Height="185"

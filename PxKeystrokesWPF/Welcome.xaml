@@ -10,7 +10,7 @@
 
         <TextBlock Margin="10,10,-0.333,163.333" TextWrapping="Wrap"><Span FontSize="24"><Run Text="Welcome to Px Keystrokes For Screencasts "/><Run x:Name="VersionInfo"></Run></Span><LineBreak/><Span FontSize="24"><Run/></Span><LineBreak/><LineBreak/><Run Text="Click on the "/><InlineUIContainer>
                 <Image Width="20" Source="Resources/app.ico" />
-            </InlineUIContainer><Run Text=" icon in the tray to open the settings."/><LineBreak/><LineBreak/><Run Text="Hold the keys "/><Span FontWeight="Bold"><Run Text="{Binding KeystrokeHistorySettingsModeShortcut, Mode=OneWay}"/></Span><Run Text=" to resize the keystroke history window."/></TextBlock>
+            </InlineUIContainer><Run Text=" icon in the tray to open the settings."/><LineBreak/><LineBreak/><Run Text="Hit "/><Span FontWeight="Bold"><Run Text="{Binding KeystrokeHistorySettingsModeShortcut, Mode=OneWay}"/></Span><Run Text=" to resize the keystroke history window."/></TextBlock>
         <Button x:Name="ButtonCheckForUpdates" Content="Check for Updates" HorizontalAlignment="Left" Margin="10,0,0,10.333" VerticalAlignment="Bottom" Width="129" Height="24" />
         <TextBlock Margin="10,278,-0.333,52.333" TextWrapping="Wrap">
             Find the documentation here: <Hyperlink RequestNavigate="Hyperlink_RequestNavigate_README" NavigateUri="none://dummy" >https://github.com/Phaiax/PxKeystrokesForScreencasts/blob/master/README.md</Hyperlink>

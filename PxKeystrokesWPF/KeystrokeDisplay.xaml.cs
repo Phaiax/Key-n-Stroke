@@ -177,7 +177,10 @@ namespace PxKeystrokesWPF
 
         private void FadeOut()
         {
-            ToOpacity(0.0, true);
+            if (!SettingsModeActivated)
+            {
+                ToOpacity(0.0, true);
+            }
         }
 
         private void FadeIn()
@@ -306,71 +309,49 @@ namespace PxKeystrokesWPF
 
         #region Settings Mode
 
-        public static readonly String[] AvailableKeysForShortcut = {
-            "none",
-            "Ctrl",
-            "Alt",
-            "Shift",
-            "LCtrl",
-            "LAlt",
-            "LShift",
-            "RCtrl",
-            "RAlt",
-            "RShift",
-            "LWin",
-            "RWin",
-        };
-        public String[] SettingsModeShortcut;
+        public string SettingsModeShortcut;
 
-        public bool SetSettingsModeShortcut(string shortcut)
+        public void SetSettingsModeShortcut(string shortcut)
         {
             if (ValidateShortcutSetting(shortcut))
             {
-                SettingsModeShortcut = shortcut.Split('+');
-                return true;
+                SettingsModeShortcut = shortcut;
             }
-            if (SettingsModeShortcut.Length == 0)
+            else
             {
-                SettingsModeShortcut = settings.KeystrokeHistorySettingsModeShortcutDefault.Split('+');
+                SettingsModeShortcut = settings.KeystrokeHistorySettingsModeShortcutDefault;
             }
-            return false;
         }
 
         public static bool ValidateShortcutSetting(string shortcut)
         {
-            var allok = true;
-            foreach (var key in shortcut.Split('+'))
-            {
-                if (!KeystrokeDisplay.AvailableKeysForShortcut.Contains(key))
-                {
-                    allok = false;
-                }
-            }
-            return allok;
+            if (shortcut == null)
+                return false;
+            if (shortcut.Length == 0)
+                return false;
+
+            // The last key must not be Ctrl/Alt/Win/Shift, and there must be multiple keys
+            string[] keys = shortcut.Split('+'); // There are spaces around the +, but Split() only accepts chars
+            if (keys.Length < 2)
+                return false;
+            if (keys.Last().Contains("Ctrl"))
+                return false;
+            if (keys.Last().Contains("Alt"))
+                return false;
+            if (keys.Last().Contains("Shift"))
+                return false;
+            if (keys.Last().Contains("Win"))
+                return false;
+
+            return true;
         }
 
         private void CheckForSettingsMode(KeystrokeEventArgs e)
         {
-            var activated = true;
-            foreach (var key in SettingsModeShortcut)
+            if (e.ShortcutIdentifier() == SettingsModeShortcut)
             {
-                if (key == "none") activated = false;
-                else if (key == "Ctrl" && !e.Ctrl) activated = false;
-                else if (key == "Alt" && !e.Alt) activated = false;
-                else if (key == "Shift" && !e.Shift) activated = false;
-                else if (key == "LCtrl" && !e.LCtrl) activated = false;
-                else if (key == "LAlt" && !e.LAlt) activated = false;
-                else if (key == "LShift" && !e.LShift) activated = false;
-                else if (key == "RCtrl" && !e.RCtrl) activated = false;
-                else if (key == "RAlt" && !e.RAlt) activated = false;
-                else if (key == "RShift" && !e.RShift) activated = false;
-                else if (key == "LWin" && !e.LWin) activated = false;
-                else if (key == "RWin" && !e.RWin) activated = false;
+                settings.EnableSettingsMode = !settings.EnableSettingsMode;
             }
-            if (activated)
-                ActivateSettingsMode();
-            else
-                ActivateDisplayOnlyMode(false);
         }
 
         bool SettingsModeActivated = false;
@@ -390,6 +371,7 @@ namespace PxKeystrokesWPF
                 buttonResizeInnerPanel.Visibility = Visibility.Hidden;
                 buttonResizeWindow.Visibility = Visibility.Hidden;
                 buttonSettings.Visibility = Visibility.Hidden;
+                buttonLeaveSettingsMode.Visibility = Visibility.Hidden;
                 innerPanel.Background = new SolidColorBrush(Color.FromArgb(0,0,0,0));
                 backgroundGrid.Background = new SolidColorBrush(UIHelper.ToMediaColor(settings.BackgroundColor));
 
@@ -413,6 +395,7 @@ namespace PxKeystrokesWPF
                 buttonResizeInnerPanel.Visibility = Visibility.Visible;
                 buttonResizeWindow.Visibility = Visibility.Visible;
                 buttonSettings.Visibility = Visibility.Visible;
+                buttonLeaveSettingsMode.Visibility = Visibility.Visible;
                 innerPanel.Background = OrigInnerPanelBackgroundColor;
                 backgroundGrid.Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
 
@@ -496,6 +479,12 @@ namespace PxKeystrokesWPF
         {
 
         }
+
+        private void buttonLeaveSettingsMode_Click(object sender, RoutedEventArgs e)
+        {
+            settings.EnableSettingsMode = false;
+        }
+
         #endregion
 
         #region display and animate Label
@@ -766,6 +755,7 @@ namespace PxKeystrokesWPF
                 ApplyLabelStyle(pack.label);
             }
         }
+
 
 
 
