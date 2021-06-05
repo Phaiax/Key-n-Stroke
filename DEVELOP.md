@@ -4,6 +4,23 @@
 
 This is a little documentation about how the source code is organized and works
 
+## How to make a new release
+
+ 1. Change Version: 
+   - Twice in AssemblyInfo.cs
+   - In project settings under "Publish"
+ 2. Build the App in Release mode
+ 3. Sign the file using the certum certificate
+    - cmd.exe: `signtool.exe sign /n Open /t http://time.certum.pl/ /fd sha256 /v Key-n-Stroke.exe`
+ 4. Verify the signature:
+    - cmd.exe: ``signtool.exe verify /pa Key-n-Stroke.exe`
+ 4. `./Key-n-Stroke.exe --create-update-manifest`
+ 5. Change manifest: Update description
+ 6. `./Key-n-Stroke.exe --sign-update-manifest`
+ 7. Copy executable into release folder
+ 8. Commit and push
+ 7. Upload manifest `scp updateManifest.xml $SSHSERVER:html/key-n-stroke/`
+
 ## Main (Program.cs)
 
 The main function is found in Program.cs.
