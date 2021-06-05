@@ -801,7 +801,7 @@ namespace KeyNStroke
                 return false;
 
             var label = labels[labels.Count - 1].label;
-            var text = (String) label.Content;
+            var text = (String) label.Content + s;
             var formattedText = new FormattedText(
                 text,
                 CultureInfo.CurrentCulture,
