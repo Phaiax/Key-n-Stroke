@@ -25,6 +25,9 @@ Requirements: Windows 10
 <a href="https://github.com/Phaiax/Key-n-Stroke/raw/master/Releases/v1.0.0/Key-n-Stroke.exe">Download Key-n-Stroke.exe 1.0.0</a> (most recent, 2021-05-06)
 
 
+There is no installation step. Just keep that exe file to start the application.
+
+You will once be greeted with a [smart screen warning](https://raw.githubusercontent.com/Phaiax/Key-n-Stroke/master/Screenshots/Smartscreen1.png). Click "More Info" and "Execute Anyway". It's fine if the issuer name is 'Open Source Developer, Daniel Seemer'.
 
 # Screenshots
 
@@ -82,7 +85,9 @@ This app is Open Source. If you miss a feature, write an issue or go for it and 
 
 You can donate via <a href="https://www.paypal.me/phaiax">paypal.me/phaiax</a>, send Bitcoins (`1JWER55pheUeJzaUcqaYwP8ZaGe5C16Rp9`) or Stellar Lumens (`phaiax*keybase.io`).  You can verify the wallet addresses cryptographically on <a href="https://keybase.io/phaiax">keybase.io/phaiax</a>. Add the message "pkfs" or "keynstroke" to the payment so I can associate it with this project. After funds for the next six years of developer certificates are raised (which I assume will never happen), I will use any additional funds to buy and eat icecream for myself and anyone I like.
 
-Until version v0.3.1 this app showed an [ugly security dialog](https://raw.githubusercontent.com/Phaiax/Key-n-Stroke/master/Screenshots/Smartscreen1.png). To fix this, I bought a validated security certificate from <a href="http://www.certum.eu/certum/cert,offer_en_open_source_cs.xml">Certum</a>. I said that if someone funds at least three years of certification (€ 75.00), I will use that money to buy a new certificate each year and implement a secure autoupdater. It's not that much, but I started anyway :smile: Here is the list of donations for full transparency: (three as of May 2021)
+This app shows a smart screen warning. To fix this, I bought a validated security certificate from <a href="http://www.certum.eu/certum/cert,offer_en_open_source_cs.xml">Certum</a>. Unfortunately that did not fix it. (And the internet says so). At least it now shows my name as the Author.
+
+I said that if someone funds at least three years of certification (€ 75.00), I will use that money to buy a new certificate each year and implement a secure autoupdater. It's not that much, but I started anyway :smile: Here is the list of donations for full transparency: (three as of May 2021)
 
 | Date       | Amount | From             |
 |------------|--------|------------------|
