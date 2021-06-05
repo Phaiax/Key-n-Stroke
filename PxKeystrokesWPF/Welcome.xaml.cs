@@ -102,5 +102,10 @@ namespace PxKeystrokesWPF
         {
             System.Windows.Application.Current.Shutdown();
         }
+
+        private void Hyperlink_RequestNavigate_settings(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+        {
+            ((App)Application.Current).showSettingsWindow();
+        }
     }
 }
