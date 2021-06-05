@@ -122,7 +122,7 @@ namespace KeyNStroke
         {
             var _assembly = System.Reflection.Assembly.GetExecutingAssembly();
             
-            Stream iconStream = Application.GetResourceStream(new Uri("pack://application:,,,/KeyNStroke;component/Resources/app.ico")).Stream;
+            Stream iconStream = Application.GetResourceStream(new Uri("pack://application:,,,/Key-n-Stroke;component/Resources/app.ico")).Stream;
             var icon = new System.Drawing.Icon(iconStream);
 
             this.notifyIcon_main = new System.Windows.Forms.NotifyIcon();
