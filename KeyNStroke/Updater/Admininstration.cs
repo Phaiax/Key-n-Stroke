@@ -158,8 +158,7 @@ namespace KeyNStroke.Updater
         <version>{version}</version>
         <date>{DateTime.UtcNow:s}</date>
         <info>New release with bug fixes and new features</info>
-        <download>https://github.com/Phaiax/PxKeystrokesForScreencasts/raw/master/Releases/{version}/{Path.GetFileName(executable)}</download>
-        <download2>https://invisibletower.de/pxkeystrokesforscreencasts/{Path.GetFileName(executable)}</download2>
+        <download>https://github.com/Phaiax/Key-n-Stroke/raw/master/Releases/{version}/{Path.GetFileName(executable)}</download>
         <sha256>{hash}</sha256>
     </update>
 </manifest>";
@@ -184,10 +183,10 @@ namespace KeyNStroke.Updater
             xmlDoc.Load(PATH_UPDATE_MANIFEST);
             Utils.SignXml(xmlDoc, GetPrivateKey());
             xmlDoc.Save(PATH_UPDATE_MANIFEST);
-            Console.WriteLine($"scp {PATH_UPDATE_MANIFEST} $SSHSERVER:html/pxkeystrokesforscreencasts/");
+            Console.WriteLine($"scp {PATH_UPDATE_MANIFEST} $SSHSERVER:html/key-n-stroke/");
 
             string executable = System.Reflection.Assembly.GetEntryAssembly().Location;
-            Console.WriteLine($"scp /{executable.Replace("\\", "/").Replace(":", "")} $SSHSERVER:html/pxkeystrokesforscreencasts/");
+            Console.WriteLine($"scp /{executable.Replace("\\", "/").Replace(":", "")} $SSHSERVER:html/key-n-stroke/");
         }
 
         /// <summary>

@@ -8,7 +8,7 @@
         Title="Welcome" Height="440.617" Width="741.54" Icon="Resources/app.ico" WindowStartupLocation="CenterScreen">
     <Grid HorizontalAlignment="Stretch" Margin="10,10,10,10" VerticalAlignment="Stretch" x:Name="layout_root">
 
-        <TextBlock Margin="10,10,-0.333,163.333" TextWrapping="Wrap"><Span FontSize="24"><Run Text="Welcome to Px Keystrokes For Screencasts "/><Run x:Name="VersionInfo"/></Span><LineBreak/><Span FontSize="24"><Run/></Span><LineBreak/><LineBreak/><Run Text="Click "/><InlineUIContainer>
+        <TextBlock Margin="10,10,-0.333,163.333" TextWrapping="Wrap"><Span FontSize="24"><Run Text="Welcome to Key'n'Strokes "/><Run x:Name="VersionInfo"/></Span><LineBreak/><Span FontSize="24"><Run/></Span><LineBreak/><LineBreak/><Run Text="Click "/><InlineUIContainer>
                 <Image Width="20" Source="Resources/app.ico" />
             </InlineUIContainer><Run Text=" in the notification area to access the "/><Hyperlink RequestNavigate="Hyperlink_RequestNavigate_settings" NavigateUri="none://dummy" >settings</Hyperlink>.<LineBreak/><LineBreak/><Run Text="Press "/><Span FontWeight="Bold"><Run Text="{Binding KeystrokeHistorySettingsModeShortcut, Mode=OneWay}"/></Span><Run Text=" to move the keystroke history window."/></TextBlock>
         <Button x:Name="ButtonCheckForUpdates" Content="Check for Updates" HorizontalAlignment="Left" Margin="10,0,0,10.333" VerticalAlignment="Bottom" Width="129" Height="24" />

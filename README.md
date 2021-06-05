@@ -1,42 +1,62 @@
-# PxKeystrokesForScreencasts
+# Key'n'Stroke
 
-Displays Keystrokes in an overlay window. (Windows 10 - Mai 2019 - 1903)
+Displays Keystrokes in an overlay window and visualize mouse clicks.
 
-Press <code>Ctrl + Shift + Alt</code> to reveal configuration options, resize, move or close the window.
-
-Demo Video: https://www.youtube.com/watch?v=Ud3tqB8TMVc
-
-Screenshots below.
-
-This is Open Source. If you miss a feature, go for it and send a Pull-Request afterwards!
 
 # Features
+
  - Displays special keys (volume up: 🔊⏫) and shortcuts
+ - Visually indicate mouse cursor position
+ - Visually indicate pressed buttons
  - Click Through
  - Opacity
- - Customizable: Colors, Font, Size and Position, Text Position and Orientation
+ - Customizable: Icons, Colors, Font, Size and Position, Text Position and Orientation
  - Displays history of pressed keys
  - Icon in notification area
  - One small file, no installation required
- - Visually indicate mouse cursor position
- - Visually indicate pressed buttons
+ - Works with high-dpi screens
+ - Works with multi-dpi screen setups
+
+Requirements: Windows 10
+
 
 # Download
 
-<a href="https://github.com/Phaiax/PxKeystrokesForScreencasts/raw/master/Releases/v0.3.1/PxKeystrokesUi.exe">Download PxKeystrokesUi.exe 0.3.1</a> (most recent, 2016-01-31, Win10 tested)
+<a href="https://github.com/Phaiax/Key-n-Stroke/raw/master/Releases/v1.0.0/Key-n-Stroke.exe">Download Key-n-Stroke.exe 1.0.0</a> (most recent, 2021-05-06)
 
 
-This security alert will appear. Click the <code>More Info</code> link, and then <code>Execute anyway</code>.
 
-<img src="https://raw.githubusercontent.com/Phaiax/PxKeystrokesForScreencasts/master/Screenshots/Smartscreen1.png" alt="SmartScreen filter dialog.">
+# Screenshots
 
-This dialog is ugly. To fix this, i need a validated security certificate. Certum offers a low priced <a href="http://www.certum.eu/certum/cert,offer_en_open_source_cs.xml"> 1 year certificate for open source projects </a> for € 25.00 per annum. If someone funds at least three years of certification (€ 75.00), i will use that money to buy a new certificate each year. Then I will also implement a secure autoupdater. <a href="https://github.com/Phaiax/PxKeystrokesForScreencasts/issues/15">Get in contact with me.</a> For transparency: Currently total raised money: € 0 (May 2020). You can support via <a href="https://www.patreon.com/PxKeystrokesForScreencasts">Patreon</a>, <a href="https://www.paypal.me/phaiax">paypal.me/phaiax</a>, send Bitcoins (`1JWER55pheUeJzaUcqaYwP8ZaGe5C16Rp9`) or Stellar Lumens (`phaiax*keybase.io`). You can verify the wallet addresses cryptographically on <a href="https://keybase.io/phaiax">keybase.io/phaiax</a>. Add the message "pkfs" to the payment so I can associate it with this project. After funds for the next six years of developer certificates are raised (which I assume will never happen), I will use any additional funds to buy and eat icecream for myself and anyone I like.
+<a href="https://raw.githubusercontent.com/Phaiax/Key-n-Stroke/master/Screenshots/mouse.png">
+	<img src="https://raw.githubusercontent.com/Phaiax/Key-n-Stroke/master/Screenshots/mouse.png">
+</a>
+<a href="https://raw.githubusercontent.com/Phaiax/Key-n-Stroke/master/Screenshots/ctrl_scroll.png">
+    <img src="https://raw.githubusercontent.com/Phaiax/Key-n-Stroke/master/Screenshots/ctrl_scroll.png">
+</a>
+<a href="https://raw.githubusercontent.com/Phaiax/Key-n-Stroke/master/Screenshots/example1.png">
+    <img src="https://raw.githubusercontent.com/Phaiax/Key-n-Stroke/master/Screenshots/example1.png">
+</a>
+<a href="https://raw.githubusercontent.com/Phaiax/Key-n-Stroke/master/Screenshots/comic_sans_ms.png">
+    <img src="https://raw.githubusercontent.com/Phaiax/Key-n-Stroke/master/Screenshots/comic_sans_ms.png">
+</a>
+<a href="https://raw.githubusercontent.com/Phaiax/Key-n-Stroke/master/Screenshots/resizemode.png.png">
+    <img src="https://raw.githubusercontent.com/Phaiax/Key-n-Stroke/master/Screenshots/resizemode.png.png">
+</a>
+<a href="https://raw.githubusercontent.com/Phaiax/Key-n-Stroke/master/Screenshots/bottom_right.png">
+	<img src="https://raw.githubusercontent.com/Phaiax/Key-n-Stroke/master/Screenshots/bottom_right.png">
+</a>
+<a href="https://raw.githubusercontent.com/Phaiax/Key-n-Stroke/master/Screenshots/bottom_center.png">
+	<img src="https://raw.githubusercontent.com/Phaiax/Key-n-Stroke/master/Screenshots/bottom_center.png">
+</a>
+<a href="https://raw.githubusercontent.com/Phaiax/Key-n-Stroke/master/Screenshots/settings.png">
+	<img src="https://raw.githubusercontent.com/Phaiax/Key-n-Stroke/master/Screenshots/settings.png">
+</a>
 
 
 ## Releases
-You can find the exe in the <code>Releases</code> folder
 
-May 2020: There is <a href="https://github.com/Phaiax/PxKeystrokesForScreencasts/commits/devel">new version</a> in the works with support for multi monitor / multi dpi setups. It will takes a while since I need to port the app from WindowsForms to WPF and I do this in my spare time.
+You can find all the exe files in the <code>Releases</code> folder
 
 - v0.0.1 (Text positioning not implemented yet)
 - v0.1.1 (Looks fine)
@@ -45,37 +65,36 @@ May 2020: There is <a href="https://github.com/Phaiax/PxKeystrokesForScreencasts
 - v0.2.0 (indicator for cursor position, history timeout, bugfixes, documentation)
 - v0.3.0 (indicator for pressed buttons, deadkey fixes, backspace functionality)
 - v0.3.1 (new icons, little fixes and internal improvements)
-- v0.x.x (update to net framework 4.8)
-
-## Requirements
-
-Windows 10
-
-# Screenshots
-
-<a href="https://raw.githubusercontent.com/Phaiax/PxKeystrokesForScreencasts/master/Screenshots/mouse.png">
-	<img src="https://raw.githubusercontent.com/Phaiax/PxKeystrokesForScreencasts/master/Screenshots/mouse.png">
-</a>
-<a href="https://raw.githubusercontent.com/Phaiax/PxKeystrokesForScreencasts/master/Screenshots/bottom_right.png">
-	<img src="https://raw.githubusercontent.com/Phaiax/PxKeystrokesForScreencasts/master/Screenshots/bottom_right.png">
-</a>
-<a href="https://raw.githubusercontent.com/Phaiax/PxKeystrokesForScreencasts/master/Screenshots/bottom_center.png">
-	<img src="https://raw.githubusercontent.com/Phaiax/PxKeystrokesForScreencasts/master/Screenshots/bottom_center.png">
-</a>
-<a href="https://raw.githubusercontent.com/Phaiax/PxKeystrokesForScreencasts/master/Screenshots/settings.png">
-	<img src="https://raw.githubusercontent.com/Phaiax/PxKeystrokesForScreencasts/master/Screenshots/settings.png">
-</a>
+- v1.0.0 
+    - Rebrand as Key'n'Stroke for better discoverability, previously PxKeystrokesForScreencasts
+    - Switch to .NET 4.8 and WPF
+    - Nicer icon rendering
+    - High-Dpi compatability
+    - Custom Icons
 
 
-# TODO
- - Make some things a little bit more beautiful
- - Documentation, Refactoring, Testing
+# Feature Requests
+
+This app is Open Source. If you miss a feature, write an issue or go for it and send a Pull-Request afterwards!
 
 
+# Donations and Financial
 
-## Known Issues
- - Centering of Text if many arrow keys (or other special keys) have been pressed
- - Will not work in Front of Win 8 Apps
+You can donate via <a href="https://www.paypal.me/phaiax">paypal.me/phaiax</a>, send Bitcoins (`1JWER55pheUeJzaUcqaYwP8ZaGe5C16Rp9`) or Stellar Lumens (`phaiax*keybase.io`) [^1]
+
+[^1]: You can verify the wallet addresses cryptographically on <a href="https://keybase.io/phaiax">keybase.io/phaiax</a>. Add the message "pkfs" or "keynstroke" to the payment so I can associate it with this project. After funds for the next six years of developer certificates are raised (which I assume will never happen), I will use any additional funds to buy and eat icecream for myself and anyone I like.
+
+Until version v0.3.1 this app showed an [ugly security dialog](https://raw.githubusercontent.com/Phaiax/Key-n-Stroke/master/Screenshots/Smartscreen1.png). To fix this, I bought a validated security certificate from <a href="http://www.certum.eu/certum/cert,offer_en_open_source_cs.xml">Certum</a>. I said that if someone funds at least three years of certification (€ 75.00), I will use that money to buy a new certificate each year and implement a secure autoupdater. It's not that much, but I started anyway :smile: Here is the list of donations for full transparency: (three as of May 2021)
+
+|------------|--------|------------------|
+| 2021-03-05 | €11.14 | Heitor K. M. M.  |
+| 2020-05-17 | € 5    | Marek S.         |
+| 2020-08-06 | € 10   | AGlass0fMilk     |
+
+Expenses: Certum Open Source Certificate and cryptographic card reader + Shipping: €119.87
+
+Total: -€93.73
+
 
 
 # License

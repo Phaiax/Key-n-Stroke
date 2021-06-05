@@ -1,5 +1,6 @@
-# PxKeystrokesForScreencasts
-(aka PxKS)
+# Key'n'Stroke
+
+(previously PxKeystrokesForScreencasts)
 
 This is a little documentation about how the source code is organized and works
 
@@ -14,56 +15,6 @@ It initializes the classes decribed below.
  * new KeystrokeDisplay()
 
 The keypress information is intercepted in KeyboardHook, passed to KeystrokeParser and then passed to KeystrokeDisplay.
-
-
-## TODO
-
- - Fix bug: Clicking on close or settings icon does only work on the second click
- - Password Mode
- - Live Mouse Icon Size change
- - Start Screen with Shortcut Info and Check for Update button
-
-## Update
-
- - After Startup -> Trigger download of manifest
- - Button "Check for updates" --> Trigger download of manifest
-
- - onTrigger DownloadOfManifest
- 	- Disable Button
- 	- Display message: "Checking for updates ..."
- 	- Download and verify manifest
-
- - DownloadOfManifest: Download failed
- 	- Enable button again with text "Check for updates"
- 	- Show: "Checking for updates failed: <Why>"
-
- - DownloadOfManifest: Verification failed
- 	- Enable button again with text "Check for updates"
- 	- Show: "Checking for updates failed: Manifest signature invalid <Link>(Details)</>"
-
- - DownloadOfManifest: Verification successful
- 	- Enable button again with text "Update to Version <Version>" --> Trigger Update
- 	- Show: "<Link>What's new in verison <Version>?</>"
-
- - onTrigger Update
- 	- Disable Button
- 	- Display message: "Dowloading new version (<Progess>%)"
- 	- Download and verify executable
-
- - DownloadUpdate: Verification successful
- 	- Save with .extensionxx, Restart and switch files
- 	- restart programm
-
- - DownloadUpdate: Verification failed
- 	- Delete Manifest data and delete executable data
- 	- Show Button "Check for updates"
- 	- Show: "Update signature invalid  <Link>(Details)</>"
-
- - DownloadUpdate: Download failed
- 	- Delete Manifest data and delete executable data
- 	- Show Button "Check for updates"
- 	- Show: "Checking for updates failed: <Why>"
-
 
 
 ## How key events are intercepted from the system

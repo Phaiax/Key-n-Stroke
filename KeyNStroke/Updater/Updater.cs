@@ -48,7 +48,7 @@ namespace KeyNStroke.Updater
         {
             Random r = new Random();
             string oldExePath = System.Reflection.Assembly.GetEntryAssembly().Location;
-            string tmpExeName = $"PxKeystrokes_Updater.exe";
+            string tmpExeName = $"Key-n-Stroke_Updater.exe";
             string oldExeParentFolder = Path.GetDirectoryName(oldExePath); // may not be writable
             string systemTmpFolder = Path.GetTempPath(); // Should be writable in any case
             string tmpExePath = Path.Combine(systemTmpFolder, tmpExeName);

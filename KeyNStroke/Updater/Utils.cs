@@ -321,7 +321,7 @@ namespace KeyNStroke.Updater
         /// <exception cref="VerificationException">Thrown if the verification fails.</exception>
         public static byte[] DownloadExecutableAndVerifyHash(XmlDocument manifest, ProgressCallBack progressCallBack, TimeSpan? timeout)
         {
-            var executableUrl = manifest.SelectSingleNode("manifest/update/download2").InnerText;
+            var executableUrl = manifest.SelectSingleNode("manifest/update/download").InnerText;
             byte[] data = DownloadWithTimeoutAndProgress(executableUrl, progressCallBack, timeout);
 
             var expectedHash = manifest.SelectSingleNode("manifest/update/sha256").InnerText;
@@ -343,7 +343,7 @@ namespace KeyNStroke.Updater
 
         public static string ManifestUrl
         {
-            get { return @"https://invisibletower.de/pxkeystrokesforscreencasts/updateManifest.xml"; }
+            get { return @"https://invisibletower.de/key-n-stroke/updateManifest.xml"; }
         }
 
         /// <summary>
