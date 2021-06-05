@@ -262,6 +262,25 @@
                                       Value="{Binding ButtonIndicatorPositionAngle, Mode=TwoWay}" />
                     <CheckBox x:Name="cb_bi_modifiers"
                               IsChecked="{Binding ButtonIndicatorShowModifiers}">Show modifiers (Ctrl, Shift, ...)</CheckBox>
+                    <CheckBox x:Name="cb_bi_customicons"
+                              IsChecked="{Binding ButtonIndicatorUseCustomIcons}">
+                        <TextBlock>Use custom icons. <Hyperlink Click="OnClickCustomIconsHelp">Help</Hyperlink></TextBlock></CheckBox>
+                    <Button x:Name="button_bi_export_builtin"
+                                Click="OnButtonExportBuiltinIcons"
+                                Margin="15,5,5,5">Export built-in icons</Button>
+                    <Button x:Name="button_bi_select_folder"
+                                Click="OnButtonCustomIconsSelectFolder"
+                                Margin="15,0,5,5">Select Folder with custom icons</Button>
+                    <TextBlock x:Name="textblockCustomIconInfoBuiltin" Margin="15,0,5,5" TextWrapping="Wrap">
+                        Currently using built-in icons.
+                    </TextBlock>
+                    <TextBlock x:Name="textblockCustomIconInfoCustom" Margin="15,0,5,5" TextWrapping="Wrap">
+                            Currently using icons from
+                            <LineBreak/>
+                            <Run x:Name="runCustomIconFolderInfo" Text="{Binding ButtonIndicatorCustomIconsFolder}"/>
+                            <LineBreak/>
+                            <Hyperlink Click="OnClickCustomIconsRefresh">Refresh cache</Hyperlink>
+                    </TextBlock>
                 </StackPanel>
             </GroupBox>
             <Grid Margin="10">

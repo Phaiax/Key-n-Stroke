@@ -192,6 +192,8 @@ namespace PxKeystrokesWPF
         [DataMember] public Nullable<double> buttonIndicatorPositionAngle = null;
         [DataMember] public Nullable<double> buttonIndicatorPositionDistance = null;
         [DataMember] public Nullable<bool> buttonIndicatorShowModifiers = null;
+        [DataMember] public Nullable<bool> buttonIndicatorUseCustomIcons = null;
+        [DataMember] public string buttonIndicatorCustomIconsFolder = null;
         [DataMember] public Nullable<bool> addButtonEventsToHistory = null;
         [DataMember] public Nullable<bool> backspaceDeletesText = null;
         [DataMember] public Nullable<bool> periodicTopmost = null;
@@ -440,6 +442,20 @@ namespace PxKeystrokesWPF
             set { i.buttonIndicatorShowModifiers = value; OnSettingChanged("ButtonIndicatorShowModifiers"); }
         }
 
+        public bool ButtonIndicatorUseCustomIconsDefault = false;
+        public bool ButtonIndicatorUseCustomIcons
+        {
+            get { return Or(i.buttonIndicatorUseCustomIcons, ButtonIndicatorUseCustomIconsDefault); }
+            set { i.buttonIndicatorUseCustomIcons = value; OnSettingChanged("ButtonIndicatorUseCustomIcons"); }
+        }
+
+        public string ButtonIndicatorCustomIconsFolderDefault = "";
+        public string ButtonIndicatorCustomIconsFolder
+        {
+            get { return Or(i.buttonIndicatorCustomIconsFolder, ButtonIndicatorCustomIconsFolderDefault); }
+            set { i.buttonIndicatorCustomIconsFolder = value; OnSettingChanged("ButtonIndicatorCustomIconsFolder"); }
+        }
+
         public bool AddButtonEventsToHistoryDefault = false;
         public bool AddButtonEventsToHistory
         {
@@ -542,6 +558,8 @@ namespace PxKeystrokesWPF
                 PropertyChanged(this, new PropertyChangedEventArgs("ButtonIndicatorPositionAngle"));
                 PropertyChanged(this, new PropertyChangedEventArgs("ButtonIndicatorPositionDistance"));
                 PropertyChanged(this, new PropertyChangedEventArgs("ButtonIndicatorShowModifiers"));
+                PropertyChanged(this, new PropertyChangedEventArgs("ButtonIndicatorUseCustomIcons"));
+                PropertyChanged(this, new PropertyChangedEventArgs("ButtonIndicatorCustomIconsFolder"));
                 PropertyChanged(this, new PropertyChangedEventArgs("AddButtonEventsToHistory"));
                 PropertyChanged(this, new PropertyChangedEventArgs("BackspaceDeletesText"));
                 PropertyChanged(this, new PropertyChangedEventArgs("PeriodicTopmost"));
@@ -666,6 +684,8 @@ buttonIndicatorScalingPercentage:{ButtonIndicatorScaling}
 ButtonIndicatorPositionAngle:    {ButtonIndicatorPositionAngle}
 ButtonIndicatorPositionDistance: {ButtonIndicatorPositionDistance}
 ButtonIndicatorShowModifiers:    {ButtonIndicatorShowModifiers}
+ButtonIndicatorUseCustomIcons:   {ButtonIndicatorUseCustomIcons}
+ButtonIndicatorCustomIconsFolder:{ButtonIndicatorCustomIconsFolder}
 AddButtonEventsToHistory:        {AddButtonEventsToHistory}
 BackspaceDeletesText:            {BackspaceDeletesText}
 PeriodicTopmost:                 {PeriodicTopmost}

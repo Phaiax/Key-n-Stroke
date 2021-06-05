@@ -75,7 +75,8 @@ namespace PxKeystrokesWPF
             layout_root.DataContext = settings;
             SettingsModeShortcutDefault.Text = settings.KeystrokeHistorySettingsModeShortcutDefault;
             PasswordModeShortcutDefault.Text = settings.KeystrokeHistoryPasswordModeShortcutDefault;
-
+            s.PropertyChanged += S_PropertyChanged;
+            s.CallPropertyChangedForAllProperties();
         }
 
         SettingsStore settings;
@@ -189,5 +190,62 @@ namespace PxKeystrokesWPF
         {
             settings.EnablePasswordMode = !settings.EnablePasswordMode;
         }
+
+        #region Custom Icons
+
+
+        private void S_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch(e.PropertyName)
+            {
+                case "ButtonIndicatorUseCustomIcons":
+                    Console.WriteLine($"{settings.ButtonIndicatorUseCustomIcons}<<");
+                    if (settings.ButtonIndicatorUseCustomIcons)
+                    {
+                        textblockCustomIconInfoBuiltin.Visibility = Visibility.Collapsed;
+                        textblockCustomIconInfoCustom.Visibility = Visibility.Visible;
+                    } 
+                    else
+                    {
+                        textblockCustomIconInfoBuiltin.Visibility = Visibility.Visible;
+                        textblockCustomIconInfoCustom.Visibility = Visibility.Collapsed;
+                    }
+                    break;
+            }
+        }
+
+        private void OnButtonCustomIconsSelectFolder(object sender, RoutedEventArgs e)
+        {
+            using (System.Windows.Forms.FolderBrowserDialog dlg = new System.Windows.Forms.FolderBrowserDialog())
+            {
+                dlg.Description = "Select folder";
+                dlg.SelectedPath = settings.ButtonIndicatorCustomIconsFolder;
+                dlg.ShowNewFolderButton = true;
+                System.Windows.Forms.DialogResult result = dlg.ShowDialog();
+                if (result == System.Windows.Forms.DialogResult.OK)
+                {
+                    settings.ButtonIndicatorCustomIconsFolder = dlg.SelectedPath;
+                }
+            }
+        }
+
+        private void OnButtonExportBuiltinIcons(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OnClickCustomIconsHelp(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OnClickCustomIconsRefresh(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        #endregion
+
+
     }
 }
