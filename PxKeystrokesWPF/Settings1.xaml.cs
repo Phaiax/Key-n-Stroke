@@ -252,7 +252,14 @@ namespace PxKeystrokesWPF
 
         private void OnClickCustomIconsRefresh(object sender, RoutedEventArgs e)
         {
-
+            if (settings.ButtonIndicatorUseCustomIcons)
+            {
+                ImageResources.ReloadRessources(settings.ButtonIndicatorCustomIconsFolder);
+            }
+            else
+            {
+                ImageResources.ReloadRessources(null);
+            }
         }
 
         #endregion

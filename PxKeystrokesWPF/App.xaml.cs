@@ -49,8 +49,8 @@ namespace PxKeystrokesWPF
                 Shutdown();
             }
 
-            ImageResources.Init();
             InitSettings();
+            ImageResources.Init(mySettings.ButtonIndicatorCustomIconsFolder);
             InitKeyboardInterception();
 
             mySettings.PropertyChanged += OnSettingChanged;
@@ -177,6 +177,16 @@ namespace PxKeystrokesWPF
                     break;
                 case "EnableKeystrokeHistory":
                     OnKeystrokeHistorySettingChanged();
+                    break;
+                case "ButtonIndicatorCustomIconsFolder":
+                case "ButtonIndicatorUseCustomIcons":
+                    if (mySettings.ButtonIndicatorUseCustomIcons)
+                    {
+                        ImageResources.ReloadRessources(mySettings.ButtonIndicatorCustomIconsFolder);
+                    } else
+                    {
+                        ImageResources.ReloadRessources(null);
+                    }
                     break;
             }
         }

@@ -370,7 +370,7 @@
     <Resource Include="Resources\updateKey.pub.xml" />
     <Resource Include="Resources\app.ico" />
     <EmbeddedResource Include="Resources\mouse.png" />
-    <Content Include="Resources\mouse.svg" />
+    <EmbeddedResource Include="Resources\mouse.svg" />
     <EmbeddedResource Include="Resources\mouse_left.png" />
     <EmbeddedResource Include="Resources\mouse_left_double.png" />
     <EmbeddedResource Include="Resources\mouse_middle.png" />

@@ -9,6 +9,8 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
 using PxKeystrokesWPF;
+using System.Windows.Forms.VisualStyles;
+using System.Windows;
 
 namespace PxKeystrokesWPF
 {
@@ -33,30 +35,20 @@ namespace PxKeystrokesWPF
         }
 
         static Dictionary<uint, BitmapCollection> ScaledByDpi;
-        static BitmapCollection Orig;
+        static BitmapCollection Orig; // original size
 
-        public static void Init()
+        public static void Init(string customIconFolder)
         {
             try
             {
                 _assembly = Assembly.GetExecutingAssembly();
 
-                foreach(string i in _assembly.GetManifestResourceNames())
+                foreach (string i in _assembly.GetManifestResourceNames())
                 {
                     Log.e("RES", i);
                 }
-                Orig.BMouse = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse.png"));
-                Orig.BLeft = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse_left.png"));
-                Orig.BRight = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse_right.png"));
-                Orig.BMiddle = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse_middle.png"));
-                Orig.BLeftDouble = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse_left_double.png"));
-                Orig.BRightDouble = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse_right_double.png"));
-                Orig.BWheelUp = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse_wheel_up.png"));
-                Orig.BWheelDown = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse_wheel_down.png"));
-                Orig.MCtrl = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse_modifier_ctrl.png"));
-                Orig.MWin = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse_modifier_win.png"));
-                Orig.MAlt = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse_modifier_alt.png"));
-                Orig.MShift = new Bitmap(_assembly.GetManifestResourceStream("PxKeystrokesWPF.Resources.mouse_modifier_shift.png"));
+
+                ReloadRessources(customIconFolder);
             }
             catch
             {
@@ -114,6 +106,52 @@ namespace PxKeystrokesWPF
                 }
             }
         }
+
+
+        public static void ReloadRessources(string customIconFolder)
+        {
+            // FIXME: This happens three times on startup. 
+
+            Orig.BMouse = LoadRessource(customIconFolder, "mouse.png");
+            Orig.BLeft = LoadRessource(customIconFolder, "mouse_left.png");
+            Orig.BRight = LoadRessource(customIconFolder, "mouse_right.png");
+            Orig.BMiddle = LoadRessource(customIconFolder, "mouse_middle.png");
+            Orig.BLeftDouble = LoadRessource(customIconFolder, "mouse_left_double.png");
+            Orig.BRightDouble = LoadRessource(customIconFolder, "mouse_right_double.png");
+            Orig.BWheelUp = LoadRessource(customIconFolder, "mouse_wheel_up.png");
+            Orig.BWheelDown = LoadRessource(customIconFolder, "mouse_wheel_down.png");
+            Orig.MCtrl = LoadRessource(customIconFolder, "mouse_modifier_ctrl.png");
+            Orig.MWin = LoadRessource(customIconFolder, "mouse_modifier_win.png");
+            Orig.MAlt = LoadRessource(customIconFolder, "mouse_modifier_alt.png");
+            Orig.MShift = LoadRessource(customIconFolder, "mouse_modifier_shift.png");
+
+            RefreshScalingCache();
+        }
+
+        private static Bitmap LoadRessource(string customIconFolder, string png_name)
+        {
+            if (customIconFolder != null)
+            {
+                try
+                {
+                    string customIconPath = Path.Combine(customIconFolder, png_name);
+                    if (File.Exists(customIconPath))
+                    {
+                        using (var fs = new FileStream(customIconPath, FileMode.Open, FileAccess.Read))
+                        {
+                            return new Bitmap(fs);
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+
+                }
+            }
+            return new Bitmap(_assembly.GetManifestResourceStream($"PxKeystrokesWPF.Resources.{png_name}"));
+        }
+
+
         static double appliedScalingFactor = -1.0;
 
         public static void ApplyScalingFactor(double scalingfactor)
@@ -122,20 +160,29 @@ namespace PxKeystrokesWPF
 
             if (appliedScalingFactor != scalingfactor)
             {
-                var newByDpi = new Dictionary<uint, BitmapCollection>();
-                
-                List<uint> dpis = NativeMethodsWindow.GetAllUsedDpis();
-
-                foreach (uint dpi in dpis)
-                {
-                    newByDpi.Add(dpi, CreateScaledBitmapCollection((float)scalingfactor, dpi));
-                }
-
                 appliedScalingFactor = scalingfactor;
-                ScaledByDpi = newByDpi;
-                lastComposedBitmap = null; // Force regeneration of Image
+                RefreshScalingCache();
             }
         }
+
+        private static void RefreshScalingCache()
+        {
+            if (appliedScalingFactor == -1.0)
+                return;
+
+            var newByDpi = new Dictionary<uint, BitmapCollection>();
+
+            List<uint> dpis = NativeMethodsWindow.GetAllUsedDpis();
+
+            foreach (uint dpi in dpis)
+            {
+                newByDpi.Add(dpi, CreateScaledBitmapCollection((float)appliedScalingFactor, dpi));
+            }
+
+            ScaledByDpi = newByDpi;
+            lastComposedBitmap = null; // Force regeneration of Image
+        }
+
 
         private static BitmapCollection CreateScaledBitmapCollection(float scalingFactor, uint dpi)
         {
@@ -234,7 +281,8 @@ namespace PxKeystrokesWPF
         static Bitmap lastComposedBitmap;
 
 
-        public static Bitmap Compose(ComposeOptions c) {
+        public static Bitmap Compose(ComposeOptions c)
+        {
 
             if (lastComposedBitmap != null && (c == lastComposeOptions))
             {
@@ -246,7 +294,7 @@ namespace PxKeystrokesWPF
             var byDpi = ScaledByDpi; // take reference to prevent datarace with update/replace logic on scaling factor change
             if (!byDpi.ContainsKey(c.dpi))
             {
-                byDpi.Add(c.dpi, CreateScaledBitmapCollection((float) appliedScalingFactor, c.dpi));
+                byDpi.Add(c.dpi, CreateScaledBitmapCollection((float)appliedScalingFactor, c.dpi));
             }
 
             BitmapCollection scaled = byDpi[c.dpi];
