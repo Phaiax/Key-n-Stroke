@@ -16,7 +16,7 @@ namespace PxKeystrokesWPF
         /// </summary>
         /// <param name="Handle">The Forms myform.Handle</param>
         public static void SetWindowTopMost(IntPtr Handle) {
-            SetWindowPos(Handle, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+            SetWindowPos(Handle, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
         }
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace PxKeystrokesWPF
         /// <param name="Handle">The Forms myform.Handle</param>
         public static void SetWindowPosition(IntPtr Handle, int x, int y)
         {
-            SetWindowPos(Handle, HWND_TOPMOST, x, y, 0, 0, SWP_NOSIZE | SWP_NOOWNERZORDER);
+            SetWindowPos(Handle, HWND_TOPMOST, x, y, 0, 0, SWP_NOSIZE | SWP_NOOWNERZORDER | SWP_NOACTIVATE);
         }
 
         /// <summary>
