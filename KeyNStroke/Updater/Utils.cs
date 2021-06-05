@@ -408,7 +408,7 @@ namespace KeyNStroke.Updater
         /// <returns></returns>
         public static RSA GetEmbeddedPubKey()
         {
-            Stream pubKeyStream = Application.GetResourceStream(new Uri("pack://application:,,,/KeyNStroke;component/Resources/updateKey.pub.xml")).Stream;
+            Stream pubKeyStream = Application.GetResourceStream(new Uri("pack://application:,,,/Key-n-Stroke;component/Resources/updateKey.pub.xml")).Stream;
             RSA pub = RSA.Create();
             using (StreamReader sr = new StreamReader(pubKeyStream))
             {
