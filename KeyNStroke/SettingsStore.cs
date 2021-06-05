@@ -170,7 +170,6 @@ namespace KeyNStroke
         [DataMember] public SerializableFont labelFont = null;
         [DataMember] public SerializableColor2 labelColor = null;
         [DataMember] public SerializableColor2 backgroundColor = null;
-        [DataMember] public Nullable<double> opacity = null;
         [DataMember] public Nullable<TextAlignment> labelTextAlignment = null;
         [DataMember] public Nullable<TextDirection> labelTextDirection = null;
         [DataMember] public Nullable<Style> labelAnimation = null;
@@ -272,14 +271,6 @@ namespace KeyNStroke
         {
             get { return Or(i.backgroundColor, BackgroundColorDefault); }
             set { i.backgroundColor = new SerializableColor2(value); OnSettingChanged("BackgroundColor"); }
-        }
-
-        public double OpacityDefault = 0.78f;
-        // replaced by Background Color Alpha channel
-        public double Opacity
-        {
-            get { return Or(i.opacity, OpacityDefault); }
-            set { i.opacity = value; OnSettingChanged("Opacity"); }
         }
 
         public TextAlignment LabelTextAlignmentDefault = TextAlignment.Left;
@@ -535,7 +526,6 @@ namespace KeyNStroke
                 PropertyChanged(this, new PropertyChangedEventArgs("LabelFont"));
                 PropertyChanged(this, new PropertyChangedEventArgs("LabelColor"));
                 PropertyChanged(this, new PropertyChangedEventArgs("BackgroundColor"));
-                PropertyChanged(this, new PropertyChangedEventArgs("Opacity"));
                 PropertyChanged(this, new PropertyChangedEventArgs("LabelTextAlignment"));
                 PropertyChanged(this, new PropertyChangedEventArgs("LabelTextDirection"));
                 PropertyChanged(this, new PropertyChangedEventArgs("LabelAnimation"));
@@ -660,7 +650,6 @@ namespace KeyNStroke
 
             return $@"LabelFont:                       {LabelFont.ToString()}
 BackgroundColor:                 {BackgroundColor.ToString()}
-Opacity:                         {Opacity}
 LabelTextAlignment:              {LabelTextAlignment.ToString()}
 LabelTextDirection:              {LabelTextDirection.ToString()}
 LabelAnimation:                  {LabelAnimation.ToString()}

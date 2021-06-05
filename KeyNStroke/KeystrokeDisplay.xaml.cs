@@ -179,7 +179,6 @@ namespace KeyNStroke
 
         DoubleAnimation windowOpacityAnim;
         Storyboard windowOpacitySB;
-        double minOpacityWhenVisible = 0.1;
 
         private void InitializeAnimations()
         {
@@ -206,7 +205,6 @@ namespace KeyNStroke
         private void FadeIn()
         {
             // Opacity now via background color
-            //ToOpacity(Math.Max(minOpacityWhenVisible, settings.Opacity), true);
             ToOpacity(1.0, true);
         }
 
@@ -249,9 +247,6 @@ namespace KeyNStroke
             {
                 case "BackgroundColor":
                     backgroundGrid.Background = new SolidColorBrush(UIHelper.ToMediaColor(settings.BackgroundColor));
-                    break;
-                case "Opacity":
-                    //ToOpacity(Math.Max(minOpacityWhenVisible, settings.Opacity), false);
                     break;
                 case "WindowLocation":
                     this.Left = settings.WindowLocation.X;
