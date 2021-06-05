@@ -465,7 +465,6 @@ namespace PxKeystrokesWPF
 
         private void CheckForPasswordMode(string pressed)
         {
-            Console.WriteLine($"{pressed} == {PasswordModeShortcut} (currently {settings.EnablePasswordMode})");
             if (PasswordModeShortcut != null && pressed == PasswordModeShortcut)
             {
                 settings.EnablePasswordMode = !settings.EnablePasswordMode;
