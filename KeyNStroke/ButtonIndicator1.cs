@@ -87,7 +87,6 @@ namespace KeyNStroke
 
         private void k_KeystrokeEvent(KeystrokeEventArgs e)
         {
-            Console.Write(e.ToString());
             bool changed = false;
             if (s.ButtonIndicatorShowModifiers)
             {

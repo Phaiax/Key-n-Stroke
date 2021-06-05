@@ -199,7 +199,6 @@ namespace KeyNStroke
             switch(e.PropertyName)
             {
                 case "ButtonIndicatorUseCustomIcons":
-                    Console.WriteLine($"{settings.ButtonIndicatorUseCustomIcons}<<");
                     if (settings.ButtonIndicatorUseCustomIcons)
                     {
                         textblockCustomIconInfoBuiltin.Visibility = Visibility.Collapsed;

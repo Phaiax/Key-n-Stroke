@@ -389,8 +389,7 @@ namespace KeyNStroke
         public double CursorIndicatorOpacity
         {
             get { return Or(i.cursorIndicatorOpacity, CursorIndicatorOpacityDefault); }
-            set { i.cursorIndicatorOpacity = value; OnSettingChanged("CursorIndicatorOpacity");
-                Console.WriteLine("CursorIndicatorOpacity " + value); }
+            set { i.cursorIndicatorOpacity = value; OnSettingChanged("CursorIndicatorOpacity"); }
         }
 
         public double CursorIndicatorSizeDefault = 55;

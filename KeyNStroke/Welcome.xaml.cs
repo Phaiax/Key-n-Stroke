@@ -43,7 +43,6 @@ namespace KeyNStroke
 
         private void ButtonSettings_Click(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} Click");
             ((App)Application.Current).showSettingsWindow();
         }
 
