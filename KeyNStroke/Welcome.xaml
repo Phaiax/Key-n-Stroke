@@ -1,0 +1,24 @@
+﻿<Window x:Class="KeyNStroke.Welcome"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:KeyNStroke"
+        mc:Ignorable="d"
+        Title="Welcome" Height="440.617" Width="741.54" Icon="Resources/app.ico" WindowStartupLocation="CenterScreen">
+    <Grid HorizontalAlignment="Stretch" Margin="10,10,10,10" VerticalAlignment="Stretch" x:Name="layout_root">
+
+        <TextBlock Margin="10,10,-0.333,163.333" TextWrapping="Wrap"><Span FontSize="24"><Run Text="Welcome to Key'n'Strokes "/><Run x:Name="VersionInfo"/></Span><LineBreak/><Span FontSize="24"><Run/></Span><LineBreak/><LineBreak/><Run Text="Click "/><InlineUIContainer>
+                <Image Width="20" Source="Resources/app.ico" />
+            </InlineUIContainer><Run Text=" in the notification area to access the "/><Hyperlink RequestNavigate="Hyperlink_RequestNavigate_settings" NavigateUri="none://dummy" >settings</Hyperlink>.<LineBreak/><LineBreak/><Run Text="Press "/><Span FontWeight="Bold"><Run Text="{Binding KeystrokeHistorySettingsModeShortcut, Mode=OneWay}"/></Span><Run Text=" to move the keystroke history window."/></TextBlock>
+        <Button x:Name="ButtonCheckForUpdates" Content="Check for Updates" HorizontalAlignment="Left" Margin="10,0,0,10.333" VerticalAlignment="Bottom" Width="129" Height="24" />
+        <TextBlock Margin="10,299,-0.333,52.333" TextWrapping="Wrap">
+            <Hyperlink RequestNavigate="Hyperlink_RequestNavigate_README" NavigateUri="none://dummy" >Documentation</Hyperlink>
+            <LineBreak />
+            <Hyperlink RequestNavigate="Hyperlink_RequestNavigate_Issues" NavigateUri="none://dummy" >Report Bugs in GitHub</Hyperlink>
+        </TextBlock>
+        <Button x:Name="ButtonExitApplication" Content="Exit Application" Margin="0,0,165.667,10.333" Click="ButtonExitApplication_Click" HorizontalAlignment="Right" Width="129" Height="24" VerticalAlignment="Bottom"/>
+        <Button x:Name="ButtonHideThisWindow" Content="Let's go" Margin="0,0,9.667,10.333" Click="ButtonHideThisWindow_Click" Height="24" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="129"/>
+        <TextBlock x:Name="TextUpdateStatus" HorizontalAlignment="Left" Margin="152,0,0,13.333" VerticalAlignment="Bottom" Width="227"/>
+    </Grid>
+</Window>
