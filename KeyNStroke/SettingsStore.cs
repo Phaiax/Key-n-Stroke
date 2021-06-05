@@ -212,7 +212,12 @@ namespace KeyNStroke
 
         public SettingsStore()
         {
+            const string SETTINGS_PATH = "Key-n-Stroke/settings.json";
+            string appldatapath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            configpath = Path.Combine(appldatapath, SETTINGS_PATH);
         }
+
+        string configpath;
 
         #endregion
 
@@ -563,7 +568,6 @@ namespace KeyNStroke
 
         #region SaveAll and LoadAll
 
-        const string ISOLATED_STORAGE_FILE_NAME = "settings";
 
         bool dirty = false;
 
@@ -573,19 +577,16 @@ namespace KeyNStroke
             {
                 try
                 {
-                    using (IsolatedStorageFile store =
-                            IsolatedStorageFile.GetUserStoreForAssembly())
+                    if (!Directory.Exists(Path.GetDirectoryName(configpath)))
                     {
-                        using (IsolatedStorageFileStream stream =
-                                new IsolatedStorageFileStream(ISOLATED_STORAGE_FILE_NAME,
-                                                              FileMode.Create,
-                                                              store))
-                        {
-                            DataContractJsonSerializer ser =
-                                new DataContractJsonSerializer(typeof(Settings));
+                        Directory.CreateDirectory(Path.GetDirectoryName(configpath));
+                    }
+                    using (var stream = new FileStream(configpath, FileMode.Create, FileAccess.Write))
+                    {
+                        DataContractJsonSerializer ser =
+                            new DataContractJsonSerializer(typeof(Settings));
 
-                            ser.WriteObject(stream, i);
-                        }
+                        ser.WriteObject(stream, i);
                     }
                 }
                 catch (System.Security.SecurityException sx)
@@ -601,28 +602,23 @@ namespace KeyNStroke
         {
             try
             {
-                using (IsolatedStorageFile store =
-                        IsolatedStorageFile.GetUserStoreForAssembly())
+                if (File.Exists(configpath))
                 {
-                    if (store.FileExists(ISOLATED_STORAGE_FILE_NAME))
+                    using (var stream = new FileStream(configpath, FileMode.Open, FileAccess.Read))
                     {
-                        using (IsolatedStorageFileStream stream =
-                                  store.OpenFile(ISOLATED_STORAGE_FILE_NAME, FileMode.Open))
+                        DataContractJsonSerializer ser =
+                            new DataContractJsonSerializer(typeof(Settings));
+
+                        try
                         {
-                            DataContractJsonSerializer ser =
-                                new DataContractJsonSerializer(typeof(Settings));
-
-                            try
-                            {
-                                i = (Settings)ser.ReadObject(stream);
-                            } catch
-                            {
-                                Log.e("SETTINGS", "Could not load settings, use default.");
-                                i = new Settings();
-                            }
+                            i = (Settings)ser.ReadObject(stream);
+                        } catch
+                        {
+                            Log.e("SETTINGS", "Could not load settings, use default.");
+                            i = new Settings();
                         }
-
                     }
+
                 }
             }
             catch (System.Security.SecurityException sx)
