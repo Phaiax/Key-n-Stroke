@@ -131,7 +131,10 @@ namespace PxKeystrokesWPF
                     && e.NoModifiers
                     && e.Key == System.Windows.Input.Key.Back)
                 {
-                    Log.e("BS", $"delete last char -> {labels[labels.Count - 1].text}");
+                    if (labels.Count > 0)
+                    {
+                        Log.e("BS", $"delete last char -> {labels[labels.Count - 1].text}");
+                    }
                     Log.e("BS", "NumberOfDeletionsAllowed " + NumberOfDeletionsAllowed.ToString());
                     if (!removeLastChar())
                     {
