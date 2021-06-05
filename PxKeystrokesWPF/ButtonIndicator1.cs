@@ -67,7 +67,7 @@ namespace PxKeystrokesWPF
             }
             catch (System.ObjectDisposedException)
             {
-                throw;
+                return; // throw;
             }
 
             NativeMethodsDC.SetBitmapForWindow(handle,
