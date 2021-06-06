@@ -13,7 +13,7 @@ This is a little documentation about how the source code is organized and works
  3. Sign the file using the certum certificate
     - cmd.exe: `signtool.exe sign /n Open /t http://time.certum.pl/ /fd sha256 /v Key-n-Stroke.exe`
  4. Verify the signature:
-    - cmd.exe: ``signtool.exe verify /pa Key-n-Stroke.exe`
+    - cmd.exe: `signtool.exe verify /pa Key-n-Stroke.exe`
  4. `./Key-n-Stroke.exe --create-update-manifest`
  5. Change manifest: Update description
  6. `./Key-n-Stroke.exe --sign-update-manifest`
