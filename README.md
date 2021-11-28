@@ -93,7 +93,8 @@ I said that if someone funds at least three years of certification (€ 75.00), 
 
 | Date       | Amount | From             |
 |------------|--------|------------------|
-| 2021-03-05 | €11.14 | Heitor K. M. M.  |
+| 2021-11-28 | € 16.95| Joshua Taylor    |
+| 2021-03-05 | € 11.14| Heitor K. M. M.  |
 | 2020-05-17 | € 5    | Marek S.         |
 | 2020-08-06 | € 10   | AGlass0fMilk     |
 
