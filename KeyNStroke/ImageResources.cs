@@ -176,7 +176,9 @@ namespace KeyNStroke
 
             foreach (uint dpi in dpis)
             {
-                newByDpi.Add(dpi, CreateScaledBitmapCollection((float)appliedScalingFactor, dpi));
+                if (!newByDpi.ContainsKey(dpi)) { 
+                    newByDpi.Add(dpi, CreateScaledBitmapCollection((float)appliedScalingFactor, dpi));
+                }
             }
 
             ScaledByDpi = newByDpi;
