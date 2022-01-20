@@ -81,7 +81,7 @@ namespace KeyNStroke
 
             mySettings.WindowLocationDefault = new Point(
                 System.Windows.SystemParameters.PrimaryScreenWidth - mySettings.WindowSizeDefault.Width - 20,
-                System.Windows.SystemParameters.PrimaryScreenHeight - mySettings.WindowSizeDefault.Height);
+                System.Windows.SystemParameters.PrimaryScreenHeight - mySettings.WindowSizeDefault.Height - 40);
 
             //mySettings.ResetAll(); // test defaults
             mySettings.LoadAll();
