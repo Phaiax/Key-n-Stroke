@@ -10,7 +10,11 @@
 name:  Key-n-Stroke Continuous Integration
 
 # Trigger on every master branch push and pull request
-on: push
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
 
