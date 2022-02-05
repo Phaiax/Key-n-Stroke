@@ -35,25 +35,46 @@ namespace KeyNStroke
 
 
         //Variables used in the call to SetWindowsHookEx
-        private NativeMethodsMouse.HookHandlerDelegate proc;
-        private IntPtr hookID = IntPtr.Zero;
+        private NativeMethodsMouse.HookHandlerDelegate windowsHookExProc;
+        private IntPtr windowsHookExID = IntPtr.Zero;
+
+        //Variables used in the call to SetWinEventHook
+        private NativeMethodsEvents.WinEventDelegate setWinEventHookProc;
+        private IntPtr setWinEventHookID = IntPtr.Zero;
+
 
         /// <summary>
-        /// Registers the function HookCallback for the global mouse events winapi 
+        /// Registers the function WindowsHookExCallback for the global mouse events winapi. 
+        /// Also registers a WinEventHook to check if the cursor is hidden.
         /// </summary>
         private void RegisterMouseHook()
         {
-            if (hookID != IntPtr.Zero)
-                return;
-
-            proc = new NativeMethodsMouse.HookHandlerDelegate(HookCallback);
-            using (Process curProcess = Process.GetCurrentProcess())
-            {
-                using (ProcessModule curModule = curProcess.MainModule)
+            // Register WindowsHookExCallback
+            if (windowsHookExID == IntPtr.Zero) {
+                windowsHookExProc = new NativeMethodsMouse.HookHandlerDelegate(WindowsHookExCallback);
+                using (Process curProcess = Process.GetCurrentProcess())
                 {
-                    hookID = NativeMethodsMouse.SetWindowsHookEx(NativeMethodsMouse.WH_MOUSE_LL, proc,
-                        NativeMethodsKeyboard.GetModuleHandle(curModule.ModuleName), 0);
+                    using (ProcessModule curModule = curProcess.MainModule)
+                    {
+                        windowsHookExID = NativeMethodsMouse.SetWindowsHookEx(NativeMethodsMouse.WH_MOUSE_LL, windowsHookExProc,
+                            NativeMethodsKeyboard.GetModuleHandle(curModule.ModuleName), 0);
+                    }
                 }
+            }
+
+            // Register WinEventCallback
+            // https://devblogs.microsoft.com/oldnewthing/20151116-00/?p=92091
+            if (setWinEventHookID == IntPtr.Zero) {
+                setWinEventHookProc = new NativeMethodsEvents.WinEventDelegate(WinEventCallback);
+                setWinEventHookID = NativeMethodsEvents.SetWinEventHook(
+                    NativeMethodsEvents.WinEvents.EVENT_OBJECT_SHOW,
+                    NativeMethodsEvents.WinEvents.EVENT_OBJECT_HIDE,
+                    IntPtr.Zero,
+                    setWinEventHookProc,
+                    0, // ProcessId = 0 and ThreadId = 0 -> global events
+                    0,
+                    NativeMethodsEvents.WinEventFlags.WINEVENT_SKIPOWNPROCESS
+                    );
             }
         }
         
@@ -62,10 +83,16 @@ namespace KeyNStroke
         /// </summary>
         private void UnregisterMouseHook()
         {
-            if (hookID == IntPtr.Zero)
-                return;
-            NativeMethodsMouse.UnhookWindowsHookEx(hookID);
-            hookID = IntPtr.Zero;
+            if (windowsHookExID != IntPtr.Zero)
+            {
+                NativeMethodsMouse.UnhookWindowsHookEx(windowsHookExID);
+                windowsHookExID = IntPtr.Zero;
+            }
+            if (setWinEventHookID != IntPtr.Zero)
+            {
+                NativeMethodsEvents.UnhookWinEvent(setWinEventHookID);
+                setWinEventHookID = IntPtr.Zero;
+            }
         }
 
         #endregion
@@ -78,7 +105,7 @@ namespace KeyNStroke
         /// <summary>
         /// Processes the key event captured by the hook.
         /// </summary>
-        private IntPtr HookCallback(int nCode, 
+        private IntPtr WindowsHookExCallback(int nCode, 
                                     UIntPtr wParam,
                                     ref NativeMethodsMouse.MSLLHOOKSTRUCT lParam)
         {
@@ -94,7 +121,7 @@ namespace KeyNStroke
 
                 OnMouseEvent(args);
             }
-            return NativeMethodsMouse.CallNextHookEx(hookID, nCode, wParam, ref lParam);
+            return NativeMethodsMouse.CallNextHookEx(windowsHookExID, nCode, wParam, ref lParam);
         }
 
         private void CheckDoubleClick(MouseRawEventArgs args)
@@ -114,6 +141,23 @@ namespace KeyNStroke
                 lastDownEvent = args;
         }
 
+        private void WinEventCallback(IntPtr hWinEventHook, NativeMethodsEvents.WinEvents eventType, IntPtr hwnd, uint idObject, uint idChild, uint dwEventThread, uint dwmsEventTime)
+        {
+            if (hwnd == IntPtr.Zero &&
+                idObject == (uint)NativeMethodsEvents.ObjIds.OBJID_CURSOR &&
+                idChild == NativeMethodsEvents.CHILDID_SELF)
+            {
+                switch (eventType)
+                {
+                    case NativeMethodsEvents.WinEvents.EVENT_OBJECT_HIDE:
+                        OnCursorEvent(false);
+                        break;
+                    case NativeMethodsEvents.WinEvents.EVENT_OBJECT_SHOW:
+                        OnCursorEvent(true);
+                        break;
+                }
+            }
+        }
 
         #endregion
 
@@ -134,6 +178,20 @@ namespace KeyNStroke
                 MouseEvent(e);
         }
 
+        /// <summary>
+        /// Fires if cursor is shown or hidden.
+        /// </summary>
+        public event CursorEventHandler CursorEvent;
+
+        /// <summary>
+        /// Raises the CursorEvent event.
+        /// </summary>
+        /// <param name="visible">True if the cursor is visible</param>
+        public void OnCursorEvent(bool visible)
+        {
+            if (CursorEvent != null)
+                CursorEvent(visible);
+        }
         #endregion
 
 

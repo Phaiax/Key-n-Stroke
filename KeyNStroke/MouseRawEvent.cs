@@ -42,7 +42,7 @@ namespace KeyNStroke
         Down,
         DblClk,
         Move,
-        Wheel
+        Wheel,
     }
 
     public class MouseRawEventArgs
@@ -157,9 +157,11 @@ namespace KeyNStroke
     }
 
     public delegate void MouseRawEventHandler(MouseRawEventArgs raw_e);
+    public delegate void CursorEventHandler(bool visible);
 
     public interface IMouseRawEventProvider : IDisposable
     {
         event MouseRawEventHandler MouseEvent;
+        event CursorEventHandler CursorEvent;
     }
 }

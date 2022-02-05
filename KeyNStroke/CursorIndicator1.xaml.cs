@@ -1,20 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Windows.Threading;
-using static KeyNStroke.NativeMethodsMouse;
 
 namespace KeyNStroke
 {
@@ -26,7 +14,6 @@ namespace KeyNStroke
         IMouseRawEventProvider m;
         SettingsStore s;
         IntPtr windowHandle;
-        DispatcherTimer timer;
         bool isHidden;
 
         public CursorIndicator1(IMouseRawEventProvider m, SettingsStore s)
@@ -37,18 +24,12 @@ namespace KeyNStroke
             this.s = s;
 
             s.PropertyChanged += settingChanged;
-
-            this.timer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromSeconds(2)
-            };
-            this.timer.Tick += this.timer_Tick;
-            this.timer.Start();
-            this.isHidden = false;
         }
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             m.MouseEvent += m_MouseEvent;
+            m.CursorEvent += m_CursorEvent;
             windowHandle = new WindowInteropHelper(this).Handle;
             SetFormStyles();
         }
@@ -59,6 +40,25 @@ namespace KeyNStroke
                 UpdatePosition(raw_e.Position);
         }
 
+        void m_CursorEvent(bool visible)
+        {
+            if (visible)
+            {
+                if (isHidden)
+                {
+                    this.Show();
+                    isHidden = false;
+                }
+            }
+            else
+            {
+                if (!isHidden)
+                {
+                    this.Hide();
+                    isHidden = true;
+                }
+            }
+        }
 
         void SetFormStyles()
         {
@@ -115,33 +115,14 @@ namespace KeyNStroke
             circle.Fill = new SolidColorBrush(Color.FromArgb((byte)(255 * (1 - s.CursorIndicatorOpacity)), c.R, c.G, c.B));
         }
 
-        void timer_Tick(object sender, EventArgs e)
-        {
-            CURSORINFO info = new CURSORINFO();
-            info.cbSize = (uint) System.Runtime.InteropServices.Marshal.SizeOf<CURSORINFO>();
-            GetCursorInfo(ref info);
-            if (info.flags == CURSOR_HIDDEN)
-            {
-                if (!isHidden)
-                {
-                    this.Hide();
-                    isHidden = true;
-                }
-            }
-            else
-            {
-                if (isHidden)
-                {
-                    this.Show();
-                    isHidden = false;
-                }
-            }
-        }
 
         private void Window_Closed(object sender, EventArgs e)
         {
             if (m != null)
+            {
                 m.MouseEvent -= m_MouseEvent;
+                m.CursorEvent -= m_CursorEvent;
+            }
             if (s != null)
                 s.PropertyChanged -= settingChanged;
             m = null;
