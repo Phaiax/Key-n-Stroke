@@ -89,10 +89,11 @@ You can donate via <a href="https://www.paypal.me/phaiax">paypal.me/phaiax</a>, 
 
 This app shows a smart screen warning. To fix this, I bought a validated security certificate from <a href="http://www.certum.eu/certum/cert,offer_en_open_source_cs.xml">Certum</a>. Unfortunately that did not fix it. (And the internet says so). At least it now shows my name as the Author.
 
-I said that if someone funds at least three years of certification (€ 75.00), I will use that money to buy a new certificate each year and implement a secure autoupdater. It's not that much, but I started anyway :smile: Here is the list of donations for full transparency: (three as of May 2021)
+I said that if someone funds at least three years of certification (€ 75.00), I will use that money to buy a new certificate each year and implement a secure autoupdater. It's not that much, but I started anyway :smile: Here is the list of donations for full transparency: (three as of Feb 2022)
 
 | Date       | Amount | From             |
 |------------|--------|------------------|
+| 2022-02-02 | € 50   | Mario Pastoor    |
 | 2021-11-28 | € 16.95| Joshua Taylor    |
 | 2021-03-05 | € 11.14| Heitor K. M. M.  |
 | 2020-05-17 | € 5    | Marek S.         |
@@ -100,7 +101,7 @@ I said that if someone funds at least three years of certification (€ 75.00), 
 
 Expenses: Certum Open Source Certificate and cryptographic card reader + Shipping: €119.87
 
-Total: -€93.73
+Total: -€43.73
 
 
 
