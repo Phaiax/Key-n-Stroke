@@ -18,12 +18,14 @@ namespace KeyNStroke
         #region Initializion
 
         int doubleClickTime;
+        SettingsStore s;
 
         /// <summary>
         /// Set up the mouse hook
         /// </summary>
-        public MouseHook()
+        public MouseHook(SettingsStore s)
         {
+            this.s = s;
             doubleClickTime = NativeMethodsMouse.GetDoubleClickTime();
             Log.e("ME", "doubleClickTime " + doubleClickTime.ToString());
             RegisterMouseHook();
@@ -68,7 +70,7 @@ namespace KeyNStroke
                 setWinEventHookProc = new NativeMethodsEvents.WinEventDelegate(WinEventCallback);
                 setWinEventHookID = NativeMethodsEvents.SetWinEventHook(
                     NativeMethodsEvents.WinEvents.EVENT_OBJECT_SHOW,
-                    NativeMethodsEvents.WinEvents.EVENT_OBJECT_HIDE,
+                    NativeMethodsEvents.WinEvents.EVENT_OBJECT_NAMECHANGE,
                     IntPtr.Zero,
                     setWinEventHookProc,
                     0, // ProcessId = 0 and ThreadId = 0 -> global events
@@ -154,6 +156,21 @@ namespace KeyNStroke
                         break;
                     case NativeMethodsEvents.WinEvents.EVENT_OBJECT_SHOW:
                         OnCursorEvent(true);
+                        break;
+                    case NativeMethodsEvents.WinEvents.EVENT_OBJECT_NAMECHANGE:
+                        if (s.CursorIndicatorHideIfCustomCursor)
+                        {
+                            NativeMethodsMouse.CURSORINFO info = NativeMethodsMouse.GetCursorInfoWrapper();
+                            Log.e("CURSOR", $"EVENT_OBJECT_NAMECHANGE flags={info.flags} hCursor={info.hCursor}");
+                            if (info.flags == NativeMethodsMouse.CURSOR_HIDDEN || ((uint)info.hCursor) >= 0x100000) /* limit guessed */
+                            {
+                                OnCursorEvent(false);
+                            }
+                            else
+                            {
+                                OnCursorEvent(true);
+                            }
+                        }
                         break;
                 }
             }

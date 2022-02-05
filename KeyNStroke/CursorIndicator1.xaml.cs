@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
+using static KeyNStroke.NativeMethodsMouse;
 
 namespace KeyNStroke
 {
@@ -24,6 +25,7 @@ namespace KeyNStroke
             this.s = s;
 
             s.PropertyChanged += settingChanged;
+            this.isHidden = false;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

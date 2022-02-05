@@ -186,6 +186,7 @@ namespace KeyNStroke
         [DataMember] public Nullable<double> cursorIndicatorOpacity = null;
         [DataMember] public Nullable<double> cursorIndicatorSize = null;
         [DataMember] public SerializableColor2 cursorIndicatorColor = null;
+        [DataMember] public Nullable<bool> cursorIndicatorHideIfCustomCursor = null;
         [DataMember] public Nullable<ButtonIndicatorType> buttonIndicator = null;
         [DataMember] public Nullable<double> buttonIndicatorScaling = null;
         [DataMember] public Nullable<double> buttonIndicatorPositionAngle = null;
@@ -402,6 +403,13 @@ namespace KeyNStroke
             set { i.cursorIndicatorColor = new SerializableColor2(value); OnSettingChanged("CursorIndicatorColor"); }
         }
 
+        public bool CursorIndicatorHideIfCustomCursorDefault = false;
+        public bool CursorIndicatorHideIfCustomCursor
+        {
+            get { return Or(i.cursorIndicatorHideIfCustomCursor, CursorIndicatorHideIfCustomCursorDefault); }
+            set { i.cursorIndicatorHideIfCustomCursor = value; OnSettingChanged("CursorIndicatorHideIfCustomCursor"); }
+        }
+
         public ButtonIndicatorType ButtonIndicatorDefault = ButtonIndicatorType.PicsAroundCursor;
         public ButtonIndicatorType ButtonIndicator
         {
@@ -546,6 +554,7 @@ namespace KeyNStroke
                 PropertyChanged(this, new PropertyChangedEventArgs("CursorIndicatorOpacity"));
                 PropertyChanged(this, new PropertyChangedEventArgs("CursorIndicatorSize"));
                 PropertyChanged(this, new PropertyChangedEventArgs("CursorIndicatorColor"));
+                PropertyChanged(this, new PropertyChangedEventArgs("CursorIndicatorHideIfCustomCursor"));
                 PropertyChanged(this, new PropertyChangedEventArgs("ButtonIndicator"));
                 PropertyChanged(this, new PropertyChangedEventArgs("ButtonIndicatorScalingPercentage"));
                 PropertyChanged(this, new PropertyChangedEventArgs("ButtonIndicatorPositionAngle"));
@@ -662,6 +671,7 @@ EnableCursorIndicator:           {EnableCursorIndicator}
 CursorIndicatorOpacity:          {CursorIndicatorOpacity}
 CursorIndicatorSize:             {CursorIndicatorSize}
 CursorIndicatorColor:            {CursorIndicatorColor}
+CursorIndicatorHideIfCustomCursor: {CursorIndicatorHideIfCustomCursor}
 ButtonIndicator:                 {ButtonIndicator}
 buttonIndicatorScalingPercentage:{ButtonIndicatorScaling}
 ButtonIndicatorPositionAngle:    {ButtonIndicatorPositionAngle}

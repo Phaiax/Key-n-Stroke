@@ -124,5 +124,13 @@ namespace KeyNStroke
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         public static extern bool GetCursorInfo(ref CURSORINFO pci);
 
+        public static CURSORINFO GetCursorInfoWrapper()
+        {
+            CURSORINFO info = new CURSORINFO();
+            info.cbSize = (uint)System.Runtime.InteropServices.Marshal.SizeOf<CURSORINFO>();
+            GetCursorInfo(ref info);
+            return info;
+        }
+
     }
 }

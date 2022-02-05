@@ -320,7 +320,7 @@ namespace KeyNStroke
         {
             if (myMouseHook != null)
                 return;
-            myMouseHook = new MouseHook();
+            myMouseHook = new MouseHook(mySettings);
         }
 
         private void DisableMouseHookIfNotNeeded()

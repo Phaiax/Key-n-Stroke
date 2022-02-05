@@ -76,7 +76,7 @@ namespace KeyNStroke
                     dragStartSize = new Size(CurrentParent.Width, CurrentParent.Height);
                     minSize = new Vector(this.Width, this.Height);
                 }
-                mouseHook = new MouseHook();
+                mouseHook = new MouseHook(settings);
                 mouseHook.MouseEvent += MouseHook_MouseEvent;
 
                 lastTickCursorPosition = currentCursorPosition = dragStartCursorPosition = NativeMethodsMouse.CursorPosition;

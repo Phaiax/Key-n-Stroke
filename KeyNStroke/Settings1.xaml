@@ -231,6 +231,9 @@
                                           Width="80"
                                           SelectedColor="{Binding CursorIndicatorColor, Mode=TwoWay, Converter={StaticResource MediaColorDrawingColorConverter}}" />
                     </StackPanel>
+                    <CheckBox x:Name="cb_cursorindicator_hide_if_custom_cursor"
+                        IsChecked="{Binding CursorIndicatorHideIfCustomCursor}" Height="50" Margin="5,10,-0.333,0">
+                        <TextBlock TextWrapping="Wrap"><Run Text="Hide if cursor icon is non-standard (Firefox video full-screen workaround)"/></TextBlock></CheckBox>
                 </StackPanel>
             </GroupBox>
         </StackPanel>
