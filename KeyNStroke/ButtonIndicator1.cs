@@ -296,6 +296,8 @@ namespace KeyNStroke
                 m.MouseEvent -= m_MouseEvent;
             if (s != null)
                 s.PropertyChanged -= settingChanged;
+            if (k != null)
+                k.KeystrokeEvent -= k_KeystrokeEvent;
             if (newScalingFactors != null)
                 newScalingFactors.CompleteAdding();
             m = null;
