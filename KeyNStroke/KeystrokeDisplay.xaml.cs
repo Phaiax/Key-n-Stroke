@@ -125,6 +125,7 @@ namespace KeyNStroke
                 }
 
                 if (!e.RequiresNewLine
+                    && settings.KeystrokeTextMode
                     && NumberOfDeletionsAllowed > 0
                     && LastHistoryLineIsText
                     && !LastHistoryLineRequiredNewLineAfterwards
@@ -146,19 +147,22 @@ namespace KeyNStroke
                     }
                 }
                 else if (e.RequiresNewLine
-                    || !AddingWouldFitInCurrentLine(e.ToString(false))
+                    || !settings.KeystrokeTextMode
+                    || !AddingWouldFitInCurrentLine(e.ToString(true, false))
                     || !LastHistoryLineIsText
                     || LastHistoryLineRequiredNewLineAfterwards)
                 {
-                    AddNextLine(e.ToString(false));
-                    Log.e("BS", $"new line: {e.ToString(false)} -> {labels[labels.Count - 1].text}");
+                    string e_str = e.ToString(settings.KeystrokeTextMode, false);
+                    AddNextLine(e_str);
+                    Log.e("BS", $"new line: {e_str} -> {labels[labels.Count - 1].text}");
                     NumberOfDeletionsAllowed = e.Deletable ? 1 : 0;
                     Log.e("BS", "NumberOfDeletionsAllowed " + NumberOfDeletionsAllowed.ToString());
                 }
                 else
                 {
-                    AddToLine(e.ToString(false));
-                    Log.e("BS", $"add to line: {e.ToString(false)} -> {labels[labels.Count-1].text}");
+                    string e_str = e.ToString(settings.KeystrokeTextMode, false);
+                    AddToLine(e_str);
+                    Log.e("BS", $"add to line: {e_str} -> {labels[labels.Count-1].text}");
                     if (e.Deletable)
                         NumberOfDeletionsAllowed += 1;
                     else

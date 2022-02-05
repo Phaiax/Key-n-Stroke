@@ -46,7 +46,7 @@ namespace KeyNStroke
                 ApplyDeadKey(e);
                 if (e.IsAlpha && e.OnlyShiftOrCaps)
                 {
-                    e.KeyString = ParseChar(e);
+                    e.TextModeString = ParseChar(e);
                     e.ShouldBeDisplayed = true;
                     e.StrokeType = KeystrokeType.Text;
                     e.Deletable = true;
@@ -54,7 +54,7 @@ namespace KeyNStroke
                 }
                 else if (e.IsNumeric && e.NoModifiers)
                 {
-                    e.KeyString = ParseNumeric(e);
+                    e.TextModeString = ParseNumeric(e);
                     e.ShouldBeDisplayed = true;
                     e.StrokeType = KeystrokeType.Text;
                     e.Deletable = true;
@@ -83,12 +83,12 @@ namespace KeyNStroke
                     Log.e("KP", "   e.NoModifiers > try SpecialkeysParser.ToString ");
                     try
                     {
-                        e.KeyString = SpecialkeysParser.ToString(e.Key);
+                        e.TextModeString = SpecialkeysParser.ToString(e.Key);
                     }
                     catch (NotImplementedException)
                     {
                         Log.e("KP", "   e.NoModifiers 2> try KeyboardLayoutParser.ParseViaToUnicode ");
-                        e.KeyString = KeyboardLayoutParser.ParseViaToUnicode(e);
+                        e.TextModeString = KeyboardLayoutParser.ParseViaToUnicode(e);
                         BackupDeadKey(e);
                     }
                     e.ShouldBeDisplayed = true;
@@ -98,11 +98,11 @@ namespace KeyNStroke
                 else if (e.OnlyShiftOrCaps) //  special char, but only Shifted, eg ;:_ÖÄ'*ÜP
                 // (e.IsNoUnicodekey is always false here -> could be a unicode key combinatin)
                 {
-                    e.KeyString = KeyboardLayoutParser.ParseViaToUnicode(e);
+                    e.TextModeString = KeyboardLayoutParser.ParseViaToUnicode(e);
                     BackupDeadKey(e);
                     Log.e("KP", "   e.OnlyShiftOrCaps > try KeyboardLayoutParser.ParseViaToUnicode ");
 
-                    if (e.KeyString != "")
+                    if (e.TextModeString != "")
                     {
                         e.ShouldBeDisplayed = true;
                         e.StrokeType = KeystrokeType.Text;
@@ -121,10 +121,10 @@ namespace KeyNStroke
 
                     // could be something like the german @ (Ctrl + Alt + Q)
                     // Temporary disabled because ToUnicode returns more often values than it should
-                    e.KeyString = ""; //KeyboardLayoutParser.ParseViaToUnicode(e);
+                    e.TextModeString = ""; //KeyboardLayoutParser.ParseViaToUnicode(e);
                     Log.e("KP", "   !e.NoModifiers && !e.OnlyShiftOrCapss > KeyboardLayoutParser.ParseViaToUnicode");
                     // all other special char keycodes do not use Shift
-                    if (e.KeyString != "" && !e.Shift && !e.IsNoUnicodekey)
+                    if (e.TextModeString != "" && !e.Shift && !e.IsNoUnicodekey)
                     {
                         e.ShouldBeDisplayed = true;
                         e.StrokeType = KeystrokeType.Text;
@@ -139,13 +139,13 @@ namespace KeyNStroke
                                         && !CheckIsNumeric(possibleChar)
                                         && CheckIsASCII(possibleChar))
                         {
-                            e.KeyString += " (" + possibleChar + ")";
+                            e.TextModeString += " (" + possibleChar + ")";
                         }
                         Log.e("KP", "   !e.NoModifiers && !e.OnlyShiftOrCapss 2> ParseShortcutViaSpecialkeysParser ");
                     }
                 }
-                Log.e("KP", "   str:" + e.KeyString);
-
+                Log.e("KP", "   str:" + e.TextModeString);
+                e.ShortcutString = e.AsShortcutString();
             }
 
             if (e.Method == KeyUpDown.Up)
@@ -173,9 +173,9 @@ namespace KeyNStroke
 
         private void BackupDeadKey(KeystrokeEventArgs e)
         {
-            if(e.KeyString == "DEADKEY")
+            if(e.TextModeString == "DEADKEY")
             {
-                e.KeyString = "!";
+                e.TextModeString = "!";
                 lastDeadKeyEvent = e;
             }
         }
@@ -184,8 +184,8 @@ namespace KeyNStroke
         {
             if(lastDeadKeyEvent != null)
             {
-                lastDeadKeyEvent.KeyString = KeyboardLayoutParser.ProcessDeadkeyWithNextKey(lastDeadKeyEvent, e);
-                if(lastDeadKeyEvent.KeyString == "")
+                lastDeadKeyEvent.TextModeString = KeyboardLayoutParser.ProcessDeadkeyWithNextKey(lastDeadKeyEvent, e);
+                if(lastDeadKeyEvent.TextModeString == "")
                 {
                     lastDeadKeyEvent = null;
                     return false;
@@ -201,11 +201,11 @@ namespace KeyNStroke
         {
             try
             {
-                e.KeyString = SpecialkeysParser.ToString(e.Key);
+                e.TextModeString = SpecialkeysParser.ToString(e.Key);
             }
             catch (NotImplementedException)
             {
-                e.KeyString = e.Key.ToString();
+                e.TextModeString = e.Key.ToString();
             }
             e.ShouldBeDisplayed = true;
             e.StrokeType = KeystrokeType.Shortcut;
@@ -217,7 +217,7 @@ namespace KeyNStroke
         {
             try
             {
-                e.KeyString = SpecialkeysParser.ToString(e.Key);
+                e.TextModeString = SpecialkeysParser.ToString(e.Key);
                 e.ShouldBeDisplayed = true;
                 e.StrokeType = KeystrokeType.Text;
                 e.RequiresNewLineAfterwards = e.Key == Key.Return;

@@ -17,7 +17,13 @@ namespace KeyNStroke
 
     public class KeystrokeEventArgs : KeyboardRawEventArgs
     {
-        public string KeyString;
+        public string TextModeString; // for use in TextMode
+        public string ShortcutString; // will always contain a shortcut
+
+        public bool OrigShift;
+        public bool OrigLShift;
+        public bool OrigRShift;
+        public bool OrigCaps;
 
         public bool IsAlpha;
         public bool IsNumericFromNumpad;
@@ -36,28 +42,45 @@ namespace KeyNStroke
 
         public override string ToString()
         {
-            if (StrokeType == KeystrokeType.Text)
+            return ToString(true);
+        }
+
+        public string ToString(bool textMode)
+        {
+            if (ShortcutString != null && (StrokeType == KeystrokeType.Shortcut || !textMode))
             {
-                return KeyString;
+                return ShortcutString;
             }
-            else if(StrokeType == KeystrokeType.Shortcut)
+            else if (StrokeType == KeystrokeType.Text && textMode)
             {
-                List<string> output = ShortcutModifiersToList();
-                output.Add(KeyString);
-                return string.Join(" + ", output);
+                return TextModeString;
             }
             return "BUG2";
         }
 
-        public string ToString(bool DoubleAmpersand)
+        public string ToString(bool textMode, bool DoubleAmpersand)
         {
-            return DoubleAmpersand ? ToString().Replace("&", "&&") : ToString();
+            return DoubleAmpersand ? ToString(textMode).Replace("&", "&&") : ToString(textMode);
+        }
+
+        public string AsShortcutString()
+        {
+            List<string> output = ShortcutModifiersToList();
+            if (StrokeType == KeystrokeType.Text)
+            {
+                output.Add(TextModeString.ToUpper());
+            }
+            else
+            {
+                output.Add(TextModeString);
+            }
+            return string.Join(" + ", output);
         }
 
         public List<string> ShortcutModifiersToList()
         {
             List<string> Modifiers = new List<string>();
-            if (Shift) Modifiers.Add(SpecialkeysParser.ToString(Key.LeftShift));
+            if (OrigShift) Modifiers.Add(SpecialkeysParser.ToString(Key.LeftShift));
             if (Ctrl) Modifiers.Add(SpecialkeysParser.ToString(Key.LeftCtrl));
             if (Alt) Modifiers.Add(SpecialkeysParser.ToString(Key.LeftAlt));
             if (Win) Modifiers.Add(SpecialkeysParser.ToString(Key.LWin));
@@ -122,10 +145,10 @@ namespace KeyNStroke
                 // {
                 // output.Add("Shift");
                 // }
-                string trimmed = KeyString.Trim();
+                string trimmed = TextModeString.Trim();
                 if (trimmed.Length == 0) // The Space key
                 {
-                    output.Add(KeyString);
+                    output.Add(TextModeString);
                 }
                 else
                 {
@@ -157,6 +180,11 @@ namespace KeyNStroke
             //this.Kbdllhookstruct = e.Kbdllhookstruct;
             this.keyState = e.keyState;
             this.Method = e.Method;
+
+            this.OrigShift = e.Shift;
+            this.OrigCaps = e.Caps;
+            this.OrigLShift = e.LShift;
+            this.OrigRShift = e.RShift;
         }
     }
 

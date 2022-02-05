@@ -125,6 +125,8 @@
                         <CheckBox x:Name="cb_periodictopmost"
                                   IsChecked="{Binding PeriodicTopmost}">Put on top periodically</CheckBox>
 
+                        <CheckBox x:Name="cb_textmode"
+                            IsChecked="{Binding KeystrokeTextMode}" Content="Text mode"/>
                     </StackPanel>
 
                 </StackPanel>

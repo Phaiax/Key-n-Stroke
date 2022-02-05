@@ -202,6 +202,7 @@ namespace KeyNStroke
         [DataMember] public Nullable<bool> enableSettingsMode = null;
         [DataMember] public String keystrokeHistoryPasswordModeShortcut = null;
         [DataMember] public Nullable<bool> enablePasswordMode = null;
+        [DataMember] public Nullable<bool> keystrokeTextMode = null;
     }
 
     #endregion
@@ -515,6 +516,13 @@ namespace KeyNStroke
             set { i.enablePasswordMode = value; OnSettingChanged("EnablePasswordMode"); }
         }
 
+        public bool KeystrokeTextModeDefault = true;
+        public bool KeystrokeTextMode
+        {
+            get { return Or(i.keystrokeTextMode, KeystrokeTextModeDefault); }
+            set { i.keystrokeTextMode = value; OnSettingChanged("KeystrokeTextMode"); }
+        }
+
         // Add new settings also to method CallPropertyChangedForAllProperties()
 
         #endregion
@@ -570,6 +578,7 @@ namespace KeyNStroke
                 PropertyChanged(this, new PropertyChangedEventArgs("EnableSettingsMode"));
                 PropertyChanged(this, new PropertyChangedEventArgs("KeystrokeHistoryPasswordModeShortcut"));
                 PropertyChanged(this, new PropertyChangedEventArgs("EnablePasswordMode"));
+                PropertyChanged(this, new PropertyChangedEventArgs("KeystrokeTextMode"));
             }
         }
 
@@ -687,6 +696,7 @@ KeystrokeHistorySettingsModeShortcut: {KeystrokeHistorySettingsModeShortcut}
 EnableSettingsMode:             {EnableSettingsMode}
 KeystrokeHistoryPasswordModeShortcut: {KeystrokeHistoryPasswordModeShortcut}
 EnablePasswordMode:             {EnablePasswordMode}
+KeystrokeTextMode:             {KeystrokeTextMode}
 ";
         }
 

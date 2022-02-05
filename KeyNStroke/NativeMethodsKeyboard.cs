@@ -43,7 +43,7 @@ namespace KeyNStroke
             IntPtr wParam, ref KBDLLHOOKSTRUCT lParam);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true, CallingConvention = CallingConvention.Winapi)]
-        public static extern short GetKeyState(int keyCode);
+        public static extern UInt16 GetKeyState(int keyCode);
 
 
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
