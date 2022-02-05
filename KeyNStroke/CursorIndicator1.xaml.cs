@@ -13,6 +13,8 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
+using static KeyNStroke.NativeMethodsMouse;
 
 namespace KeyNStroke
 {
@@ -24,6 +26,8 @@ namespace KeyNStroke
         IMouseRawEventProvider m;
         SettingsStore s;
         IntPtr windowHandle;
+        DispatcherTimer timer;
+        bool isHidden;
 
         public CursorIndicator1(IMouseRawEventProvider m, SettingsStore s)
         {
@@ -34,6 +38,13 @@ namespace KeyNStroke
 
             s.PropertyChanged += settingChanged;
 
+            this.timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(2)
+            };
+            this.timer.Tick += this.timer_Tick;
+            this.timer.Start();
+            this.isHidden = false;
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -102,6 +113,29 @@ namespace KeyNStroke
         {
             var c = UIHelper.ToMediaColor(s.CursorIndicatorColor);
             circle.Fill = new SolidColorBrush(Color.FromArgb((byte)(255 * (1 - s.CursorIndicatorOpacity)), c.R, c.G, c.B));
+        }
+
+        void timer_Tick(object sender, EventArgs e)
+        {
+            CURSORINFO info = new CURSORINFO();
+            info.cbSize = (uint) System.Runtime.InteropServices.Marshal.SizeOf<CURSORINFO>();
+            GetCursorInfo(ref info);
+            if (info.flags == CURSOR_HIDDEN)
+            {
+                if (!isHidden)
+                {
+                    this.Hide();
+                    isHidden = true;
+                }
+            }
+            else
+            {
+                if (isHidden)
+                {
+                    this.Show();
+                    isHidden = false;
+                }
+            }
         }
 
         private void Window_Closed(object sender, EventArgs e)

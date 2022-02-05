@@ -50,8 +50,8 @@ namespace KeyNStroke
         [StructLayout(LayoutKind.Sequential)]
         public struct POINT
         {
-            public int X;
-            public int Y;
+            public Int32 X;
+            public Int32 Y;
 
             public POINT(int x, int y)
             {
@@ -85,11 +85,11 @@ namespace KeyNStroke
         [StructLayout(LayoutKind.Sequential)]
         public struct MSLLHOOKSTRUCT {
             public POINT pt;
-            public uint mouseData; // be careful, this must be ints, not uints (was wrong before I changed it...). regards, cmew.
-            public uint flags;
-            public uint time;
+            public UInt32 mouseData; // be careful, this must be ints, not uints (was wrong before I changed it...). regards, cmew.
+            public UInt32 flags;
+            public UInt32 time;
             public UIntPtr dwExtraInfo;
-        };
+        }
 
         public delegate IntPtr HookHandlerDelegate(int nCode,
                                              UIntPtr wParam,
@@ -108,5 +108,21 @@ namespace KeyNStroke
                 return pos;
             }
         }
+
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct CURSORINFO {
+            public UInt32 cbSize;
+            public UInt32 flags;
+            public UIntPtr hCursor;
+            public POINT ptScreenPos;
+        }
+        public const UInt32 CURSOR_HIDDEN = 0x00000000;
+        public const UInt32 CURSOR_SHOWING = 0x00000001;
+        public const UInt32 CURSOR_SUPPRESSED = 0x00000002;
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern bool GetCursorInfo(ref CURSORINFO pci);
+
     }
 }
