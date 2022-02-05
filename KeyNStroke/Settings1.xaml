@@ -267,7 +267,7 @@
                               IsChecked="{Binding ButtonIndicatorShowModifiers}">Show modifiers (Ctrl, Shift, ...)</CheckBox>
                     <CheckBox x:Name="cb_bi_customicons"
                               IsChecked="{Binding ButtonIndicatorUseCustomIcons}">
-                        <TextBlock>Use custom icons. <Hyperlink Click="OnClickCustomIconsHelp">Help</Hyperlink></TextBlock></CheckBox>
+                        <TextBlock>Use custom icons.</TextBlock></CheckBox>
                     <Button x:Name="button_bi_export_builtin"
                                 Click="OnButtonExportBuiltinIcons"
                                 Margin="15,5,5,5">Export built-in icons</Button>
