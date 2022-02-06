@@ -232,6 +232,18 @@
                                           Width="80"
                                           SelectedColor="{Binding CursorIndicatorColor, Mode=TwoWay, Converter={StaticResource MediaColorDrawingColorConverter}}" />
                     </StackPanel>
+                    <CheckBox x:Name="cb_cursorindicator_flashonclick"
+                              IsChecked="{Binding CursorIndicatorFlashOnClick}">Change color on click</CheckBox>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Label VerticalAlignment="Center">Click color</Label>
+                        <xctk:ColorPicker x:Name="colorpicker_ci_clickcolor"
+                                          ColorMode="ColorCanvas"
+                                          Margin="10,0,0,0"
+                                          Width="80"
+                                          IsEnabled="{Binding CursorIndicatorFlashOnClick, Mode=OneWay}"
+                                          SelectedColor="{Binding CursorIndicatorClickColor, Mode=TwoWay, Converter={StaticResource MediaColorDrawingColorConverter}}" />
+                    </StackPanel>
                     <CheckBox x:Name="cb_cursorindicator_hide_if_custom_cursor"
                         IsChecked="{Binding CursorIndicatorHideIfCustomCursor}" Height="50" Margin="5,10,-0.333,0">
                         <TextBlock TextWrapping="Wrap"><Run Text="Hide if cursor icon is non-standard (Firefox video full-screen workaround)"/></TextBlock></CheckBox>

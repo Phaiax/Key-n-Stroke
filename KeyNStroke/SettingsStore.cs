@@ -206,6 +206,8 @@ namespace KeyNStroke
         [DataMember] public Nullable<double> cursorIndicatorOpacity = null;
         [DataMember] public Nullable<double> cursorIndicatorSize = null;
         [DataMember] public SerializableColor2 cursorIndicatorColor = null;
+        [DataMember] public Nullable<bool> cursorIndicatorFlashOnClick = null;
+        [DataMember] public SerializableColor2 cursorIndicatorClickColor = null;
         [DataMember] public Nullable<bool> cursorIndicatorHideIfCustomCursor = null;
         [DataMember] public Nullable<ButtonIndicatorType> buttonIndicator = null;
         [DataMember] public Nullable<double> buttonIndicatorScaling = null;
@@ -424,6 +426,20 @@ namespace KeyNStroke
             set { i.cursorIndicatorColor = new SerializableColor2(value); OnSettingChanged("CursorIndicatorColor"); }
         }
 
+        public bool CursorIndicatorFlashOnClickDefault = true;
+        public bool CursorIndicatorFlashOnClick
+        {
+            get { return Or(i.cursorIndicatorFlashOnClick, CursorIndicatorFlashOnClickDefault); }
+            set { i.cursorIndicatorFlashOnClick = value; OnSettingChanged("CursorIndicatorFlashOnClick"); }
+        }
+
+        public Color CursorIndicatorClickColorDefault = Color.FromArgb(-32640);
+        public Color CursorIndicatorClickColor
+        {
+            get { return Or(i.cursorIndicatorClickColor, CursorIndicatorClickColorDefault); }
+            set { i.cursorIndicatorClickColor = new SerializableColor2(value); OnSettingChanged("CursorIndicatorClickColor"); }
+        }
+
         public bool CursorIndicatorHideIfCustomCursorDefault = false;
         public bool CursorIndicatorHideIfCustomCursor
         {
@@ -595,6 +611,8 @@ namespace KeyNStroke
                 PropertyChanged(this, new PropertyChangedEventArgs("CursorIndicatorOpacity"));
                 PropertyChanged(this, new PropertyChangedEventArgs("CursorIndicatorSize"));
                 PropertyChanged(this, new PropertyChangedEventArgs("CursorIndicatorColor"));
+                PropertyChanged(this, new PropertyChangedEventArgs("CursorIndicatorFlashOnClick"));
+                PropertyChanged(this, new PropertyChangedEventArgs("CursorIndicatorClickColor"));
                 PropertyChanged(this, new PropertyChangedEventArgs("CursorIndicatorHideIfCustomCursor"));
                 PropertyChanged(this, new PropertyChangedEventArgs("ButtonIndicator"));
                 PropertyChanged(this, new PropertyChangedEventArgs("ButtonIndicatorScalingPercentage"));
@@ -713,6 +731,8 @@ EnableCursorIndicator:           {EnableCursorIndicator}
 CursorIndicatorOpacity:          {CursorIndicatorOpacity}
 CursorIndicatorSize:             {CursorIndicatorSize}
 CursorIndicatorColor:            {CursorIndicatorColor}
+CursorIndicatorFlashOnClick:     {CursorIndicatorFlashOnClick}
+CursorIndicatorClickColor:       {CursorIndicatorClickColor}
 CursorIndicatorHideIfCustomCursor: {CursorIndicatorHideIfCustomCursor}
 ButtonIndicator:                 {ButtonIndicator}
 buttonIndicatorScalingPercentage:{ButtonIndicatorScaling}
