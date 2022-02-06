@@ -16,6 +16,7 @@ namespace KeyNStroke
         SettingsStore s;
         IntPtr windowHandle;
         bool isHidden;
+        bool isDown;
 
         public CursorIndicator1(IMouseRawEventProvider m, SettingsStore s)
         {
@@ -39,7 +40,19 @@ namespace KeyNStroke
         void m_MouseEvent(MouseRawEventArgs raw_e)
         {
             if (raw_e.Action == MouseAction.Move)
+            {
                 UpdatePosition(raw_e.Position);
+            }
+            else if (raw_e.Action == MouseAction.Down || raw_e.Action == MouseAction.DblClk)
+            {
+                isDown = true;
+                UpdateColor();
+            }
+            else if (raw_e.Action == MouseAction.Up)
+            {
+                isDown = false;
+                UpdateColor();
+            }
         }
 
         void m_CursorEvent(bool visible)
@@ -113,7 +126,15 @@ namespace KeyNStroke
 
         private void UpdateColor()
         {
-            var c = UIHelper.ToMediaColor(s.CursorIndicatorColor);
+            Color c;
+            if (isDown && s.CursorIndicatorFlashOnClick)
+            {
+                c = UIHelper.ToMediaColor(s.CursorIndicatorClickColor);
+            }
+            else
+            {
+                c = UIHelper.ToMediaColor(s.CursorIndicatorColor);
+            }
             circle.Fill = new SolidColorBrush(Color.FromArgb((byte)(255 * (1 - s.CursorIndicatorOpacity)), c.R, c.G, c.B));
         }
 
