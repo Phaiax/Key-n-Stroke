@@ -114,7 +114,12 @@ namespace KeyNStroke
             }
             else if (buffertype2 >= 1) // buffertype chars in inBuffer[0..buffertype]
             {
-                return inBuffer.ToString(0, buffertype2);
+                string out_ = inBuffer.ToString(0, buffertype2);
+                if (out_ == "\b") // Backspace is no text
+                {
+                    return "";
+                }
+                return out_;
             }
             else if (buffertype2 == 0)
             {

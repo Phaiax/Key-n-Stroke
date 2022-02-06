@@ -96,7 +96,7 @@ namespace KeyNStroke
                     e.RequiresNewLineAfterwards = e.Key == Key.Return;
                 }
                 else if (e.OnlyShiftOrCaps) //  special char, but only Shifted, eg ;:_ÖÄ'*ÜP
-                // (e.IsNoUnicodekey is always false here -> could be a unicode key combinatin)
+                // (e.IsNoUnicodekey is always false here -> could be a unicode key combination)
                 {
                     e.TextModeString = KeyboardLayoutParser.ParseViaToUnicode(e);
                     BackupDeadKey(e);
