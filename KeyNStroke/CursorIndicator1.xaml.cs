@@ -120,6 +120,15 @@ namespace KeyNStroke
                     case "CursorIndicatorColor":
                         UpdateColor();
                         break;
+                    case "CursorIndicatorEdgeColor":
+                        UpdateColor();
+                        break;
+                    case "CursorIndicatorEdgeStrokeThickness":
+                        UpdateColor();
+                        break;
+                    case "CursorIndicatorDrawEdge":
+                        UpdateColor();
+                        break;
                 }
             }));
         }
@@ -136,6 +145,16 @@ namespace KeyNStroke
                 c = UIHelper.ToMediaColor(s.CursorIndicatorColor);
             }
             circle.Fill = new SolidColorBrush(Color.FromArgb((byte)(255 * (1 - s.CursorIndicatorOpacity)), c.R, c.G, c.B));
+            if (s.CursorIndicatorDrawEdge)
+            {
+                circle.Stroke = new SolidColorBrush(UIHelper.ToMediaColor(s.CursorIndicatorEdgeColor));
+                circle.StrokeThickness = s.CursorIndicatorEdgeStrokeThickness;
+            }
+            else
+            {
+                circle.Stroke = null;
+                circle.StrokeThickness = 0;
+            }
         }
 
 
