@@ -152,11 +152,17 @@ namespace KeyNStroke
                     || !LastHistoryLineIsText
                     || LastHistoryLineRequiredNewLineAfterwards)
                 {
-                    string e_str = e.ToString(settings.KeystrokeMethod.IsTextMode(), false);
-                    AddNextLine(e_str);
-                    Log.e("BS", $"new line: {e_str} -> {labels[labels.Count - 1].text}");
-                    NumberOfDeletionsAllowed = e.Deletable ? 1 : 0;
-                    Log.e("BS", "NumberOfDeletionsAllowed " + NumberOfDeletionsAllowed.ToString());
+                    if (settings.KeystrokeMethod == KeystrokeMethodEnum.ShortcutModeNoText && e.StrokeType == KeystrokeType.Text)
+                    {
+                        // nothing
+                    } else
+                    {
+                        string e_str = e.ToString(settings.KeystrokeMethod.IsTextMode(), false);
+                        AddNextLine(e_str);
+                        Log.e("BS", $"new line: {e_str} -> {labels[labels.Count - 1].text}");
+                        NumberOfDeletionsAllowed = e.Deletable ? 1 : 0;
+                        Log.e("BS", "NumberOfDeletionsAllowed " + NumberOfDeletionsAllowed.ToString());
+                    }
                 }
                 else
                 {
