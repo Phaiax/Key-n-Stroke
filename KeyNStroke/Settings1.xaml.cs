@@ -75,6 +75,7 @@ namespace KeyNStroke
             layout_root.DataContext = settings;
             SettingsModeShortcutDefault.Text = settings.KeystrokeHistorySettingsModeShortcutDefault;
             PasswordModeShortcutDefault.Text = settings.KeystrokeHistoryPasswordModeShortcutDefault;
+            AnnotateLineShortcutDefault.Text = settings.AnnotateLineShortcutDefault;
             s.PropertyChanged += S_PropertyChanged;
             s.CallPropertyChangedForAllProperties();
         }
@@ -150,6 +151,7 @@ namespace KeyNStroke
             sampleText.Foreground = new SolidColorBrush(UIHelper.ToMediaColor(settings.LabelColor));
         }
 
+        #region Shortcut - ChangeResizeMove
 
         private void Hyperlink_ChangeResizeMoveShortcut(object sender, RoutedEventArgs e)
         {
@@ -171,6 +173,10 @@ namespace KeyNStroke
             settings.EnableSettingsMode = !settings.EnableSettingsMode;
         }
 
+        #endregion
+
+        #region Shortcut - PasswordMode
+
         private void Hyperlink_ChangePasswordModeShortcut(object sender, RoutedEventArgs e)
         {
             ReadShortcut rs = new ReadShortcut(k, " toggling password protection mode.");
@@ -190,6 +196,33 @@ namespace KeyNStroke
         {
             settings.EnablePasswordMode = !settings.EnablePasswordMode;
         }
+
+        #endregion
+
+        #region Shortcut - AnnotateLine
+
+        private void Hyperlink_ChangeAnnotateLineShortcut(object sender, RoutedEventArgs e)
+        {
+            ReadShortcut rs = new ReadShortcut(k, " triggering line draw.");
+            rs.ShowDialog();
+            if (rs.Shortcut != null)
+            {
+                settings.AnnotateLineShortcut = rs.Shortcut;
+            }
+        }
+
+        private void Hyperlink_ResetAnnotateLineShortcut(object sender, RoutedEventArgs e)
+        {
+            settings.AnnotateLineShortcut = settings.AnnotateLineShortcutDefault;
+        }
+
+        private void Hyperlink_TriggerAnnotateLineShortcut(object sender, RoutedEventArgs e)
+        {
+            settings.AnnotateLineShortcutTrigger = true;
+        }
+
+
+        #endregion
 
         #region Custom Icons
 
@@ -260,6 +293,7 @@ namespace KeyNStroke
                 ImageResources.ReloadRessources(null);
             }
         }
+
 
         #endregion
 

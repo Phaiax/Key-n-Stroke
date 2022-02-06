@@ -228,6 +228,13 @@ namespace KeyNStroke
         [DataMember] public String keystrokeHistoryPasswordModeShortcut = null;
         [DataMember] public Nullable<bool> enablePasswordMode = null;
         [DataMember] public Nullable<KeystrokeMethodEnum> keystrokeMethod = null;
+
+        [DataMember] public Nullable<bool> enableAnnotateLine = null;
+        [DataMember] public SerializableColor2 annotateLineColor = null;
+        [DataMember] public Nullable<double> annotateLineFadeoutTime = null;
+        [DataMember] public String annotateLineShortcut = null;
+
+
     }
 
     #endregion
@@ -596,6 +603,38 @@ namespace KeyNStroke
             set { i.keystrokeMethod = value; OnSettingChanged("KeystrokeMethod"); }
         }
 
+        public bool EnableAnnotateLineDefault = false;
+        public bool EnableAnnotateLine
+        {
+            get { return Or(i.enableAnnotateLine, EnableAnnotateLineDefault); }
+            set { i.enableAnnotateLine = value; OnSettingChanged("EnableAnnotateLine"); }
+        }
+
+        public Color AnnotateLineColorDefault = Color.FromArgb(0xFF, 0x7E, 0xEF, 0x84);
+        public Color AnnotateLineColor
+        {
+            get { return Or(i.annotateLineColor, AnnotateLineColorDefault); }
+            set { i.annotateLineColor = new SerializableColor2(value); OnSettingChanged("AnnotateLineColor"); }
+        }
+
+        public double AnnotateLineFadeoutTimeDefault = 5;
+        public double AnnotateLineFadeoutTime
+        {
+            get { return Or(i.annotateLineFadeoutTime, AnnotateLineFadeoutTimeDefault); }
+            set { i.annotateLineFadeoutTime = value; OnSettingChanged("AnnotateLineFadeoutTime"); }
+        }
+
+        public String AnnotateLineShortcutDefault = "RightCtrl + F10";
+        public String AnnotateLineShortcut
+        {
+            get { return Or(i.annotateLineShortcut, AnnotateLineShortcutDefault); }
+            set { i.annotateLineShortcut = value; OnSettingChanged("AnnotateLineShortcut"); }
+        }
+
+        public bool AnnotateLineShortcutTrigger
+        {
+            set { OnSettingChanged("AnnotateLineShortcutTrigger"); }
+        }
         // Add new settings also to method CallPropertyChangedForAllProperties()
 
         #endregion
@@ -657,6 +696,11 @@ namespace KeyNStroke
                 PropertyChanged(this, new PropertyChangedEventArgs("KeystrokeHistoryPasswordModeShortcut"));
                 PropertyChanged(this, new PropertyChangedEventArgs("EnablePasswordMode"));
                 PropertyChanged(this, new PropertyChangedEventArgs("KeystrokeMethod"));
+                PropertyChanged(this, new PropertyChangedEventArgs("EnableAnnotateLine"));
+                PropertyChanged(this, new PropertyChangedEventArgs("AnnotateLineColor"));
+                PropertyChanged(this, new PropertyChangedEventArgs("AnnotateLineFadeoutTime"));
+                PropertyChanged(this, new PropertyChangedEventArgs("AnnotateLineShortcut"));
+
             }
         }
 
@@ -780,6 +824,10 @@ EnableSettingsMode:             {EnableSettingsMode}
 KeystrokeHistoryPasswordModeShortcut: {KeystrokeHistoryPasswordModeShortcut}
 EnablePasswordMode:             {EnablePasswordMode}
 KeystrokeMethod:                {KeystrokeMethod}
+EnableAnnotateLine:             {EnableAnnotateLine}
+AnnotateLineColor:              {AnnotateLineColor}
+AnnotateLineFadeoutTime:        {AnnotateLineFadeoutTime}
+AnnotateLineShortcut:           {AnnotateLineShortcut}
 ";
         }
 

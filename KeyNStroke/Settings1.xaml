@@ -53,84 +53,83 @@
                     Grid.ColumnSpan="4"
                     Margin="0,5,0,0">
             <TabItem Header="Keystroke History">
-
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="100*" />
-                                <ColumnDefinition Width="100*" />
-                                <ColumnDefinition Width="100*" />
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0"
-                                        Margin="5">
-                                <CheckBox x:Name="cb_enableKeystrokeDisplay"
-                                          IsChecked="{Binding EnableKeystrokeHistory}">Show Keystroke History</CheckBox>
-                                <StackPanel Margin="0,0,0,5">
-                                    <ComboBox x:Name="cb_KeystrokeMethod"
-                                              Margin="10"
-                                              ItemsSource="{uc:EnumBindingSourceExtention uc:KeystrokeMethodEnum}"
-                                              SelectedValue="{Binding KeystrokeMethod, Mode=TwoWay}"
-                                              SelectedValuePath="Tag" />
-                                    <Button x:Name="button_textfont"
-                                            Click="OnButtonTextFontClick"
-                                            Grid.ColumnSpan="3"
-                                            Margin="10">Font</Button>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Label VerticalAlignment="Center">Text Color</Label>
-                                        <xctk:ColorPicker x:Name="colorpicker_text_color"
-                                                          ColorMode="ColorCanvas"
-                                                          Margin="10,0,0,0"
-                                                          Width="80"
-                                                          SelectedColor="{Binding LabelColor, Mode=TwoWay, Converter={StaticResource MediaColorDrawingColorConverter}}" />
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal"
-                                                Margin="0,3,0,0">
-                                        <Label VerticalAlignment="Center">Background Color</Label>
-                                        <xctk:ColorPicker x:Name="colorpicker_background_color"
-                                                          ColorMode="ColorCanvas"
-                                                          Margin="10,0,0,0"
-                                                          Width="80"
-                                                          SelectedColor="{Binding BackgroundColor, Mode=TwoWay, Converter={StaticResource MediaColorDrawingColorConverter}}" />
-                                    </StackPanel>
-                                    <TextBlock TextWrapping="Wrap"
-                                               Margin="5,3,0,0">Set the window opacity via the "A" channel of the background color.</TextBlock>
-                                    <uc:LabeledSlider x:Name="slider_vertdist"
-                                                      Title="Line Distance"
-                                                      Minimum="10.0"
-                                                      Maximum="100.0"
-                                                      Value="{Binding LineDistance, Mode=TwoWay}" />
-                                    <StackPanel Orientation="Horizontal">
-                                        <Label>No of lines in history</Label>
-                                        <xctk:IntegerUpDown x:Name="slider_historycount"
-                                                            Minimum="1"
-                                                            Maximum="50"
-                                                            Increment="1"
-                                                            Value="{Binding HistoryLength, Mode=TwoWay}"
-                                                            Width="60" />
-                                    </StackPanel>
-                                    <WrapPanel Margin="0,0,0,0">
-                                        <CheckBox x:Name="cb_enableHistoryTimeout"
-                                                  IsChecked="{Binding EnableHistoryTimeout}">
-                                            <TextBlock>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100*" />
+                        <ColumnDefinition Width="100*" />
+                        <ColumnDefinition Width="100*" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0"
+                                Margin="5">
+                        <CheckBox x:Name="cb_enableKeystrokeDisplay"
+                                  IsChecked="{Binding EnableKeystrokeHistory}">Show Keystroke History</CheckBox>
+                        <StackPanel Margin="0,0,0,5">
+                            <ComboBox x:Name="cb_KeystrokeMethod"
+                                      Margin="10"
+                                      ItemsSource="{uc:EnumBindingSourceExtention uc:KeystrokeMethodEnum}"
+                                      SelectedValue="{Binding KeystrokeMethod, Mode=TwoWay}"
+                                      SelectedValuePath="Tag" />
+                            <Button x:Name="button_textfont"
+                                    Click="OnButtonTextFontClick"
+                                    Grid.ColumnSpan="3"
+                                    Margin="10">Font</Button>
+                            <StackPanel Orientation="Horizontal">
+                                <Label VerticalAlignment="Center">Text Color</Label>
+                                <xctk:ColorPicker x:Name="colorpicker_text_color"
+                                                  ColorMode="ColorCanvas"
+                                                  Margin="10,0,0,0"
+                                                  Width="80"
+                                                  SelectedColor="{Binding LabelColor, Mode=TwoWay, Converter={StaticResource MediaColorDrawingColorConverter}}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal"
+                                        Margin="0,3,0,0">
+                                <Label VerticalAlignment="Center">Background Color</Label>
+                                <xctk:ColorPicker x:Name="colorpicker_background_color"
+                                                  ColorMode="ColorCanvas"
+                                                  Margin="10,0,0,0"
+                                                  Width="80"
+                                                  SelectedColor="{Binding BackgroundColor, Mode=TwoWay, Converter={StaticResource MediaColorDrawingColorConverter}}" />
+                            </StackPanel>
+                            <TextBlock TextWrapping="Wrap"
+                                       Margin="5,3,0,0">Set the window opacity via the "A" channel of the background color.</TextBlock>
+                            <uc:LabeledSlider x:Name="slider_vertdist"
+                                              Title="Line Distance"
+                                              Minimum="10.0"
+                                              Maximum="100.0"
+                                              Value="{Binding LineDistance, Mode=TwoWay}" />
+                            <StackPanel Orientation="Horizontal">
+                                <Label>No of lines in history</Label>
+                                <xctk:IntegerUpDown x:Name="slider_historycount"
+                                                    Minimum="1"
+                                                    Maximum="50"
+                                                    Increment="1"
+                                                    Value="{Binding HistoryLength, Mode=TwoWay}"
+                                                    Width="60" />
+                            </StackPanel>
+                            <WrapPanel Margin="0,0,0,0">
+                                <CheckBox x:Name="cb_enableHistoryTimeout"
+                                          IsChecked="{Binding EnableHistoryTimeout}">
+                                    <TextBlock>
                                 Lines disappear after
                                 <TextBlock Margin="3,0,0,0"
-                                                Text="{Binding ElementName=slider_history_timeout, Path=Value, Mode=OneWay, StringFormat=N1}" />s
+                                           Text="{Binding ElementName=slider_history_timeout, Path=Value, Mode=OneWay, StringFormat=N1}" />s
                             </TextBlock>
-                                        </CheckBox>
-                                    </WrapPanel>
-                                    <uc:LabeledSlider x:Name="slider_history_timeout"
-                                                      Margin="20,5,10,0"
-                                                      Title=""
-                                                      Maximum="120.0"
-                                                      Minimum="0.5"
-                                                      Logarithmic="True"
-                                                      HalfWay="0.08"
-                                                      Value="{Binding HistoryTimeout, Mode=TwoWay}" />
-                                    <CheckBox x:Name="cb_hideWindow"
-                                              IsChecked="{Binding EnableWindowFade}">Hide window when empty</CheckBox>
-                                    <CheckBox x:Name="cb_periodictopmost"
-                                              IsChecked="{Binding PeriodicTopmost}">Put on top periodically</CheckBox>
-                                </StackPanel>
-                            </StackPanel>
+                                </CheckBox>
+                            </WrapPanel>
+                            <uc:LabeledSlider x:Name="slider_history_timeout"
+                                              Margin="20,5,10,0"
+                                              Title=""
+                                              Maximum="120.0"
+                                              Minimum="0.5"
+                                              Logarithmic="True"
+                                              HalfWay="0.08"
+                                              Value="{Binding HistoryTimeout, Mode=TwoWay}" />
+                            <CheckBox x:Name="cb_hideWindow"
+                                      IsChecked="{Binding EnableWindowFade}">Hide window when empty</CheckBox>
+                            <CheckBox x:Name="cb_periodictopmost"
+                                      IsChecked="{Binding PeriodicTopmost}">Put on top periodically</CheckBox>
+                        </StackPanel>
+                    </StackPanel>
                     <StackPanel Margin="5"
                                 Grid.Column="1">
                         <GroupBox Header="Alignment">
@@ -323,6 +322,55 @@
                                  Text="{Binding ButtonIndicatorCustomIconsFolder}" />
                             <LineBreak />
                             <Hyperlink Click="OnClickCustomIconsRefresh">Refresh cache</Hyperlink></TextBlock>
+                        </StackPanel>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Drawing">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100*" />
+                        <ColumnDefinition Width="100*" />
+                        <ColumnDefinition Width="100*" />
+                    </Grid.ColumnDefinitions>
+                    <GroupBox Header="Draw Lines">
+                        <StackPanel Grid.Column="0"
+                                    Margin="5">
+                            <CheckBox x:Name="cb_al_enable"
+                                      IsChecked="{Binding EnableAnnotateLine}">Enable Line drawing</CheckBox>
+                            <StackPanel Orientation="Horizontal">
+                                <Label VerticalAlignment="Center">Line Color</Label>
+                                <xctk:ColorPicker x:Name="colorpicker_al_color"
+                                                  ColorMode="ColorCanvas"
+                                                  Margin="10,0,0,0"
+                                                  Width="80"
+                                                  SelectedColor="{Binding AnnotateLineColor, Mode=TwoWay, Converter={StaticResource MediaColorDrawingColorConverter}}" />
+                            </StackPanel>
+                            <uc:LabeledSlider x:Name="slider_al_fadeout"
+                                              Title="Fadeout time"
+                                              Minimum="0"
+                                              Maximum="15"
+                                              Value="{Binding AnnotateLineFadeoutTime, Mode=TwoWay}" />
+                            <TextBlock TextWrapping="Wrap"
+                                       Margin="5,5,5,0">
+                                <Run FontWeight="Bold">How-To use:</Run> Press the 'Trigger Line Draw' shortcut (<Run Text="{Binding AnnotateLineShortcut}" />). Then click and drag to draw a line. The shortcut needs to be pressed again for the next line.
+                            </TextBlock>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Keyboard Shortcuts"
+                              Grid.Column="2">
+                        <StackPanel>
+                            <TextBlock TextWrapping="Wrap"
+                                       Margin="5,3,0,0">
+                                Trigger Line Draw</TextBlock>
+                            <TextBlock TextWrapping="Wrap"
+                                       Margin="15,3,0,0">
+                                <Run Text="{Binding AnnotateLineShortcut}" />
+                                <LineBreak />
+                                <Hyperlink Click="Hyperlink_ChangeAnnotateLineShortcut">Change</Hyperlink>&#160;&#160;&#160;&#160;&#160;&#160;
+                                <Hyperlink Click="Hyperlink_TriggerAnnotateLineShortcut">Trigger</Hyperlink>
+                                <LineBreak />
+                                <Hyperlink Click="Hyperlink_ResetAnnotateLineShortcut">Reset to <Run x:Name="AnnotateLineShortcutDefault"></Run></Hyperlink></TextBlock>
                         </StackPanel>
                     </GroupBox>
                 </Grid>
