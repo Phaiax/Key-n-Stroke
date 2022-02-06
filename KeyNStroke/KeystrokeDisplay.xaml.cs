@@ -125,7 +125,7 @@ namespace KeyNStroke
                 }
 
                 if (!e.RequiresNewLine
-                    && settings.KeystrokeTextMode
+                    && settings.KeystrokeMethod.IsTextMode()
                     && NumberOfDeletionsAllowed > 0
                     && LastHistoryLineIsText
                     && !LastHistoryLineRequiredNewLineAfterwards
@@ -147,12 +147,12 @@ namespace KeyNStroke
                     }
                 }
                 else if (e.RequiresNewLine
-                    || !settings.KeystrokeTextMode
+                    || !settings.KeystrokeMethod.IsTextMode()
                     || !AddingWouldFitInCurrentLine(e.ToString(true, false))
                     || !LastHistoryLineIsText
                     || LastHistoryLineRequiredNewLineAfterwards)
                 {
-                    string e_str = e.ToString(settings.KeystrokeTextMode, false);
+                    string e_str = e.ToString(settings.KeystrokeMethod.IsTextMode(), false);
                     AddNextLine(e_str);
                     Log.e("BS", $"new line: {e_str} -> {labels[labels.Count - 1].text}");
                     NumberOfDeletionsAllowed = e.Deletable ? 1 : 0;
@@ -160,7 +160,7 @@ namespace KeyNStroke
                 }
                 else
                 {
-                    string e_str = e.ToString(settings.KeystrokeTextMode, false);
+                    string e_str = e.ToString(settings.KeystrokeMethod.IsTextMode(), false);
                     AddToLine(e_str);
                     Log.e("BS", $"add to line: {e_str} -> {labels[labels.Count-1].text}");
                     if (e.Deletable)

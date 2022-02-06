@@ -61,8 +61,11 @@
                             Margin="5">
                     <CheckBox x:Name="cb_enableKeystrokeDisplay"
                               IsChecked="{Binding EnableKeystrokeHistory}">Show Keystroke History</CheckBox>
-
                     <StackPanel Margin="0,0,0,5">
+                        <ComboBox x:Name="cb_KeystrokeMethod" Margin="10"
+                                  ItemsSource="{uc:EnumBindingSourceExtention uc:KeystrokeMethodEnum}"
+                                  SelectedValue="{Binding KeystrokeMethod, Mode=TwoWay}"
+                                  SelectedValuePath="Tag"/>
                         <Button x:Name="button_textfont"
                                 Click="OnButtonTextFontClick"
                                 Grid.ColumnSpan="3"
@@ -120,13 +123,9 @@
                                           Value="{Binding HistoryTimeout, Mode=TwoWay}" />
                         <CheckBox x:Name="cb_hideWindow"
                                   IsChecked="{Binding EnableWindowFade}">Hide window when empty</CheckBox>
-                        <CheckBox x:Name="cb_backspace"
-                                  IsChecked="{Binding BackspaceDeletesText}">Backspace can delete text</CheckBox>
                         <CheckBox x:Name="cb_periodictopmost"
                                   IsChecked="{Binding PeriodicTopmost}">Put on top periodically</CheckBox>
 
-                        <CheckBox x:Name="cb_textmode"
-                            IsChecked="{Binding KeystrokeTextMode}" Content="Text mode"/>
                     </StackPanel>
 
                 </StackPanel>

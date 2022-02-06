@@ -43,6 +43,26 @@ namespace KeyNStroke
         PicsAroundCursor
     }
 
+    public enum KeystrokeMethodEnum
+    {
+        [Description("Text mode")]
+        TextMode = 1,
+        [Description("Text mode (Backspace can delete text)")]
+        TextModeBackspaceCanDeleteText = 2,
+        [Description("Shortcut mode (no letters and no shift)")]
+        ShortcutModeNoText = 3,
+        [Description("Shortcut mode (with letters and shift)")]
+        ShortcutModeWithText = 4
+    }
+
+    public static class Extensions
+    {
+        public static bool IsTextMode(this KeystrokeMethodEnum method)
+        {
+            return method == KeystrokeMethodEnum.TextMode || method == KeystrokeMethodEnum.TextModeBackspaceCanDeleteText;
+        }
+    }
+    
     #endregion
 
     #region Serializable classes for complex types
@@ -195,14 +215,14 @@ namespace KeyNStroke
         [DataMember] public Nullable<bool> buttonIndicatorUseCustomIcons = null;
         [DataMember] public string buttonIndicatorCustomIconsFolder = null;
         [DataMember] public Nullable<bool> addButtonEventsToHistory = null;
-        [DataMember] public Nullable<bool> backspaceDeletesText = null;
+        [DataMember] public Nullable<bool> backspaceDeletesText = null; // replaced by keystrokeMethod
         [DataMember] public Nullable<bool> periodicTopmost = null;
         [DataMember] public Nullable<bool> enableKeystrokeHistory = null;
         [DataMember] public String keystrokeHistorySettingsModeShortcut = null;
         [DataMember] public Nullable<bool> enableSettingsMode = null;
         [DataMember] public String keystrokeHistoryPasswordModeShortcut = null;
         [DataMember] public Nullable<bool> enablePasswordMode = null;
-        [DataMember] public Nullable<bool> keystrokeTextMode = null;
+        [DataMember] public Nullable<KeystrokeMethodEnum> keystrokeMethod = null;
     }
 
     #endregion
@@ -467,11 +487,9 @@ namespace KeyNStroke
             set { i.addButtonEventsToHistory = value; OnSettingChanged("AddButtonEventsToHistory"); }
         }
 
-        public bool BackspaceDeletesTextDefault = true;
         public bool BackspaceDeletesText
         {
-            get { return Or(i.backspaceDeletesText, BackspaceDeletesTextDefault); }
-            set { i.backspaceDeletesText = value; OnSettingChanged("BackspaceDeletesText"); }
+            get { return KeystrokeMethod == KeystrokeMethodEnum.TextModeBackspaceCanDeleteText; }
         }
 
         public bool PeriodicTopmostDefault = true;
@@ -516,11 +534,26 @@ namespace KeyNStroke
             set { i.enablePasswordMode = value; OnSettingChanged("EnablePasswordMode"); }
         }
 
-        public bool KeystrokeTextModeDefault = true;
-        public bool KeystrokeTextMode
+        public KeystrokeMethodEnum KeystrokeMethodDefault = KeystrokeMethodEnum.TextModeBackspaceCanDeleteText;
+        public KeystrokeMethodEnum KeystrokeMethod
         {
-            get { return Or(i.keystrokeTextMode, KeystrokeTextModeDefault); }
-            set { i.keystrokeTextMode = value; OnSettingChanged("KeystrokeTextMode"); }
+            get
+            {
+                // Update compatability: Take over setting from depreciated backspaceDeletesText
+                if (!i.keystrokeMethod.HasValue && i.backspaceDeletesText.HasValue)
+                {
+                    if (i.backspaceDeletesText.Value)
+                    {
+                        return KeystrokeMethodEnum.TextModeBackspaceCanDeleteText;
+                    }
+                    else
+                    {
+                        return KeystrokeMethodEnum.TextMode;
+                    }
+                }
+                return Or(i.keystrokeMethod, KeystrokeMethodDefault);
+            }
+            set { i.keystrokeMethod = value; OnSettingChanged("KeystrokeMethod"); }
         }
 
         // Add new settings also to method CallPropertyChangedForAllProperties()
@@ -571,14 +604,14 @@ namespace KeyNStroke
                 PropertyChanged(this, new PropertyChangedEventArgs("ButtonIndicatorUseCustomIcons"));
                 PropertyChanged(this, new PropertyChangedEventArgs("ButtonIndicatorCustomIconsFolder"));
                 PropertyChanged(this, new PropertyChangedEventArgs("AddButtonEventsToHistory"));
-                PropertyChanged(this, new PropertyChangedEventArgs("BackspaceDeletesText"));
+                // PropertyChanged(this, new PropertyChangedEventArgs("BackspaceDeletesText"));
                 PropertyChanged(this, new PropertyChangedEventArgs("PeriodicTopmost"));
                 PropertyChanged(this, new PropertyChangedEventArgs("EnableKeystrokeHistory"));
                 PropertyChanged(this, new PropertyChangedEventArgs("KeystrokeHistorySettingsModeShortcut"));
                 PropertyChanged(this, new PropertyChangedEventArgs("EnableSettingsMode"));
                 PropertyChanged(this, new PropertyChangedEventArgs("KeystrokeHistoryPasswordModeShortcut"));
                 PropertyChanged(this, new PropertyChangedEventArgs("EnablePasswordMode"));
-                PropertyChanged(this, new PropertyChangedEventArgs("KeystrokeTextMode"));
+                PropertyChanged(this, new PropertyChangedEventArgs("KeystrokeMethod"));
             }
         }
 
@@ -696,7 +729,7 @@ KeystrokeHistorySettingsModeShortcut: {KeystrokeHistorySettingsModeShortcut}
 EnableSettingsMode:             {EnableSettingsMode}
 KeystrokeHistoryPasswordModeShortcut: {KeystrokeHistoryPasswordModeShortcut}
 EnablePasswordMode:             {EnablePasswordMode}
-KeystrokeTextMode:             {KeystrokeTextMode}
+KeystrokeMethod:                {KeystrokeMethod}
 ";
         }
 

@@ -225,6 +225,7 @@
     <Compile Include="CursorIndicator1.xaml.cs">
       <DependentUpon>CursorIndicator1.xaml</DependentUpon>
     </Compile>
+    <Compile Include="EnumBindingSourceExtention.cs" />
     <Compile Include="NativeMethodsEvents.cs" />
     <Compile Include="ReadShortcut.xaml.cs">
       <DependentUpon>ReadShortcut.xaml</DependentUpon>
