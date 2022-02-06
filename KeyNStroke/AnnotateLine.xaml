@@ -1,0 +1,22 @@
+﻿<Window x:Class="KeyNStroke.AnnotateLine"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:KeyNStroke"
+        mc:Ignorable="d"
+        Title="AnnotateLine" Height="8" Width="800"
+        AllowsTransparency="True"
+        Topmost="True"
+        ShowInTaskbar="False"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        Background="Transparent" Loaded="Window_Loaded" Closed="Window_Closed">
+    <Grid>
+        <Rectangle x:Name="line" Fill="#FF7EEF84" Margin="1">
+            <Rectangle.Effect>
+                <BlurEffect Radius="2" KernelType="Box"/>
+            </Rectangle.Effect>
+        </Rectangle>
+    </Grid>
+</Window>

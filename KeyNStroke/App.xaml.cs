@@ -64,7 +64,10 @@ namespace KeyNStroke
             makeNotifyIcon();
 
             welcomeWindow = new Welcome(mySettings);
-            welcomeWindow.Show();
+            //welcomeWindow.Show();
+
+            EnableAnnotateLine();
+
         }
 
         
@@ -312,6 +315,34 @@ namespace KeyNStroke
 
         #endregion
 
+        #region Annotate Line
+
+        AnnotateLine AnnotateLineWindow;
+
+        private void EnableAnnotateLine()
+        {
+            if (AnnotateLineWindow != null)
+                return;
+            Log.e("AL", "EnableAnnotateLineWindow");
+            EnableMouseHook();
+            AnnotateLineWindow = new AnnotateLine(myMouseHook, mySettings);
+            AnnotateLineWindow.Show();
+        }
+
+
+
+        private void DisableAnnotateLine()
+        {
+            if (AnnotateLineWindow == null)
+                return;
+            AnnotateLineWindow.Close();
+            AnnotateLineWindow = null;
+            DisableMouseHookIfNotNeeded();
+            Log.e("CI", "DisableAnnotateLineWindow");
+        }
+
+        #endregion
+
         #region Mouse Hook
 
         IMouseRawEventProvider myMouseHook = null;
@@ -325,7 +356,7 @@ namespace KeyNStroke
 
         private void DisableMouseHookIfNotNeeded()
         {
-            if (CursorIndicatorWindow == null && ButtonIndicatorWindow == null)
+            if (CursorIndicatorWindow == null && ButtonIndicatorWindow == null && AnnotateLineWindow == null)
                 DisableMouseHook();
         }
 

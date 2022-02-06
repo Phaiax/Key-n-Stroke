@@ -222,6 +222,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnnotateLine.xaml.cs">
+      <DependentUpon>AnnotateLine.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CursorIndicator1.xaml.cs">
       <DependentUpon>CursorIndicator1.xaml</DependentUpon>
     </Compile>
@@ -240,6 +243,10 @@
     <Compile Include="Welcome.xaml.cs">
       <DependentUpon>Welcome.xaml</DependentUpon>
     </Compile>
+    <Page Include="AnnotateLine.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
