@@ -244,6 +244,23 @@
                                           IsEnabled="{Binding CursorIndicatorFlashOnClick, Mode=OneWay}"
                                           SelectedColor="{Binding CursorIndicatorClickColor, Mode=TwoWay, Converter={StaticResource MediaColorDrawingColorConverter}}" />
                     </StackPanel>
+                    <CheckBox x:Name="cb_cursorindicator_drawedge"
+                              IsChecked="{Binding CursorIndicatorDrawEdge}">Draw circle edge</CheckBox>
+                    <StackPanel Orientation="Horizontal">
+                        <Label VerticalAlignment="Center">Edge color</Label>
+                        <xctk:ColorPicker x:Name="colorpicker_ci_edgecolor"
+                                          ColorMode="ColorCanvas"
+                                          Margin="10,0,0,0"
+                                          Width="80"
+                                          IsEnabled="{Binding CursorIndicatorDrawEdge, Mode=OneWay}"
+                                          SelectedColor="{Binding CursorIndicatorEdgeColor, Mode=TwoWay, Converter={StaticResource MediaColorDrawingColorConverter}}" />
+                    </StackPanel>
+                    <uc:LabeledSlider x:Name="slider_ci_edgestrokethickness"
+                                      Title="Edge Thickness"
+                                      Minimum="0.0"
+                                      Maximum="20.0"
+                                      Value="{Binding CursorIndicatorEdgeStrokeThickness, Mode=TwoWay}" 
+                                      IsEnabled="{Binding CursorIndicatorDrawEdge, Mode=OneWay}" />
                     <CheckBox x:Name="cb_cursorindicator_hide_if_custom_cursor"
                         IsChecked="{Binding CursorIndicatorHideIfCustomCursor}" Height="50" Margin="5,10,-0.333,0">
                         <TextBlock TextWrapping="Wrap"><Run Text="Hide if cursor icon is non-standard (Firefox video full-screen workaround)"/></TextBlock></CheckBox>

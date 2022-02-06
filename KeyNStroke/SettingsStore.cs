@@ -209,6 +209,9 @@ namespace KeyNStroke
         [DataMember] public Nullable<bool> cursorIndicatorFlashOnClick = null;
         [DataMember] public SerializableColor2 cursorIndicatorClickColor = null;
         [DataMember] public Nullable<bool> cursorIndicatorHideIfCustomCursor = null;
+        [DataMember] public Nullable<bool> cursorIndicatorDrawEdge = null;
+        [DataMember] public SerializableColor2 cursorIndicatorEdgeColor = null;
+        [DataMember] public Nullable<double> cursorIndicatorEdgeStrokeThickness = null;
         [DataMember] public Nullable<ButtonIndicatorType> buttonIndicator = null;
         [DataMember] public Nullable<double> buttonIndicatorScaling = null;
         [DataMember] public Nullable<double> buttonIndicatorPositionAngle = null;
@@ -440,6 +443,27 @@ namespace KeyNStroke
             set { i.cursorIndicatorClickColor = new SerializableColor2(value); OnSettingChanged("CursorIndicatorClickColor"); }
         }
 
+        public bool CursorIndicatorDrawEdgeDefault = true;
+        public bool CursorIndicatorDrawEdge
+        {
+            get { return Or(i.cursorIndicatorDrawEdge, CursorIndicatorDrawEdgeDefault); }
+            set { i.cursorIndicatorDrawEdge = value; OnSettingChanged("CursorIndicatorDrawEdge"); }
+        }
+
+        public Color CursorIndicatorEdgeColorDefault = Color.Black;
+        public Color CursorIndicatorEdgeColor
+        {
+            get { return Or(i.cursorIndicatorEdgeColor, CursorIndicatorEdgeColorDefault); }
+            set { i.cursorIndicatorEdgeColor = new SerializableColor2(value); OnSettingChanged("CursorIndicatorEdgeColor"); }
+        }
+
+        public double CursorIndicatorEdgeStrokeThicknessDefault = 2;
+        public double CursorIndicatorEdgeStrokeThickness
+        {
+            get { return Or(i.cursorIndicatorEdgeStrokeThickness, CursorIndicatorEdgeStrokeThicknessDefault); }
+            set { i.cursorIndicatorEdgeStrokeThickness = value; OnSettingChanged("CursorIndicatorEdgeStrokeThickness"); }
+        }
+
         public bool CursorIndicatorHideIfCustomCursorDefault = false;
         public bool CursorIndicatorHideIfCustomCursor
         {
@@ -613,6 +637,9 @@ namespace KeyNStroke
                 PropertyChanged(this, new PropertyChangedEventArgs("CursorIndicatorColor"));
                 PropertyChanged(this, new PropertyChangedEventArgs("CursorIndicatorFlashOnClick"));
                 PropertyChanged(this, new PropertyChangedEventArgs("CursorIndicatorClickColor"));
+                PropertyChanged(this, new PropertyChangedEventArgs("CursorIndicatorEdgeColor"));
+                PropertyChanged(this, new PropertyChangedEventArgs("CursorIndicatorDrawEdge"));
+                PropertyChanged(this, new PropertyChangedEventArgs("CursorIndicatorEdgeStrokeThickness"));
                 PropertyChanged(this, new PropertyChangedEventArgs("CursorIndicatorHideIfCustomCursor"));
                 PropertyChanged(this, new PropertyChangedEventArgs("ButtonIndicator"));
                 PropertyChanged(this, new PropertyChangedEventArgs("ButtonIndicatorScalingPercentage"));
@@ -733,6 +760,9 @@ CursorIndicatorSize:             {CursorIndicatorSize}
 CursorIndicatorColor:            {CursorIndicatorColor}
 CursorIndicatorFlashOnClick:     {CursorIndicatorFlashOnClick}
 CursorIndicatorClickColor:       {CursorIndicatorClickColor}
+CursorIndicatorDrawEdge:         {CursorIndicatorDrawEdge}
+CursorIndicatorEdgeColor:        {CursorIndicatorEdgeColor}
+CursorIndicatorEdgeStrokeThickness: {CursorIndicatorEdgeStrokeThickness}
 CursorIndicatorHideIfCustomCursor: {CursorIndicatorHideIfCustomCursor}
 ButtonIndicator:                 {ButtonIndicator}
 buttonIndicatorScalingPercentage:{ButtonIndicatorScaling}
