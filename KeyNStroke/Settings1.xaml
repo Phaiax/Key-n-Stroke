@@ -10,7 +10,7 @@
         mc:Ignorable="d"
         Title="Settings"
         Height="auto"
-        Width="900"
+        Width="700"
         SizeToContent="Height"
         Closing="Window_Closing">
     <Window.Resources>
@@ -48,292 +48,302 @@
             <ColumnDefinition Width="100*" />
             <ColumnDefinition Width="100*" />
         </Grid.ColumnDefinitions>
-        <GroupBox Header="Keystroke History"
-                  Grid.Column="0"
-                  Grid.ColumnSpan="2"
-                  Margin="5">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100*" />
-                    <ColumnDefinition Width="100*" />
-                </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0"
-                            Margin="5">
-                    <CheckBox x:Name="cb_enableKeystrokeDisplay"
-                              IsChecked="{Binding EnableKeystrokeHistory}">Show Keystroke History</CheckBox>
-                    <StackPanel Margin="0,0,0,5">
-                        <ComboBox x:Name="cb_KeystrokeMethod" Margin="10"
-                                  ItemsSource="{uc:EnumBindingSourceExtention uc:KeystrokeMethodEnum}"
-                                  SelectedValue="{Binding KeystrokeMethod, Mode=TwoWay}"
-                                  SelectedValuePath="Tag"/>
-                        <Button x:Name="button_textfont"
-                                Click="OnButtonTextFontClick"
-                                Grid.ColumnSpan="3"
-                                Margin="10">Font</Button>
-                        <StackPanel Orientation="Horizontal">
-                            <Label VerticalAlignment="Center">Text Color</Label>
-                            <xctk:ColorPicker x:Name="colorpicker_text_color"
-                                              ColorMode="ColorCanvas"
-                                              Margin="10,0,0,0"
-                                              Width="80"
-                                              SelectedColor="{Binding LabelColor, Mode=TwoWay, Converter={StaticResource MediaColorDrawingColorConverter}}" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal"
-                                    Margin="0,3,0,0">
-                            <Label VerticalAlignment="Center">Background Color</Label>
-                            <xctk:ColorPicker x:Name="colorpicker_background_color"
-                                              ColorMode="ColorCanvas"
-                                              Margin="10,0,0,0"
-                                              Width="80"
-                                              SelectedColor="{Binding BackgroundColor, Mode=TwoWay, Converter={StaticResource MediaColorDrawingColorConverter}}" />
-                        </StackPanel>
-                        <TextBlock TextWrapping="Wrap"
-                                   Margin="5,3,0,0">Set the window opacity via the "A" channel of the background color.</TextBlock>
-                        <uc:LabeledSlider x:Name="slider_vertdist"
-                                          Title="Line Distance"
-                                          Minimum="10.0"
-                                          Maximum="100.0"
-                                          Value="{Binding LineDistance, Mode=TwoWay}" />
-                        <StackPanel Orientation="Horizontal">
-                            <Label>No of lines in history</Label>
-                            <xctk:IntegerUpDown x:Name="slider_historycount"
-                                                Minimum="1"
-                                                Maximum="50"
-                                                Increment="1"
-                                                Value="{Binding HistoryLength, Mode=TwoWay}"
-                                                Width="60" />
-                        </StackPanel>
-                        <WrapPanel Margin="0,0,0,0">
-                            <CheckBox x:Name="cb_enableHistoryTimeout"
-                                      IsChecked="{Binding EnableHistoryTimeout}">
-                                <TextBlock>
+        <TabControl Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="4"
+                    Margin="0,5,0,0">
+            <TabItem Header="Keystroke History">
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100*" />
+                                <ColumnDefinition Width="100*" />
+                                <ColumnDefinition Width="100*" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0"
+                                        Margin="5">
+                                <CheckBox x:Name="cb_enableKeystrokeDisplay"
+                                          IsChecked="{Binding EnableKeystrokeHistory}">Show Keystroke History</CheckBox>
+                                <StackPanel Margin="0,0,0,5">
+                                    <ComboBox x:Name="cb_KeystrokeMethod"
+                                              Margin="10"
+                                              ItemsSource="{uc:EnumBindingSourceExtention uc:KeystrokeMethodEnum}"
+                                              SelectedValue="{Binding KeystrokeMethod, Mode=TwoWay}"
+                                              SelectedValuePath="Tag" />
+                                    <Button x:Name="button_textfont"
+                                            Click="OnButtonTextFontClick"
+                                            Grid.ColumnSpan="3"
+                                            Margin="10">Font</Button>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label VerticalAlignment="Center">Text Color</Label>
+                                        <xctk:ColorPicker x:Name="colorpicker_text_color"
+                                                          ColorMode="ColorCanvas"
+                                                          Margin="10,0,0,0"
+                                                          Width="80"
+                                                          SelectedColor="{Binding LabelColor, Mode=TwoWay, Converter={StaticResource MediaColorDrawingColorConverter}}" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal"
+                                                Margin="0,3,0,0">
+                                        <Label VerticalAlignment="Center">Background Color</Label>
+                                        <xctk:ColorPicker x:Name="colorpicker_background_color"
+                                                          ColorMode="ColorCanvas"
+                                                          Margin="10,0,0,0"
+                                                          Width="80"
+                                                          SelectedColor="{Binding BackgroundColor, Mode=TwoWay, Converter={StaticResource MediaColorDrawingColorConverter}}" />
+                                    </StackPanel>
+                                    <TextBlock TextWrapping="Wrap"
+                                               Margin="5,3,0,0">Set the window opacity via the "A" channel of the background color.</TextBlock>
+                                    <uc:LabeledSlider x:Name="slider_vertdist"
+                                                      Title="Line Distance"
+                                                      Minimum="10.0"
+                                                      Maximum="100.0"
+                                                      Value="{Binding LineDistance, Mode=TwoWay}" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label>No of lines in history</Label>
+                                        <xctk:IntegerUpDown x:Name="slider_historycount"
+                                                            Minimum="1"
+                                                            Maximum="50"
+                                                            Increment="1"
+                                                            Value="{Binding HistoryLength, Mode=TwoWay}"
+                                                            Width="60" />
+                                    </StackPanel>
+                                    <WrapPanel Margin="0,0,0,0">
+                                        <CheckBox x:Name="cb_enableHistoryTimeout"
+                                                  IsChecked="{Binding EnableHistoryTimeout}">
+                                            <TextBlock>
                                 Lines disappear after
                                 <TextBlock Margin="3,0,0,0"
-                                           Text="{Binding ElementName=slider_history_timeout, Path=Value, Mode=OneWay, StringFormat=N1}" />s
+                                                Text="{Binding ElementName=slider_history_timeout, Path=Value, Mode=OneWay, StringFormat=N1}" />s
                             </TextBlock>
-                            </CheckBox>
-                        </WrapPanel>
-                        <uc:LabeledSlider x:Name="slider_history_timeout"
-                                          Margin="20,5,10,0"
-                                          Title=""
-                                          Maximum="120.0"
-                                          Minimum="0.5"
-                                          Logarithmic="True"
-                                          HalfWay="0.08"
-                                          Value="{Binding HistoryTimeout, Mode=TwoWay}" />
-                        <CheckBox x:Name="cb_hideWindow"
-                                  IsChecked="{Binding EnableWindowFade}">Hide window when empty</CheckBox>
-                        <CheckBox x:Name="cb_periodictopmost"
-                                  IsChecked="{Binding PeriodicTopmost}">Put on top periodically</CheckBox>
-
+                                        </CheckBox>
+                                    </WrapPanel>
+                                    <uc:LabeledSlider x:Name="slider_history_timeout"
+                                                      Margin="20,5,10,0"
+                                                      Title=""
+                                                      Maximum="120.0"
+                                                      Minimum="0.5"
+                                                      Logarithmic="True"
+                                                      HalfWay="0.08"
+                                                      Value="{Binding HistoryTimeout, Mode=TwoWay}" />
+                                    <CheckBox x:Name="cb_hideWindow"
+                                              IsChecked="{Binding EnableWindowFade}">Hide window when empty</CheckBox>
+                                    <CheckBox x:Name="cb_periodictopmost"
+                                              IsChecked="{Binding PeriodicTopmost}">Put on top periodically</CheckBox>
+                                </StackPanel>
+                            </StackPanel>
+                    <StackPanel Margin="5"
+                                Grid.Column="1">
+                        <GroupBox Header="Alignment">
+                            <StackPanel Margin="0,0,5,0">
+                                <RadioButton x:Name="rb_align_left"
+                                             Content="left"
+                                             GroupName="align"
+                                             IsChecked="{Binding LabelTextAlignment, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:TextAlignment.Left}}" />
+                                <RadioButton x:Name="rb_align_center"
+                                             Content="center"
+                                             GroupName="align"
+                                             HorizontalAlignment="Center"
+                                             IsChecked="{Binding LabelTextAlignment, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:TextAlignment.Center}}" />
+                                <RadioButton x:Name="rb_align_right"
+                                             Content="right"
+                                             GroupName="align"
+                                             HorizontalAlignment="Right"
+                                             IsChecked="{Binding LabelTextAlignment, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:TextAlignment.Right}}" />
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox Header="Move Direction">
+                            <StackPanel>
+                                <RadioButton x:Name="rb_td_up"
+                                             Content="up"
+                                             GroupName="td"
+                                             IsChecked="{Binding LabelTextDirection, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:TextDirection.Up}}" />
+                                <RadioButton x:Name="rb_td_down"
+                                             Content="down"
+                                             GroupName="td"
+                                             IsChecked="{Binding LabelTextDirection, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:TextDirection.Down}}" />
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox Header="Animation">
+                            <StackPanel>
+                                <RadioButton x:Name="rb_style_noani"
+                                             Content="no animation"
+                                             GroupName="style"
+                                             IsChecked="{Binding LabelAnimation, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:Style.NoAnimation}}" />
+                                <RadioButton x:Name="rb_style_slide"
+                                             Content="slide"
+                                             GroupName="style"
+                                             IsChecked="{Binding LabelAnimation, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:Style.Slide}}" />
+                            </StackPanel>
+                        </GroupBox>
                     </StackPanel>
-
-                </StackPanel>
-                <StackPanel Margin="5"
-                            Grid.Column="1">
-                    <GroupBox Header="Alignment">
-                        <StackPanel Margin="0,0,5,0">
-                            <RadioButton x:Name="rb_align_left"
-                                         Content="left"
-                                         GroupName="align"
-                                         IsChecked="{Binding LabelTextAlignment, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:TextAlignment.Left}}" />
-                            <RadioButton x:Name="rb_align_center"
-                                         Content="center"
-                                         GroupName="align"
-                                         HorizontalAlignment="Center"
-                                         IsChecked="{Binding LabelTextAlignment, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:TextAlignment.Center}}" />
-                            <RadioButton x:Name="rb_align_right"
-                                         Content="right"
-                                         GroupName="align"
-                                         HorizontalAlignment="Right"
-                                         IsChecked="{Binding LabelTextAlignment, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:TextAlignment.Right}}" />
-                        </StackPanel>
-                    </GroupBox>
-                    <GroupBox Header="Move Direction">
-                        <StackPanel>
-                            <RadioButton x:Name="rb_td_up"
-                                         Content="up"
-                                         GroupName="td"
-                                         IsChecked="{Binding LabelTextDirection, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:TextDirection.Up}}" />
-                            <RadioButton x:Name="rb_td_down"
-                                         Content="down"
-                                         GroupName="td"
-                                         IsChecked="{Binding LabelTextDirection, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:TextDirection.Down}}" />
-                        </StackPanel>
-                    </GroupBox>
-                    <GroupBox Header="Animation">
-                        <StackPanel>
-                            <RadioButton x:Name="rb_style_noani"
-                                         Content="no animation"
-                                         GroupName="style"
-                                         IsChecked="{Binding LabelAnimation, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:Style.NoAnimation}}" />
-                            <RadioButton x:Name="rb_style_slide"
-                                         Content="slide"
-                                         GroupName="style"
-                                         IsChecked="{Binding LabelAnimation, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:Style.Slide}}" />
-                        </StackPanel>
-                    </GroupBox>
-                    <GroupBox Header="Keyboard Shortcuts">
-                        <StackPanel>
-                            <TextBlock TextWrapping="Wrap"
-                                       Margin="5,3,0,0">
-                                Resize/move mode 
-                            </TextBlock>
-                            <TextBlock TextWrapping="Wrap"
-                                       Margin="15,3,0,0">
+                    <StackPanel Margin="5"
+                                Grid.Column="2">
+                        <GroupBox Header="Keyboard Shortcuts">
+                            <StackPanel>
+                                <TextBlock TextWrapping="Wrap"
+                                           Margin="5,3,0,0">
+                                Resize/move mode</TextBlock>
+                                <TextBlock TextWrapping="Wrap"
+                                           Margin="15,3,0,0">
                                 <Run Text="{Binding KeystrokeHistorySettingsModeShortcut}" />
                                 <LineBreak />
                                 <Hyperlink Click="Hyperlink_ChangeResizeMoveShortcut">Change</Hyperlink>&#160;&#160;&#160;&#160;&#160;&#160;
                                 <Hyperlink Click="Hyperlink_TriggerResizeMoveShortcut">Trigger</Hyperlink>
                                 <LineBreak />
-                                <Hyperlink Click="Hyperlink_ResetResizeMoveShortcut">Reset to <Run x:Name="SettingsModeShortcutDefault"></Run></Hyperlink>
-                            </TextBlock>
-                            <TextBlock TextWrapping="Wrap"
-                                       Margin="5,3,0,0">
-                                Passwort protection mode
-                            </TextBlock>
-                            <TextBlock TextWrapping="Wrap"
-                                       Margin="15,3,0,0">
+                                <Hyperlink Click="Hyperlink_ResetResizeMoveShortcut">Reset to <Run x:Name="SettingsModeShortcutDefault"></Run></Hyperlink></TextBlock>
+                                <TextBlock TextWrapping="Wrap"
+                                           Margin="5,3,0,0">
+                                Passwort protection mode</TextBlock>
+                                <TextBlock TextWrapping="Wrap"
+                                           Margin="15,3,0,0">
                                 <Run Text="{Binding KeystrokeHistoryPasswordModeShortcut}" />
                                 <LineBreak />
                                 <Hyperlink Click="Hyperlink_ChangePasswordModeShortcut">Change</Hyperlink>&#160;&#160;&#160;&#160;&#160;&#160;
                                 <Hyperlink Click="Hyperlink_TriggerPasswordModeShortcut">Trigger</Hyperlink>
                                 <LineBreak />
-                                <Hyperlink Click="Hyperlink_ResetPasswordModeShortcut">Reset to <Run x:Name="PasswordModeShortcutDefault"></Run></Hyperlink>
-                            </TextBlock>
+                                <Hyperlink Click="Hyperlink_ResetPasswordModeShortcut">Reset to <Run x:Name="PasswordModeShortcutDefault"></Run></Hyperlink></TextBlock>
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Cursor and Clicks">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <GroupBox Header="Cursor"
+                              Grid.Column="0">
+                        <StackPanel>
+                            <CheckBox x:Name="cb_cursorindicator"
+                                      IsChecked="{Binding EnableCursorIndicator}">Indicate cursor position</CheckBox>
+                            <uc:LabeledSlider x:Name="slider_ci_opacity"
+                                              Title="Opacity"
+                                              Minimum="0.1"
+                                              Maximum="1"
+                                              Value="{Binding CursorIndicatorOpacity, Mode=TwoWay}" />
+                            <uc:LabeledSlider x:Name="slider_ci_size"
+                                              Title="Size"
+                                              Minimum="3.0"
+                                              Maximum="300.0"
+                                              Value="{Binding CursorIndicatorSize, Mode=TwoWay}" />
+                            <StackPanel Orientation="Horizontal">
+                                <Label VerticalAlignment="Center">Color</Label>
+                                <xctk:ColorPicker x:Name="colorpicker_ci_color"
+                                                  ColorMode="ColorCanvas"
+                                                  Margin="10,0,0,0"
+                                                  Width="80"
+                                                  SelectedColor="{Binding CursorIndicatorColor, Mode=TwoWay, Converter={StaticResource MediaColorDrawingColorConverter}}" />
+                            </StackPanel>
+                            <CheckBox x:Name="cb_cursorindicator_flashonclick"
+                                      IsChecked="{Binding CursorIndicatorFlashOnClick}">Change color on click</CheckBox>
+                            <StackPanel Orientation="Horizontal">
+                                <Label VerticalAlignment="Center">Click color</Label>
+                                <xctk:ColorPicker x:Name="colorpicker_ci_clickcolor"
+                                                  ColorMode="ColorCanvas"
+                                                  Margin="10,0,0,0"
+                                                  Width="80"
+                                                  IsEnabled="{Binding CursorIndicatorFlashOnClick, Mode=OneWay}"
+                                                  SelectedColor="{Binding CursorIndicatorClickColor, Mode=TwoWay, Converter={StaticResource MediaColorDrawingColorConverter}}" />
+                            </StackPanel>
+                            <CheckBox x:Name="cb_cursorindicator_drawedge"
+                                      IsChecked="{Binding CursorIndicatorDrawEdge}">Draw circle edge</CheckBox>
+                            <StackPanel Orientation="Horizontal">
+                                <Label VerticalAlignment="Center">Edge color</Label>
+                                <xctk:ColorPicker x:Name="colorpicker_ci_edgecolor"
+                                                  ColorMode="ColorCanvas"
+                                                  Margin="10,0,0,0"
+                                                  Width="80"
+                                                  IsEnabled="{Binding CursorIndicatorDrawEdge, Mode=OneWay}"
+                                                  SelectedColor="{Binding CursorIndicatorEdgeColor, Mode=TwoWay, Converter={StaticResource MediaColorDrawingColorConverter}}" />
+                            </StackPanel>
+                            <uc:LabeledSlider x:Name="slider_ci_edgestrokethickness"
+                                              Title="Edge Thickness"
+                                              Minimum="0.0"
+                                              Maximum="20.0"
+                                              Value="{Binding CursorIndicatorEdgeStrokeThickness, Mode=TwoWay}"
+                                              IsEnabled="{Binding CursorIndicatorDrawEdge, Mode=OneWay}" />
+                            <CheckBox x:Name="cb_cursorindicator_hide_if_custom_cursor"
+                                      IsChecked="{Binding CursorIndicatorHideIfCustomCursor}"
+                                      Height="50"
+                                      Margin="5,10,-0.333,0">
+                                <TextBlock TextWrapping="Wrap"><Run Text="Hide if cursor icon is non-standard (Firefox video full-screen workaround)" /></TextBlock>
+                            </CheckBox>
                         </StackPanel>
                     </GroupBox>
-
-                </StackPanel>
-
-            </Grid>
-        </GroupBox>
-        <StackPanel Grid.Column="2"
-                    Margin="5">
-            <GroupBox Header="Cursor">
-                <StackPanel>
-                    <CheckBox x:Name="cb_cursorindicator"
-                              IsChecked="{Binding EnableCursorIndicator}">Indicate cursor position</CheckBox>
-                    <uc:LabeledSlider x:Name="slider_ci_opacity"
-                                      Title="Opacity"
-                                      Minimum="0.1"
-                                      Maximum="1"
-                                      Value="{Binding CursorIndicatorOpacity, Mode=TwoWay}" />
-                    <uc:LabeledSlider x:Name="slider_ci_size"
-                                      Title="Size"
-                                      Minimum="3.0"
-                                      Maximum="300.0"
-                                      Value="{Binding CursorIndicatorSize, Mode=TwoWay}" />
-                    <StackPanel Orientation="Horizontal">
-                        <Label VerticalAlignment="Center">Color</Label>
-                        <xctk:ColorPicker x:Name="colorpicker_ci_color"
-                                          ColorMode="ColorCanvas"
-                                          Margin="10,0,0,0"
-                                          Width="80"
-                                          SelectedColor="{Binding CursorIndicatorColor, Mode=TwoWay, Converter={StaticResource MediaColorDrawingColorConverter}}" />
-                    </StackPanel>
-                    <CheckBox x:Name="cb_cursorindicator_flashonclick"
-                              IsChecked="{Binding CursorIndicatorFlashOnClick}">Change color on click</CheckBox>
-
-                    <StackPanel Orientation="Horizontal">
-                        <Label VerticalAlignment="Center">Click color</Label>
-                        <xctk:ColorPicker x:Name="colorpicker_ci_clickcolor"
-                                          ColorMode="ColorCanvas"
-                                          Margin="10,0,0,0"
-                                          Width="80"
-                                          IsEnabled="{Binding CursorIndicatorFlashOnClick, Mode=OneWay}"
-                                          SelectedColor="{Binding CursorIndicatorClickColor, Mode=TwoWay, Converter={StaticResource MediaColorDrawingColorConverter}}" />
-                    </StackPanel>
-                    <CheckBox x:Name="cb_cursorindicator_drawedge"
-                              IsChecked="{Binding CursorIndicatorDrawEdge}">Draw circle edge</CheckBox>
-                    <StackPanel Orientation="Horizontal">
-                        <Label VerticalAlignment="Center">Edge color</Label>
-                        <xctk:ColorPicker x:Name="colorpicker_ci_edgecolor"
-                                          ColorMode="ColorCanvas"
-                                          Margin="10,0,0,0"
-                                          Width="80"
-                                          IsEnabled="{Binding CursorIndicatorDrawEdge, Mode=OneWay}"
-                                          SelectedColor="{Binding CursorIndicatorEdgeColor, Mode=TwoWay, Converter={StaticResource MediaColorDrawingColorConverter}}" />
-                    </StackPanel>
-                    <uc:LabeledSlider x:Name="slider_ci_edgestrokethickness"
-                                      Title="Edge Thickness"
-                                      Minimum="0.0"
-                                      Maximum="20.0"
-                                      Value="{Binding CursorIndicatorEdgeStrokeThickness, Mode=TwoWay}" 
-                                      IsEnabled="{Binding CursorIndicatorDrawEdge, Mode=OneWay}" />
-                    <CheckBox x:Name="cb_cursorindicator_hide_if_custom_cursor"
-                        IsChecked="{Binding CursorIndicatorHideIfCustomCursor}" Height="50" Margin="5,10,-0.333,0">
-                        <TextBlock TextWrapping="Wrap"><Run Text="Hide if cursor icon is non-standard (Firefox video full-screen workaround)"/></TextBlock></CheckBox>
-                </StackPanel>
-            </GroupBox>
-        </StackPanel>
-        <StackPanel Grid.Column="3"
-                    Margin="5">
-            <GroupBox Header="Mouse Clicks">
-                <StackPanel Margin="0,0,0,5">
-                    <RadioButton x:Name="rb_bi_disable"
-                                 Content="Do not indicate clicks"
-                                 GroupName="bi"
-                                 IsChecked="{Binding ButtonIndicator, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:ButtonIndicatorType.Disabled}}" />
-                    <RadioButton x:Name="rb_bi_icon"
-                                 Content="Show icon on click"
-                                 GroupName="bi"
-                                 IsChecked="{Binding ButtonIndicator, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:ButtonIndicatorType.PicsAroundCursor}}" />
-                    <uc:LabeledSlider x:Name="slider_bi_size"
-                                      Title="Size"
-                                      Minimum="0.1"
-                                      Maximum="2"
-                                      Value="{Binding ButtonIndicatorScaling, Mode=TwoWay}" />
-                    <uc:LabeledSlider x:Name="slider_bi_distance"
-                                      Title="Distance"
-                                      Minimum="10"
-                                      Maximum="100"
-                                      Value="{Binding ButtonIndicatorPositionDistance, Mode=TwoWay}" />
-                    <uc:LabeledSlider x:Name="slider_bi_angle"
-                                      Title="Direction"
-                                      Maximum="65"
-                                      Value="{Binding ButtonIndicatorPositionAngle, Mode=TwoWay}" />
-                    <CheckBox x:Name="cb_bi_modifiers"
-                              IsChecked="{Binding ButtonIndicatorShowModifiers}">Show modifiers (Ctrl, Shift, ...)</CheckBox>
-                    <CheckBox x:Name="cb_bi_customicons"
-                              IsChecked="{Binding ButtonIndicatorUseCustomIcons}">
-                        <TextBlock>Use custom icons.</TextBlock></CheckBox>
-                    <Button x:Name="button_bi_export_builtin"
-                                Click="OnButtonExportBuiltinIcons"
-                                Margin="15,5,5,5">Export built-in icons</Button>
-                    <Button x:Name="button_bi_select_folder"
-                                Click="OnButtonCustomIconsSelectFolder"
-                                Margin="15,0,5,5">Select Folder with custom icons</Button>
-                    <TextBlock x:Name="textblockCustomIconInfoBuiltin" Margin="15,0,5,5" TextWrapping="Wrap">
-                        Currently using built-in icons.
-                    </TextBlock>
-                    <TextBlock x:Name="textblockCustomIconInfoCustom" Margin="15,0,5,5" TextWrapping="Wrap">
+                    <GroupBox Header="Mouse Clicks"
+                              Grid.Column="1">
+                        <StackPanel Margin="0,0,0,5">
+                            <RadioButton x:Name="rb_bi_disable"
+                                         Content="Do not indicate clicks"
+                                         GroupName="bi"
+                                         IsChecked="{Binding ButtonIndicator, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:ButtonIndicatorType.Disabled}}" />
+                            <RadioButton x:Name="rb_bi_icon"
+                                         Content="Show icon on click"
+                                         GroupName="bi"
+                                         IsChecked="{Binding ButtonIndicator, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static uc:ButtonIndicatorType.PicsAroundCursor}}" />
+                            <uc:LabeledSlider x:Name="slider_bi_size"
+                                              Title="Size"
+                                              Minimum="0.1"
+                                              Maximum="2"
+                                              Value="{Binding ButtonIndicatorScaling, Mode=TwoWay}" />
+                            <uc:LabeledSlider x:Name="slider_bi_distance"
+                                              Title="Distance"
+                                              Minimum="10"
+                                              Maximum="100"
+                                              Value="{Binding ButtonIndicatorPositionDistance, Mode=TwoWay}" />
+                            <uc:LabeledSlider x:Name="slider_bi_angle"
+                                              Title="Direction"
+                                              Maximum="65"
+                                              Value="{Binding ButtonIndicatorPositionAngle, Mode=TwoWay}" />
+                            <CheckBox x:Name="cb_bi_modifiers"
+                                      IsChecked="{Binding ButtonIndicatorShowModifiers}">Show modifiers (Ctrl, Shift, ...)</CheckBox>
+                            <CheckBox x:Name="cb_bi_customicons"
+                                      IsChecked="{Binding ButtonIndicatorUseCustomIcons}">
+                                <TextBlock>Use custom icons.</TextBlock>
+                            </CheckBox>
+                            <Button x:Name="button_bi_export_builtin"
+                                    Click="OnButtonExportBuiltinIcons"
+                                    Margin="15,5,5,5">Export built-in icons</Button>
+                            <Button x:Name="button_bi_select_folder"
+                                    Click="OnButtonCustomIconsSelectFolder"
+                                    Margin="15,0,5,5">Select Folder with custom icons</Button>
+                            <TextBlock x:Name="textblockCustomIconInfoBuiltin"
+                                       Margin="15,0,5,5"
+                                       TextWrapping="Wrap">
+                        Currently using built-in icons.</TextBlock>
+                            <TextBlock x:Name="textblockCustomIconInfoCustom"
+                                       Margin="15,0,5,5"
+                                       TextWrapping="Wrap">
                             Currently using icons from
-                            <LineBreak/>
-                            <Run x:Name="runCustomIconFolderInfo" Text="{Binding ButtonIndicatorCustomIconsFolder}"/>
-                            <LineBreak/>
-                            <Hyperlink Click="OnClickCustomIconsRefresh">Refresh cache</Hyperlink>
-                    </TextBlock>
-                </StackPanel>
-            </GroupBox>
-            <Grid Margin="10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="10" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Button x:Name="bn_reset_position"
-                        Grid.Column="0"
-                        Grid.ColumnSpan="2"
-                        Margin="0,5,9.667,0"
-                        VerticalAlignment="Top"
-                        Click="Bn_reset_position_Click">Reset position</Button>
-                <Button x:Name="bn_reset_all"
-                        Grid.Column="2"
-                        Click="bn_reset_all_Click">Reset all</Button>
-            </Grid>
+                            <LineBreak />
+                            <Run x:Name="runCustomIconFolderInfo"
+                                 Text="{Binding ButtonIndicatorCustomIconsFolder}" />
+                            <LineBreak />
+                            <Hyperlink Click="OnClickCustomIconsRefresh">Refresh cache</Hyperlink></TextBlock>
+                        </StackPanel>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <StackPanel Grid.Column="0"
+                    Grid.Row="1"
+                    Grid.ColumnSpan="2"
+                    Orientation="Horizontal"
+                    Margin="10,0,10,10">
+            <Button x:Name="bn_reset_position"
+                    Margin="0,0,10,0"
+                    Padding="5,0,5,0"
+                    VerticalAlignment="Bottom"
+                    Click="Bn_reset_position_Click">Reset position</Button>
+            <Button x:Name="bn_reset_all"
+                    Margin="10,0,10,0"
+                    Padding="5,0,5,0"
+                    VerticalAlignment="Bottom"
+                    Click="bn_reset_all_Click">Reset all</Button>
         </StackPanel>
-
         <Button x:Name="button_exit"
                 Grid.Column="2"
                 Grid.Row="1"

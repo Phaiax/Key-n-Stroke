@@ -74,9 +74,9 @@ namespace KeyNStroke
         {
             this.Dispatcher.BeginInvoke((Action)(() =>
             {
-                switch (e.PropertyName)
+                /*witch (e.PropertyName)
                 {
-                }
+                }*/
             }));
         }
 
