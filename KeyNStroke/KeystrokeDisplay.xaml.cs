@@ -125,7 +125,7 @@ namespace KeyNStroke
                 }
 
                 if (!e.RequiresNewLine
-                    && settings.KeystrokeMethod.IsTextMode()
+                    && settings.KeystrokeMethod == KeystrokeMethodEnum.TextModeBackspaceCanDeleteText
                     && NumberOfDeletionsAllowed > 0
                     && LastHistoryLineIsText
                     && !LastHistoryLineRequiredNewLineAfterwards
