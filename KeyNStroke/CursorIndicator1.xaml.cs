@@ -83,6 +83,7 @@ namespace KeyNStroke
             NativeMethodsGWL.HideFromAltTab(windowHandle);
 
             UpdateSize();
+            UpdateColor();
             UpdatePosition(NativeMethodsMouse.CursorPosition);
         }
 
@@ -107,6 +108,7 @@ namespace KeyNStroke
         {
             this.Dispatcher.BeginInvoke((Action) (() =>
             {
+                if (s == null) return;
                 switch (e.PropertyName)
                 {
                     case "EnableCursorIndicator":

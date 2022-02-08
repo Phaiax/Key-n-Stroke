@@ -87,6 +87,7 @@ namespace KeyNStroke
 
         private void k_KeystrokeEvent(KeystrokeEventArgs e)
         {
+            if (s == null) return;
             bool changed = false;
             if (s.ButtonIndicatorShowModifiers)
             {
@@ -123,6 +124,7 @@ namespace KeyNStroke
 
         void m_MouseEvent(MouseRawEventArgs raw_e)
         {
+            if (s == null) return;
             switch (raw_e.Action)
             {
                 case MouseAction.Up:
@@ -395,6 +397,7 @@ namespace KeyNStroke
 
         private void settingChanged(object sender, PropertyChangedEventArgs e)
         {
+            if (s == null) return;
             // Log.e("BI", $"ButtonIndicator => settingChanged {e.PropertyName}");
             switch (e.PropertyName)
             {

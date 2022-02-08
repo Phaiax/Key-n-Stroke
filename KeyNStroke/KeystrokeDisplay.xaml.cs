@@ -101,6 +101,7 @@ namespace KeyNStroke
 
         void KeystrokeEvent(KeystrokeEventArgs e)
         {
+            if (settings == null) return;
             string pressed = e.ShortcutIdentifier();
             e.raw.preventDefault = e.raw.preventDefault || CheckForSettingsMode(pressed);
             e.raw.preventDefault = e.raw.preventDefault || CheckForPasswordMode(pressed);
@@ -253,6 +254,7 @@ namespace KeyNStroke
 
         private void SettingChanged(object sender, PropertyChangedEventArgs e)
         {
+            if (settings == null) return;
             switch (e.PropertyName)
             {
                 case "BackgroundColor":

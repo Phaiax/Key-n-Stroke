@@ -59,6 +59,7 @@ namespace KeyNStroke
 
         void m_KeystrokeEvent(KeystrokeEventArgs e)
         {
+            if (s == null) return;
             string pressed = e.ShortcutIdentifier();
             e.raw.preventDefault = e.raw.preventDefault || CheckForTrigger(pressed);
         }
@@ -89,6 +90,7 @@ namespace KeyNStroke
 
         private void m_MouseEvent(MouseRawEventArgs raw_e)
         {
+            if (s == null) return;
             if (!isDown && nextClickHides && raw_e.Action == MouseAction.Down)
             {
                 raw_e.preventDefault = true;
@@ -120,6 +122,7 @@ namespace KeyNStroke
         {
             this.Dispatcher.BeginInvoke((Action)(() =>
             {
+                if (s == null) return;
                 switch (e.PropertyName)
                 {
                     case "AnnotateLineShortcutTrigger":
