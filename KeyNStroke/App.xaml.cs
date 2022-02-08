@@ -54,23 +54,19 @@ namespace KeyNStroke
             InitKeyboardInterception();
 
             mySettings.PropertyChanged += OnSettingChanged;
+            myKeystrokeConverter.KeystrokeEvent += m_KeystrokeEvent;
 
             //myUi.FormClosed += OnUiClosed;
-
-            OnKeystrokeHistorySettingChanged();
-            OnCursorIndicatorSettingChanged();
-            OnButtonIndicatorSettingChanged();
+            mySettings.CallPropertyChangedForAllProperties();
 
             makeNotifyIcon();
 
-            welcomeWindow = new Welcome(mySettings);
-            //welcomeWindow.Show();
-
-            EnableAnnotateLine();
-
+            if (!mySettings.StartInStandby)
+            { 
+                welcomeWindow = new Welcome(mySettings);
+                welcomeWindow.Show();
+            }
         }
-
-        
 
         protected override void OnActivated(EventArgs e)
         {
@@ -165,6 +161,39 @@ namespace KeyNStroke
 
         #endregion
 
+        #region Shortcut
+
+        public string StandbyShortcut;
+
+        void m_KeystrokeEvent(KeystrokeEventArgs e)
+        {
+            string pressed = e.ShortcutIdentifier();
+            e.raw.preventDefault = e.raw.preventDefault || CheckForTrigger(pressed);
+        }
+
+        private bool CheckForTrigger(string pressed)
+        {
+            if (StandbyShortcut != null && pressed == StandbyShortcut)
+            {
+                mySettings.Standby = !mySettings.Standby;
+                return true;
+            }
+            return false;
+        }
+
+        public void SetStandbyShortcut(string shortcut)
+        {
+            if (KeystrokeDisplay.ValidateShortcutSetting(shortcut))
+            {
+                StandbyShortcut = shortcut;
+            }
+            else
+            {
+                StandbyShortcut = mySettings.StandbyShortcutDefault;
+            }
+        }
+
+        #endregion
 
         #region OnSettingChanged
 
@@ -194,6 +223,15 @@ namespace KeyNStroke
                         ImageResources.ReloadRessources(null);
                     }
                     break;
+                case "StandbyShortcut":
+                    SetStandbyShortcut(mySettings.StandbyShortcut);
+                    break;
+                case "Standby":
+                    OnCursorIndicatorSettingChanged();
+                    OnButtonIndicatorSettingChanged();
+                    OnKeystrokeHistorySettingChanged();
+                    OnAnnotateLineSettingChanged();
+                    break;
             }
         }
 
@@ -206,7 +244,7 @@ namespace KeyNStroke
 
         private void OnKeystrokeHistorySettingChanged()
         {
-            if (mySettings.EnableKeystrokeHistory)
+            if (mySettings.EnableKeystrokeHistory && !mySettings.Standby)
             {
                 EnableKeystrokeHistory();
             }
@@ -242,13 +280,13 @@ namespace KeyNStroke
 
         private void OnButtonIndicatorSettingChanged()
         {
-            if (mySettings.ButtonIndicator == ButtonIndicatorType.Disabled)
+            if (mySettings.ButtonIndicator != ButtonIndicatorType.Disabled && !mySettings.Standby)
             {
-                DisableButtonIndicator();
+                EnableButtonIndicator();
             }
             else
             {
-                EnableButtonIndicator();
+                DisableButtonIndicator();
             }
         }
 
@@ -282,7 +320,7 @@ namespace KeyNStroke
 
         private void OnCursorIndicatorSettingChanged()
         {
-            if (mySettings.EnableCursorIndicator)
+            if (mySettings.EnableCursorIndicator && !mySettings.Standby)
             {
                 EnableCursorIndicator();
             }
@@ -325,7 +363,7 @@ namespace KeyNStroke
 
         private void OnAnnotateLineSettingChanged()
         {
-            if (mySettings.EnableAnnotateLine)
+            if (mySettings.EnableAnnotateLine && !mySettings.Standby)
             {
                 EnableAnnotateLine();
             }

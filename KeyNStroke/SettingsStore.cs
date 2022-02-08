@@ -784,6 +784,7 @@ namespace KeyNStroke
                 throw;
             }
             i.enableSettingsMode = false;
+            standby = StartInStandby;
             dirty = false;
         }
 
