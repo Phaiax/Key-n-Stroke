@@ -465,7 +465,7 @@ namespace KeyNStroke
             }
             else
             {
-                PasswordModeShortcut = settings.KeystrokeHistorySettingsModeShortcutDefault;
+                PasswordModeShortcut = settings.KeystrokeHistoryPasswordModeShortcutDefault;
             }
             PasswordProtectionModeShortcut.Text = PasswordModeShortcut;
         }
