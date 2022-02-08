@@ -30,7 +30,7 @@
                     <Image Width="20"
                            Source="Resources/app.ico" />
                 </InlineUIContainer>
-                <Run Text=" in the notification area to access the " />
+                <Run Text=" in the notification area to access the" />
                 <Hyperlink RequestNavigate="Hyperlink_RequestNavigate_settings"
                            NavigateUri="none://dummy">settings</Hyperlink>.
                 <LineBreak />

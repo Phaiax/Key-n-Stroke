@@ -400,6 +400,14 @@
                             </StackPanel>
                         </GroupBox>
                     </StackPanel>
+                    <StackPanel Grid.Column="1"
+                                Margin="5">
+                        <GroupBox Header="Updates">
+                            <TextBlock TextWrapping="Wrap"
+                                       Margin="5,5,5,0">
+                                Use the update button in the <Hyperlink Click="Hyperlink_WelcomeWindow">welcome window</Hyperlink> to search for updates.</TextBlock>
+                        </GroupBox>
+                    </StackPanel>
                     <StackPanel Grid.Column="2"
                                 Margin="5">
                         <GroupBox Header="Keyboard Shortcuts">
