@@ -10,28 +10,42 @@
         Width="741.54"
         Icon="Resources/app.ico"
         WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </Window.Resources>
     <Grid HorizontalAlignment="Stretch"
           Margin="10,10,10,10"
           VerticalAlignment="Stretch"
           x:Name="layout_root">
-        <TextBlock Margin="10,10,-0.333,163.333"
-                   TextWrapping="Wrap"><Span FontSize="24">
-            <Run Text="Welcome to Key'n'Strokes " /><Run x:Name="VersionInfo" /></Span>
-            <LineBreak />
-            <Span FontSize="24"><Run /></Span>
-            <LineBreak /><LineBreak />
-            <Run Text="Click " />
-            <InlineUIContainer>
-                <Image Width="20"
-                       Source="Resources/app.ico" />
-            </InlineUIContainer>
-            <Run Text=" in the notification area to access the " />
-            <Hyperlink RequestNavigate="Hyperlink_RequestNavigate_settings"
-                       NavigateUri="none://dummy">settings</Hyperlink>.
-            <LineBreak />
-            <LineBreak />
-            <Run Text="Press " /><Span FontWeight="Bold"><Run Text="{Binding KeystrokeHistorySettingsModeShortcut, Mode=OneWay}" /></Span><Run Text=" to move the keystroke history window." />
-        </TextBlock>
+        <StackPanel Margin="10,10,-0.333,163.333">
+            <TextBlock TextWrapping="Wrap">
+                <Span FontSize="24">
+                    <Run Text="Welcome to Key'n'Strokes " /><Run x:Name="VersionInfo" />
+                </Span>
+                <LineBreak />
+                <Span FontSize="24"><Run /></Span>
+                <LineBreak /><LineBreak />
+                <Run Text="Click " />
+                <InlineUIContainer>
+                    <Image Width="20"
+                           Source="Resources/app.ico" />
+                </InlineUIContainer>
+                <Run Text=" in the notification area to access the " />
+                <Hyperlink RequestNavigate="Hyperlink_RequestNavigate_settings"
+                           NavigateUri="none://dummy">settings</Hyperlink>.
+                <LineBreak />
+                <LineBreak />
+                <Run Text="Press " /><Span FontWeight="Bold"><Run Text="{Binding StandbyShortcut, Mode=OneWay}" /></Span><Run Text=" to toggle standby mode." />
+            </TextBlock>
+            <TextBlock Visibility="{Binding EnableKeystrokeHistory, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Run Text="Press " /><Span FontWeight="Bold"><Run Text="{Binding KeystrokeHistorySettingsModeShortcut, Mode=OneWay}" /></Span><Run Text=" to move the keystroke history window." />
+                <LineBreak />
+                <Run Text="Press " /><Span FontWeight="Bold"><Run Text="{Binding KeystrokeHistoryPasswordModeShortcut, Mode=OneWay}" /></Span><Run Text=" to toggle password mode." />
+            </TextBlock>
+            <TextBlock Visibility="{Binding EnableAnnotateLine, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Run Text="Press " /><Span FontWeight="Bold"><Run Text="{Binding AnnotateLineShortcut, Mode=OneWay}" /></Span><Run Text=" to draw a line." />
+            </TextBlock>
+        </StackPanel>
         <Button x:Name="ButtonCheckForUpdates"
                 Content="Check for Updates"
                 HorizontalAlignment="Left"
