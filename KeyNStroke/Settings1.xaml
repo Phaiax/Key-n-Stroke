@@ -395,7 +395,7 @@
                                           IsChecked="{Binding StartInStandby}">Startup in standby</CheckBox>
                                 <TextBlock TextWrapping="Wrap"
                                            Margin="5,5,5,0">
-                                When enabled, Key'n'Stroke will not show the Welcome window on startup and start in standby mode.</TextBlock>
+                                When enabled, Key'n'Stroke will not show the <Hyperlink Click="Hyperlink_WelcomeWindow">welcome window</Hyperlink> on startup and start in standby mode.</TextBlock>
                             </StackPanel>
                         </GroupBox>
                     </StackPanel>

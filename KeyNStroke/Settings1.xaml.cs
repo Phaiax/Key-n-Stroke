@@ -321,8 +321,16 @@ namespace KeyNStroke
 
 
 
+
         #endregion
 
+        #region Other Hyperlinks
 
+        private void Hyperlink_WelcomeWindow(object sender, RoutedEventArgs e)
+        {
+            ((App)Application.Current).showWelcomeWindow();
+        }
+
+        #endregion
     }
 }

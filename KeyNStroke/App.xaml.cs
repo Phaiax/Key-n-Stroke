@@ -62,9 +62,8 @@ namespace KeyNStroke
             makeNotifyIcon();
 
             if (!mySettings.StartInStandby)
-            { 
-                welcomeWindow = new Welcome(mySettings);
-                welcomeWindow.Show();
+            {
+                showWelcomeWindow();
             }
         }
 
@@ -157,6 +156,28 @@ namespace KeyNStroke
         public void onSettingsWindowClosed()
         {
             settingsWindow = null;
+        }
+
+        #endregion
+
+        #region Welcome Window
+
+        public void showWelcomeWindow()
+        {
+            if (welcomeWindow == null)
+            {
+                welcomeWindow = new Welcome(mySettings);
+                welcomeWindow.Show();
+            }
+            else
+            {
+                welcomeWindow.Activate();
+            }
+        }
+
+        public void onWelcomeWindowClosed()
+        {
+            welcomeWindow = null;
         }
 
         #endregion

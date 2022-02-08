@@ -29,6 +29,12 @@ namespace KeyNStroke
 
         }
 
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+            ((App)Application.Current).onWelcomeWindowClosed();
+        }
+
         private void Hyperlink_RequestNavigate_README(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
         {
             UrlOpener.OpenGithubREADME();
