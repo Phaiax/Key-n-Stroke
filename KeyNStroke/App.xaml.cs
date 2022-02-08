@@ -61,7 +61,7 @@ namespace KeyNStroke
 
             makeNotifyIcon();
 
-            if (!mySettings.StartInStandby)
+            if (mySettings.WelcomeOnStartup)
             {
                 showWelcomeWindow();
             }

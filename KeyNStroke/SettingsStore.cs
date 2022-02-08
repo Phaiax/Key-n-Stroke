@@ -233,6 +233,7 @@ namespace KeyNStroke
         [DataMember] public String annotateLineShortcut = null;
         [DataMember] public String standbyShortcut = null;
         [DataMember] public Nullable<bool> startInStandby = null;
+        [DataMember] public Nullable<bool> welcomeOnStartup = null;
 
 
     }
@@ -650,6 +651,13 @@ namespace KeyNStroke
             set { standby = value; OnSettingChanged("Standby"); }
         }
 
+        public bool WelcomeOnStartupDefault = true;
+        public bool WelcomeOnStartup
+        {
+            get { return Or(i.welcomeOnStartup, WelcomeOnStartupDefault); }
+            set { i.welcomeOnStartup = value; OnSettingChanged("WelcomeOnStartup"); }
+        }
+
         // Add new settings also to method CallPropertyChangedForAllProperties()
 
         #endregion
@@ -717,6 +725,7 @@ namespace KeyNStroke
                 PropertyChanged(this, new PropertyChangedEventArgs("StandbyShortcut"));
                 PropertyChanged(this, new PropertyChangedEventArgs("StartInStandby"));
                 PropertyChanged(this, new PropertyChangedEventArgs("Standby"));
+                PropertyChanged(this, new PropertyChangedEventArgs("WelcomeOnStartup"));
 
             }
         }
@@ -848,6 +857,7 @@ AnnotateLineShortcut:           {AnnotateLineShortcut}
 StandbyShortcut:                {StandbyShortcut}
 StartInStandby:                 {StartInStandby}
 Standby:                        {Standby}
+WelcomeOnStartup:               {WelcomeOnStartup}
 ";
         }
 

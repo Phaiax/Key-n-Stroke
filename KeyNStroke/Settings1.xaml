@@ -394,9 +394,11 @@
                                 In standby mode, all Key'n'Stroke functionality will be temporarily disabled, even if it is enabled in the respective settings.</TextBlock>
                                 <CheckBox x:Name="cb_standbyonstartup_enable"
                                           IsChecked="{Binding StartInStandby}">Startup in standby</CheckBox>
-                                <TextBlock TextWrapping="Wrap"
-                                           Margin="5,5,5,0">
-                                When enabled, Key'n'Stroke will not show the <Hyperlink Click="Hyperlink_WelcomeWindow">welcome window</Hyperlink> on startup and start in standby mode.</TextBlock>
+                                <CheckBox x:Name="cb_welcomeonstartup_enable"
+                                          IsChecked="{Binding WelcomeOnStartup}">
+                                    <TextBlock TextWrapping="Wrap">Show <Hyperlink Click="Hyperlink_WelcomeWindow">
+                                        welcome window</Hyperlink> on startup.</TextBlock>
+                                </CheckBox>
                             </StackPanel>
                         </GroupBox>
                     </StackPanel>
