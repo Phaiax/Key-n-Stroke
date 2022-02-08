@@ -24,59 +24,109 @@ namespace KeyNStroke
     {
 
         IMouseRawEventProvider m;
+        IKeystrokeEventProvider k;
         SettingsStore s;
         IntPtr windowHandle;
-        bool isHidden;
         bool isDown;
         POINT startCursorPosition = new POINT(0, 0);
         POINT endCursorPosition = new POINT(0, 0);
+        bool nextClickDraws = false;
+        bool nextClickHides = false;
 
-        public AnnotateLine(IMouseRawEventProvider m, SettingsStore s)
+        public AnnotateLine(IMouseRawEventProvider m, IKeystrokeEventProvider k, SettingsStore s)
         {
             InitializeComponent();
 
             this.m = m;
             this.s = s;
+            this.k = k;
 
             s.PropertyChanged += settingChanged;
-            this.isHidden = false;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             m.MouseEvent += m_MouseEvent;
+            this.k.KeystrokeEvent += m_KeystrokeEvent;
             windowHandle = new WindowInteropHelper(this).Handle;
             SetFormStyles();
         }
 
+        #region Shortcut
+
+        public string AnnotateLineShortcut;
+
+        void m_KeystrokeEvent(KeystrokeEventArgs e)
+        {
+            string pressed = e.ShortcutIdentifier();
+            CheckForTrigger(pressed);
+        }
+
+        private void CheckForTrigger(string pressed)
+        {
+            if (AnnotateLineShortcut != null && pressed == AnnotateLineShortcut)
+            {
+                nextClickDraws = true;
+            }
+        }
+
+        public void SetAnnotateLineShortcut(string shortcut)
+        {
+            if (KeystrokeDisplay.ValidateShortcutSetting(shortcut))
+            {
+                AnnotateLineShortcut = shortcut;
+            }
+            else
+            {
+                AnnotateLineShortcut = s.AnnotateLineShortcutDefault;
+            }
+        }
+
+        #endregion
+
         private void m_MouseEvent(MouseRawEventArgs raw_e)
         {
-            if (raw_e.Action == MouseAction.Move)
+            if (!isDown && nextClickHides && raw_e.Action == MouseAction.Down)
             {
-                if (isDown)
-                {
-                    endCursorPosition = raw_e.Position;
-                    UpdatePositionAndSize();
-                }
+                nextClickHides = false;
+                this.Hide();
             }
-            else if (raw_e.Action == MouseAction.Down)
+
+            if (isDown && raw_e.Action == MouseAction.Move)
+            {
+                endCursorPosition = raw_e.Position;
+                UpdatePositionAndSize();
+            }
+            else if (!isDown && raw_e.Action == MouseAction.Down && nextClickDraws)
             {
                 isDown = true;
+                nextClickDraws = false;
                 startCursorPosition = raw_e.Position;
                 endCursorPosition = raw_e.Position;
             }
-            else if (raw_e.Action == MouseAction.Up)
+            else if (isDown && raw_e.Action == MouseAction.Up)
             {
                 isDown = false;
+                nextClickHides = true;
             }
         }
+
         private void settingChanged(object sender, PropertyChangedEventArgs e)
         {
             this.Dispatcher.BeginInvoke((Action)(() =>
             {
-                /*witch (e.PropertyName)
+                switch (e.PropertyName)
                 {
-                }*/
+                    case "AnnotateLineShortcutTrigger":
+                        nextClickDraws = true;
+                        break;
+                    case "AnnotateLineColor":
+                        UpdateColor();
+                        break;
+                    case "AnnotateLineShortcut":
+                        SetAnnotateLineShortcut(s.AnnotateLineShortcut);
+                        break;
+                }
             }));
         }
 
@@ -89,6 +139,10 @@ namespace KeyNStroke
             UpdatePositionAndSize();
         }
 
+        void UpdateColor()
+        {
+            line.Fill = new SolidColorBrush(UIHelper.ToMediaColor(s.AnnotateLineColor));
+        }
 
         void UpdatePositionAndSize()
         {
@@ -104,7 +158,7 @@ namespace KeyNStroke
                 IntPtr monitor = NativeMethodsWindow.MonitorFromPoint(startCursorPosition, NativeMethodsWindow.MonitorOptions.MONITOR_DEFAULTTONEAREST);
                 uint adpiX = 0, adpiY = 0;
                 NativeMethodsWindow.GetDpiForMonitor(monitor, NativeMethodsWindow.DpiType.MDT_EFFECTIVE_DPI, ref adpiX, ref adpiY);
-                Log.e("AL", $"apix={adpiX} adpiy={adpiY} aw={ActualWidth} ah={ActualHeight} cx={startCursorPosition.X} cy={startCursorPosition.Y}");
+                //Log.e("AL", $"apix={adpiX} adpiy={adpiY} aw={ActualWidth} ah={ActualHeight} cx={startCursorPosition.X} cy={startCursorPosition.Y}");
 
 
                 if (horizontal)
@@ -134,10 +188,17 @@ namespace KeyNStroke
             {
                 m.MouseEvent -= m_MouseEvent;
             }
+            if (k != null)
+            {
+                k.KeystrokeEvent -= m_KeystrokeEvent;
+            }
             if (s != null)
+            {
                 s.PropertyChanged -= settingChanged;
+            }
             m = null;
             s = null;
+            k = null;
         }
     }
 }

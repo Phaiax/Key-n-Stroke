@@ -181,6 +181,9 @@ namespace KeyNStroke
                 case "EnableKeystrokeHistory":
                     OnKeystrokeHistorySettingChanged();
                     break;
+                case "EnableAnnotateLine":
+                    OnAnnotateLineSettingChanged();
+                    break;
                 case "ButtonIndicatorCustomIconsFolder":
                 case "ButtonIndicatorUseCustomIcons":
                     if (mySettings.ButtonIndicatorUseCustomIcons)
@@ -319,13 +322,26 @@ namespace KeyNStroke
 
         AnnotateLine AnnotateLineWindow;
 
+
+        private void OnAnnotateLineSettingChanged()
+        {
+            if (mySettings.EnableAnnotateLine)
+            {
+                EnableAnnotateLine();
+            }
+            else
+            {
+                DisableAnnotateLine();
+            }
+        }
+
         private void EnableAnnotateLine()
         {
             if (AnnotateLineWindow != null)
                 return;
             Log.e("AL", "EnableAnnotateLineWindow");
             EnableMouseHook();
-            AnnotateLineWindow = new AnnotateLine(myMouseHook, mySettings);
+            AnnotateLineWindow = new AnnotateLine(myMouseHook, myKeystrokeConverter, mySettings);
             AnnotateLineWindow.Show();
         }
 
@@ -338,7 +354,7 @@ namespace KeyNStroke
             AnnotateLineWindow.Close();
             AnnotateLineWindow = null;
             DisableMouseHookIfNotNeeded();
-            Log.e("CI", "DisableAnnotateLineWindow");
+            Log.e("AL", "DisableAnnotateLineWindow");
         }
 
         #endregion

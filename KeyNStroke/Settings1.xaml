@@ -214,7 +214,8 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <GroupBox Header="Cursor"
-                              Grid.Column="0">
+                              Grid.Column="0"
+                              Margin="5">
                         <StackPanel>
                             <CheckBox x:Name="cb_cursorindicator"
                                       IsChecked="{Binding EnableCursorIndicator}">Indicate cursor position</CheckBox>
@@ -273,7 +274,8 @@
                         </StackPanel>
                     </GroupBox>
                     <GroupBox Header="Mouse Clicks"
-                              Grid.Column="1">
+                              Grid.Column="1"
+                              Margin="5">
                         <StackPanel Margin="0,0,0,5">
                             <RadioButton x:Name="rb_bi_disable"
                                          Content="Do not indicate clicks"
@@ -333,32 +335,29 @@
                         <ColumnDefinition Width="100*" />
                         <ColumnDefinition Width="100*" />
                     </Grid.ColumnDefinitions>
-                    <GroupBox Header="Draw Lines">
-                        <StackPanel Grid.Column="0"
-                                    Margin="5">
-                            <CheckBox x:Name="cb_al_enable"
-                                      IsChecked="{Binding EnableAnnotateLine}">Enable Line drawing</CheckBox>
-                            <StackPanel Orientation="Horizontal">
-                                <Label VerticalAlignment="Center">Line Color</Label>
-                                <xctk:ColorPicker x:Name="colorpicker_al_color"
-                                                  ColorMode="ColorCanvas"
-                                                  Margin="10,0,0,0"
-                                                  Width="80"
-                                                  SelectedColor="{Binding AnnotateLineColor, Mode=TwoWay, Converter={StaticResource MediaColorDrawingColorConverter}}" />
+                    <StackPanel Grid.Column="0"
+                                Margin="5">
+                        <GroupBox Header="Draw Lines">
+                            <StackPanel>
+                                <CheckBox x:Name="cb_al_enable"
+                                          IsChecked="{Binding EnableAnnotateLine}">Enable Line drawing</CheckBox>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label VerticalAlignment="Center">Line Color</Label>
+                                    <xctk:ColorPicker x:Name="colorpicker_al_color"
+                                                      ColorMode="ColorCanvas"
+                                                      Margin="10,0,0,0"
+                                                      Width="80"
+                                                      SelectedColor="{Binding AnnotateLineColor, Mode=TwoWay, Converter={StaticResource MediaColorDrawingColorConverter}}" />
+                                </StackPanel>
+                                <TextBlock TextWrapping="Wrap"
+                                           Margin="5,5,5,0">
+                                <Run FontWeight="Bold">How-To use:</Run> Press the 'Trigger Line Draw' shortcut (<Run Text="{Binding AnnotateLineShortcut}" />). Then click and drag to draw a line. Click again to clear the line. The shortcut needs to be pressed again for the next line.</TextBlock>
                             </StackPanel>
-                            <uc:LabeledSlider x:Name="slider_al_fadeout"
-                                              Title="Fadeout time"
-                                              Minimum="0"
-                                              Maximum="15"
-                                              Value="{Binding AnnotateLineFadeoutTime, Mode=TwoWay}" />
-                            <TextBlock TextWrapping="Wrap"
-                                       Margin="5,5,5,0">
-                                <Run FontWeight="Bold">How-To use:</Run> Press the 'Trigger Line Draw' shortcut (<Run Text="{Binding AnnotateLineShortcut}" />). Then click and drag to draw a line. The shortcut needs to be pressed again for the next line.
-                            </TextBlock>
-                        </StackPanel>
-                    </GroupBox>
-                    <GroupBox Header="Keyboard Shortcuts"
-                              Grid.Column="2">
+                        </GroupBox>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2"
+                                Margin="5">
+                    <GroupBox Header="Keyboard Shortcuts">
                         <StackPanel>
                             <TextBlock TextWrapping="Wrap"
                                        Margin="5,3,0,0">
@@ -373,6 +372,7 @@
                                 <Hyperlink Click="Hyperlink_ResetAnnotateLineShortcut">Reset to <Run x:Name="AnnotateLineShortcutDefault"></Run></Hyperlink></TextBlock>
                         </StackPanel>
                     </GroupBox>
+                    </StackPanel>
                 </Grid>
             </TabItem>
         </TabControl>

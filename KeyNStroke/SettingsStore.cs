@@ -231,7 +231,6 @@ namespace KeyNStroke
 
         [DataMember] public Nullable<bool> enableAnnotateLine = null;
         [DataMember] public SerializableColor2 annotateLineColor = null;
-        [DataMember] public Nullable<double> annotateLineFadeoutTime = null;
         [DataMember] public String annotateLineShortcut = null;
 
 
@@ -617,13 +616,6 @@ namespace KeyNStroke
             set { i.annotateLineColor = new SerializableColor2(value); OnSettingChanged("AnnotateLineColor"); }
         }
 
-        public double AnnotateLineFadeoutTimeDefault = 5;
-        public double AnnotateLineFadeoutTime
-        {
-            get { return Or(i.annotateLineFadeoutTime, AnnotateLineFadeoutTimeDefault); }
-            set { i.annotateLineFadeoutTime = value; OnSettingChanged("AnnotateLineFadeoutTime"); }
-        }
-
         public String AnnotateLineShortcutDefault = "RightCtrl + F10";
         public String AnnotateLineShortcut
         {
@@ -698,7 +690,6 @@ namespace KeyNStroke
                 PropertyChanged(this, new PropertyChangedEventArgs("KeystrokeMethod"));
                 PropertyChanged(this, new PropertyChangedEventArgs("EnableAnnotateLine"));
                 PropertyChanged(this, new PropertyChangedEventArgs("AnnotateLineColor"));
-                PropertyChanged(this, new PropertyChangedEventArgs("AnnotateLineFadeoutTime"));
                 PropertyChanged(this, new PropertyChangedEventArgs("AnnotateLineShortcut"));
 
             }
@@ -826,7 +817,6 @@ EnablePasswordMode:             {EnablePasswordMode}
 KeystrokeMethod:                {KeystrokeMethod}
 EnableAnnotateLine:             {EnableAnnotateLine}
 AnnotateLineColor:              {AnnotateLineColor}
-AnnotateLineFadeoutTime:        {AnnotateLineFadeoutTime}
 AnnotateLineShortcut:           {AnnotateLineShortcut}
 ";
         }
