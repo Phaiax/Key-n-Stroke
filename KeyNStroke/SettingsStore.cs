@@ -802,6 +802,7 @@ namespace KeyNStroke
             i = new Settings();
             dirty = true;
             SaveAll();
+            standby = false;
             CallPropertyChangedForAllProperties();
         }
 
