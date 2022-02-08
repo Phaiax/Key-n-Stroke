@@ -76,7 +76,18 @@ You can find all the exe files in the <code>Releases</code> folder
     - Custom Icons
 - v1.0.1 
     - No changes, just testing the update mechanism
-
+- v1.1.0
+    - New: Draw lines on the screen
+    - New: Shortcut mode for keystroke window
+    - New: Standby mode
+    - New: Hide cursor indicator if cursor is hidden
+    - New: Draw edge of cursor indicator
+    - New: Indicate clicks via color change in cursor indicator
+    - New: Setting to hide welcome window on startup
+    - Fix: Capture shortcuts
+    - Fix: Keystroke window startup position overlaps taskbar
+    - Fix: Crash on modifier+click with button indicators enabled
+    - Fix: Show shortcut shift+backspace
 
 # Feature Requests
 
