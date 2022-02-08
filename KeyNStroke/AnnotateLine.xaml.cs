@@ -59,15 +59,17 @@ namespace KeyNStroke
         void m_KeystrokeEvent(KeystrokeEventArgs e)
         {
             string pressed = e.ShortcutIdentifier();
-            CheckForTrigger(pressed);
+            e.raw.preventDefault = e.raw.preventDefault || CheckForTrigger(pressed);
         }
 
-        private void CheckForTrigger(string pressed)
+        private bool CheckForTrigger(string pressed)
         {
             if (AnnotateLineShortcut != null && pressed == AnnotateLineShortcut)
             {
                 nextClickDraws = true;
+                return true;
             }
+            return false;
         }
 
         public void SetAnnotateLineShortcut(string shortcut)

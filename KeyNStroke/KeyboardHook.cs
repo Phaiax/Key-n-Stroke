@@ -129,10 +129,19 @@ namespace KeyNStroke
                     String.Format("Key: sc {0} vk {1} ext {2} fl {3}, {4}", lParam.scanCode,
                         lParam.vkCode, lParam.dwExtraInfo, lParam.flags, e.Method));
                 */
+                if (e.preventDefault)
+                {
+                    return IntPtr.Add(IntPtr.Zero, 1);
+                } else
+                {
+                    return NativeMethodsKeyboard.CallNextHookEx(hookID, nCode, wParam, ref lParam);
+                }
             }
-            //Pass key to next application
-            IntPtr ret = NativeMethodsKeyboard.CallNextHookEx(hookID, nCode, wParam, ref lParam);
-            return ret;
+            else
+            {
+                //Pass key to next application
+                return NativeMethodsKeyboard.CallNextHookEx(hookID, nCode, wParam, ref lParam);
+            }
         }
 
         /// <summary>

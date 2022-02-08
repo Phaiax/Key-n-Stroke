@@ -102,8 +102,8 @@ namespace KeyNStroke
         void KeystrokeEvent(KeystrokeEventArgs e)
         {
             string pressed = e.ShortcutIdentifier();
-            CheckForSettingsMode(pressed);
-            CheckForPasswordMode(pressed);
+            e.raw.preventDefault = e.raw.preventDefault || CheckForSettingsMode(pressed);
+            e.raw.preventDefault = e.raw.preventDefault || CheckForPasswordMode(pressed);
 
             if (PasswordModeActivated || settings.EnablePasswordMode)
             {
@@ -384,12 +384,14 @@ namespace KeyNStroke
             return true;
         }
 
-        private void CheckForSettingsMode(string pressed)
+        private bool CheckForSettingsMode(string pressed)
         {
             if (SettingsModeShortcut != null && pressed == SettingsModeShortcut)
             {
                 settings.EnableSettingsMode = !settings.EnableSettingsMode;
+                return true;
             }
+            return false;
         }
 
         bool SettingsModeActivated = false;
@@ -471,12 +473,14 @@ namespace KeyNStroke
         }
 
 
-        private void CheckForPasswordMode(string pressed)
+        private bool CheckForPasswordMode(string pressed)
         {
             if (PasswordModeShortcut != null && pressed == PasswordModeShortcut)
             {
                 settings.EnablePasswordMode = !settings.EnablePasswordMode;
+                return true;
             }
+            return false;
         }
 
 

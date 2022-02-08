@@ -46,6 +46,8 @@ namespace KeyNStroke
         public NativeMethodsKeyboard.KBDLLHOOKSTRUCT Kbdllhookstruct;
         public byte[] keyState; // 256 bytes
 
+        public bool preventDefault = false;
+
         public KeyboardRawEventArgs(NativeMethodsKeyboard.KBDLLHOOKSTRUCT Kbdllhookstruct)
         {
             this.Kbdllhookstruct = Kbdllhookstruct;
