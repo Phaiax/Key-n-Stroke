@@ -88,6 +88,7 @@ namespace KeyNStroke
         {
             if (!isDown && nextClickHides && raw_e.Action == MouseAction.Down)
             {
+                raw_e.preventDefault = true;
                 nextClickHides = false;
                 this.Hide();
             }
@@ -100,6 +101,7 @@ namespace KeyNStroke
             else if (!isDown && raw_e.Action == MouseAction.Down && nextClickDraws)
             {
                 isDown = true;
+                raw_e.preventDefault = true;
                 nextClickDraws = false;
                 startCursorPosition = raw_e.Position;
                 endCursorPosition = raw_e.Position;

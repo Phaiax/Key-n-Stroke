@@ -111,19 +111,37 @@ namespace KeyNStroke
                                     UIntPtr wParam,
                                     ref NativeMethodsMouse.MSLLHOOKSTRUCT lParam)
         {
-            if (nCode == NativeMethodsMouse.HC_ACTION)
+            if (nCode < 0)
             {
-                MouseRawEventArgs args = new MouseRawEventArgs(lParam);
-                args.ParseWparam(wParam);
-                CheckDoubleClick(args);
-
-                Log.e("ME", String.Format("MOUSE: Button:{0} Action:{1} Orig:{2}",
-                    args.Button.ToString(), args.Action.ToString(),
-                    args.Event.ToString()));
-
-                OnMouseEvent(args);
+                return NativeMethodsMouse.CallNextHookEx(windowsHookExID, nCode, wParam, ref lParam);
             }
-            return NativeMethodsMouse.CallNextHookEx(windowsHookExID, nCode, wParam, ref lParam);
+            else
+            {
+                if (nCode == NativeMethodsMouse.HC_ACTION)
+                {
+                    MouseRawEventArgs args = new MouseRawEventArgs(lParam);
+                    args.ParseWparam(wParam);
+                    CheckDoubleClick(args);
+
+                    Log.e("ME", String.Format("MOUSE: Button:{0} Action:{1} Orig:{2}",
+                        args.Button.ToString(), args.Action.ToString(),
+                        args.Event.ToString()));
+
+                    OnMouseEvent(args);
+                    if (args.preventDefault)
+                    {
+                        return IntPtr.Add(IntPtr.Zero, 1);
+                    }
+                    else
+                    {
+                        return NativeMethodsMouse.CallNextHookEx(windowsHookExID, nCode, wParam, ref lParam);
+                    }
+                }
+                else
+                {
+                    return NativeMethodsMouse.CallNextHookEx(windowsHookExID, nCode, wParam, ref lParam);
+                }
+            }
         }
 
         private void CheckDoubleClick(MouseRawEventArgs args)

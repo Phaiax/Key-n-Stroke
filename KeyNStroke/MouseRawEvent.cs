@@ -52,6 +52,7 @@ namespace KeyNStroke
         public MouseButton Button;
         public MouseAction Action;
         public int wheelDelta = 0;
+        public bool preventDefault = false;
 
         public MouseRawEventArgs(NativeMethodsMouse.MSLLHOOKSTRUCT msllhookstruct)
         {
