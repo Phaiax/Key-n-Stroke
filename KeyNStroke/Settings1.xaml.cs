@@ -331,6 +331,11 @@ namespace KeyNStroke
             ((App)Application.Current).showWelcomeWindow();
         }
 
+        private void Hyperlink_DisableStandbyMode(object sender, RoutedEventArgs e)
+        {
+            settings.Standby = false;
+        }
         #endregion
+
     }
 }
