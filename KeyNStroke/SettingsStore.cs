@@ -228,10 +228,11 @@ namespace KeyNStroke
         [DataMember] public String keystrokeHistoryPasswordModeShortcut = null;
         [DataMember] public Nullable<bool> enablePasswordMode = null;
         [DataMember] public Nullable<KeystrokeMethodEnum> keystrokeMethod = null;
-
         [DataMember] public Nullable<bool> enableAnnotateLine = null;
         [DataMember] public SerializableColor2 annotateLineColor = null;
         [DataMember] public String annotateLineShortcut = null;
+        [DataMember] public String standbyShortcut = null;
+        [DataMember] public Nullable<bool> startInStandby = null;
 
 
     }
@@ -627,6 +628,28 @@ namespace KeyNStroke
         {
             set { OnSettingChanged("AnnotateLineShortcutTrigger"); }
         }
+
+        public String StandbyShortcutDefault = "RightCtrl + F9";
+        public String StandbyShortcut
+        {
+            get { return Or(i.standbyShortcut, StandbyShortcutDefault); }
+            set { i.standbyShortcut = value; OnSettingChanged("StandbyShortcut"); }
+        }
+
+        public bool StartInStandbyDefault = false;
+        public bool StartInStandby
+        {
+            get { return Or(i.startInStandby, StartInStandbyDefault); }
+            set { i.startInStandby = value; OnSettingChanged("StartInStandby"); }
+        }
+
+        public bool standby = true;
+        public bool Standby
+        {
+            get { return standby; }
+            set { standby = value; OnSettingChanged("Standby"); }
+        }
+
         // Add new settings also to method CallPropertyChangedForAllProperties()
 
         #endregion
@@ -691,6 +714,9 @@ namespace KeyNStroke
                 PropertyChanged(this, new PropertyChangedEventArgs("EnableAnnotateLine"));
                 PropertyChanged(this, new PropertyChangedEventArgs("AnnotateLineColor"));
                 PropertyChanged(this, new PropertyChangedEventArgs("AnnotateLineShortcut"));
+                PropertyChanged(this, new PropertyChangedEventArgs("StandbyShortcut"));
+                PropertyChanged(this, new PropertyChangedEventArgs("StartInStandby"));
+                PropertyChanged(this, new PropertyChangedEventArgs("Standby"));
 
             }
         }
@@ -818,6 +844,9 @@ KeystrokeMethod:                {KeystrokeMethod}
 EnableAnnotateLine:             {EnableAnnotateLine}
 AnnotateLineColor:              {AnnotateLineColor}
 AnnotateLineShortcut:           {AnnotateLineShortcut}
+StandbyShortcut:                {StandbyShortcut}
+StartInStandby:                 {StartInStandby}
+Standby:                        {Standby}
 ";
         }
 

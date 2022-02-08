@@ -375,6 +375,50 @@
                     </StackPanel>
                 </Grid>
             </TabItem>
+            <TabItem Header="Startup and Standby">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100*" />
+                        <ColumnDefinition Width="100*" />
+                        <ColumnDefinition Width="100*" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0"
+                                Margin="5">
+                        <GroupBox Header="Startup">
+                            <StackPanel>
+                                <CheckBox x:Name="cb_standby_enable"
+                                          IsChecked="{Binding Standby}">Standby mode</CheckBox>
+                                <TextBlock TextWrapping="Wrap"
+                                           Margin="5,5,5,0">
+                                In standby mode, all Key'n'Stroke functionality will be temporarily disabled, even if it is enabled in the respective settings.</TextBlock>
+                                <CheckBox x:Name="cb_standbyonstartup_enable"
+                                          IsChecked="{Binding StartInStandby}">Startup in standby</CheckBox>
+                                <TextBlock TextWrapping="Wrap"
+                                           Margin="5,5,5,0">
+                                When enabled, Key'n'Stroke will not show the Welcome window on startup and start in standby mode.</TextBlock>
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2"
+                                Margin="5">
+                        <GroupBox Header="Keyboard Shortcuts">
+                            <StackPanel>
+                                <TextBlock TextWrapping="Wrap"
+                                           Margin="5,3,0,0">
+                                Toggle standby mode</TextBlock>
+                                <TextBlock TextWrapping="Wrap"
+                                           Margin="15,3,0,0">
+                                <Run Text="{Binding StandbyShortcut}" />
+                                <LineBreak />
+                                <Hyperlink Click="Hyperlink_ChangeStandbyShortcut">Change</Hyperlink>&#160;&#160;&#160;&#160;&#160;&#160;
+                                <Hyperlink Click="Hyperlink_TriggerStandbyShortcut">Trigger</Hyperlink>
+                                <LineBreak />
+                                <Hyperlink Click="Hyperlink_ResetStandbyShortcut">Reset to <Run x:Name="StandbyShortcutDefault"></Run></Hyperlink></TextBlock>
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
         </TabControl>
         <StackPanel Grid.Column="0"
                     Grid.Row="1"

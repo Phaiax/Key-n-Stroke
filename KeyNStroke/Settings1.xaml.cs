@@ -76,6 +76,7 @@ namespace KeyNStroke
             SettingsModeShortcutDefault.Text = settings.KeystrokeHistorySettingsModeShortcutDefault;
             PasswordModeShortcutDefault.Text = settings.KeystrokeHistoryPasswordModeShortcutDefault;
             AnnotateLineShortcutDefault.Text = settings.AnnotateLineShortcutDefault;
+            StandbyShortcutDefault.Text = settings.StandbyShortcutDefault;
             s.PropertyChanged += S_PropertyChanged;
             s.CallPropertyChangedForAllProperties();
         }
@@ -224,6 +225,30 @@ namespace KeyNStroke
 
         #endregion
 
+        #region Shortcut - Toggle Standby
+
+        private void Hyperlink_ChangeStandbyShortcut(object sender, RoutedEventArgs e)
+        {
+            ReadShortcut rs = new ReadShortcut(k, " toggling standby mode.");
+            rs.ShowDialog();
+            if (rs.Shortcut != null)
+            {
+                settings.StandbyShortcut = rs.Shortcut;
+            }
+        }
+
+        private void Hyperlink_ResetStandbyShortcut(object sender, RoutedEventArgs e)
+        {
+            settings.StandbyShortcut = settings.StandbyShortcutDefault;
+        }
+
+        private void Hyperlink_TriggerStandbyShortcut(object sender, RoutedEventArgs e)
+        {
+            settings.Standby = !settings.Standby;
+        }
+
+        #endregion
+
         #region Custom Icons
 
 
@@ -293,6 +318,7 @@ namespace KeyNStroke
                 ImageResources.ReloadRessources(null);
             }
         }
+
 
 
         #endregion
