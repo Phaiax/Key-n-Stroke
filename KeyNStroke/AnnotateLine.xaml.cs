@@ -158,7 +158,7 @@ namespace KeyNStroke
                 IntPtr monitor = NativeMethodsWindow.MonitorFromPoint(startCursorPosition, NativeMethodsWindow.MonitorOptions.MONITOR_DEFAULTTONEAREST);
                 uint adpiX = 0, adpiY = 0;
                 NativeMethodsWindow.GetDpiForMonitor(monitor, NativeMethodsWindow.DpiType.MDT_EFFECTIVE_DPI, ref adpiX, ref adpiY);
-                //Log.e("AL", $"apix={adpiX} adpiy={adpiY} aw={ActualWidth} ah={ActualHeight} cx={startCursorPosition.X} cy={startCursorPosition.Y}");
+                Log.e("AL", $"apix={adpiX} adpiy={adpiY} aw={ActualWidth} ah={ActualHeight} cx={startCursorPosition.X} cy={startCursorPosition.Y}");
 
 
                 if (horizontal)
