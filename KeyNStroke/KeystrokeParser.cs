@@ -32,12 +32,12 @@ namespace KeyNStroke
         {
             KeystrokeEventArgs e = new KeystrokeEventArgs(raw_e);
 
-            e.IsAlpha = CheckIsAlpha(e);
-            e.IsNumericFromNumpad = CheckIsNumericFromNumpad(e);
-            e.IsNumericFromNumbers = CheckIsNumericFromNumbers(e);
-            e.IsNoUnicodekey = CheckIsNoUnicodekey(e);
-            e.IsFunctionKey = CheckIsFunctionKey(e);
-            e.ModifierToggledEvent = CheckKeyIsModifier(e);
+            e.IsAlpha = CheckIsAlpha(e.raw);
+            e.IsNumericFromNumpad = CheckIsNumericFromNumpad(e.raw);
+            e.IsNumericFromNumbers = CheckIsNumericFromNumbers(e.raw);
+            e.IsNoUnicodekey = CheckIsNoUnicodekey(e.raw);
+            e.IsFunctionKey = CheckIsFunctionKey(e.raw);
+            e.ModifierToggledEvent = CheckKeyIsModifier(e.raw);
 
             Log.e("KP", "   alpha:" + e.IsAlpha.ToString());
 
@@ -88,7 +88,7 @@ namespace KeyNStroke
                     catch (NotImplementedException)
                     {
                         Log.e("KP", "   e.NoModifiers 2> try KeyboardLayoutParser.ParseViaToUnicode ");
-                        e.TextModeString = KeyboardLayoutParser.ParseViaToUnicode(e);
+                        e.TextModeString = KeyboardLayoutParser.ParseViaToUnicode(e.raw);
                         BackupDeadKey(e);
                     }
                     e.ShouldBeDisplayed = true;
@@ -98,7 +98,7 @@ namespace KeyNStroke
                 else if (e.OnlyShiftOrCaps) //  special char, but only Shifted, eg ;:_ÖÄ'*ÜP
                 // (e.IsNoUnicodekey is always false here -> could be a unicode key combination)
                 {
-                    e.TextModeString = KeyboardLayoutParser.ParseViaToUnicode(e);
+                    e.TextModeString = KeyboardLayoutParser.ParseViaToUnicode(e.raw);
                     BackupDeadKey(e);
                     Log.e("KP", "   e.OnlyShiftOrCaps > try KeyboardLayoutParser.ParseViaToUnicode ");
 
@@ -133,7 +133,7 @@ namespace KeyNStroke
                     else // Shortcut
                     {
                         ParseShortcutViaSpecialkeysParser(e);
-                        string possibleChar = KeyboardLayoutParser.ParseViaToUnicode(e);
+                        string possibleChar = KeyboardLayoutParser.ParseViaToUnicode(e.raw);
                         BackupDeadKey(e);
                         if (possibleChar != "" && !CheckIsAlpha(possibleChar) 
                                         && !CheckIsNumeric(possibleChar)
@@ -184,7 +184,7 @@ namespace KeyNStroke
         {
             if(lastDeadKeyEvent != null)
             {
-                lastDeadKeyEvent.TextModeString = KeyboardLayoutParser.ProcessDeadkeyWithNextKey(lastDeadKeyEvent, e);
+                lastDeadKeyEvent.TextModeString = KeyboardLayoutParser.ProcessDeadkeyWithNextKey(lastDeadKeyEvent.raw, e.raw);
                 if(lastDeadKeyEvent.TextModeString == "")
                 {
                     lastDeadKeyEvent = null;

@@ -15,10 +15,35 @@ namespace KeyNStroke
         Modifiers
     }
 
-    public class KeystrokeEventArgs : KeyboardRawEventArgs
+    public class KeystrokeEventArgs
     {
         public string TextModeString; // for use in TextMode
         public string ShortcutString; // will always contain a shortcut
+
+        public KeyboardRawEventArgs raw;
+
+        public bool Shift { get { return raw.Shift; } set { raw.Shift = value; } }
+        public bool LShift { get { return raw.LShift; } set { raw.LShift = value; } }
+        public bool RShift { get { return raw.RShift; } set { raw.RShift = value; } }
+        public bool Ctrl { get { return raw.Ctrl; } set { raw.Ctrl = value; } }
+        public bool LCtrl { get { return raw.LCtrl; } set { raw.LCtrl = value; } }
+        public bool RCtrl { get { return raw.RCtrl; } set { raw.RCtrl = value; } }
+        public bool Caps { get { return raw.Caps; } set { raw.Caps = value; } }
+        public bool LWin { get { return raw.LWin; } set { raw.LWin = value; } }
+        public bool RWin { get { return raw.RWin; } set { raw.RWin = value; } }
+        public bool Alt { get { return raw.Alt; } set { raw.Alt = value; } }
+        public bool LAlt { get { return raw.LAlt; } set { raw.LAlt = value; } }
+        public bool RAlt { get { return raw.RAlt; } set { raw.RAlt = value; } } // Alt Gr
+        public bool Numlock { get { return raw.Numlock; } set { raw.Numlock = value; } }
+        public bool Scrollock { get { return raw.Scrollock; } set { raw.Scrollock = value; } }
+
+        public Key Key { get { return raw.Key; } }
+        public KeyUpDown Method { get { return raw.Method; } }
+
+        public bool Uppercase { get { return raw.Uppercase; } }
+        public bool OnlyShiftOrCaps { get { return raw.OnlyShiftOrCaps; } }
+        public bool NoModifiers { get { return raw.NoModifiers; } }
+        public bool Win { get { return raw.Win; } }
 
         public bool OrigShift;
         public bool OrigLShift;
@@ -161,26 +186,8 @@ namespace KeyNStroke
 
 
         public KeystrokeEventArgs(KeyboardRawEventArgs e)
-            : base(e.Kbdllhookstruct)
         {
-            this.Shift = e.Shift;
-            this.LShift = e.LShift;
-            this.RShift = e.RShift;
-            this.Ctrl = e.Ctrl;
-            this.LCtrl = e.LCtrl;
-            this.RCtrl = e.RCtrl;
-            this.Caps = e.Caps;
-            this.LWin = e.LWin;
-            this.RWin = e.RWin;
-            this.Alt = e.Alt;
-            this.LAlt = e.LAlt;
-            this.RAlt = e.RAlt;
-            this.Numlock = e.Numlock;
-            this.Scrollock = e.Scrollock;
-            //this.Kbdllhookstruct = e.Kbdllhookstruct;
-            this.keyState = e.keyState;
-            this.Method = e.Method;
-
+            this.raw = e;
             this.OrigShift = e.Shift;
             this.OrigCaps = e.Caps;
             this.OrigLShift = e.LShift;
