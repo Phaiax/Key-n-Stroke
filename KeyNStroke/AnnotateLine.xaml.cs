@@ -46,6 +46,7 @@ namespace KeyNStroke
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            s.CallPropertyChangedForAllProperties();
             m.MouseEvent += m_MouseEvent;
             this.k.KeystrokeEvent += m_KeystrokeEvent;
             windowHandle = new WindowInteropHelper(this).Handle;
