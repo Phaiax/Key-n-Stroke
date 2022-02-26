@@ -234,11 +234,11 @@ namespace KeyNStroke
                     OnKeystrokeHistorySettingChanged();
                     break;
                 case "EnableCursorFollow":
-                    if (KeystrokeHistoryVisible || KeystrokeHistoryWindow != null)
-                    {
-                        DisableKeystrokeHistory();
+                    //if (KeystrokeHistoryVisible || KeystrokeHistoryWindow != null)
+                    //{
+                      //  DisableKeystrokeHistory();
                         //OnKeystrokeHistorySettingChanged();
-                    }
+                    //}
                     break;
                 case "EnableAnnotateLine":
                     OnAnnotateLineSettingChanged();
