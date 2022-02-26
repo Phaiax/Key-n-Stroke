@@ -1,4 +1,4 @@
-﻿using Microsoft.Win32;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -203,6 +203,7 @@ namespace KeyNStroke
         [DataMember] public Nullable<bool> enableHistoryTimeout = null;
         [DataMember] public Nullable<bool> enableWindowFade = null;
         [DataMember] public Nullable<bool> enableCursorIndicator = null;
+        [DataMember] public Nullable<bool> enableCursorFollow = null;
         [DataMember] public Nullable<double> cursorIndicatorOpacity = null;
         [DataMember] public Nullable<double> cursorIndicatorSize = null;
         [DataMember] public SerializableColor2 cursorIndicatorColor = null;
@@ -414,6 +415,13 @@ namespace KeyNStroke
         {
             get { return Or(i.enableCursorIndicator, EnableCursorIndicatorDefault); }
             set { i.enableCursorIndicator = value; OnSettingChanged("EnableCursorIndicator"); }
+        }
+
+        public bool EnableCursorFollowDefault = false;
+        public bool EnableCursorFollow
+        {
+            get { return Or(i.enableCursorFollow, EnableCursorFollowDefault); }
+            set { i.enableCursorFollow = value; OnSettingChanged("EnableCursorFollow"); }
         }
 
         public double CursorIndicatorOpacityDefault = 0.3;
@@ -694,6 +702,7 @@ namespace KeyNStroke
                 PropertyChanged(this, new PropertyChangedEventArgs("EnableHistoryTimeout"));
                 PropertyChanged(this, new PropertyChangedEventArgs("EnableWindowFade"));
                 PropertyChanged(this, new PropertyChangedEventArgs("EnableCursorIndicator"));
+                PropertyChanged(this, new PropertyChangedEventArgs("EnableCursorFollow"));
                 PropertyChanged(this, new PropertyChangedEventArgs("CursorIndicatorOpacity"));
                 PropertyChanged(this, new PropertyChangedEventArgs("CursorIndicatorSize"));
                 PropertyChanged(this, new PropertyChangedEventArgs("CursorIndicatorColor"));
@@ -827,6 +836,7 @@ HistoryTimeout:                  {HistoryTimeout}
 EnableHistoryTimeout:            {EnableHistoryTimeout}
 EnableWindowFade:                {EnableWindowFade}
 EnableCursorIndicator:           {EnableCursorIndicator}
+EnableCursorFollow:              {EnableCursorFollow}
 CursorIndicatorOpacity:          {CursorIndicatorOpacity}
 CursorIndicatorSize:             {CursorIndicatorSize}
 CursorIndicatorColor:            {CursorIndicatorColor}
