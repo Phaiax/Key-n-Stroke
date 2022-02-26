@@ -234,10 +234,13 @@ namespace KeyNStroke
                     OnKeystrokeHistorySettingChanged();
                     break;
                 case "EnableCursorFollow":
-                    if (KeystrokeHistoryVisible || KeystrokeHistoryWindow != null)
+                    if (mySettings.EnableCursorFollow)
                     {
-                      //  DisableKeystrokeHistory();
-                        //OnKeystrokeHistorySettingChanged();
+                        if (KeystrokeHistoryVisible || KeystrokeHistoryWindow != null)
+                        {
+                            DisableKeystrokeHistory();
+                            OnKeystrokeHistorySettingChanged();
+                        }
                     }
                     break;
                 case "EnableAnnotateLine":
