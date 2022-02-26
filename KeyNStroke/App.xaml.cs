@@ -239,7 +239,7 @@ namespace KeyNStroke
                         if (KeystrokeHistoryVisible || KeystrokeHistoryWindow != null)
                         {
                             DisableKeystrokeHistory();
-                            Task.Delay(1000).ContinueWith(t=> OnKeystrokeHistorySettingChanged())
+                            Task.Delay(200).ContinueWith(t=> OnKeystrokeHistorySettingChanged());
                         }
                     }
                     break;
