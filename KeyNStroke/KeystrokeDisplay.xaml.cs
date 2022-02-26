@@ -103,8 +103,8 @@ namespace KeyNStroke
             NativeMethodsWindow.GetDpiForMonitor(monitor, NativeMethodsWindow.DpiType.MDT_EFFECTIVE_DPI, ref adpiX, ref adpiY);
             Log.e("CI", $"apix={adpiX} adpiy={adpiY} aw={ActualWidth} ah={ActualHeight} cx={cursorPosition.X} cy={cursorPosition.Y}");
             NativeMethodsWindow.SetWindowPosition(windowHandle, 
-                    (int)((cursorPosition.X + 82) * (double)adpiX / 96.0),
-                    (int)((cursorPosition.Y + 82) * (double)adpiY / 96.0));
+                    (int)((cursorPosition.X + settings.ButtonIndicatorPositionDistance) * (double)adpiX / 96.0),
+                    (int)((cursorPosition.Y + settings.ButtonIndicatorPositionDistance) * (double)adpiY / 96.0));
         }
 
         void SetFormStyles()
