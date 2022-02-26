@@ -39,6 +39,8 @@ namespace KeyNStroke
         SettingsStore mySettings;
         Window welcomeWindow;
         Settings1 settingsWindow;
+        KeystrokeDisplay KeystrokeHistoryWindow = null;
+        bool KeystrokeHistoryVisible = false;
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -231,6 +233,13 @@ namespace KeyNStroke
                 case "EnableKeystrokeHistory":
                     OnKeystrokeHistorySettingChanged();
                     break;
+                case "EnableCursorFollow":
+                    if (KeystrokeHistoryVisible)
+                    {
+                        DisableKeystrokeHistory();
+                        OnKeystrokeHistorySettingChanged();
+                    }
+                    break;
                 case "EnableAnnotateLine":
                     OnAnnotateLineSettingChanged();
                     break;
@@ -259,9 +268,6 @@ namespace KeyNStroke
         #endregion
 
         #region Keystroke History
-
-        KeystrokeDisplay KeystrokeHistoryWindow;
-        bool KeystrokeHistoryVisible;
 
         private void OnKeystrokeHistorySettingChanged()
         {
