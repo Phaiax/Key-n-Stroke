@@ -239,7 +239,7 @@ namespace KeyNStroke
                         if (KeystrokeHistoryVisible || KeystrokeHistoryWindow != null)
                         {
                             DisableKeystrokeHistory();
-                            Task.Delay(200).ContinueWith(t=> OnKeystrokeHistorySettingChanged());
+                            Task.Delay(300).ContinueWith(t=> OnKeystrokeHistorySettingChanged());
                         }
                     }
                     break;
@@ -289,7 +289,13 @@ namespace KeyNStroke
             if (KeystrokeHistoryVisible || KeystrokeHistoryWindow != null)
                 return;
             KeystrokeHistoryVisible = true; // Prevent Recursive call
-            KeystrokeHistoryWindow = new KeystrokeDisplay(myKeystrokeConverter, mySettings);
+            if (mySettings.EnableCursorFollow)
+            {
+                EnableMouseHook();
+                KeystrokeHistoryWindow = new KeystrokeDisplay(myMouseHook, myKeystrokeConverter, mySettings);
+            }else{
+                KeystrokeHistoryWindow = new KeystrokeDisplay(myKeystrokeConverter, mySettings);    
+            }
             KeystrokeHistoryWindow.Show();
         }
 
@@ -298,6 +304,7 @@ namespace KeyNStroke
             KeystrokeHistoryVisible = false;
             if (KeystrokeHistoryWindow == null)
                 return;
+            DisableMouseHookIfNotNeeded();
             KeystrokeHistoryWindow.Close();
             KeystrokeHistoryWindow = null;
         }
@@ -440,7 +447,7 @@ namespace KeyNStroke
 
         private void DisableMouseHookIfNotNeeded()
         {
-            if (CursorIndicatorWindow == null && ButtonIndicatorWindow == null && AnnotateLineWindow == null)
+            if (CursorIndicatorWindow == null && ButtonIndicatorWindow == null && AnnotateLineWindow == null && (!mySettings.EnableCursorFollow || KeystrokeHistoryWindow == null))
                 DisableMouseHook();
         }
 
