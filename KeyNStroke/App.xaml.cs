@@ -41,6 +41,7 @@ namespace KeyNStroke
         Settings1 settingsWindow;
         KeystrokeDisplay KeystrokeHistoryWindow = null;
         bool KeystrokeHistoryVisible = false;
+        bool attachedToMouse = false
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -234,13 +235,16 @@ namespace KeyNStroke
                     OnKeystrokeHistorySettingChanged();
                     break;
                 case "EnableCursorFollow":
-                    if (mySettings.EnableCursorFollow)
+                    if (mySettings.EnableCursorFollow && !attachedToMouse)
                     {
                         if (KeystrokeHistoryVisible || KeystrokeHistoryWindow != null)
                         {
                             DisableKeystrokeHistory();
                             Task.Delay(300).ContinueWith(t=> OnKeystrokeHistorySettingChanged());
                         }
+                        attachedToMouse = true
+                    }else{
+                        attachedToMouse = false
                     }
                     break;
                 case "EnableAnnotateLine":
