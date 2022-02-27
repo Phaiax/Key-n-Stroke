@@ -41,7 +41,7 @@ namespace KeyNStroke
         Settings1 settingsWindow;
         KeystrokeDisplay KeystrokeHistoryWindow = null;
         bool KeystrokeHistoryVisible = false;
-        bool attached = null;
+        bool? attached = null;
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -240,7 +240,7 @@ namespace KeyNStroke
                         attached = mySettings.EnableCursorFollow;
                     }else if (attached != mySettings.EnableCursorFollow)
                     {
-                        Application.Restart(); //We do a restart to avoid some bugs
+                        System.Windows.Forms.Application.Restart(); //We do a restart to avoid some bugs
                         Environment.Exit(0);
                     }
                     break;
