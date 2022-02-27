@@ -237,7 +237,7 @@ namespace KeyNStroke
                 case "EnableCursorFollow":
                     if (attached==null)
                     {
-                        attached = mySettings.EnableCursorFollow
+                        attached = mySettings.EnableCursorFollow;
                     }else if (attached != mySettings.EnableCursorFollow)
                     {
                         Application.Restart(); //We do a restart to avoid some bugs
