@@ -101,7 +101,7 @@
                                               Maximum="100.0"
                                               Value="{Binding LineDistance, Mode=TwoWay}" />
                             <uc:LabeledSlider x:Name="slider_cf_distance"
-                                              Title="Cursor Follow Distance"
+                                              Title="Follow Distance"
                                               Minimum="0"
                                               Maximum="200"
                                               Value="{Binding CursorFollowDistance, Mode=TwoWay}" />

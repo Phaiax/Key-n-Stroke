@@ -98,13 +98,9 @@ namespace KeyNStroke
 
         void UpdatePosition(NativeMethodsMouse.POINT cursorPosition)
         {
-            IntPtr monitor = NativeMethodsWindow.MonitorFromPoint(cursorPosition, NativeMethodsWindow.MonitorOptions.MONITOR_DEFAULTTONEAREST);
-            uint adpiX = 0, adpiY = 0;
-            NativeMethodsWindow.GetDpiForMonitor(monitor, NativeMethodsWindow.DpiType.MDT_EFFECTIVE_DPI, ref adpiX, ref adpiY);
-            Log.e("CI", $"apix={adpiX} adpiy={adpiY} aw={ActualWidth} ah={ActualHeight} cx={cursorPosition.X} cy={cursorPosition.Y}");
             NativeMethodsWindow.SetWindowPosition(windowHandle, 
-                    (int)((cursorPosition.X + settings.CursorFollowDistance) * (double)adpiX / 96.0),
-                    (int)((cursorPosition.Y + settings.CursorFollowDistance) * (double)adpiY / 96.0));
+                    (int)(cursorPosition.X + settings.CursorFollowDistance),
+                    (int)(cursorPosition.Y + settings.CursorFollowDistance));
         }
 
         void SetFormStyles()
