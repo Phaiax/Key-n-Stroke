@@ -239,7 +239,7 @@ namespace KeyNStroke
                     {
                         attached = true;
                     } else {
-                        Application.Restart(); //We do a restart to avoid some bugs
+                        System.Windows.Forms.Application.Restart(); //We do a restart to avoid some bugs
                         Environment.Exit(0);
                     }
                     break;
