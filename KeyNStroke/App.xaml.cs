@@ -240,6 +240,7 @@ namespace KeyNStroke
                         attached = mySettings.EnableCursorFollow;
                     }else if (attached != mySettings.EnableCursorFollow)
                     {
+                        mySettings.SaveAll();
                         System.Windows.Forms.Application.Restart(); //We do a restart to avoid some bugs
                         Environment.Exit(0);
                     }
