@@ -237,13 +237,11 @@ namespace KeyNStroke
                 case "EnableCursorFollow":
                     if (mySettings.EnableCursorFollow && !attachedToMouse)
                     {
+                        ReloadKeystrokeHistory();
                         attachedToMouse = true;
-                        if (KeystrokeHistoryVisible || KeystrokeHistoryWindow != null)
-                        {
-                            DisableKeystrokeHistory();
-                            Task.Delay(100).ContinueWith(t=> OnKeystrokeHistorySettingChanged());
-                        }
-                    }else{
+                    } else if (!mySettings.EnableCursorFollow && attachedToMouse) 
+                    {
+                        ReloadKeystrokeHistory();
                         attachedToMouse = false;
                     }
                     break;
@@ -285,6 +283,14 @@ namespace KeyNStroke
             else
             {
                 DisableKeystrokeHistory();
+            }
+        }
+
+        private void ReloadKeystrokeHistory(){
+             if (KeystrokeHistoryVisible || KeystrokeHistoryWindow != null)
+            {
+                DisableKeystrokeHistory();
+                Task.Delay(300).ContinueWith(t=> OnKeystrokeHistorySettingChanged());
             }
         }
 
