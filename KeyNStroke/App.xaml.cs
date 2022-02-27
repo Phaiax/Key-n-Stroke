@@ -274,6 +274,7 @@ namespace KeyNStroke
 
         #region Keystroke History
 
+        private void shouldReopen = false;
         private void OnKeystrokeHistorySettingChanged()
         {
             if (mySettings.EnableKeystrokeHistory && !mySettings.Standby)
@@ -288,9 +289,9 @@ namespace KeyNStroke
 
         private void ReloadKeystrokeHistory(){
              if (KeystrokeHistoryVisible || KeystrokeHistoryWindow != null)
-            {
+            {   
+                shouldReopen = true
                 DisableKeystrokeHistory();
-                Task.Delay(300).ContinueWith(t=> OnKeystrokeHistorySettingChanged());
             }
         }
 
@@ -307,6 +308,15 @@ namespace KeyNStroke
                 KeystrokeHistoryWindow = new KeystrokeDisplay(myKeystrokeConverter, mySettings);    
             }
             KeystrokeHistoryWindow.Show();
+            KeystrokeHistoryWindow.Closed += new EventHandler(KeystrokeClosed);
+        }
+
+        private void KeystrokeClosed(object sender, EventArgs e)
+        {
+            if (shouldReopen && mySettings.EnableKeystrokeHistory)
+            {
+                EnableKeystrokeHistory()
+            }
         }
 
         private void DisableKeystrokeHistory()
