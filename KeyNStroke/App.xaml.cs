@@ -41,7 +41,7 @@ namespace KeyNStroke
         Settings1 settingsWindow;
         KeystrokeDisplay KeystrokeHistoryWindow = null;
         bool KeystrokeHistoryVisible = false;
-        bool attachedToMouse = false;
+        bool attached = false;
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -235,14 +235,12 @@ namespace KeyNStroke
                     OnKeystrokeHistorySettingChanged();
                     break;
                 case "EnableCursorFollow":
-                    if (mySettings.EnableCursorFollow && !attachedToMouse)
+                    if (!attached)
                     {
-                        ReloadKeystrokeHistory();
-                        attachedToMouse = true;
-                    } else if (!mySettings.EnableCursorFollow && attachedToMouse) 
-                    {
-                        ReloadKeystrokeHistory();
-                        attachedToMouse = false;
+                        attached = true;
+                    } else {
+                        Application.Restart(); //We do a restart to avoid some bugs
+                        Environment.Exit(0);
                     }
                     break;
                 case "EnableAnnotateLine":
@@ -274,8 +272,6 @@ namespace KeyNStroke
 
         #region Keystroke History
 
-        bool shouldReopen = false;
-        
         private void OnKeystrokeHistorySettingChanged()
         {
             if (mySettings.EnableKeystrokeHistory && !mySettings.Standby)
@@ -284,14 +280,6 @@ namespace KeyNStroke
             }
             else
             {
-                DisableKeystrokeHistory();
-            }
-        }
-
-        private void ReloadKeystrokeHistory(){
-             if (KeystrokeHistoryVisible || KeystrokeHistoryWindow != null)
-            {   
-                shouldReopen = true;
                 DisableKeystrokeHistory();
             }
         }
@@ -309,16 +297,6 @@ namespace KeyNStroke
                 KeystrokeHistoryWindow = new KeystrokeDisplay(myKeystrokeConverter, mySettings);    
             }
             KeystrokeHistoryWindow.Show();
-            KeystrokeHistoryWindow.Closed += new EventHandler(KeystrokeClosed);
-        }
-
-        private void KeystrokeClosed(object sender, EventArgs e)
-        {
-            if (shouldReopen && mySettings.EnableKeystrokeHistory)
-            {
-                EnableKeystrokeHistory();
-                shouldReopen = false;
-            }
         }
 
         private void DisableKeystrokeHistory()
