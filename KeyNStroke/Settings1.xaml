@@ -100,6 +100,11 @@
                                               Minimum="10.0"
                                               Maximum="100.0"
                                               Value="{Binding LineDistance, Mode=TwoWay}" />
+                            <uc:LabeledSlider x:Name="slider_cf_distance"
+                                              Title="Cursor Follow Distance"
+                                              Minimum="0"
+                                              Maximum="200"
+                                              Value="{Binding CursorFollowDistance, Mode=TwoWay}" />
                             <StackPanel Orientation="Horizontal">
                                 <Label>No of lines in history</Label>
                                 <xctk:IntegerUpDown x:Name="slider_historycount"
