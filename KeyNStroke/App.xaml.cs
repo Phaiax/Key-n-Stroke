@@ -274,7 +274,8 @@ namespace KeyNStroke
 
         #region Keystroke History
 
-        private void shouldReopen = false;
+        bool shouldReopen = false;
+        
         private void OnKeystrokeHistorySettingChanged()
         {
             if (mySettings.EnableKeystrokeHistory && !mySettings.Standby)
@@ -290,7 +291,7 @@ namespace KeyNStroke
         private void ReloadKeystrokeHistory(){
              if (KeystrokeHistoryVisible || KeystrokeHistoryWindow != null)
             {   
-                shouldReopen = true
+                shouldReopen = true;
                 DisableKeystrokeHistory();
             }
         }
@@ -315,7 +316,8 @@ namespace KeyNStroke
         {
             if (shouldReopen && mySettings.EnableKeystrokeHistory)
             {
-                EnableKeystrokeHistory()
+                EnableKeystrokeHistory();
+                shouldReopen = false;
             }
         }
 
