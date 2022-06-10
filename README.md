@@ -22,7 +22,7 @@ Requirements: Windows 10
 
 # Download
 
-<a href="https://github.com/Phaiax/Key-n-Stroke/raw/master/Releases/v1.1.0/Key-n-Stroke.exe">Download Key-n-Stroke.exe 1.1.0</a> (most recent, 2021-02-08)
+<a href="https://github.com/Phaiax/Key-n-Stroke/raw/master/Releases/v1.1.0/Key-n-Stroke.exe">Download Key-n-Stroke.exe 1.1.0</a> (most recent, 2022-02-08)
 
 
 There is no installation step. Just keep that exe file to start the application.
