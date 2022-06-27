@@ -39,6 +39,9 @@ namespace KeyNStroke
         SettingsStore mySettings;
         Window welcomeWindow;
         Settings1 settingsWindow;
+        KeystrokeDisplay KeystrokeHistoryWindow = null;
+        bool KeystrokeHistoryVisible = false;
+        bool? attached = null;
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -231,6 +234,17 @@ namespace KeyNStroke
                 case "EnableKeystrokeHistory":
                     OnKeystrokeHistorySettingChanged();
                     break;
+                case "EnableCursorFollow":
+                    if (attached==null)
+                    {
+                        attached = mySettings.EnableCursorFollow;
+                    }else if (attached != mySettings.EnableCursorFollow)
+                    {
+                        mySettings.SaveAll();
+                        System.Windows.Forms.Application.Restart(); //We do a restart to avoid some bugs
+                        Environment.Exit(0);
+                    }
+                    break;
                 case "EnableAnnotateLine":
                     OnAnnotateLineSettingChanged();
                     break;
@@ -260,9 +274,6 @@ namespace KeyNStroke
 
         #region Keystroke History
 
-        KeystrokeDisplay KeystrokeHistoryWindow;
-        bool KeystrokeHistoryVisible;
-
         private void OnKeystrokeHistorySettingChanged()
         {
             if (mySettings.EnableKeystrokeHistory && !mySettings.Standby)
@@ -280,7 +291,13 @@ namespace KeyNStroke
             if (KeystrokeHistoryVisible || KeystrokeHistoryWindow != null)
                 return;
             KeystrokeHistoryVisible = true; // Prevent Recursive call
-            KeystrokeHistoryWindow = new KeystrokeDisplay(myKeystrokeConverter, mySettings);
+            if (mySettings.EnableCursorFollow)
+            {
+                EnableMouseHook();
+                KeystrokeHistoryWindow = new KeystrokeDisplay(myMouseHook, myKeystrokeConverter, mySettings);
+            }else{
+                KeystrokeHistoryWindow = new KeystrokeDisplay(myKeystrokeConverter, mySettings);    
+            }
             KeystrokeHistoryWindow.Show();
         }
 
@@ -289,6 +306,7 @@ namespace KeyNStroke
             KeystrokeHistoryVisible = false;
             if (KeystrokeHistoryWindow == null)
                 return;
+            DisableMouseHookIfNotNeeded();
             KeystrokeHistoryWindow.Close();
             KeystrokeHistoryWindow = null;
         }
@@ -431,7 +449,7 @@ namespace KeyNStroke
 
         private void DisableMouseHookIfNotNeeded()
         {
-            if (CursorIndicatorWindow == null && ButtonIndicatorWindow == null && AnnotateLineWindow == null)
+            if (CursorIndicatorWindow == null && ButtonIndicatorWindow == null && AnnotateLineWindow == null && (!mySettings.EnableCursorFollow || KeystrokeHistoryWindow == null))
                 DisableMouseHook();
         }
 
