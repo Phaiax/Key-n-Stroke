@@ -13,12 +13,14 @@ namespace KeyNStroke
     public class KeystrokeParser : IKeystrokeEventProvider
     {
         //KeysConverter Converter = new KeysConverter();
+        private SettingsStore settings;
 
         #region Constructor
 
-        public KeystrokeParser(IKeyboardRawEventProvider hook)
+        public KeystrokeParser(IKeyboardRawEventProvider hook, SettingsStore settings)
         {
             hook.KeyEvent += hook_KeyEvent;
+            this.settings = settings;
         }
 
         #endregion
@@ -30,7 +32,7 @@ namespace KeyNStroke
         /// <param name="e"></param>
         void hook_KeyEvent(KeyboardRawEventArgs raw_e)
         {
-            KeystrokeEventArgs e = new KeystrokeEventArgs(raw_e);
+            KeystrokeEventArgs e = new KeystrokeEventArgs(raw_e, settings);
 
             e.IsAlpha = CheckIsAlpha(e.raw);
             e.IsNumericFromNumpad = CheckIsNumericFromNumpad(e.raw);
@@ -83,7 +85,7 @@ namespace KeyNStroke
                     Log.e("KP", "   e.NoModifiers > try SpecialkeysParser.ToString ");
                     try
                     {
-                        e.TextModeString = SpecialkeysParser.ToString(e.Key);
+                        e.TextModeString = SpecialkeysParser.ToString(e.Key, settings);
                     }
                     catch (NotImplementedException)
                     {
@@ -201,7 +203,7 @@ namespace KeyNStroke
         {
             try
             {
-                e.TextModeString = SpecialkeysParser.ToString(e.Key);
+                e.TextModeString = SpecialkeysParser.ToString(e.Key, settings);
             }
             catch (NotImplementedException)
             {
@@ -217,7 +219,7 @@ namespace KeyNStroke
         {
             try
             {
-                e.TextModeString = SpecialkeysParser.ToString(e.Key);
+                e.TextModeString = SpecialkeysParser.ToString(e.Key, settings);
                 e.ShouldBeDisplayed = true;
                 e.StrokeType = KeystrokeType.Text;
                 e.RequiresNewLineAfterwards = e.Key == Key.Return;

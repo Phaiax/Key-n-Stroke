@@ -9,12 +9,12 @@ namespace KeyNStroke
 {
     class SpecialkeysParser
     {
-        public static string ToString(Key k)
+        public static string ToString(Key k, SettingsStore settings)
         {
             switch(k){
                 case Key.LeftShift:
                 case Key.RightShift:
-                    return "⇧";
+                    return settings.EnableTextOverSymbol ? "Shift" : "⇧";
                 case Key.LeftCtrl:
                 case Key.RightCtrl:
                     return "Ctrl";
@@ -25,12 +25,12 @@ namespace KeyNStroke
                 case Key.RightAlt:
                     return "Alt";
                 case Key.CapsLock:
-                    return "⇪";
+                    return settings.EnableTextOverSymbol ? " [CapsLock] " : "⇪";
                 case Key.LineFeed:
                 case Key.Return:
-                    return " ⏎";
+                    return settings.EnableTextOverSymbol ? "[Return]" : " ⏎";
                 case Key.Back:
-                    return " ⌫ ";
+                    return settings.EnableTextOverSymbol ? " [Backspace] " : " ⌫ ";
                 case Key.Left:
                     return " ← ";
                 case Key.Right:
@@ -52,17 +52,17 @@ namespace KeyNStroke
 
 
                 case Key.Tab:
-                    return "↹";
+                    return settings.EnableTextOverSymbol ? " [Tab] " : "↹";
                 case Key.Space:
                     return "␣";
                 case Key.PageUp: 
-                    return " ↖ ";
+                    return settings.EnableTextOverSymbol ? " [PageUp] " : " ↖ ";
                 case Key.PageDown:
-                     return " ↘ ";
+                     return settings.EnableTextOverSymbol ? " [PageDown] " : " ↘ ";
                 case Key.End:
-                    return " ⇲ ";
+                    return settings.EnableTextOverSymbol ? " [End] " : " ⇲ ";
                 case Key.Home:
-                    return " ⇱ ";
+                    return settings.EnableTextOverSymbol ? " [Home] " : " ⇱ ";
                 case Key.Print:
                     return " ⎙ ";
 

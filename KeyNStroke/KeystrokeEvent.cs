@@ -105,10 +105,10 @@ namespace KeyNStroke
         public List<string> ShortcutModifiersToList()
         {
             List<string> Modifiers = new List<string>();
-            if (OrigShift) Modifiers.Add(SpecialkeysParser.ToString(Key.LeftShift));
-            if (Ctrl) Modifiers.Add(SpecialkeysParser.ToString(Key.LeftCtrl));
-            if (Alt) Modifiers.Add(SpecialkeysParser.ToString(Key.LeftAlt));
-            if (Win) Modifiers.Add(SpecialkeysParser.ToString(Key.LWin));
+            if (OrigShift) Modifiers.Add(SpecialkeysParser.ToString(Key.LeftShift, settings));
+            if (Ctrl) Modifiers.Add(SpecialkeysParser.ToString(Key.LeftCtrl, settings));
+            if (Alt) Modifiers.Add(SpecialkeysParser.ToString(Key.LeftAlt, settings));
+            if (Win) Modifiers.Add(SpecialkeysParser.ToString(Key.LWin, settings));
             return Modifiers;
         }
 
@@ -184,14 +184,16 @@ namespace KeyNStroke
             return null;
         }
 
+        private SettingsStore settings;
 
-        public KeystrokeEventArgs(KeyboardRawEventArgs e)
+        public KeystrokeEventArgs(KeyboardRawEventArgs e, SettingsStore settings)
         {
             this.raw = e;
             this.OrigShift = e.Shift;
             this.OrigCaps = e.Caps;
             this.OrigLShift = e.LShift;
             this.OrigRShift = e.RShift;
+            this.settings = settings;
         }
     }
 
