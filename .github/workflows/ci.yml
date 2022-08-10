@@ -41,12 +41,6 @@ jobs:
       with:
         setAllVars: true
 
-    # Install the .NET Core workload
-    - name: Install .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: '5.0.x'
-
     # Add  MsBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v1.0.1
@@ -58,25 +52,17 @@ jobs:
     - name:  Restore the application to populate the obj and packages folder
       run: msbuild $env:Solution_Path /t:Restore /p:RestorePackagesConfig=true /p:Configuration=$env:Configuration
       env:
-        Configuration: Release
+        Configuration: Debug
 
 
     # Actual build
     - name:  Build the application
       run: msbuild $env:Solution_Path /t:Rebuild /p:Configuration=$env:Configuration /p:Platform="Any CPU"
-
       env:
-        Configuration: Release
-
-    
-    # Signing
-    # https://github.com/dlemstra/code-sign-action
-    # https://github.com/GabrielAcostaEngler/signtool-code-sign
-    # https://archi-lab.net/code-signing-assemblies-with-github-actions/
+        Configuration: Debug
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v1
       with:
         name: KeyNStroke-${{env.NBGV_SemVer2}}
-        path: ${{ env.App_Output_Directory }}\Release\
-
+        path: ${{ env.App_Output_Directory }}\Debug\
