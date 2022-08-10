@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyNStroke", "KeyNStroke\KeyNStroke.csproj", "{BA117557-FEBC-45C5-8895-4017D05C3DCD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyNStrokeTests", "KeyNStrokeTests\KeyNStrokeTests.csproj", "{3B189090-03C5-41B4-B975-028E31A119EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{BA117557-FEBC-45C5-8895-4017D05C3DCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA117557-FEBC-45C5-8895-4017D05C3DCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA117557-FEBC-45C5-8895-4017D05C3DCD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B189090-03C5-41B4-B975-028E31A119EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B189090-03C5-41B4-B975-028E31A119EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B189090-03C5-41B4-B975-028E31A119EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B189090-03C5-41B4-B975-028E31A119EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
