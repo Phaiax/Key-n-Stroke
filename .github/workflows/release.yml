@@ -1,0 +1,86 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT license.
+
+# https://github.com/microsoft/github-actions-for-desktop-apps
+
+# This continuous integration pipeline is triggered anytime a user tags the repo
+
+# This pipeline builds the project, runs unit tests, then saves the build artifact.
+
+name: Key-n-Stroke Release
+
+# Trigger on every master branch push and pull request
+on:
+  push:
+    tags:
+      - "*.*.*"
+
+jobs:
+
+  build:
+    runs-on: windows-latest
+
+    env:
+      Solution_Path: KeyNStroke.sln
+      #Test_Project_Path: KeyNStroke.Tests\KeyNStroke.Tests.csproj
+      App_Project_Path: KeyNStroke\KeyNStroke.csproj
+      App_Output_Directory: KeyNStroke\bin
+      App_Assembly: Key-n-Stroke.exe
+      Actions_Allow_Unsecure_Commands: true # Allows AddPAth and SetEnv commands
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0 # avoid shallow clone so nbgv can do its work.
+
+    # Versioning
+    - name: Use Nerdbank.GitVersioning to set version variables
+      uses: dotnet/nbgv@master
+      with:
+        setAllVars: true
+
+    # Add  MsBuild to the PATH: https://github.com/microsoft/setup-msbuild
+    - name: Setup MSBuild.exe
+      uses: microsoft/setup-msbuild@v1.0.1
+
+    #- name: Execute Unit Tests
+    #  run: dotnet test $env:Test_Project_Path
+
+    # Restore the application
+    - name:  Restore the application to populate the obj and packages folder
+      run: msbuild $env:Solution_Path /t:Restore /p:RestorePackagesConfig=true /p:Configuration=$env:Configuration
+      env:
+        Configuration: Release
+
+
+    # Actual build
+    - name:  Build the application
+      run: msbuild $env:Solution_Path /t:Rebuild /p:Configuration=$env:Configuration /p:Platform="Any CPU"
+
+      env:
+        Configuration: Release
+
+    
+    # TODO: Signing
+    # https://github.com/dlemstra/code-sign-action
+    # https://github.com/GabrielAcostaEngler/signtool-code-sign
+    # https://archi-lab.net/code-signing-assemblies-with-github-actions/
+
+    - name: Create release archive
+      uses: thedoctor0/zip-release@main
+      with:
+        type: 'zip'
+        filename: 'KeyNStroke-${{env.NBGV_SemVer2}}.zip'
+        directory: ${{ env.App_Output_Directory }}\Release\
+        exclusions: '*.git*  *.pdb *.xml'
+
+
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: |
+          LICENSE
+          README.md
+          ${{ env.App_Output_Directory }}\Release\KeyNStroke-${{env.NBGV_SemVer2}}.zip          
