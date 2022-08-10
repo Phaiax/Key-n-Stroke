@@ -10,11 +10,7 @@
 name:  Key-n-Stroke Continuous Integration
 
 # Trigger on every master branch push and pull request
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+on: [ push ]
 
 jobs:
 
@@ -47,14 +43,26 @@ jobs:
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v1.0.1
 
+    # Use cached packages if available
+    - name: Try to restore packages from cache first
+      uses: actions/cache@v2
+      env:
+        cache-name: app-packages
+      with:
+        path: packages/
+        key: ${{ env.cache-name }}-${{ env.Configuration }}-${{ env.NBGV_CloudBuildNumber }}
+        restore-keys: |
+          ${{ env.cache-name }}-${{ env.Configuration }}-${{ env.NBGV_Version }}
+          ${{ env.cache-name }}-${{ env.Configuration }}-${{ env.NBGV_SimpleVersion }}
+
     # Restore the application
-    - name:  Restore the application to populate the obj and packages folder
+    - name: Restore the application to populate the obj and packages folder
       run: msbuild $env:Solution_Path /t:Restore /p:RestorePackagesConfig=true /p:Configuration=$env:Configuration
 
     # Actual build
-    - name:  Build the application
+    - name: Build the solution
       run: msbuild $env:Solution_Path /t:Rebuild /p:Configuration=$env:Configuration /p:Platform="Any CPU"
-
+        
     # Run built tests
     - name: Execute Unit Tests
       uses: microsoft/vstest-action@v1.0.0
@@ -68,3 +76,4 @@ jobs:
       with:
         name: KeyNStroke-${{env.NBGV_SemVer2}}
         path: ${{ env.App_Output_Directory }}\${{ env.Configuration }}\
+ 
