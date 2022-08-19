@@ -14,7 +14,7 @@ namespace KeyNStroke
             switch(k){
                 case Key.LeftShift:
                 case Key.RightShift:
-                    return settings.EnableTextOverSymbol ? "Shift" : "⇧";
+                    return settings.EnableTextOverSymbol ? " [Shift] " : "⇧";
                 case Key.LeftCtrl:
                 case Key.RightCtrl:
                     return "Ctrl";
@@ -28,7 +28,7 @@ namespace KeyNStroke
                     return settings.EnableTextOverSymbol ? " [CapsLock] " : "⇪";
                 case Key.LineFeed:
                 case Key.Return:
-                    return settings.EnableTextOverSymbol ? "[Return]" : " ⏎";
+                    return settings.EnableTextOverSymbol ? " [Return] " : " ⏎";
                 case Key.Back:
                     return settings.EnableTextOverSymbol ? " [Backspace] " : " ⌫ ";
                 case Key.Left:

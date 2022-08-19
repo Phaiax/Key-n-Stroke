@@ -91,7 +91,7 @@ namespace KeyNStroke
         private void InitKeyboardInterception()
         {
             myKeyboardHook = new KeyboardHook();
-            myKeystrokeConverter = new KeystrokeParser(myKeyboardHook, mySettings);
+            myKeystrokeConverter = new KeystrokeParser(myKeyboardHook, mySettings.EnableTextOverSymbol);
         }
 
         #endregion
