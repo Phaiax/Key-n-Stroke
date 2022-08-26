@@ -129,6 +129,9 @@
                                       IsChecked="{Binding EnableWindowFade}">Hide window when empty</CheckBox>
                             <CheckBox x:Name="cb_periodictopmost"
                                       IsChecked="{Binding PeriodicTopmost}">Put on top periodically</CheckBox>
+                            <CheckBox x:Name="cb_fulltextoverimage"
+                                      IsChecked="{Binding EnableTextOverSymbol}"
+                                      ToolTip="Displays text instead of symbols">Text instead of symbols</CheckBox>
                         </StackPanel>
                     </StackPanel>
                     <StackPanel Margin="5"

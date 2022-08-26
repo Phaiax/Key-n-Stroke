@@ -91,7 +91,7 @@ namespace KeyNStroke
         private void InitKeyboardInterception()
         {
             myKeyboardHook = new KeyboardHook();
-            myKeystrokeConverter = new KeystrokeParser(myKeyboardHook);
+            myKeystrokeConverter = new KeystrokeParser(myKeyboardHook, mySettings.EnableTextOverSymbol);
         }
 
         #endregion
@@ -224,6 +224,9 @@ namespace KeyNStroke
             {
                 case "EnableCursorIndicator":
                     OnCursorIndicatorSettingChanged();
+                    break;
+                case "EnableTextOverSymbol":
+                    OnEnableTextOverSymbolSettingChanged();
                     break;
                 case "ButtonIndicator":
                     OnButtonIndicatorSettingChanged();
@@ -374,8 +377,12 @@ namespace KeyNStroke
             Log.e("CI", "DisableCursorIndicator");
         }
 
-
         #endregion
+
+        private void OnEnableTextOverSymbolSettingChanged()
+        {
+            myKeystrokeConverter.EnableTextOverSymbol = mySettings.EnableTextOverSymbol;
+        }
 
         #region Annotate Line
 
