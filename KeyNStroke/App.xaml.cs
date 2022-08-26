@@ -225,6 +225,9 @@ namespace KeyNStroke
                 case "EnableCursorIndicator":
                     OnCursorIndicatorSettingChanged();
                     break;
+                case "EnableTextOverSymbol":
+                    OnEnableTextOverSymbolSettingChanged();
+                    break;
                 case "ButtonIndicator":
                     OnButtonIndicatorSettingChanged();
                     break;
@@ -374,8 +377,12 @@ namespace KeyNStroke
             Log.e("CI", "DisableCursorIndicator");
         }
 
-
         #endregion
+
+        private void OnEnableTextOverSymbolSettingChanged()
+        {
+            myKeystrokeConverter.EnableTextOverSymbol = mySettings.EnableTextOverSymbol;
+        }
 
         #region Annotate Line
 

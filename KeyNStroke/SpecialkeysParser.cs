@@ -9,12 +9,12 @@ namespace KeyNStroke
 {
     class SpecialkeysParser
     {
-        public static string ToString(Key k, SettingsStore settings)
+        public static string ToString(Key k, bool enableTextOverSymbol)
         {
             switch(k){
                 case Key.LeftShift:
                 case Key.RightShift:
-                    return settings.EnableTextOverSymbol ? " [Shift] " : "⇧";
+                    return enableTextOverSymbol ? " [Shift] " : "⇧";
                 case Key.LeftCtrl:
                 case Key.RightCtrl:
                     return "Ctrl";
@@ -25,12 +25,12 @@ namespace KeyNStroke
                 case Key.RightAlt:
                     return "Alt";
                 case Key.CapsLock:
-                    return settings.EnableTextOverSymbol ? " [CapsLock] " : "⇪";
+                    return enableTextOverSymbol ? " [CapsLock] " : "⇪";
                 case Key.LineFeed:
                 case Key.Return:
-                    return settings.EnableTextOverSymbol ? " [Return] " : " ⏎";
+                    return enableTextOverSymbol ? " [Return] " : " ⏎";
                 case Key.Back:
-                    return settings.EnableTextOverSymbol ? " [Backspace] " : " ⌫ ";
+                    return enableTextOverSymbol ? " [Backspace] " : " ⌫ ";
                 case Key.Left:
                     return " ← ";
                 case Key.Right:
@@ -52,17 +52,17 @@ namespace KeyNStroke
 
 
                 case Key.Tab:
-                    return settings.EnableTextOverSymbol ? " [Tab] " : "↹";
+                    return enableTextOverSymbol ? " [Tab] " : "↹";
                 case Key.Space:
                     return "␣";
                 case Key.PageUp: 
-                    return settings.EnableTextOverSymbol ? " [PageUp] " : " ↖ ";
+                    return enableTextOverSymbol ? " [PageUp] " : " ↖ ";
                 case Key.PageDown:
-                     return settings.EnableTextOverSymbol ? " [PageDown] " : " ↘ ";
+                     return enableTextOverSymbol ? " [PageDown] " : " ↘ ";
                 case Key.End:
-                    return settings.EnableTextOverSymbol ? " [End] " : " ⇲ ";
+                    return enableTextOverSymbol ? " [End] " : " ⇲ ";
                 case Key.Home:
-                    return settings.EnableTextOverSymbol ? " [Home] " : " ⇱ ";
+                    return enableTextOverSymbol ? " [Home] " : " ⇱ ";
                 case Key.Print:
                     return " ⎙ ";
 

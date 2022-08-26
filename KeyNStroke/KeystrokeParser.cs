@@ -13,14 +13,14 @@ namespace KeyNStroke
     public class KeystrokeParser : IKeystrokeEventProvider
     {
         //KeysConverter Converter = new KeysConverter();
-        private SettingsStore settings;
+        public bool EnableTextOverSymbol { get; set; }
 
         #region Constructor
 
-        public KeystrokeParser(IKeyboardRawEventProvider hook, SettingsStore settings)
+        public KeystrokeParser(IKeyboardRawEventProvider hook, bool enableTextOverSymbol)
         {
             hook.KeyEvent += hook_KeyEvent;
-            this.settings = settings;
+            EnableTextOverSymbol = enableTextOverSymbol;
         }
 
         #endregion
@@ -32,7 +32,7 @@ namespace KeyNStroke
         /// <param name="e"></param>
         void hook_KeyEvent(KeyboardRawEventArgs raw_e)
         {
-            KeystrokeEventArgs e = new KeystrokeEventArgs(raw_e, settings);
+            KeystrokeEventArgs e = new KeystrokeEventArgs(raw_e, EnableTextOverSymbol);
 
             e.IsAlpha = CheckIsAlpha(e.raw);
             e.IsNumericFromNumpad = CheckIsNumericFromNumpad(e.raw);
@@ -85,7 +85,7 @@ namespace KeyNStroke
                     Log.e("KP", "   e.NoModifiers > try SpecialkeysParser.ToString ");
                     try
                     {
-                        e.TextModeString = SpecialkeysParser.ToString(e.Key, settings);
+                        e.TextModeString = SpecialkeysParser.ToString(e.Key, EnableTextOverSymbol);
                     }
                     catch (NotImplementedException)
                     {
@@ -170,7 +170,6 @@ namespace KeyNStroke
 
         }
 
-
         private KeystrokeEventArgs lastDeadKeyEvent;
 
         private void BackupDeadKey(KeystrokeEventArgs e)
@@ -203,7 +202,7 @@ namespace KeyNStroke
         {
             try
             {
-                e.TextModeString = SpecialkeysParser.ToString(e.Key, settings);
+                e.TextModeString = SpecialkeysParser.ToString(e.Key, EnableTextOverSymbol);
             }
             catch (NotImplementedException)
             {
@@ -219,7 +218,7 @@ namespace KeyNStroke
         {
             try
             {
-                e.TextModeString = SpecialkeysParser.ToString(e.Key, settings);
+                e.TextModeString = SpecialkeysParser.ToString(e.Key, EnableTextOverSymbol);
                 e.ShouldBeDisplayed = true;
                 e.StrokeType = KeystrokeType.Text;
                 e.RequiresNewLineAfterwards = e.Key == Key.Return;
