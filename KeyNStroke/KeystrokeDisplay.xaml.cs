@@ -29,15 +29,17 @@ namespace KeyNStroke
     {
         readonly SettingsStore settings;
         readonly IKeystrokeEventProvider k;
+        readonly IMouseRawEventProvider m;
         IntPtr windowHandle;
         Brush OrigInnerPanelBackgroundColor;
 
-        public KeystrokeDisplay(IKeystrokeEventProvider k, SettingsStore s)
+        public KeystrokeDisplay(IKeystrokeEventProvider k, IMouseRawEventProvider m, SettingsStore s)
         {
             InitializeComponent();
             InitializeAnimations();
 
             this.k = k;
+            this.m = m;
 
             this.settings = s;
             this.settings.EnableSettingsMode = false;
@@ -58,15 +60,25 @@ namespace KeyNStroke
             windowHandle = new WindowInteropHelper(this).Handle;
 
             this.k.KeystrokeEvent += KeystrokeEvent;
+            this.m.MouseEvent += MouseEvent;
 
             OrigInnerPanelBackgroundColor = innerPanel.Background;
             ActivateDisplayOnlyMode(true);
             DeactivatePasswordProtectionMode(true);
+            UpdateDisplayScreenName();
 
             if (settings.EnableWindowFade)
             {
                 FadeOut();
             }
+        }
+
+        private string _deviceName;
+
+        public void UpdateDisplayScreenName()
+        {
+            System.Windows.Forms.Screen screen = System.Windows.Forms.Screen.FromPoint(new System.Drawing.Point(Convert.ToInt32(this.Left), Convert.ToInt32(this.Top)));
+            _deviceName = screen.DeviceName;
         }
 
         #region periodically make TopMost
@@ -115,6 +127,12 @@ namespace KeyNStroke
                         FadeIn();
                     }
                 }
+                return;
+            }
+
+            if (settings.PauseCursorDifferentScreen
+                && _cursorDeviceName != _deviceName)
+            {
                 return;
             }
 
@@ -183,6 +201,18 @@ namespace KeyNStroke
             }
         }
 
+
+        #endregion
+
+        #region Cursor event handler
+
+        private string _cursorDeviceName;
+
+        private void MouseEvent(MouseRawEventArgs e)
+        {
+            System.Windows.Forms.Screen screen = System.Windows.Forms.Screen.FromPoint(e.Position);
+            _cursorDeviceName = screen.DeviceName;
+        }
 
         #endregion
 
@@ -602,6 +632,7 @@ namespace KeyNStroke
         private void ButtonLeaveSettingsMode_Click(object sender, RoutedEventArgs e)
         {
             settings.EnableSettingsMode = false;
+            UpdateDisplayScreenName();
         }
 
         #endregion
