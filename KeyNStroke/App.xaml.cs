@@ -231,6 +231,9 @@ namespace KeyNStroke
                 case "EnableKeystrokeHistory":
                     OnKeystrokeHistorySettingChanged();
                     break;
+                case "PauseCursorDifferentScreen":
+                    OnPauseCursorDifferentScreenChanged();
+                    break;
                 case "EnableAnnotateLine":
                     OnAnnotateLineSettingChanged();
                     break;
@@ -280,7 +283,7 @@ namespace KeyNStroke
             if (KeystrokeHistoryVisible || KeystrokeHistoryWindow != null)
                 return;
             KeystrokeHistoryVisible = true; // Prevent Recursive call
-            KeystrokeHistoryWindow = new KeystrokeDisplay(myKeystrokeConverter, mySettings);
+            KeystrokeHistoryWindow = new KeystrokeDisplay(myKeystrokeConverter, myMouseHook, mySettings);
             KeystrokeHistoryWindow.Show();
         }
 
@@ -291,6 +294,14 @@ namespace KeyNStroke
                 return;
             KeystrokeHistoryWindow.Close();
             KeystrokeHistoryWindow = null;
+        }
+
+        private void OnPauseCursorDifferentScreenChanged()
+        {
+            if (KeystrokeHistoryWindow != null)
+            {
+                KeystrokeHistoryWindow.UpdateDisplayScreenName();
+            }
         }
 
         #endregion
