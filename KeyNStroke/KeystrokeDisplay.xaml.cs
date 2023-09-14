@@ -120,7 +120,10 @@ namespace KeyNStroke
 
             if (e.ShouldBeDisplayed)
             {
-                if (settings.EnableWindowFade && !SettingsModeActivated)
+                if (settings.EnableWindowFade
+                    && !SettingsModeActivated
+                    && !(settings.KeystrokeMethod == KeystrokeMethodEnum.ShortcutModeNoText && e.StrokeType == KeystrokeType.Text)
+                    )
                 {
                     FadeIn();
                 }
