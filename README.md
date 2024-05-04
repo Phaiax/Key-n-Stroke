@@ -104,6 +104,12 @@ I said that if someone funds at least three years of certification (€ 75.00), 
 
 | Date       | Amount | From             |
 |------------|--------|------------------|
+| 2023-11-20 | € 20   | S. M.            |
+| 2023-06-11 | € 9.10 | R. G. R.         |
+| 2023-12-02 | € 22.22| A. V. N.         |
+| 2023-07-25 | € 5    | D. N.            |
+| 2023-05-30 | € 10.26| I. J.            |
+| 2023-03-14 | € 5    | J. L.            |
 | 2022-02-02 | € 50   | Mario Pastoor    |
 | 2021-11-28 | € 16.95| Joshua Taylor    |
 | 2021-03-05 | € 11.14| Heitor K. M. M.  |
@@ -112,7 +118,9 @@ I said that if someone funds at least three years of certification (€ 75.00), 
 
 Expenses: Certum Open Source Certificate and cryptographic card reader + Shipping: €119.87
 
-Total: -€43.73
+Total: €164.67 - €119.87 = €44.8
+
+Thx a lot, its time for a new certificate since the first one is expired :D
 
 
 
