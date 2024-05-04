@@ -88,19 +88,19 @@ namespace KeyNStroke
                 case Key.OemComma:
                     return ",";
                 case Key.OemQuestion: // Key.Oem2
-                    return "?";
+                    return "/";
                 case Key.OemTilde: // Key.Oem3
-                    return "~";
+                    return "`";
                 //case Key.AbntC1:
                 //case Key.AbntC2:
                 //case Key.OemOpenBrackets:
                 //case Key.OemCloseBrackets:
                 case Key.OemQuotes: // Key.Oem7
-                    return "\"";
+                    return "'";
 
                 //case Key.Oem102:
                 case Key.OemPipe: // Key.Oem5
-                    return "|";
+                    return "\\";
                 case Key.OemBackslash:
                     return "\\";
 
