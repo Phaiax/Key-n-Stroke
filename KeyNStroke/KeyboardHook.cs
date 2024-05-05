@@ -206,24 +206,24 @@ namespace KeyNStroke
                 e.keyState[VK_SHIFT] = 129;
             } else
             {
-                e.keyState[VK_SHIFT] = 1;
+                e.keyState[VK_SHIFT] = 0;
             }
-            return;
+            //return;
 #pragma warning disable CS0162 // Unerreichbarer Code wurde entdeckt.
-            e.keyState[VK_CONTROL] = (byte)(e.Ctrl ? 129 : 1);
+            e.keyState[VK_CONTROL] = (byte)(e.Ctrl ? 129 : 0);
 #pragma warning restore CS0162 // Unerreichbarer Code wurde entdeckt.
-            e.keyState[VK_MENU] = (byte)(e.Alt ? 129 : 1);
-            e.keyState[VK_CAPITAL] = (byte)(e.Caps ? 129 : 1);
-            e.keyState[VK_LWIN] = (byte)(e.LWin ? 129 : 1);
-            e.keyState[VK_RWIN] = (byte)(e.RWin ? 129 : 1);
-            e.keyState[VK_NUMLOCK] = (byte)(e.Numlock ? 129 : 1);
-            e.keyState[VK_SCROLL] = (byte)(e.Scrollock ? 129 : 1);
-            e.keyState[VK_LSHIFT] = (byte)(e.LShift ? 129 : 1);
-            e.keyState[VK_RSHIFT] = (byte)(e.RShift ? 129 : 1);
-            e.keyState[VK_LCONTROL] = (byte)(e.LCtrl ? 129 : 1);
-            e.keyState[VK_RCONTROL] = (byte)(e.RCtrl ? 129 : 1);
-            e.keyState[VK_LMENU] = (byte)(e.LAlt ? 129 : 1);
-            e.keyState[VK_RMENU] = (byte)(e.RAlt ? 129 : 1);
+            e.keyState[VK_MENU] = (byte)(e.Alt ? 129 : 0);
+            e.keyState[VK_CAPITAL] = (byte)(e.Caps ? 129 : 0);
+            e.keyState[VK_LWIN] = (byte)(e.LWin ? 129 : 0);
+            e.keyState[VK_RWIN] = (byte)(e.RWin ? 129 : 0);
+            e.keyState[VK_NUMLOCK] = (byte)(e.Numlock ? 129 : 0);
+            e.keyState[VK_SCROLL] = (byte)(e.Scrollock ? 129 : 0);
+            e.keyState[VK_LSHIFT] = (byte)(e.LShift ? 129 : 0);
+            e.keyState[VK_RSHIFT] = (byte)(e.RShift ? 129 : 0);
+            e.keyState[VK_LCONTROL] = (byte)(e.LCtrl ? 129 : 0);
+            e.keyState[VK_RCONTROL] = (byte)(e.RCtrl ? 129 : 0);
+            e.keyState[VK_LMENU] = (byte)(e.LAlt ? 129 : 0);
+            e.keyState[VK_RMENU] = (byte)(e.RAlt ? 129 : 0);
         }
 
         #endregion
