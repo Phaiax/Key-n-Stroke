@@ -21,6 +21,15 @@ This is a little documentation about how the source code is organized and works
  8. Commit and push
  7. Upload manifest `scp updateManifest.xml $SSHSERVER:html/key-n-stroke/`
 
+## How to prepare the development environment
+
+ - Install Visual Studio 2019
+ - Download dependencies:
+   - Clean the folder `packages` in the repository root
+   - Search a msbuild.exe and run it like this:
+   - e.g. `"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\MSBuild.exe" KeyNStroke.sln /t:Restore /p:RestorePackagesConfig=true /p:Configuration=Debug`
+ - Then run the application using Visual Studio
+
 ## Main (Program.cs)
 
 The main function is found in Program.cs.
