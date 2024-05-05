@@ -39,55 +39,55 @@ namespace KeyNStroke
             e.IsFunctionKey = CheckIsFunctionKey(e.raw);
             e.ModifierToggledEvent = CheckKeyIsModifier(e.raw);
 
-            Log.e("KP", "   alpha:" + e.IsAlpha.ToString());
+            Log.e("KP", " hook_KeyEvent(): Called. IsAlpha=" + e.IsAlpha.ToString() + " e.Key=" + (e.Key).ToString());
 
             if (e.Method == KeyUpDown.Down)
             {
                 ApplyDeadKey(e);
                 if (e.IsAlpha && e.OnlyShiftOrCaps)
                 {
+                    Log.e("KP", "  hook_KeyEvent(): IsAlpha and OnlyShiftOrCaps => ParseChar");
                     e.TextModeString = ParseChar(e);
                     e.ShouldBeDisplayed = true;
                     e.StrokeType = KeystrokeType.Text;
                     e.Deletable = true;
-                    Log.e("KP", "   IsAlpha and OnlyShiftOrCaps > ParseChar");
                 }
                 else if (e.IsNumeric && e.NoModifiers)
                 {
+                    Log.e("KP", "  hook_KeyEvent(): e.IsNumeric && e.NoModifiers => ParseNumeric");
                     e.TextModeString = ParseNumeric(e);
                     e.ShouldBeDisplayed = true;
                     e.StrokeType = KeystrokeType.Text;
                     e.Deletable = true;
-                    Log.e("KP", "   e.IsNumeric && e.NoModifiers > ParseNumeric");
                 }
                 else if (e.ModifierToggledEvent) // key is modifier
                 {
+                    Log.e("KP", "  hook_KeyEvent(): e.ModifierToggledEvent => AddModifier(" + e.Key.ToString() + ")");
                     e.ShouldBeDisplayed = false;
                     AddModifier(e.Key, e);
                     e.StrokeType = KeystrokeType.Modifiers;
-                    Log.e("KP", "   e.ModifierToggledEvent > AddModifier " + e.Key.ToString());
                 }
                 else if (e.IsNoUnicodekey && e.NoModifiers)
                 {
+                    Log.e("KP", "  hook_KeyEvent(): e.IsNoUnicodekey && e.NoModifiers => ParseTexttViaSpecialkeysParser ");
                     ParseTexttViaSpecialkeysParser(e);
                     e.Deletable = IsDeletableSpecialKey(e.Key);
-                    Log.e("KP", "   e.IsNoUnicodekey && e.NoModifiers > ParseTexttViaSpecialkeysParser ");
                 }
                 else if (e.IsNoUnicodekey && !e.NoModifiers) // Shortcut
                 {
+                    Log.e("KP", "  hook_KeyEvent(): e.IsNoUnicodekey && !e.NoModifiers => ParseShortcutViaSpecialkeysParser ");
                     ParseShortcutViaSpecialkeysParser(e);
-                    Log.e("KP", "   e.IsNoUnicodekey && !e.NoModifiers > ParseShortcutViaSpecialkeysParser ");
                 }
                 else if (e.NoModifiers) // Simple Key, but not alphanumeric (first try special then unicode)
                 {
-                    Log.e("KP", "   e.NoModifiers > try SpecialkeysParser.ToString ");
+                    Log.e("KP", "  hook_KeyEvent(): e.NoModifiers => try SpecialkeysParser.ToString ");
                     try
                     {
                         e.TextModeString = SpecialkeysParser.ToString(e.Key);
                     }
                     catch (NotImplementedException)
                     {
-                        Log.e("KP", "   e.NoModifiers 2> try KeyboardLayoutParser.ParseViaToUnicode ");
+                        Log.e("KP", "  hook_KeyEvent(): failed, now   => try KeyboardLayoutParser.ParseViaToUnicode ");
                         e.TextModeString = KeyboardLayoutParser.ParseViaToUnicode(e.raw);
                         BackupDeadKey(e);
                     }
@@ -98,9 +98,9 @@ namespace KeyNStroke
                 else if (e.OnlyShiftOrCaps) //  special char, but only Shifted, eg ;:_ÖÄ'*ÜP
                 // (e.IsNoUnicodekey is always false here -> could be a unicode key combination)
                 {
+                    Log.e("KP", "  hook_KeyEvent(): e.OnlyShiftOrCaps => try KeyboardLayoutParser.ParseViaToUnicode ");
                     e.TextModeString = KeyboardLayoutParser.ParseViaToUnicode(e.raw);
                     BackupDeadKey(e);
-                    Log.e("KP", "   e.OnlyShiftOrCaps > try KeyboardLayoutParser.ParseViaToUnicode ");
 
                     if (e.TextModeString != "")
                     {
@@ -111,8 +111,8 @@ namespace KeyNStroke
                     else
                     {
                         // Is no unicode key combination? maybe a shortcut then: Shift + F2
+                        Log.e("KP", "  hook_KeyEvent(): failed, now       => ParseShortcutViaSpecialkeysParser ");
                         ParseShortcutViaSpecialkeysParser(e);
-                        Log.e("KP", "   e.OnlyShiftOrCaps 2> ParseShortcutViaSpecialkeysParser ");
                     }
                 }
                 else if (!e.NoModifiers && !e.OnlyShiftOrCaps) // Special Char with Strg + Alt
@@ -120,9 +120,9 @@ namespace KeyNStroke
                 {
 
                     // could be something like the german @ (Ctrl + Alt + Q)
+                    Log.e("KP", "  hook_KeyEvent(): !e.NoModifiers && !e.OnlyShiftOrCaps => (KeyboardLayoutParser.ParseViaToUnicode) (disabled)");
                     // Temporary disabled because ToUnicode returns more often values than it should
                     e.TextModeString = ""; //KeyboardLayoutParser.ParseViaToUnicode(e);
-                    Log.e("KP", "   !e.NoModifiers && !e.OnlyShiftOrCapss > KeyboardLayoutParser.ParseViaToUnicode");
                     // all other special char keycodes do not use Shift
                     if (e.TextModeString != "" && !e.Shift && !e.IsNoUnicodekey)
                     {
@@ -132,6 +132,7 @@ namespace KeyNStroke
                     }
                     else // Shortcut
                     {
+                        Log.e("KP", "  hook_KeyEvent(): !e.NoModifiers && !e.OnlyShiftOrCapss => ParseShortcutViaSpecialkeysParser ");
                         ParseShortcutViaSpecialkeysParser(e);
                         string possibleChar = KeyboardLayoutParser.ParseViaToUnicode(e.raw);
                         BackupDeadKey(e);
@@ -141,11 +142,10 @@ namespace KeyNStroke
                         {
                             e.TextModeString += " (" + possibleChar + ")";
                         }
-                        Log.e("KP", "   !e.NoModifiers && !e.OnlyShiftOrCapss 2> ParseShortcutViaSpecialkeysParser ");
                     }
                 }
-                Log.e("KP", "   str:" + e.TextModeString);
                 e.ShortcutString = e.AsShortcutString();
+                Log.e("KP", "  hook_KeyEvent(): Result: TextmodeString=" + e.TextModeString + " ShortcutString=" + e.ShortcutString);
             }
 
             if (e.Method == KeyUpDown.Up)
@@ -156,7 +156,7 @@ namespace KeyNStroke
                     RemoveModifier(e.Key, e);
                     e.StrokeType = KeystrokeType.Modifiers;
                 }
-                Log.e("KP", "   code:" + (e.Key).ToString());
+                Log.e("KP", "  hook_KeyEvent(): Key up. e.Key=" + (e.Key).ToString());
 
                 // only react to modifiers on key up, nothing else
             }
@@ -184,6 +184,7 @@ namespace KeyNStroke
         {
             if(lastDeadKeyEvent != null)
             {
+                Log.e("KP", "  ApplyDeadKey(): Process Previous Dead Key: " + lastDeadKeyEvent.ToString());
                 lastDeadKeyEvent.TextModeString = KeyboardLayoutParser.ProcessDeadkeyWithNextKey(lastDeadKeyEvent.raw, e.raw);
                 if(lastDeadKeyEvent.TextModeString == "")
                 {

@@ -75,11 +75,9 @@ namespace KeyNStroke
                         inBuffer,
                         128,
                         (uint)(e.Alt ? 1 : 0));
-            Log.e("KP", "    FirstBuffertype " + buffertype.ToString());
-
             Log.e("KP",
-                    String.Format("    ToUnicode: bl {0} str {1} alt {2} vk {3}", buffertype,
-                        inBuffer.ToString(), e.Alt, e.vkCode));
+                    String.Format("   ParseViaToUnicode(): First call to ToUnicode: returned={0} translated='{1}' alt={2} ctrl={3} vk={4}", buffertype,
+                        inBuffer.ToString(), e.Alt, e.Ctrl, e.vkCode));
             string keystate = "";
             for (int i = 0; i < e.keyState.Length; i++ )
             {
@@ -90,7 +88,7 @@ namespace KeyNStroke
                 }
             }
 
-                Log.e("KP", "             : " + keystate);
+            Log.e("KP", "   ParseViaToUnicode(): Key state: " + keystate);
 
             // call ToUnicode again, otherwise it will destoy the dead key for the rest of the system
             int buffertype2 = NativeMethodsKeyboard.ToUnicode(e.vkCode,
@@ -99,7 +97,10 @@ namespace KeyNStroke
                 inBuffer,
                 128,
                 (uint)(e.Alt ? 1 : 0));
-            Log.e("KP", "    SecondBuffertype " + buffertype2.ToString() + " & deadkey");
+
+            Log.e("KP",
+                    String.Format("   ParseViaToUnicode(): Secnd call to ToUnicode: returned={0} translated='{1}' alt={2} vk={3}", buffertype2,
+                        inBuffer.ToString(), e.Alt, e.vkCode));
 
             if (buffertype < 0) // deadkey
             {
@@ -109,7 +110,7 @@ namespace KeyNStroke
             }
             else if(buffertype2 < 0) // type two dead keys in a row
             {
-                Log.e("KP", "    TwoDeadKeysInARow " + buffertype2.ToString() + " & deadkey");
+                Log.e("KP", "   ParseViaToUnicode(): TwoDeadKeysInARow " + buffertype2.ToString() + " & deadkey");
                 return buffertype >= 1 ? inBuffer.ToString(0, 1) : "";
             }
             else if (buffertype2 >= 1) // buffertype chars in inBuffer[0..buffertype]
@@ -138,16 +139,18 @@ namespace KeyNStroke
                         inBuffer,
                         128,
                         (uint)(dead.Alt ? 1 : 0));
-            Log.e("KP", "      FirstBuffertype " + buffertype.ToString());
+
+            Log.e("KP",
+                    String.Format("   ProcessDeadkeyWithNextKey(): First call to ToUnicode: returned={0} translated='{1}' alt={2} vk={3}", buffertype,
+                        inBuffer.ToString(), e.Alt, e.vkCode));
             buffertype = NativeMethodsKeyboard.ToUnicode(e.vkCode,
                 e.Kbdllhookstruct.scanCode,
                 e.keyState,
                 inBuffer,
                 128,
                 (uint)(e.Alt ? 1 : 0));
-            Log.e("KP", "      SecondBuffertype " + buffertype.ToString());
             Log.e("KP",
-                    String.Format("   ToUnicode: bl {0} str {1} alt {2} vk {3}", buffertype,
+                    String.Format("   ProcessDeadkeyWithNextKey(): Sednd call to ToUnicode: returned={0} translated='{1}' alt={2} vk={3}", buffertype,
                         inBuffer.ToString(), e.Alt, e.vkCode));
 
             if (buffertype >= 1) // buffertype chars in inBuffer[0..buffertype]

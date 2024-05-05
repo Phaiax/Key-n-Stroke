@@ -200,6 +200,7 @@ namespace KeyNStroke
 
         private void FixKeyStateArray(KeyboardRawEventArgs e)
         {
+            Log.e("KP", "FixKeyStateArray()");
             if (e.Uppercase)
             {
                 e.keyState[VK_SHIFT] = 129;
