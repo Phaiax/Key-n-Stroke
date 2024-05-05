@@ -83,42 +83,42 @@ namespace KeyNStroke
 
             
            
-                case Key.OemSemicolon: //  Key.Oem1
-                    return ";";
-                case Key.OemComma:
-                    return ",";
-                case Key.OemQuestion: // Key.Oem2
-                    return "?";
-                case Key.OemTilde: // Key.Oem3
-                    return "~";
+                //case Key.OemSemicolon: //  Key.Oem1 // Let ToUnicode handle this character
+                //    return ";";
+                //case Key.OemComma: // Let ToUnicode handle this character
+                //    return ",";
+                //case Key.OemQuestion: // Key.Oem2 // Let ToUnicode handle this character
+                //    return "?";
+                //case Key.OemTilde: // Key.Oem3   // Let ToUnicode handle this character
+                //    return "~";
                 //case Key.AbntC1:
                 //case Key.AbntC2:
                 //case Key.OemOpenBrackets:
                 //case Key.OemCloseBrackets:
-                case Key.OemQuotes: // Key.Oem7
-                    return "\"";
+                //case Key.OemQuotes: // Key.Oem7 // Let ToUnicode handle this character
+                //    return "\"";
 
                 //case Key.Oem102:
-                case Key.OemPipe: // Key.Oem5
-                    return "|";
-                case Key.OemBackslash:
-                    return "\\";
+                //case Key.OemPipe: // Key.Oem5  // Let ToUnicode handle this character
+                //    return "|";
+                // case Key.OemBackslash: // Let ToUnicode handle this character
+                //    return "\\";
 
 
-                case Key.Multiply:
-                    return "*";
-                case Key.Add:
-                    return "+";
+                //case Key.Multiply:  // Let ToUnicode handle this character
+                //    return "*";
+                //case Key.Add:  // Let ToUnicode handle this character
+                //    return "+";
                 case Key.Separator:
                     return " [Seperator] ";
-                case Key.Subtract:
-                case Key.OemMinus:
-                    return "-";
-                case Key.OemPeriod:
-                case Key.Decimal:
-                    return ".";
-                case Key.Divide:
-                    return "/";
+                //case Key.Subtract:
+                //case Key.OemMinus: // Let ToUnicode handle this character
+                //    return "-";
+                //case Key.OemPeriod:
+                //case Key.Decimal: // Let ToUnicode handle this character
+                //    return ".";
+                //case Key.Divide: // Let ToUnicode handle this character
+                //    return "/";
                 case Key.NumLock:
                     return " [NumLock] ";
                 case Key.Scroll:
