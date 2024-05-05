@@ -74,7 +74,7 @@ namespace KeyNStroke
                         e.keyState,
                         inBuffer,
                         128,
-                        (uint)(e.Alt ? 1 : 0));
+                        0); /* 4 == "don't change keyboard state" (Windows 10 version 1607 and higher) */
             Log.e("KP",
                     String.Format("   ParseViaToUnicode(): First call to ToUnicode: returned={0} translated='{1}' alt={2} ctrl={3} vk={4}", buffertype,
                         inBuffer.ToString(), e.Alt, e.Ctrl, e.vkCode));
@@ -96,7 +96,7 @@ namespace KeyNStroke
                 e.keyState,
                 inBuffer,
                 128,
-                (uint)(e.Alt ? 1 : 0));
+                0); /* 4 == "don't change keyboard state" (Windows 10 version 1607 and higher) */
 
             Log.e("KP",
                     String.Format("   ParseViaToUnicode(): Secnd call to ToUnicode: returned={0} translated='{1}' alt={2} vk={3}", buffertype2,
@@ -131,14 +131,14 @@ namespace KeyNStroke
 
         public static string ProcessDeadkeyWithNextKey(KeyboardRawEventArgs dead, KeyboardRawEventArgs e)
         {
-            Log.e("KP", "    ProcessDeadkeyWithNextKey ");
+            Log.e("KP", "   ProcessDeadkeyWithNextKey()");
             StringBuilder inBuffer = new StringBuilder(128);
             int buffertype = NativeMethodsKeyboard.ToUnicode(dead.vkCode,
                         dead.Kbdllhookstruct.scanCode,
                         dead.keyState,
                         inBuffer,
                         128,
-                        (uint)(dead.Alt ? 1 : 0));
+                        4); /* 4 == "don't change keyboard state" (Windows 10 version 1607 and higher) */
 
             Log.e("KP",
                     String.Format("   ProcessDeadkeyWithNextKey(): First call to ToUnicode: returned={0} translated='{1}' alt={2} vk={3}", buffertype,
@@ -148,7 +148,7 @@ namespace KeyNStroke
                 e.keyState,
                 inBuffer,
                 128,
-                (uint)(e.Alt ? 1 : 0));
+                4); /* 4 == "don't change keyboard state" (Windows 10 version 1607 and higher) */
             Log.e("KP",
                     String.Format("   ProcessDeadkeyWithNextKey(): Sednd call to ToUnicode: returned={0} translated='{1}' alt={2} vk={3}", buffertype,
                         inBuffer.ToString(), e.Alt, e.vkCode));
