@@ -88,6 +88,9 @@ You can find all the exe files in the <code>Releases</code> folder
     - Fix: Keystroke window startup position overlaps taskbar
     - Fix: Crash on modifier+click with button indicators enabled
     - Fix: Show shortcut shift+backspace
+- v1.2.0
+    - Fix: Fix display of special characters (e.g / was showing as ?)
+
 
 # Feature Requests
 
