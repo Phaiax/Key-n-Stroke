@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
@@ -29,24 +29,37 @@ namespace KeyNStroke
     {
         readonly SettingsStore settings;
         readonly IKeystrokeEventProvider k;
+        IMouseRawEventProvider m = null;
         IntPtr windowHandle;
         Brush OrigInnerPanelBackgroundColor;
 
+        public KeystrokeDisplay(IMouseRawEventProvider m, IKeystrokeEventProvider k, SettingsStore s)
+        {
+            this.m = m;
+            this.k = k;
+            this.settings = s;
+            initializeDisplay();
+        }
+
         public KeystrokeDisplay(IKeystrokeEventProvider k, SettingsStore s)
+        {
+            this.k = k;
+            this.settings = s;
+            initializeDisplay();
+        }
+
+        private void initializeDisplay()
         {
             InitializeComponent();
             InitializeAnimations();
-
-            this.k = k;
-
-            this.settings = s;
+            
             this.settings.EnableSettingsMode = false;
             this.settings.EnablePasswordMode = false;
             this.settings.PropertyChanged += SettingChanged;
             this.settings.CallPropertyChangedForAllProperties();
 
-            this.buttonResizeWindow.Settings = s;
-            this.buttonResizeInnerPanel.Settings = s;
+            this.buttonResizeWindow.Settings = this.settings;
+            this.buttonResizeInnerPanel.Settings = this.settings;
 
             //addWelcomeInfo();
         }
@@ -56,6 +69,12 @@ namespace KeyNStroke
             // Window handle is available
             InitPeriodicTopmostTimer();
             windowHandle = new WindowInteropHelper(this).Handle;
+
+            if (this.m != null)
+            {
+                this.m.MouseEvent += m_MouseEvent;
+                SetFormStyles();
+            }
 
             this.k.KeystrokeEvent += KeystrokeEvent;
 
@@ -67,6 +86,29 @@ namespace KeyNStroke
             {
                 FadeOut();
             }
+        }
+
+        void m_MouseEvent(MouseRawEventArgs raw_e)
+        {
+            if (raw_e.Action == MouseAction.Move)
+            {
+                UpdatePosition(raw_e.Position);
+            }
+        }
+
+        void UpdatePosition(NativeMethodsMouse.POINT cursorPosition)
+        {
+            NativeMethodsWindow.SetWindowPosition(windowHandle, 
+                    (int)(cursorPosition.X + settings.CursorFollowDistance),
+                    (int)(cursorPosition.Y + settings.CursorFollowDistance));
+        }
+
+        void SetFormStyles()
+        {
+            Log.e("CI", $"WindowHandle={windowHandle}");
+            NativeMethodsGWL.ClickThrough(windowHandle);
+            NativeMethodsGWL.HideFromAltTab(windowHandle);
+            UpdatePosition(NativeMethodsMouse.CursorPosition);
         }
 
         #region periodically make TopMost

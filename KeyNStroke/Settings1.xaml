@@ -64,6 +64,8 @@
                                 Margin="5">
                         <CheckBox x:Name="cb_enableKeystrokeDisplay"
                                   IsChecked="{Binding EnableKeystrokeHistory}">Show Keystroke History</CheckBox>
+                        <CheckBox x:Name="cb_cursorfollow"
+                                      IsChecked="{Binding EnableCursorFollow}">Label follows cursor position</CheckBox>
                         <StackPanel Margin="0,0,0,5">
                             <ComboBox x:Name="cb_KeystrokeMethod"
                                       Margin="10"
@@ -98,6 +100,11 @@
                                               Minimum="10.0"
                                               Maximum="100.0"
                                               Value="{Binding LineDistance, Mode=TwoWay}" />
+                            <uc:LabeledSlider x:Name="slider_cf_distance"
+                                              Title="Follow Distance"
+                                              Minimum="0"
+                                              Maximum="200"
+                                              Value="{Binding CursorFollowDistance, Mode=TwoWay}" />
                             <StackPanel Orientation="Horizontal">
                                 <Label>No of lines in history</Label>
                                 <xctk:IntegerUpDown x:Name="slider_historycount"
