@@ -129,6 +129,11 @@
                                       IsChecked="{Binding EnableWindowFade}">Hide window when empty</CheckBox>
                             <CheckBox x:Name="cb_periodictopmost"
                                       IsChecked="{Binding PeriodicTopmost}">Put on top periodically</CheckBox>
+                            <CheckBox x:Name="cb_pausecursordifferentscreen_enable"
+                                      IsChecked="{Binding PauseCursorDifferentScreen}"
+                                      ToolTip="Stop tracking keystroke when cursor and keystroke history window are on different screens in a multiple monitors setup">
+                                <TextBlock TextWrapping="Wrap"><Run Text="Pause when cursor and keystroke window are on different screens" /></TextBlock>
+                            </CheckBox>
                         </StackPanel>
                     </StackPanel>
                     <StackPanel Margin="5"
