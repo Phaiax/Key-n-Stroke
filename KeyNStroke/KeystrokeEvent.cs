@@ -105,10 +105,10 @@ namespace KeyNStroke
         public List<string> ShortcutModifiersToList()
         {
             List<string> Modifiers = new List<string>();
-            if (OrigShift) Modifiers.Add(SpecialkeysParser.ToString(Key.LeftShift));
-            if (Ctrl) Modifiers.Add(SpecialkeysParser.ToString(Key.LeftCtrl));
-            if (Alt) Modifiers.Add(SpecialkeysParser.ToString(Key.LeftAlt));
-            if (Win) Modifiers.Add(SpecialkeysParser.ToString(Key.LWin));
+            if (OrigShift) Modifiers.Add(SpecialkeysParser.ToString(Key.LeftShift, EnableTextOverSymbol));
+            if (Ctrl) Modifiers.Add(SpecialkeysParser.ToString(Key.LeftCtrl, EnableTextOverSymbol));
+            if (Alt) Modifiers.Add(SpecialkeysParser.ToString(Key.LeftAlt, EnableTextOverSymbol));
+            if (Win) Modifiers.Add(SpecialkeysParser.ToString(Key.LWin, EnableTextOverSymbol));
             return Modifiers;
         }
 
@@ -184,14 +184,16 @@ namespace KeyNStroke
             return null;
         }
 
+        private bool EnableTextOverSymbol;
 
-        public KeystrokeEventArgs(KeyboardRawEventArgs e)
+        public KeystrokeEventArgs(KeyboardRawEventArgs e, bool enableTextOverSymbol)
         {
             this.raw = e;
             this.OrigShift = e.Shift;
             this.OrigCaps = e.Caps;
             this.OrigLShift = e.LShift;
             this.OrigRShift = e.RShift;
+            this.EnableTextOverSymbol = enableTextOverSymbol;
         }
     }
 
@@ -199,6 +201,8 @@ namespace KeyNStroke
 
     public interface IKeystrokeEventProvider
     {
+        bool EnableTextOverSymbol { get; set; }
+
         event KeystrokeEventHandler KeystrokeEvent;
     }
 }

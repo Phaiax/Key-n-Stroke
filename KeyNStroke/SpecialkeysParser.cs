@@ -9,12 +9,12 @@ namespace KeyNStroke
 {
     class SpecialkeysParser
     {
-        public static string ToString(Key k)
+        public static string ToString(Key k, bool enableTextOverSymbol)
         {
             switch(k){
                 case Key.LeftShift:
                 case Key.RightShift:
-                    return "⇧";
+                    return enableTextOverSymbol ? " [Shift] " : "⇧";
                 case Key.LeftCtrl:
                 case Key.RightCtrl:
                     return "Ctrl";
@@ -25,12 +25,12 @@ namespace KeyNStroke
                 case Key.RightAlt:
                     return "Alt";
                 case Key.CapsLock:
-                    return "⇪";
+                    return enableTextOverSymbol ? " [CapsLock] " : "⇪";
                 case Key.LineFeed:
                 case Key.Return:
-                    return " ⏎";
+                    return enableTextOverSymbol ? " [Return] " : " ⏎";
                 case Key.Back:
-                    return " ⌫ ";
+                    return enableTextOverSymbol ? " [Backspace] " : " ⌫ ";
                 case Key.Left:
                     return " ← ";
                 case Key.Right:
@@ -52,17 +52,17 @@ namespace KeyNStroke
 
 
                 case Key.Tab:
-                    return "↹";
+                    return enableTextOverSymbol ? " [Tab] " : "↹";
                 case Key.Space:
                     return "␣";
                 case Key.PageUp: 
-                    return " ↖ ";
+                    return enableTextOverSymbol ? " [PageUp] " : " ↖ ";
                 case Key.PageDown:
-                     return " ↘ ";
+                     return enableTextOverSymbol ? " [PageDown] " : " ↘ ";
                 case Key.End:
-                    return " ⇲ ";
+                    return enableTextOverSymbol ? " [End] " : " ⇲ ";
                 case Key.Home:
-                    return " ⇱ ";
+                    return enableTextOverSymbol ? " [Home] " : " ⇱ ";
                 case Key.Print:
                     return " ⎙ ";
 
