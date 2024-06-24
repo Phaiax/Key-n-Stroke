@@ -193,7 +193,7 @@
                                 <Hyperlink Click="Hyperlink_ResetResizeMoveShortcut">Reset to <Run x:Name="SettingsModeShortcutDefault"></Run></Hyperlink></TextBlock>
                                 <TextBlock TextWrapping="Wrap"
                                            Margin="5,3,0,0">
-                                Passwort protection mode</TextBlock>
+                                Password protection mode</TextBlock>
                                 <TextBlock TextWrapping="Wrap"
                                            Margin="15,3,0,0">
                                 <Run Text="{Binding KeystrokeHistoryPasswordModeShortcut}" />
