@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,15 +37,63 @@ namespace KeyNStroke
         static Dictionary<uint, BitmapCollection> ScaledByDpi;
         static BitmapCollection Orig; // original size
 
+        public static void EnsurePortableMouseIconsExtracted(string portableMouseFolder)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(portableMouseFolder))
+                {
+                    portableMouseFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ".portable", "mouse");
+                }
+
+                if (!Directory.Exists(portableMouseFolder))
+                {
+                    Directory.CreateDirectory(portableMouseFolder);
+                }
+
+                Assembly assembly = Assembly.GetExecutingAssembly();
+                string prefix = "KeyNStroke.mouse.";
+
+                foreach (string resourceName in assembly.GetManifestResourceNames())
+                {
+                    if (resourceName.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+                    {
+                        string fileName = resourceName.Substring(prefix.Length);
+                        string targetPath = Path.Combine(portableMouseFolder, fileName);
+                        if (!File.Exists(targetPath))
+                        {
+                            using (var stream = assembly.GetManifestResourceStream(resourceName))
+                            {
+                                if (stream != null)
+                                {
+                                    using (var fileStream = new FileStream(targetPath, FileMode.Create, FileAccess.Write))
+                                    {
+                                        stream.CopyTo(fileStream);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.e("RES", "Error extracting portable mouse icons: " + ex.Message);
+            }
+        }
+
         public static void Init(string customIconFolder)
         {
             try
             {
                 _assembly = Assembly.GetExecutingAssembly();
 
-                foreach (string i in _assembly.GetManifestResourceNames())
+                string defaultPortableMouseDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ".portable", "mouse");
+                EnsurePortableMouseIconsExtracted(defaultPortableMouseDir);
+
+                if (string.IsNullOrEmpty(customIconFolder) || !Directory.Exists(customIconFolder))
                 {
-                    Log.e("RES", i);
+                    customIconFolder = defaultPortableMouseDir;
                 }
 
                 ReloadRessources(customIconFolder);

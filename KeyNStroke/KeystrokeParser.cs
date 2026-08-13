@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -268,9 +268,13 @@ namespace KeyNStroke
 
         private string ParseChar(KeystrokeEventArgs e)
         {
-            string c = e.Key.ToString();
-            if (!e.Uppercase)
-                c = c.ToLower();
+            string c = KeyboardLayoutParser.ParseViaToUnicode(e.raw);
+            if (string.IsNullOrEmpty(c))
+            {
+                c = e.Key.ToString();
+                if (!e.Uppercase)
+                    c = c.ToLower();
+            }
 
             // We parse the Shift and Caps keys into the Upper/Lowercase
             e.Shift = false;

@@ -1,4 +1,4 @@
-﻿using Microsoft.Win32;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -214,6 +214,7 @@ namespace KeyNStroke
         [DataMember] public Nullable<double> cursorIndicatorEdgeStrokeThickness = null;
         [DataMember] public Nullable<ButtonIndicatorType> buttonIndicator = null;
         [DataMember] public Nullable<double> buttonIndicatorScaling = null;
+        [DataMember] public Nullable<double> buttonIndicatorOpacity = null;
         [DataMember] public Nullable<double> buttonIndicatorPositionAngle = null;
         [DataMember] public Nullable<double> buttonIndicatorPositionDistance = null;
         [DataMember] public Nullable<bool> buttonIndicatorShowModifiers = null;
@@ -234,6 +235,9 @@ namespace KeyNStroke
         [DataMember] public String standbyShortcut = null;
         [DataMember] public Nullable<bool> startInStandby = null;
         [DataMember] public Nullable<bool> welcomeOnStartup = null;
+        [DataMember] public String toggleKeystrokeHistoryShortcut = null;
+        [DataMember] public String toggleUiShortcut = null;
+        [DataMember] public Nullable<bool> globalKey = null;
 
 
     }
@@ -247,9 +251,29 @@ namespace KeyNStroke
 
         public SettingsStore()
         {
-            const string SETTINGS_PATH = "Key-n-Stroke/settings.json";
-            string appldatapath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            configpath = Path.Combine(appldatapath, SETTINGS_PATH);
+            string portableDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ".portable");
+            string portablePath = Path.Combine(portableDir, "settings.json");
+            string oldRootPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings.json");
+            string appDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Key-n-Stroke", "settings.json");
+
+            if (!Directory.Exists(portableDir))
+            {
+                try { Directory.CreateDirectory(portableDir); } catch { }
+            }
+
+            if (!File.Exists(portablePath))
+            {
+                if (File.Exists(oldRootPath))
+                {
+                    try { File.Copy(oldRootPath, portablePath, true); } catch { }
+                }
+                else if (File.Exists(appDataPath))
+                {
+                    try { File.Copy(appDataPath, portablePath, true); } catch { }
+                }
+            }
+
+            configpath = portablePath;
         }
 
         string configpath;
@@ -493,6 +517,13 @@ namespace KeyNStroke
             set { i.buttonIndicatorScaling = value; OnSettingChanged("ButtonIndicatorScaling"); }
         }
 
+        public double ButtonIndicatorOpacityDefault = 1.0;
+        public double ButtonIndicatorOpacity
+        {
+            get { return Or(i.buttonIndicatorOpacity, ButtonIndicatorOpacityDefault); }
+            set { i.buttonIndicatorOpacity = value; OnSettingChanged("ButtonIndicatorOpacity"); }
+        }
+
         public double ButtonIndicatorPositionAngleDefault = 0f;
         public double ButtonIndicatorPositionAngle
         {
@@ -514,17 +545,24 @@ namespace KeyNStroke
             set { i.buttonIndicatorShowModifiers = value; OnSettingChanged("ButtonIndicatorShowModifiers"); }
         }
 
-        public bool ButtonIndicatorUseCustomIconsDefault = false;
+        public bool ButtonIndicatorUseCustomIconsDefault = true;
         public bool ButtonIndicatorUseCustomIcons
         {
             get { return Or(i.buttonIndicatorUseCustomIcons, ButtonIndicatorUseCustomIconsDefault); }
             set { i.buttonIndicatorUseCustomIcons = value; OnSettingChanged("ButtonIndicatorUseCustomIcons"); }
         }
 
-        public string ButtonIndicatorCustomIconsFolderDefault = "";
+        public string ButtonIndicatorCustomIconsFolderDefault = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ".portable", "mouse");
         public string ButtonIndicatorCustomIconsFolder
         {
-            get { return Or(i.buttonIndicatorCustomIconsFolder, ButtonIndicatorCustomIconsFolderDefault); }
+            get {
+                string folder = Or(i.buttonIndicatorCustomIconsFolder, ButtonIndicatorCustomIconsFolderDefault);
+                if (string.IsNullOrEmpty(folder))
+                {
+                    folder = ButtonIndicatorCustomIconsFolderDefault;
+                }
+                return folder;
+            }
             set { i.buttonIndicatorCustomIconsFolder = value; OnSettingChanged("ButtonIndicatorCustomIconsFolder"); }
         }
 
@@ -604,7 +642,7 @@ namespace KeyNStroke
             set { i.keystrokeMethod = value; OnSettingChanged("KeystrokeMethod"); }
         }
 
-        public bool EnableAnnotateLineDefault = false;
+        public bool EnableAnnotateLineDefault = true;
         public bool EnableAnnotateLine
         {
             get { return Or(i.enableAnnotateLine, EnableAnnotateLineDefault); }
@@ -658,6 +696,27 @@ namespace KeyNStroke
             set { i.welcomeOnStartup = value; OnSettingChanged("WelcomeOnStartup"); }
         }
 
+        public String ToggleKeystrokeHistoryShortcutDefault = "Ctrl + F8";
+        public String ToggleKeystrokeHistoryShortcut
+        {
+            get { return Or(i.toggleKeystrokeHistoryShortcut, ToggleKeystrokeHistoryShortcutDefault); }
+            set { i.toggleKeystrokeHistoryShortcut = value; OnSettingChanged("ToggleKeystrokeHistoryShortcut"); }
+        }
+
+        public String ToggleUiShortcutDefault = "Ctrl + F7";
+        public String ToggleUiShortcut
+        {
+            get { return Or(i.toggleUiShortcut, ToggleUiShortcutDefault); }
+            set { i.toggleUiShortcut = value; OnSettingChanged("ToggleUiShortcut"); }
+        }
+
+        public bool GlobalKeyDefault = true;
+        public bool GlobalKey
+        {
+            get { return Or(i.globalKey, GlobalKeyDefault); }
+            set { i.globalKey = value; OnSettingChanged("GlobalKey"); }
+        }
+
         // Add new settings also to method CallPropertyChangedForAllProperties()
 
         #endregion
@@ -705,6 +764,7 @@ namespace KeyNStroke
                 PropertyChanged(this, new PropertyChangedEventArgs("CursorIndicatorHideIfCustomCursor"));
                 PropertyChanged(this, new PropertyChangedEventArgs("ButtonIndicator"));
                 PropertyChanged(this, new PropertyChangedEventArgs("ButtonIndicatorScalingPercentage"));
+                PropertyChanged(this, new PropertyChangedEventArgs("ButtonIndicatorOpacity"));
                 PropertyChanged(this, new PropertyChangedEventArgs("ButtonIndicatorPositionAngle"));
                 PropertyChanged(this, new PropertyChangedEventArgs("ButtonIndicatorPositionDistance"));
                 PropertyChanged(this, new PropertyChangedEventArgs("ButtonIndicatorShowModifiers"));
@@ -726,6 +786,9 @@ namespace KeyNStroke
                 PropertyChanged(this, new PropertyChangedEventArgs("StartInStandby"));
                 PropertyChanged(this, new PropertyChangedEventArgs("Standby"));
                 PropertyChanged(this, new PropertyChangedEventArgs("WelcomeOnStartup"));
+                PropertyChanged(this, new PropertyChangedEventArgs("ToggleKeystrokeHistoryShortcut"));
+                PropertyChanged(this, new PropertyChangedEventArgs("ToggleUiShortcut"));
+                PropertyChanged(this, new PropertyChangedEventArgs("GlobalKey"));
 
             }
         }
@@ -838,6 +901,7 @@ CursorIndicatorEdgeStrokeThickness: {CursorIndicatorEdgeStrokeThickness}
 CursorIndicatorHideIfCustomCursor: {CursorIndicatorHideIfCustomCursor}
 ButtonIndicator:                 {ButtonIndicator}
 buttonIndicatorScalingPercentage:{ButtonIndicatorScaling}
+ButtonIndicatorOpacity:           {ButtonIndicatorOpacity}
 ButtonIndicatorPositionAngle:    {ButtonIndicatorPositionAngle}
 ButtonIndicatorPositionDistance: {ButtonIndicatorPositionDistance}
 ButtonIndicatorShowModifiers:    {ButtonIndicatorShowModifiers}
@@ -859,6 +923,9 @@ StandbyShortcut:                {StandbyShortcut}
 StartInStandby:                 {StartInStandby}
 Standby:                        {Standby}
 WelcomeOnStartup:               {WelcomeOnStartup}
+ToggleKeystrokeHistoryShortcut: {ToggleKeystrokeHistoryShortcut}
+ToggleUiShortcut:               {ToggleUiShortcut}
+GlobalKey:                      {GlobalKey}
 ";
         }
 

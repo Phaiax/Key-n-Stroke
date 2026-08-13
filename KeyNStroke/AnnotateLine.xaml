@@ -1,22 +1,149 @@
-﻿<Window x:Class="KeyNStroke.AnnotateLine"
+<Window x:Class="KeyNStroke.AnnotateLine"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KeyNStroke"
         mc:Ignorable="d"
-        Title="AnnotateLine" Height="8" Width="800"
+        Title="AnnotateLine"
         AllowsTransparency="True"
         Topmost="True"
         ShowInTaskbar="False"
         WindowStyle="None"
         ResizeMode="NoResize"
-        Background="Transparent" Loaded="Window_Loaded" Closed="Window_Closed">
-    <Grid>
-        <Rectangle x:Name="line" Fill="#FF7EEF84" Margin="1">
-            <Rectangle.Effect>
-                <BlurEffect Radius="2" KernelType="Box"/>
-            </Rectangle.Effect>
-        </Rectangle>
+        Background="Transparent" 
+        Loaded="Window_Loaded" 
+        Closed="Window_Closed"
+        KeyDown="Window_KeyDown">
+    <Window.Resources>
+        <Style x:Key="ToolbarToolBtn" TargetType="RadioButton">
+            <Setter Property="Width" Value="32"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Margin" Value="2,0"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="6" BorderBrush="#55FFFFFF" BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#33FFFFFF"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#FF3B82F6"/>
+                                <Setter TargetName="border" Property="BorderThickness" Value="1"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ToolbarActionBtn" TargetType="Button">
+            <Setter Property="Width" Value="32"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Margin" Value="2,0"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="6">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#33FFFFFF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ColorPaletteBtn" TargetType="Button">
+            <Setter Property="Width" Value="18"/>
+            <Setter Property="Height" Value="18"/>
+            <Setter Property="Margin" Value="2,0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="9" BorderBrush="#77FFFFFF" BorderThickness="1"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid x:Name="mainGrid" Background="#01000000" MouseLeftButtonDown="Grid_MouseLeftButtonDown" MouseMove="Grid_MouseMove" MouseLeftButtonUp="Grid_MouseLeftButtonUp">
+        <!-- Canvas for drawn objects -->
+        <Canvas x:Name="drawingCanvas" />
+
+        <!-- Floating Annotation Toolbar -->
+        <Border x:Name="annotationToolbar" 
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Top" 
+                Margin="0,15,0,0" 
+                Background="#EE1E1E24" 
+                CornerRadius="8" 
+                Padding="8,5" 
+                BorderBrush="#44FFFFFF" 
+                BorderThickness="1">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="12" ShadowDepth="3" Opacity="0.5" Color="Black"/>
+            </Border.Effect>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <!-- Drag Grip -->
+                <Border x:Name="dragGrip" Cursor="SizeAll" Margin="2,0,6,0" VerticalAlignment="Center" MouseLeftButtonDown="DragGrip_MouseDown" MouseMove="DragGrip_MouseMove" MouseLeftButtonUp="DragGrip_MouseUp" ToolTip="Drag to move toolbar">
+                    <TextBlock Text="⋮⋮" Foreground="#88FFFFFF" FontSize="16" FontWeight="Bold" VerticalAlignment="Center"/>
+                </Border>
+
+                <!-- Tool Selection Buttons -->
+                <RadioButton x:Name="btnToolPencil" Content="✏️" ToolTip="Pencil (P) - Hold Shift for straight lines" Style="{StaticResource ToolbarToolBtn}" IsChecked="True" Click="Tool_Click" Tag="Pencil"/>
+                <RadioButton x:Name="btnToolArrow" Content="↗️" ToolTip="Arrow (A)" Style="{StaticResource ToolbarToolBtn}" Click="Tool_Click" Tag="Arrow"/>
+                <RadioButton x:Name="btnToolRect" Content="▭" ToolTip="Rectangle (R)" Style="{StaticResource ToolbarToolBtn}" Click="Tool_Click" Tag="Rectangle"/>
+                <RadioButton x:Name="btnToolEllipse" Content="◯" ToolTip="Ellipse / Circle (E)" Style="{StaticResource ToolbarToolBtn}" Click="Tool_Click" Tag="Ellipse"/>
+                <RadioButton x:Name="btnToolHighlighter" Content="🖊️" ToolTip="Highlighter (H)" Style="{StaticResource ToolbarToolBtn}" Click="Tool_Click" Tag="Highlighter"/>
+                <RadioButton x:Name="btnToolBadge" Content="①" ToolTip="Step Counter Badge (B)" Style="{StaticResource ToolbarToolBtn}" Click="Tool_Click" Tag="Badge"/>
+                <RadioButton x:Name="btnToolText" Content="🔤" ToolTip="Text Box (T)" Style="{StaticResource ToolbarToolBtn}" Click="Tool_Click" Tag="Text"/>
+
+                <Rectangle Width="1" Height="20" Fill="#44FFFFFF" Margin="6,0"/>
+
+                <!-- Thickness Picker -->
+                <ComboBox x:Name="comboThickness" Width="60" VerticalAlignment="Center" Margin="2,0" SelectionChanged="Thickness_SelectionChanged">
+                    <ComboBoxItem Content="2px" Tag="2" />
+                    <ComboBoxItem Content="4px" Tag="4" IsSelected="True" />
+                    <ComboBoxItem Content="6px" Tag="6" />
+                    <ComboBoxItem Content="10px" Tag="10" />
+                </ComboBox>
+
+                <Rectangle Width="1" Height="20" Fill="#44FFFFFF" Margin="6,0"/>
+
+                <!-- Color Palette (4 Default Colors + Color Picker) -->
+                <Button x:Name="btnColorWhite" Background="#FFFFFF" Style="{StaticResource ColorPaletteBtn}" Click="Color_Click" Tag="#FFFFFF" ToolTip="White"/>
+                <Button x:Name="btnColorBlack" Background="#000000" Style="{StaticResource ColorPaletteBtn}" Click="Color_Click" Tag="#000000" ToolTip="Black"/>
+                <Button x:Name="btnColorDarkBlue" Background="#003366" Style="{StaticResource ColorPaletteBtn}" Click="Color_Click" Tag="#003366" ToolTip="Dark Blue"/>
+                <Button x:Name="btnColorCyan" Background="#00FFFF" Style="{StaticResource ColorPaletteBtn}" Click="Color_Click" Tag="#00FFFF" ToolTip="Cyan"/>
+                <Button x:Name="btnCustomColor" Content="🎨" Style="{StaticResource ToolbarActionBtn}" Click="CustomColorPicker_Click" ToolTip="Choose Custom Color"/>
+
+                <Rectangle Width="1" Height="20" Fill="#44FFFFFF" Margin="6,0"/>
+
+                <!-- Actions -->
+                <Button Content="🎨" ToolTip="Draw (Open Draw Tab Window)" Click="Draw_Click" Style="{StaticResource ToolbarActionBtn}"/>
+                <Button Content="↩️" ToolTip="Undo (Ctrl+Z)" Click="Undo_Click" Style="{StaticResource ToolbarActionBtn}"/>
+                <Button Content="🗑️" ToolTip="Clear Screen" Click="Clear_Click" Style="{StaticResource ToolbarActionBtn}"/>
+                <Button Content="❌" ToolTip="Exit Drawing Mode (Esc)" Click="Exit_Click" Style="{StaticResource ToolbarActionBtn}" Foreground="#FF6B6B"/>
+            </StackPanel>
+        </Border>
     </Grid>
 </Window>

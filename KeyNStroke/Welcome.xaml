@@ -1,4 +1,4 @@
-﻿<Window x:Class="KeyNStroke.Welcome"
+<Window x:Class="KeyNStroke.Welcome"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:KeyNStroke"
         mc:Ignorable="d"
         Title="Welcome"
-        Height="440.617"
+        Height="500"
         Width="741.54"
         Icon="Resources/app.ico"
         WindowStartupLocation="CenterScreen">
@@ -17,7 +17,7 @@
           Margin="10,10,10,10"
           VerticalAlignment="Stretch"
           x:Name="layout_root">
-        <StackPanel Margin="10,10,-0.333,163.333">
+        <StackPanel Margin="10,10,10,80">
             <TextBlock TextWrapping="Wrap">
                 <Span FontSize="24">
                     <Run Text="Welcome to Key'n'Strokes " /><Run x:Name="VersionInfo" />
@@ -45,6 +45,11 @@
             <TextBlock Visibility="{Binding EnableAnnotateLine, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Run Text="Press " /><Span FontWeight="Bold"><Run Text="{Binding AnnotateLineShortcut, Mode=OneWay}" /></Span><Run Text=" to draw a line." />
             </TextBlock>
+            <TextBlock>
+                <Run Text="Press " /><Span FontWeight="Bold"><Run Text="{Binding ToggleKeystrokeHistoryShortcut, Mode=OneWay}" /></Span><Run Text=" to toggle keystroke history visibility." />
+                <LineBreak />
+                <Run Text="Press " /><Span FontWeight="Bold"><Run Text="{Binding ToggleUiShortcut, Mode=OneWay}" /></Span><Run Text=" to toggle Settings Window visibility." />
+            </TextBlock>
         </StackPanel>
         <Button x:Name="ButtonCheckForUpdates"
                 Content="Check for Updates"
@@ -53,7 +58,9 @@
                 VerticalAlignment="Bottom"
                 Width="129"
                 Height="24" />
-        <TextBlock Margin="10,299,-0.333,52.333"
+        <TextBlock Margin="10,0,0,45"
+                   VerticalAlignment="Bottom"
+                   HorizontalAlignment="Left"
                    TextWrapping="Wrap">
             <Hyperlink RequestNavigate="Hyperlink_RequestNavigate_README"
                        NavigateUri="none://dummy">Documentation</Hyperlink>

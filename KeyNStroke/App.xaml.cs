@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
@@ -11,6 +11,9 @@ using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using KeyNStroke;
 
 namespace KeyNStroke
@@ -39,6 +42,7 @@ namespace KeyNStroke
         SettingsStore mySettings;
         Window welcomeWindow;
         Settings1 settingsWindow;
+        DrawWindow drawWindow;
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -146,11 +150,14 @@ namespace KeyNStroke
             if (settingsWindow == null)
             {
                 settingsWindow = new Settings1(mySettings, myKeystrokeConverter);
-                settingsWindow.Show();
-            } else
-            {
-                settingsWindow.Activate();
             }
+            if (settingsWindow.WindowState == WindowState.Minimized)
+            {
+                settingsWindow.WindowState = WindowState.Normal;
+            }
+            settingsWindow.Show();
+            settingsWindow.Activate();
+            settingsWindow.Focus();
         }
 
         public void onSettingsWindowClosed()
@@ -182,21 +189,109 @@ namespace KeyNStroke
 
         #endregion
 
+        #region Draw Window
+
+        public void showDrawWindow(List<UIElement> drawnFromAnnotate = null, UIElement targetCanvas = null)
+        {
+            if (drawWindow == null)
+            {
+                drawWindow = new DrawWindow(mySettings);
+            }
+            if (drawnFromAnnotate != null)
+            {
+                // Chụp màn hình nền thực tế của Windows (desktop)
+                int screenWidth = (int)SystemParameters.PrimaryScreenWidth;
+                int screenHeight = (int)SystemParameters.PrimaryScreenHeight;
+
+                using (System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(screenWidth, screenHeight))
+                {
+                    using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bmp))
+                    {
+                        g.CopyFromScreen(0, 0, 0, 0, bmp.Size);
+                    }
+                    
+                    // Chuyển Bitmap thành BitmapSource của WPF
+                    var handle = bmp.GetHbitmap();
+                    try
+                    {
+                        ImageSource imgSource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
+                            handle, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+                        drawWindow.ImportFromAnnotate(drawnFromAnnotate, imgSource);
+                    }
+                    finally
+                    {
+                        DeleteObject(handle);
+                    }
+                }
+            }
+            if (drawWindow.WindowState == WindowState.Minimized)
+            {
+                drawWindow.WindowState = WindowState.Normal;
+            }
+            drawWindow.Show();
+            drawWindow.Activate();
+            drawWindow.Focus();
+        }
+
+        public void onDrawWindowClosed()
+        {
+            drawWindow = null;
+        }
+
+        #endregion
+
         #region Shortcut
 
         public string StandbyShortcut;
+        public string ToggleKeystrokeHistoryShortcut;
+        public string ToggleUiShortcut;
+        public string AnnotateLineShortcut;
 
         void m_KeystrokeEvent(KeystrokeEventArgs e)
         {
             string pressed = e.ShortcutIdentifier();
             e.raw.preventDefault = e.raw.preventDefault || CheckForTrigger(pressed);
+            if (KeystrokeHistoryWindow != null)
+            {
+                // KeystrokeDisplay uses setting triggers, but we can also handle preventDefault here or let it bubble.
+            }
         }
 
         private bool CheckForTrigger(string pressed)
         {
-            if (StandbyShortcut != null && pressed == StandbyShortcut)
+            if (StandbyShortcut != null && KeystrokeDisplay.ShortcutMatches(StandbyShortcut, pressed))
             {
                 mySettings.Standby = !mySettings.Standby;
+                return true;
+            }
+            if (ToggleKeystrokeHistoryShortcut != null && KeystrokeDisplay.ShortcutMatches(ToggleKeystrokeHistoryShortcut, pressed))
+            {
+                mySettings.EnableKeystrokeHistory = !mySettings.EnableKeystrokeHistory;
+                return true;
+            }
+            if (ToggleUiShortcut != null && KeystrokeDisplay.ShortcutMatches(ToggleUiShortcut, pressed))
+            {
+                if (settingsWindow != null && settingsWindow.IsVisible && settingsWindow.WindowState != WindowState.Minimized)
+                {
+                    settingsWindow.Close();
+                }
+                else
+                {
+                    showSettingsWindow();
+                }
+                return true;
+            }
+            if (AnnotateLineShortcut != null && KeystrokeDisplay.ShortcutMatches(AnnotateLineShortcut, pressed))
+            {
+                if (!mySettings.EnableAnnotateLine)
+                {
+                    mySettings.EnableAnnotateLine = true;
+                }
+                if (AnnotateLineWindow == null)
+                {
+                    EnableAnnotateLine();
+                }
+                AnnotateLineWindow?.ToggleDrawingMode();
                 return true;
             }
             return false;
@@ -211,6 +306,42 @@ namespace KeyNStroke
             else
             {
                 StandbyShortcut = mySettings.StandbyShortcutDefault;
+            }
+        }
+
+        public void SetToggleKeystrokeHistoryShortcut(string shortcut)
+        {
+            if (KeystrokeDisplay.ValidateShortcutSetting(shortcut))
+            {
+                ToggleKeystrokeHistoryShortcut = shortcut;
+            }
+            else
+            {
+                ToggleKeystrokeHistoryShortcut = mySettings.ToggleKeystrokeHistoryShortcutDefault;
+            }
+        }
+
+        public void SetToggleUiShortcut(string shortcut)
+        {
+            if (KeystrokeDisplay.ValidateShortcutSetting(shortcut))
+            {
+                ToggleUiShortcut = shortcut;
+            }
+            else
+            {
+                ToggleUiShortcut = mySettings.ToggleUiShortcutDefault;
+            }
+        }
+
+        public void SetAnnotateLineShortcut(string shortcut)
+        {
+            if (KeystrokeDisplay.ValidateShortcutSetting(shortcut))
+            {
+                AnnotateLineShortcut = shortcut;
+            }
+            else
+            {
+                AnnotateLineShortcut = mySettings.AnnotateLineShortcutDefault;
             }
         }
 
@@ -246,6 +377,21 @@ namespace KeyNStroke
                     break;
                 case "StandbyShortcut":
                     SetStandbyShortcut(mySettings.StandbyShortcut);
+                    break;
+                case "ToggleKeystrokeHistoryShortcut":
+                    SetToggleKeystrokeHistoryShortcut(mySettings.ToggleKeystrokeHistoryShortcut);
+                    break;
+                case "ToggleUiShortcut":
+                    SetToggleUiShortcut(mySettings.ToggleUiShortcut);
+                    break;
+                case "AnnotateLineShortcut":
+                    SetAnnotateLineShortcut(mySettings.AnnotateLineShortcut);
+                    break;
+                case "GlobalKey":
+                    if (myKeyboardHook != null)
+                    {
+                        myKeyboardHook.GlobalKeyEnabled = mySettings.GlobalKey;
+                    }
                     break;
                 case "Standby":
                     OnCursorIndicatorSettingChanged();
@@ -402,6 +548,7 @@ namespace KeyNStroke
             EnableMouseHook();
             AnnotateLineWindow = new AnnotateLine(myMouseHook, myKeystrokeConverter, mySettings);
             AnnotateLineWindow.Show();
+            AnnotateLineWindow.Hide();
         }
 
 
@@ -443,6 +590,9 @@ namespace KeyNStroke
             myMouseHook = null;
         }
 
+        [System.Runtime.InteropServices.DllImport("gdi32.dll", EntryPoint = "DeleteObject")]
+        [return: System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.Bool)]
+        public static extern bool DeleteObject([System.Runtime.InteropServices.In] IntPtr hObject);
         #endregion
     }
 }

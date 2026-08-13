@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
@@ -77,6 +78,8 @@ namespace KeyNStroke
             PasswordModeShortcutDefault.Text = settings.KeystrokeHistoryPasswordModeShortcutDefault;
             AnnotateLineShortcutDefault.Text = settings.AnnotateLineShortcutDefault;
             StandbyShortcutDefault.Text = settings.StandbyShortcutDefault;
+            ToggleKeystrokeHistoryShortcutDefault.Text = settings.ToggleKeystrokeHistoryShortcutDefault;
+            ToggleUiShortcutDefault.Text = settings.ToggleUiShortcutDefault;
             s.PropertyChanged += S_PropertyChanged;
             s.CallPropertyChangedForAllProperties();
         }
@@ -249,6 +252,54 @@ namespace KeyNStroke
 
         #endregion
 
+        #region Shortcut - Toggle Keystroke History
+
+        private void Hyperlink_ChangeToggleKeystrokeHistoryShortcut(object sender, RoutedEventArgs e)
+        {
+            ReadShortcut rs = new ReadShortcut(k, " toggling keystroke history.");
+            rs.ShowDialog();
+            if (rs.Shortcut != null)
+            {
+                settings.ToggleKeystrokeHistoryShortcut = rs.Shortcut;
+            }
+        }
+
+        private void Hyperlink_ResetToggleKeystrokeHistoryShortcut(object sender, RoutedEventArgs e)
+        {
+            settings.ToggleKeystrokeHistoryShortcut = settings.ToggleKeystrokeHistoryShortcutDefault;
+        }
+
+        private void Hyperlink_TriggerToggleKeystrokeHistoryShortcut(object sender, RoutedEventArgs e)
+        {
+            settings.EnableKeystrokeHistory = !settings.EnableKeystrokeHistory;
+        }
+
+        #endregion
+
+        #region Shortcut - Toggle UI
+
+        private void Hyperlink_ChangeToggleUiShortcut(object sender, RoutedEventArgs e)
+        {
+            ReadShortcut rs = new ReadShortcut(k, " toggling settings mode UI.");
+            rs.ShowDialog();
+            if (rs.Shortcut != null)
+            {
+                settings.ToggleUiShortcut = rs.Shortcut;
+            }
+        }
+
+        private void Hyperlink_ResetToggleUiShortcut(object sender, RoutedEventArgs e)
+        {
+            settings.ToggleUiShortcut = settings.ToggleUiShortcutDefault;
+        }
+
+        private void Hyperlink_TriggerToggleUiShortcut(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        #endregion
+
         #region Custom Icons
 
 
@@ -273,33 +324,22 @@ namespace KeyNStroke
 
         private void OnButtonCustomIconsSelectFolder(object sender, RoutedEventArgs e)
         {
-            using (System.Windows.Forms.FolderBrowserDialog dlg = new System.Windows.Forms.FolderBrowserDialog())
+            IntPtr handle = new WindowInteropHelper(this).Handle;
+            string selectedPath = VistaFolderBrowser.ShowDialog(handle, "Select folder with custom icons", settings.ButtonIndicatorCustomIconsFolder);
+            if (!string.IsNullOrEmpty(selectedPath))
             {
-                dlg.Description = "Select folder with custom icons";
-                dlg.SelectedPath = settings.ButtonIndicatorCustomIconsFolder;
-                dlg.ShowNewFolderButton = true;
-                System.Windows.Forms.DialogResult result = dlg.ShowDialog();
-                if (result == System.Windows.Forms.DialogResult.OK)
-                {
-                    settings.ButtonIndicatorCustomIconsFolder = dlg.SelectedPath;
-                }
+                settings.ButtonIndicatorCustomIconsFolder = selectedPath;
             }
         }
 
         private void OnButtonExportBuiltinIcons(object sender, RoutedEventArgs e)
         {
-            using (System.Windows.Forms.FolderBrowserDialog dlg = new System.Windows.Forms.FolderBrowserDialog())
+            IntPtr handle = new WindowInteropHelper(this).Handle;
+            string selectedPath = VistaFolderBrowser.ShowDialog(handle, "Select folder for export", settings.ButtonIndicatorCustomIconsFolder);
+            if (!string.IsNullOrEmpty(selectedPath))
             {
-                dlg.Description = "Select folder for export";
-                // dlg.SelectedPath = settings.ButtonIndicatorCustomIconsFolder;
-                dlg.ShowNewFolderButton = true;
-                System.Windows.Forms.DialogResult result = dlg.ShowDialog();
-                if (result == System.Windows.Forms.DialogResult.OK)
-                {
-                    ImageResources.ExportBuiltinRessources(dlg.SelectedPath);
-                }
+                ImageResources.ExportBuiltinRessources(selectedPath);
             }
-            
         }
 
         private void OnClickCustomIconsHelp(object sender, RoutedEventArgs e)

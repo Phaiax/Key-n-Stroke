@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -60,6 +60,7 @@ namespace KeyNStroke
     public interface IKeyboardRawEventProvider : IDisposable
     {
         event KeyboardRawEventHandler KeyEvent;
+        bool GlobalKeyEnabled { get; set; }
     }
 
     public enum WindowsVirtualKey

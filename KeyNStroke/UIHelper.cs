@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -79,6 +79,65 @@ namespace KeyNStroke
             }
 
             return foundChild;
+        }
+    }
+
+    public static class VistaFolderBrowser
+    {
+        public static string ShowDialog(IntPtr ownerHandle, string title, string initialPath = null)
+        {
+            try
+            {
+                var dialog = new Microsoft.Win32.OpenFileDialog
+                {
+                    Title = title,
+                    Filter = "Select Folder|*.this_is_a_folder_selection",
+                    CheckFileExists = false,
+                    CheckPathExists = true,
+                    FileName = "Select Folder"
+                };
+
+                if (!string.IsNullOrEmpty(initialPath) && System.IO.Directory.Exists(initialPath))
+                {
+                    dialog.InitialDirectory = initialPath;
+                }
+
+                var fileDialogType = typeof(Microsoft.Win32.FileDialog);
+                var setOptionMethod = fileDialogType.GetMethod("SetOption",
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+
+                if (setOptionMethod != null)
+                {
+                    setOptionMethod.Invoke(dialog, new object[] { 0x00000020, true }); // FOS_PICKFOLDERS
+                }
+
+                bool? result = dialog.ShowDialog();
+                if (result == true)
+                {
+                    string path = dialog.FileName;
+                    if (System.IO.File.Exists(path))
+                    {
+                        return System.IO.Path.GetDirectoryName(path);
+                    }
+                    else if (System.IO.Directory.Exists(path))
+                    {
+                        return path;
+                    }
+                    else
+                    {
+                        string parent = System.IO.Path.GetDirectoryName(path);
+                        if (!string.IsNullOrEmpty(parent) && System.IO.Directory.Exists(parent))
+                        {
+                            return parent;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.e("FOLDER_PICKER", ex.Message);
+            }
+            return null;
         }
     }
 }

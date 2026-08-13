@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -74,7 +74,7 @@ namespace KeyNStroke
                         e.keyState,
                         inBuffer,
                         128,
-                        0); /* 4 == "don't change keyboard state" (Windows 10 version 1607 and higher) */
+                        4); /* 4 == "don't change keyboard state" (Windows 10 version 1607 and higher) */
             Log.e("KP",
                     String.Format("   ParseViaToUnicode(): First call to ToUnicode: returned={0} translated='{1}' alt={2} ctrl={3} vk={4}", buffertype,
                         inBuffer.ToString(), e.Alt, e.Ctrl, e.vkCode));
@@ -96,7 +96,7 @@ namespace KeyNStroke
                 e.keyState,
                 inBuffer,
                 128,
-                0); /* 4 == "don't change keyboard state" (Windows 10 version 1607 and higher) */
+                4); /* 4 == "don't change keyboard state" (Windows 10 version 1607 and higher) */
 
             Log.e("KP",
                     String.Format("   ParseViaToUnicode(): Secnd call to ToUnicode: returned={0} translated='{1}' alt={2} vk={3}", buffertype2,

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -76,7 +76,7 @@ namespace KeyNStroke
             NativeMethodsDC.SetBitmapForWindow(this.handle,
                                                new System.Drawing.Point((int)this.Left, (int)this.Top),
                                                scaledAndComposedBitmap,
-                                               1.0f);   // opacity
+                                               (float)s.ButtonIndicatorOpacity);   // opacity
         }
 
         private void ButtonIndicator_Load(object sender, EventArgs e)
@@ -349,6 +349,9 @@ namespace KeyNStroke
                 case "ButtonIndicatorScalingPercentage":
                     UpdateSize();
                     UpdatePosition();
+                    break;
+                case "ButtonIndicatorOpacity":
+                    Redraw();
                     break;
             }
         }

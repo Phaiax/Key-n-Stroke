@@ -1,4 +1,4 @@
-﻿<Window x:Class="KeyNStroke.Settings1"
+<Window x:Class="KeyNStroke.Settings1"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -129,6 +129,8 @@
                                       IsChecked="{Binding EnableWindowFade}">Hide window when empty</CheckBox>
                             <CheckBox x:Name="cb_periodictopmost"
                                       IsChecked="{Binding PeriodicTopmost}">Put on top periodically</CheckBox>
+                            <CheckBox x:Name="cb_globalkey"
+                                      IsChecked="{Binding GlobalKey}">global key</CheckBox>
                         </StackPanel>
                     </StackPanel>
                     <StackPanel Margin="5"
@@ -291,6 +293,11 @@
                                               Minimum="0.1"
                                               Maximum="2"
                                               Value="{Binding ButtonIndicatorScaling, Mode=TwoWay}" />
+                            <uc:LabeledSlider x:Name="slider_bi_opacity"
+                                              Title="Opacity"
+                                              Minimum="0.1"
+                                              Maximum="1"
+                                              Value="{Binding ButtonIndicatorOpacity, Mode=TwoWay}" />
                             <uc:LabeledSlider x:Name="slider_bi_distance"
                                               Title="Distance"
                                               Minimum="10"
@@ -425,6 +432,28 @@
                                 <Hyperlink Click="Hyperlink_TriggerStandbyShortcut">Trigger</Hyperlink>
                                 <LineBreak />
                                 <Hyperlink Click="Hyperlink_ResetStandbyShortcut">Reset to <Run x:Name="StandbyShortcutDefault"></Run></Hyperlink></TextBlock>
+                                <TextBlock TextWrapping="Wrap"
+                                           Margin="5,10,0,0">
+                                Toggle Keystroke History</TextBlock>
+                                <TextBlock TextWrapping="Wrap"
+                                           Margin="15,3,0,0">
+                                <Run Text="{Binding ToggleKeystrokeHistoryShortcut}" />
+                                <LineBreak />
+                                <Hyperlink Click="Hyperlink_ChangeToggleKeystrokeHistoryShortcut">Change</Hyperlink>&#160;&#160;&#160;&#160;&#160;&#160;
+                                <Hyperlink Click="Hyperlink_TriggerToggleKeystrokeHistoryShortcut">Trigger</Hyperlink>
+                                <LineBreak />
+                                <Hyperlink Click="Hyperlink_ResetToggleKeystrokeHistoryShortcut">Reset to <Run x:Name="ToggleKeystrokeHistoryShortcutDefault"></Run></Hyperlink></TextBlock>
+                                <TextBlock TextWrapping="Wrap"
+                                           Margin="5,10,0,0">
+                                Toggle Settings Window</TextBlock>
+                                <TextBlock TextWrapping="Wrap"
+                                           Margin="15,3,0,0">
+                                <Run Text="{Binding ToggleUiShortcut}" />
+                                <LineBreak />
+                                <Hyperlink Click="Hyperlink_ChangeToggleUiShortcut">Change</Hyperlink>&#160;&#160;&#160;&#160;&#160;&#160;
+                                <Hyperlink Click="Hyperlink_TriggerToggleUiShortcut">Trigger</Hyperlink>
+                                <LineBreak />
+                                <Hyperlink Click="Hyperlink_ResetToggleUiShortcut">Reset to <Run x:Name="ToggleUiShortcutDefault"></Run></Hyperlink></TextBlock>
                             </StackPanel>
                         </GroupBox>
                     </StackPanel>

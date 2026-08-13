@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,6 +18,23 @@ namespace KeyNStroke
     /// </summary>
     public class KeyboardHook : IDisposable, IKeyboardRawEventProvider
     {
+        public bool GlobalKeyEnabled { get; set; } = true;
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetForegroundWindow();
+
+        [DllImport("user32.dll")]
+        private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
+
+        private bool IsActiveWindowOurs()
+        {
+            IntPtr hwnd = GetForegroundWindow();
+            if (hwnd == IntPtr.Zero) return false;
+            uint windowPid;
+            GetWindowThreadProcessId(hwnd, out windowPid);
+            uint ourPid = (uint)Process.GetCurrentProcess().Id;
+            return windowPid == ourPid;
+        }
  
         #region Initializion
 
@@ -117,7 +134,7 @@ namespace KeyNStroke
                     e.Method = KeyUpDown.Up;
                 }
 
-                if (e.Method != KeyUpDown.Undefined)
+                if (e.Method != KeyUpDown.Undefined && (GlobalKeyEnabled || IsActiveWindowOurs()))
                 {
                     CheckModifiers(e);
                     FixKeyStateArray(e);

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -73,7 +73,7 @@ namespace KeyNStroke
             NativeMethodsDC.SetBitmapForWindow(handle,
                                                this.Location,
                                                scaledAndComposedBitmap,
-                                               1.0f);   // opacity
+                                               (float)s.ButtonIndicatorOpacity);   // opacity
             NativeMethodsWindow.PrintDpiAwarenessInfo();
         }
 
@@ -413,6 +413,9 @@ namespace KeyNStroke
                     break;
                 case "ButtonIndicatorScaling":
                     UpdateSize();
+                    break;
+                case "ButtonIndicatorOpacity":
+                    Redraw();
                     break;
             }
         }
